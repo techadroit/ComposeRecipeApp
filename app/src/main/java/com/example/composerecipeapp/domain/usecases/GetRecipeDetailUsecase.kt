@@ -1,14 +1,12 @@
 package com.example.composerecipeapp.domain.usecases
 
-import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.Either
-import com.example.composerecipeapp.core.usecase.UseCase
-import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.core.usecase.FlowUseCase
 import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.recipeapp.data.network.response.RecipeDetailResponse
 
 class GetRecipeDetailUsecase(var recipeRepository: RecipeRepository) :
-    UseCase<RecipeDetailResponse, GetRecipeDetailUsecase.Param>() {
-    override suspend fun run(params: Param): Either<Failure, RecipeDetailResponse> {
+    FlowUseCase<RecipeDetailResponse, GetRecipeDetailUsecase.Param>() {
+    override suspend fun run(params: Param): RecipeDetailResponse {
         return recipeRepository.getRecipeDetailForId(params.id, params.includeNutrition)
     }
 

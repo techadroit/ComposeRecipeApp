@@ -3,9 +3,11 @@ package com.example.composerecipeapp.ui.recipes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,34 +15,47 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.composerecipeapp.core.Resource
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
+import com.recipeapp.view.viewmodel.LoadRecipes
+import com.recipeapp.view.viewmodel.LoadVideos
+import com.recipeapp.view.viewmodel.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun recipesVideoList() {
+fun RecipesVideoList() {
 
-    val recipesViewmodel: ViewmodelForVideoRecipes =
-        viewModel(modelClass = ViewmodelForVideoRecipes::class.java)
-    recipesViewmodel.loadVideoRecipes()
-    val recipeState = recipesViewmodel.stateFlow.collectAsState().value.data
-    when (recipeState) {
-        is Resource.Success -> {
-            val recipeList = recipeState.data as List<VideoRecipeModel>
-            LazyColumn(content = {
-                itemsIndexed(recipeList) { index, recipe ->
-                   videoCard(index = index, recipe = recipe)
-                }
-            })
-        }
-        else -> {
-            renderText(message = "loading")
-        }
+    val recipesViewModel: VideoListViewmodel =
+        viewModel(modelClass = VideoListViewmodel::class.java)
+    LaunchedEffect(Unit) {
+        recipesViewModel.add(LoadVideos())
     }
+    val recipeState = recipesViewModel.stateEmitter.collectAsState().value
+
+    RecipeListContent(recipesViewModel,recipeState.data)
+    if (recipeState.isLoading && !recipeState.isPaginate)
+        LoadingView()
 }
 
 @Composable
-fun videoCard(index: Int,recipe: VideoRecipeModel){
+fun RecipeListContent(recipesViewModel : VideoListViewmodel,list: List<VideoRecipeModel>) {
+    val scrollState = rememberLazyListState()
+    LazyColumn(
+        state = scrollState,
+        content = {
+        itemsIndexed(list) { index, recipe ->
+            VideoCard(index = index, recipe = recipe)
+            val totalItem = scrollState.layoutInfo.totalItemsCount
+            if (index == (totalItem - 1)) {
+                LaunchedEffect(true) {
+                    recipesViewModel.add(LoadVideos(isPaginate = true))
+                }
+            }
+        }
+    })
+}
+
+@Composable
+fun VideoCard(index: Int, recipe: VideoRecipeModel) {
     Card(
         modifier = Modifier
             .wrapContentHeight()
@@ -49,12 +64,12 @@ fun videoCard(index: Int,recipe: VideoRecipeModel){
                 vertical = if (index == 0) 8.dp else 4.dp
             )
     ) {
-        videoContent(recipe = recipe)
+        VideoContent(recipe = recipe)
     }
 }
 
 @Composable
-fun videoContent(recipe: VideoRecipeModel) {
+fun VideoContent(recipe: VideoRecipeModel) {
     Column {
         GlideImage(
             imageModel = recipe.thumbnail,
@@ -64,8 +79,8 @@ fun videoContent(recipe: VideoRecipeModel) {
                 .height(200.dp),
         )
         Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = recipe.shortTitle,color=Color.Black)
-            Text(text = recipe.rating.toString(),color = Color.Black)
+            Text(text = recipe.shortTitle, color = Color.Black)
+            Text(text = recipe.rating.toString(), color = Color.Black)
         }
 
     }
@@ -73,8 +88,8 @@ fun videoContent(recipe: VideoRecipeModel) {
 
 @Preview
 @Composable
-fun previewVideoCard(){
-    videoCard(
+fun previewVideoCard() {
+    VideoCard(
         index = 1,
         recipe = VideoRecipeModel(
             shortTitle = "hello",

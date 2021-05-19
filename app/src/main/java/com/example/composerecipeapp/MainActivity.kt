@@ -14,8 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
-import com.example.composerecipeapp.ui.recipes.recipeView
-import com.example.composerecipeapp.ui.recipes.recipesVideoList
+import com.example.composerecipeapp.ui.recipes.RecipeView
+import com.example.composerecipeapp.ui.recipes.RecipesVideoList
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,10 +100,10 @@ fun navigationConfigurations(
 ) {
     NavHost(navController, startDestination = "recipes") {
         composable("recipes") {
-            recipeView(parentNavHostController)
+            RecipeView(parentNavHostController)
         }
         composable("videos") {
-            recipesVideoList()
+            RecipesVideoList()
         }
     }
 }

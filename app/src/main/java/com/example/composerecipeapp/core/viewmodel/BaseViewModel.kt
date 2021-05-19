@@ -1,5 +1,7 @@
 package com.example.composerecipeapp.core.viewmodel
 
+import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +21,9 @@ abstract class BaseViewModel<S : State, E : Event>(initialState: S) : ViewModel(
 
     protected fun setState(action: suspend S.() -> S) {
         viewModelScope.launch {
-            stateFlow.value = action.invoke(stateFlow.value)
+            val state = stateFlow.value
+            Log.v("State ",": $state")
+            stateFlow.value = action.invoke(state)
         }
     }
 
@@ -30,6 +34,7 @@ abstract class BaseViewModel<S : State, E : Event>(initialState: S) : ViewModel(
     fun add(event: E) {
         onEvent(event)
     }
+
 }
 
 interface State

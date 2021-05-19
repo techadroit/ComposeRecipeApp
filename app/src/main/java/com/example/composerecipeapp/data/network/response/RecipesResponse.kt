@@ -1,6 +1,5 @@
-package com.example.composerecipeapp.data.network.response
+package com.recipeapp.data.network.response
 
-import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 
 data class RandomRecipesResponse(
@@ -147,20 +146,8 @@ data class Video(
     val youTubeId: String
 )
 
-fun VideoListResponses.toVideoRecipes(): List<VideoRecipeModel> {
+fun VideoListResponses.toRecipeModel() : List<VideoRecipeModel>{
     return this.videos.map {
-        VideoRecipeModel(it.rating, it.shortTitle, it.thumbnail, it.title, it.views, it.youTubeId)
-    }
-}
-
-fun RecipeSearchResponse.toRecipes(): List<RecipeModel> {
-    return this.results.map {
-        RecipeModel(
-            id = it.id,
-            title = it.title,
-            servings = it.servings,
-            imageUrl = this.baseUri + it.image,
-            cookingTime = it.readyInMinutes
-        )
+        VideoRecipeModel(it.rating,it.shortTitle,it.thumbnail,it.title,it.views,it.youTubeId)
     }
 }

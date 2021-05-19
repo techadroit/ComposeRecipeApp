@@ -1,8 +1,12 @@
 package com.example.composerecipeapp.core
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.reduce
+import kotlinx.coroutines.launch
 
 /**
  * An extension property which can be used to make `when` expressions
@@ -28,3 +32,11 @@ fun <T> List<T>?.hasAtLeastSize(minSize: Int): Boolean {
     if (this.isNullOrEmpty()) return false
     return this.size >= minSize
 }
+
+
+inline fun <T> Flow<T>.collectIn(scope: CoroutineScope, crossinline action: suspend (value: T) -> Unit): Job =
+    scope.launch {
+        collect {
+            action.invoke(it)
+        }
+    }

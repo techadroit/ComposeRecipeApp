@@ -6,78 +6,81 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.key
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import com.example.composerecipeapp.core.Resource
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.recipeapp.view.viewmodel.LoadRecipes
+import com.recipeapp.view.viewmodel.RecipeListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun recipeView(navHostController: NavHostController) {
+fun RecipeView(navHostController: NavHostController) {
 
-    val recipesViewmodel: RecipesViewModel = viewModel(modelClass = RecipesViewModel::class.java)
+    val recipesViewmodel: RecipeListViewmodel =
+        viewModel(modelClass = RecipeListViewmodel::class.java)
     LaunchedEffect(true) {
         recipesViewmodel.add(LoadRecipes())
     }
 
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
-    when (recipeState.data) {
-        is Resource.Success -> {
-            val recipeList = recipeState.recipeList
-            recipeList(
-                recipeList = recipeList,
-                recipesViewmodel = recipesViewmodel,
-                navHostController = navHostController
-            )
-        }
-        else -> {
-            renderText(message = "loading")
-        }
+
+    if (recipeState.isLoading || recipeState.isPaginate)
+        LoadingView()
+    RecipeList(
+        recipeList = recipeState.recipes.allRecipes,
+        recipesViewmodel = recipesViewmodel,
+        navHostController = navHostController
+    )
+}
+
+@Composable
+fun RecipeList(
+    recipeList: List<RecipeModel>,
+    recipesViewmodel: RecipeListViewmodel,
+    navHostController: NavHostController
+) {
+    val scrollState = rememberLazyListState()
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = scrollState,
+            contentPadding = PaddingValues(bottom = 80.dp),
+            content = {
+                itemsIndexed(recipeList) { index, recipe ->
+                    key(index) {
+                        RecipeListItem(
+                            recipe = recipe,
+                            index = index,
+                            navHostController = navHostController
+                        )
+                    }
+                    val totalItem = scrollState.layoutInfo.totalItemsCount
+                    if (index == (totalItem - 1)) {
+                        LaunchedEffect(true) {
+                            recipesViewmodel.add(LoadRecipes(isPaginate = true))
+                        }
+                    }
+                }
+            })
     }
 }
 
 @Composable
-fun recipeList(
-    recipeList: List<RecipeModel>,
-    recipesViewmodel: RecipesViewModel,
-    navHostController: NavHostController
-) {
-    val scrollState = rememberLazyListState()
-    LazyColumn(
-        state = scrollState,
-        contentPadding = PaddingValues(bottom = 80.dp),
-        content = {
-            itemsIndexed(recipeList) { index, recipe ->
-                key(index) {
-                    recipeListItem(
-                        recipe = recipe,
-                        index = index,
-                        navHostController = navHostController
-                    )
-                }
-                val totalItem = scrollState.layoutInfo.totalItemsCount
-                if (index == (totalItem - 1)) {
-                    LaunchedEffect(true) {
-                        recipesViewmodel.add(LoadRecipes())
-                    }
-                }
-            }
-        })
-}
-
-@Composable
-fun recipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostController) {
+fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostController) {
     println(" i was composed $index")
     Card(
         modifier = Modifier
@@ -101,14 +104,42 @@ fun recipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostCo
                 Text(text = recipe.title)
                 Text(text = recipe.cookingTime.toString() + " mint")
             }
-
         }
-
     }
 }
 
 @Composable
-fun renderText(message: String) {
+fun LoadingView() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){CircularProgressIndicator(
+        modifier = Modifier
+            .height(40.dp)
+            .width(40.dp),
+        color = Color.Blue
+    )}
+}
+
+@Composable
+fun PaginationLoading() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ){CircularProgressIndicator(
+        modifier = Modifier
+            .height(40.dp)
+            .width(40.dp),
+        color = Color.Blue
+    )}
+}
+
+@Composable
+fun RenderText(message: String) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Text(text = message)
     }

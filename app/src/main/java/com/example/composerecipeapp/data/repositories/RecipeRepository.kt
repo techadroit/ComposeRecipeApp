@@ -1,13 +1,13 @@
 package com.example.composerecipeapp.data.repositories
 
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.Either
-import com.example.composerecipeapp.core.network.api_service.RecipeApi
 import com.example.composerecipeapp.core.repository.BaseRepository
-import com.example.composerecipeapp.data.network.response.RandomRecipesResponse
-import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
-import com.example.composerecipeapp.data.network.response.RecipeSearchResponse
-import com.example.composerecipeapp.data.network.response.VideoListResponses
+import com.recipeapp.core.network.api_service.RecipeApi
+import com.recipeapp.data.network.response.RandomRecipesResponse
+import com.recipeapp.data.network.response.RecipeDetailResponse
+import com.recipeapp.data.network.response.RecipeSearchResponse
+import com.recipeapp.data.network.response.VideoListResponses
+import java.io.IOException
 
 class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
 
@@ -15,45 +15,44 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         limitLicense: Boolean,
         tags: String,
         number: Int
-    ): Either<Failure, RandomRecipesResponse> =
-        try {
-            val response = recipeApiService.getRandomRecipes(limitLicense, tags, number)
-            Either.Right(response)
-        } catch (e: Exception) {
-            Either.Left(Failure.ServerError)
+    ): RandomRecipesResponse =
+        run {
+            recipeApiService.getRandomRecipes(limitLicense, tags, number)
         }
 
     suspend fun searchRecipeFor(
         query: String,
         limitLicense: Boolean,
         number: Int,
-        offset : Int = 0
-    ): Either<Failure, RecipeSearchResponse> =
-        try {
-            val response = recipeApiService.searchRecipes(limitLicense, query, number,offset = offset)
-            Either.Right(response)
-        } catch (e: Exception) {
-            Either.Left(Failure.ServerError)
+        offset: Int = 0
+    ): RecipeSearchResponse =
+        run {
+            recipeApiService.searchRecipes(limitLicense, query, number, offset = offset)
         }
+
+    suspend fun <T> run(invoker: suspend () -> T): T {
+        try {
+            return invoker.invoke()
+        } catch (e: Exception) {
+            throw Failure.ServerError
+        }
+    }
 
     suspend fun searchVideoRecipeFor(
         query: String,
         number: Int,
-        Offset : Int = 0
-    ): Either<Failure, VideoListResponses> =
-        try {
-            val response = recipeApiService.searchVideos(tags = query,number =  number,offset = Offset)
-            Either.Right(response)
-        } catch (e: Exception) {
-            Either.Left(Failure.ServerError)
+        Offset: Int = 0
+    ): VideoListResponses =
+        run {
+            recipeApiService.searchVideos(tags = query, number = number, offset = Offset)
         }
 
-    suspend fun getRecipeDetailForId(id: String,includeNutrition:Boolean): Either<Failure, RecipeDetailResponse> =
-        try {
-            val response = recipeApiService.recipeDetail(id = id,includeNutrition = includeNutrition)
-            Either.Right(response)
-        } catch (e: Exception) {
-            Either.Left(Failure.ServerError)
+    suspend fun getRecipeDetailForId(
+        id: String,
+        includeNutrition: Boolean
+    ): RecipeDetailResponse =
+        run {
+            recipeApiService.recipeDetail(id = id, includeNutrition = includeNutrition)
         }
 
 }
