@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
-import com.recipeapp.view.viewmodel.LoadRecipes
 import com.recipeapp.view.viewmodel.LoadVideos
 import com.recipeapp.view.viewmodel.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
@@ -31,27 +30,41 @@ fun RecipesVideoList() {
     }
     val recipeState = recipesViewModel.stateEmitter.collectAsState().value
 
-    RecipeListContent(recipesViewModel,recipeState.data)
+    RecipeListContent(
+        recipesViewModel,
+        recipeState.data,
+        recipeState.isLoading && recipeState.isPaginate
+    )
     if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()
 }
 
 @Composable
-fun RecipeListContent(recipesViewModel : VideoListViewmodel,list: List<VideoRecipeModel>) {
+fun RecipeListContent(
+    recipesViewModel: VideoListViewmodel,
+    list: List<VideoRecipeModel>,
+    showPaginationLoading: Boolean
+) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
+        contentPadding = PaddingValues(bottom = 80.dp),
         content = {
-        itemsIndexed(list) { index, recipe ->
-            VideoCard(index = index, recipe = recipe)
-            val totalItem = scrollState.layoutInfo.totalItemsCount
-            if (index == (totalItem - 1)) {
-                LaunchedEffect(true) {
-                    recipesViewModel.add(LoadVideos(isPaginate = true))
+            itemsIndexed(list) { index, recipe ->
+                VideoCard(index = index, recipe = recipe)
+                val totalItem = scrollState.layoutInfo.totalItemsCount
+                if (index == (totalItem - 1)) {
+                    LaunchedEffect(true) {
+                        recipesViewModel.add(LoadVideos(isPaginate = true))
+                    }
                 }
             }
-        }
-    })
+            if (showPaginationLoading) {
+                item {
+                    PaginationLoading()
+                }
+            }
+        })
 }
 
 @Composable

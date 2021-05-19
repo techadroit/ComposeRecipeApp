@@ -33,7 +33,7 @@ class VideoListViewmodel(initalState: RecipeVideoState = RecipeVideoState()) :
 
     private fun searchVideo(query: String, isPaginate: Boolean = false) {
         setState {
-            copy(isLoading = true)
+            copy(isLoading = true,isPaginate = isPaginate)
         }
         usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page)).catch {
             handleResponseFailure(this as Failure)

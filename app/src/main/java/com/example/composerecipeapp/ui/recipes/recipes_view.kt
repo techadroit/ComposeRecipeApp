@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,12 +37,13 @@ fun RecipeView(navHostController: NavHostController) {
 
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
 
-    if (recipeState.isLoading || recipeState.isPaginate)
+    if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()
     RecipeList(
         recipeList = recipeState.recipes.allRecipes,
         recipesViewmodel = recipesViewmodel,
-        navHostController = navHostController
+        navHostController = navHostController,
+        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate
     )
 }
 
@@ -51,7 +51,8 @@ fun RecipeView(navHostController: NavHostController) {
 fun RecipeList(
     recipeList: List<RecipeModel>,
     recipesViewmodel: RecipeListViewmodel,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    showPaginationLoading: Boolean
 ) {
     val scrollState = rememberLazyListState()
 
@@ -73,6 +74,11 @@ fun RecipeList(
                         LaunchedEffect(true) {
                             recipesViewmodel.add(LoadRecipes(isPaginate = true))
                         }
+                    }
+                }
+                if (showPaginationLoading) {
+                    item {
+                        PaginationLoading()
                     }
                 }
             })
@@ -116,12 +122,14 @@ fun LoadingView() {
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){CircularProgressIndicator(
-        modifier = Modifier
-            .height(40.dp)
-            .width(40.dp),
-        color = Color.Blue
-    )}
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp),
+            color = Color.Blue
+        )
+    }
 }
 
 @Composable
@@ -129,18 +137,16 @@ fun PaginationLoading() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-    ){CircularProgressIndicator(
-        modifier = Modifier
-            .height(40.dp)
-            .width(40.dp),
-        color = Color.Blue
-    )}
-}
-
-@Composable
-fun RenderText(message: String) {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Text(text = message)
+            .wrapContentHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp),
+            color = Color.Blue
+        )
     }
 }
+

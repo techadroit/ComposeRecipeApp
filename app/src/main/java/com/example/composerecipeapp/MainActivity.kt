@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.recipes.RecipeView
 import com.example.composerecipeapp.ui.recipes.RecipesVideoList
+import com.example.composerecipeapp.ui.recipes.SearchView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,11 +61,7 @@ fun appContent(parentNavHostController: NavHostController) {
                 )
             )
         },
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Recipes") }
-            )
-        },
+        topBar = { SearchView() }
     ) {
         navigationConfigurations(navController = navController, parentNavHostController)
     }
