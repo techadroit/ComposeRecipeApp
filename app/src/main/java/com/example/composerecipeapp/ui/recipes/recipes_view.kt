@@ -96,7 +96,7 @@ fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostCo
                 vertical = if (index == 0) 8.dp else 4.dp
             )
             .clickable(onClick = {
-                navHostController.navigate("recipe_details")
+                navHostController.navigate("recipe_details/${recipe.id}")
             })
     ) {
         Row {

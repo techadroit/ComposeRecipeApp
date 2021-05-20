@@ -1,4 +1,8 @@
-package com.recipeapp.data.network.response
+package com.example.composerecipeapp.data.network.response
+
+import com.recipeapp.data.network.response.Length
+import com.recipeapp.data.network.response.Measures
+
 
 data class RecipeDetailResponse(
     val aggregateLikes: Int,

@@ -4,10 +4,9 @@ import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.repository.BaseRepository
 import com.recipeapp.core.network.api_service.RecipeApi
 import com.recipeapp.data.network.response.RandomRecipesResponse
-import com.recipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.VideoListResponses
-import java.io.IOException
 
 class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
 

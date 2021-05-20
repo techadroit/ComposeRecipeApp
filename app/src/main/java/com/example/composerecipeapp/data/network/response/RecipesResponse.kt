@@ -1,5 +1,6 @@
 package com.recipeapp.data.network.response
 
+import com.example.composerecipeapp.data.network.response.Ingredient
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 
 data class RandomRecipesResponse(

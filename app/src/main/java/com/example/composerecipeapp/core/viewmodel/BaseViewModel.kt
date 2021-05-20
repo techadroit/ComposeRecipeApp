@@ -22,8 +22,9 @@ abstract class BaseViewModel<S : State, E : Event>(initialState: S) : ViewModel(
     protected fun setState(action: suspend S.() -> S) {
         viewModelScope.launch {
             val state = stateFlow.value
-            Log.v("State ",": $state")
-            stateFlow.value = action.invoke(state)
+            val newState = action.invoke(state)
+            stateFlow.value = newState
+            Log.v("State ",": $newState")
         }
     }
 

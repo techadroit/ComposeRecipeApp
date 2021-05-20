@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
+import com.example.composerecipeapp.ui.recipes.RecipeDetail
 import com.example.composerecipeapp.ui.recipes.RecipeView
 import com.example.composerecipeapp.ui.recipes.RecipesVideoList
 import com.example.composerecipeapp.ui.recipes.SearchView
@@ -36,16 +37,12 @@ fun mainApp() {
         composable("main_recipes") {
             appContent(navController)
         }
-        composable("recipe_details") {
-            recipeDetails()
+        composable("recipe_details/{recipe_id}") {
+            val id = it.arguments?.getString("recipe_id")
+            id?.let {
+                RecipeDetail(id)
+            }
         }
-    }
-}
-
-@Composable
-fun recipeDetails() {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Recipe Detail")
     }
 }
 

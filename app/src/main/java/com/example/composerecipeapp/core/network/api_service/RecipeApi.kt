@@ -1,7 +1,7 @@
 package com.recipeapp.core.network.api_service
 
 import com.recipeapp.data.network.response.RandomRecipesResponse
-import com.recipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.VideoListResponses
 import retrofit2.http.GET

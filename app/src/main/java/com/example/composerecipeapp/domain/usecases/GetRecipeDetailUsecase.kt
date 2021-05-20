@@ -2,7 +2,7 @@ package com.example.composerecipeapp.domain.usecases
 
 import com.example.composerecipeapp.core.usecase.FlowUseCase
 import com.example.composerecipeapp.data.repositories.RecipeRepository
-import com.recipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 
 class GetRecipeDetailUsecase(var recipeRepository: RecipeRepository) :
     FlowUseCase<RecipeDetailResponse, GetRecipeDetailUsecase.Param>() {
