@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +27,7 @@ import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.recipes.*
 
 class MainActivity : AppCompatActivity() {
+    @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
 fun MainApp() {
@@ -52,9 +55,16 @@ fun MainApp() {
                 RecipeDetail(id, navController)
             }
         }
+        composable("recipe/videos/{youtube_id}"){
+            val id = it.arguments?.getString("youtube_id")
+            it?.let {
+                VideoPlayer()
+            }
+        }
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
 fun AppContent(parentNavHostController: NavHostController) {
@@ -108,6 +118,7 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -130,7 +141,7 @@ fun navigationConfigurations(
             RecipeView(parentNavHostController, keyword)
         }
         composable("videos") {
-            RecipesVideoList()
+            RecipesVideoList(parentNavHostController)
         }
         composable("search") {
             SearchView(navController, searchViewModel)

@@ -1,27 +1,34 @@
 package com.example.composerecipeapp.ui.recipes
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.recipeapp.view.viewmodel.LoadVideos
 import com.recipeapp.view.viewmodel.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun RecipesVideoList() {
+fun RecipesVideoList(navController: NavController) {
 
     val recipesViewModel: VideoListViewmodel =
         viewModel(modelClass = VideoListViewmodel::class.java)
@@ -33,7 +40,8 @@ fun RecipesVideoList() {
     RecipeListContent(
         recipesViewModel,
         recipeState.data,
-        recipeState.isLoading && recipeState.isPaginate
+        recipeState.isLoading && recipeState.isPaginate,
+        navController
     )
     if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()
@@ -43,7 +51,8 @@ fun RecipesVideoList() {
 fun RecipeListContent(
     recipesViewModel: VideoListViewmodel,
     list: List<VideoRecipeModel>,
-    showPaginationLoading: Boolean
+    showPaginationLoading: Boolean,
+    navHostController: NavController
 ) {
     val scrollState = rememberLazyListState()
     LazyColumn(
@@ -51,7 +60,7 @@ fun RecipeListContent(
         contentPadding = PaddingValues(bottom = 80.dp),
         content = {
             itemsIndexed(list) { index, recipe ->
-                VideoCard(index = index, recipe = recipe)
+                VideoCard(index = index, recipe = recipe, navHostController)
                 val totalItem = scrollState.layoutInfo.totalItemsCount
                 if (index == (totalItem - 1)) {
                     LaunchedEffect(true) {
@@ -68,7 +77,7 @@ fun RecipeListContent(
 }
 
 @Composable
-fun VideoCard(index: Int, recipe: VideoRecipeModel) {
+fun VideoCard(index: Int, recipe: VideoRecipeModel, navHostController: NavController) {
     Card(
         modifier = Modifier
             .wrapContentHeight()
@@ -76,6 +85,9 @@ fun VideoCard(index: Int, recipe: VideoRecipeModel) {
                 horizontal = 12.dp,
                 vertical = if (index == 0) 8.dp else 4.dp
             )
+            .clickable {
+                navHostController.navigate("recipe/videos/${recipe.youTubeId}")
+            }
     ) {
         VideoContent(recipe = recipe)
     }
@@ -83,34 +95,41 @@ fun VideoCard(index: Int, recipe: VideoRecipeModel) {
 
 @Composable
 fun VideoContent(recipe: VideoRecipeModel) {
-    Column {
+    Box(Modifier.wrapContentSize()) {
+        Column {
+            Thumbnail(url = recipe.thumbnail)
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(text = recipe.shortTitle, color = Color.Black)
+                Text(text = recipe.views.toString(), color = Color.Black)
+            }
+        }
+    }
+}
+
+@Composable
+fun Thumbnail(url: String){
+    Box(modifier = Modifier.fillMaxSize()){
         GlideImage(
-            imageModel = recipe.thumbnail,
+            imageModel = url,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
         )
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = recipe.shortTitle, color = Color.Black)
-            Text(text = recipe.rating.toString(), color = Color.Black)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(Color(0xB3000000))
+        ) {
+            Icon(
+                imageVector = Icons.Default.PlayArrow, contentDescription = "play",
+                modifier = Modifier
+                    .height(80.dp)
+                    .width(80.dp)
+                    .align(Alignment.Center),
+                tint = Color.LightGray
+            )
         }
-
     }
-}
-
-@Preview
-@Composable
-fun previewVideoCard() {
-    VideoCard(
-        index = 1,
-        recipe = VideoRecipeModel(
-            shortTitle = "hello",
-            rating = 5.0,
-            thumbnail = "https://i.ytimg.com/vi/Y0UBAhAS-wE/mqdefault.jpg",
-            title = "hello title",
-            views = 500,
-            youTubeId = "sjlfjd"
-        )
-    )
 }

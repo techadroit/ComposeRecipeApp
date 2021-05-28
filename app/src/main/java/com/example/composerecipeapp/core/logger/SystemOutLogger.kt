@@ -20,4 +20,4 @@ internal class SystemOutLogger(override val tag: String) : Logger {
     }
 }
 
-fun systemOutLogger(tag: String = "Vector"): Logger = SystemOutLogger(tag)
+fun systemOutLogger(tag: String = "AppState"): Logger = SystemOutLogger(tag)

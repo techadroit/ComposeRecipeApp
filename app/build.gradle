@@ -80,6 +80,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha10"
 //    implementation "com.github.mvarnagiris:compose-glide-image:0-alpha10.4.1"
     implementation "com.github.skydoves:landscapist-glide:1.2.1"
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.7'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

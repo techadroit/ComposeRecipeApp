@@ -3,7 +3,7 @@ package com.example.composerecipeapp.core.viewmodel
 /**
  * An entity that manages any action on state.
  *
- * @param S The state type implementing [VectorState]
+ * @param S The state type implementing [AppState]
  *
  * A [reducer] is be processed before any existing [action] in the queue
  * A [action] is given the latest state value as it's parameter
