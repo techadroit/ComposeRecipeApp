@@ -2,6 +2,7 @@ package com.recipeapp.core.network.api_service
 
 import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.data.network.response.SearchKey
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.VideoListResponses
 import retrofit2.http.GET
@@ -31,6 +32,12 @@ interface RecipeApi {
         @Query("number") number: Int, @Query("apiKey") apiKey: String = API_KEY,
         @Query("offset") offset: Int = 0
     ): VideoListResponses
+
+    @GET("recipes/autocomplete")
+    suspend fun searchKeyword(
+        @Query("query") tags: String,
+        @Query("number") number: Int, @Query("apiKey") apiKey: String = API_KEY,
+    ): List<SearchKey>
 
     @GET("recipes/{id}/information")
     suspend fun recipeDetail(

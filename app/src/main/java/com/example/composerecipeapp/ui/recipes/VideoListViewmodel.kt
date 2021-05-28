@@ -5,8 +5,8 @@ import com.example.composerecipeapp.core.collectIn
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.network.NetworkHandler
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
-import com.example.composerecipeapp.core.viewmodel.Event
-import com.example.composerecipeapp.core.viewmodel.State
+import com.example.composerecipeapp.core.viewmodel.AppEvent
+import com.example.composerecipeapp.core.viewmodel.AppState
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
@@ -23,17 +23,16 @@ class VideoListViewmodel(initalState: RecipeVideoState = RecipeVideoState()) :
         RecipeRepository(NetworkHandler.getRetrofitInstance().create(RecipeApi::class.java))
     val usecase = SearchVideoRecipeUsecase(repos)
 
-
     fun getVideoRecipe() {
         setState {
-            copy(isLoading = true)
+            this.onLoading()
         }
         searchVideo(QUERY)
     }
 
     private fun searchVideo(query: String, isPaginate: Boolean = false) {
         setState {
-            copy(isLoading = true,isPaginate = isPaginate)
+            this.onLoading(isPaginate = isPaginate)
         }
         usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page)).catch {
             handleResponseFailure(this as Failure)
@@ -46,11 +45,7 @@ class VideoListViewmodel(initalState: RecipeVideoState = RecipeVideoState()) :
 
     private fun handleVideoResponse(responses: VideoListResponses, isPaginate: Boolean = false) {
         setState {
-            copy(
-                data = this.data + responses.toRecipeModel(),
-                isPaginate = isPaginate,
-                isLoading = false
-            )
+            this.onSuccess(recipeModel = responses.toRecipeModel(),isPaginate = isPaginate)
         }
     }
 
@@ -58,7 +53,7 @@ class VideoListViewmodel(initalState: RecipeVideoState = RecipeVideoState()) :
 
     }
 
-    override fun onEvent(event: VideoEvents) {
+    override fun onEvent(event: VideoEvents,state: RecipeVideoState) {
         when (event) {
             is LoadVideos -> searchVideo(event.query, event.isPaginate)
         }
@@ -70,8 +65,13 @@ data class RecipeVideoState(
     val sideEffect: Consumable<SideEffect>? = null,
     val isLoading: Boolean = false,
     val isPaginate: Boolean = false
-) : State
+) : AppState
 
-interface VideoEvents : Event
+interface VideoEvents : AppEvent
 
 data class LoadVideos(var isPaginate: Boolean = false, val query: String = "Chicken") : VideoEvents
+
+fun RecipeVideoState.onSuccess(recipeModel: List<VideoRecipeModel>,isPaginate: Boolean = false) =
+    this.copy(data = this.data + recipeModel,isPaginate = isPaginate,isLoading = false)
+
+fun RecipeVideoState.onLoading(isPaginate: Boolean = false) = this.copy(isPaginate = isPaginate,isLoading = true)

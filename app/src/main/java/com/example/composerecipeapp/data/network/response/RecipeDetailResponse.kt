@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.data.network.response
 
+import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.recipeapp.data.network.response.Length
 import com.recipeapp.data.network.response.Measures
 
@@ -162,3 +163,13 @@ data class ProductMatche(
     val score: Double,
     val title: String
 )
+
+
+fun RecipeDetailResponse.toRecipeDetailModel() =
+    RecipeDetailModel(
+        title = this.title,
+        sourceName = this.sourceName,
+        sourceUrl = this.sourceUrl,
+        imageUrl = this.image,
+        instructions = this.instructions
+    )

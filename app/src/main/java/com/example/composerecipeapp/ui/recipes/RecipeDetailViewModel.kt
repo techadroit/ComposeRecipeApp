@@ -4,12 +4,14 @@ import com.example.composerecipeapp.core.collectIn
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.network.NetworkHandler
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
-import com.example.composerecipeapp.core.viewmodel.Event
-import com.example.composerecipeapp.core.viewmodel.State
+import com.example.composerecipeapp.core.viewmodel.AppEvent
+import com.example.composerecipeapp.core.viewmodel.AppState
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase
 import com.recipeapp.core.network.api_service.RecipeApi
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.data.network.response.toRecipeDetailModel
+import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import kotlinx.coroutines.flow.catch
 
 class RecipeDetailViewModel(
@@ -22,7 +24,7 @@ class RecipeDetailViewModel(
 
     private fun getRecipeDetailForId(id: String) {
         setState {
-            copy(isLoading = true)
+            this.onLoading()
         }
         usecase(GetRecipeDetailUsecase.Param(id = id))
             .catch {
@@ -35,28 +37,35 @@ class RecipeDetailViewModel(
 
     private fun handleFailureResponse(failure: Failure) {
         setState {
-            copy(isLoading = false, recipeDetail = null)
+            this.onError(failure = failure)
         }
     }
 
     private fun handleSuccessResponse(recipeDetailResponse: RecipeDetailResponse) {
         setState {
-            copy(isLoading = false, recipeDetail = recipeDetailResponse)
+            this.onSuccessResponse(recipeDetail = recipeDetailResponse.toRecipeDetailModel())
         }
     }
 
-    override fun onEvent(event: RecipeDetailEvent) {
+    override fun onEvent(event: RecipeDetailEvent,state: RecipeDetailState) {
         when (event) {
             is LoadRecipeDetail -> getRecipeDetailForId(event.id)
         }
     }
 }
 
-open class RecipeDetailEvent : Event
+open class RecipeDetailEvent : AppEvent
 data class LoadRecipeDetail(val id: String) : RecipeDetailEvent()
 
 data class RecipeDetailState(
     val isLoading: Boolean = false,
-    val recipeDetail: RecipeDetailResponse? = null,
+    val recipeDetail: RecipeDetailModel? = null,
     val failure: Failure? = null
-) : State
+) : AppState
+
+fun RecipeDetailState.onSuccessResponse(recipeDetail: RecipeDetailModel)
+    = this.copy(isLoading = false,recipeDetail = recipeDetail)
+
+fun RecipeDetailState.onError(failure: Failure) = this.copy(isLoading = false,failure = failure)
+
+fun RecipeDetailState.onLoading() = this.copy(isLoading = true)

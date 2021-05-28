@@ -5,6 +5,7 @@ import com.example.composerecipeapp.core.repository.BaseRepository
 import com.recipeapp.core.network.api_service.RecipeApi
 import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
+import com.example.composerecipeapp.data.network.response.SearchKey
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.VideoListResponses
 
@@ -44,6 +45,14 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
     ): VideoListResponses =
         run {
             recipeApiService.searchVideos(tags = query, number = number, offset = Offset)
+        }
+
+    suspend fun searchKeyword(
+        query: String,
+        number: Int
+    ): List<SearchKey> =
+        run {
+            recipeApiService.searchKeyword(tags = query, number = number)
         }
 
     suspend fun getRecipeDetailForId(

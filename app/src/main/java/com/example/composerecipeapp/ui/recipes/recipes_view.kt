@@ -8,10 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.key
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,12 +24,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun RecipeView(navHostController: NavHostController) {
+fun RecipeView(navHostController: NavHostController,key: String?) {
 
     val recipesViewmodel: RecipeListViewmodel =
         viewModel(modelClass = RecipeListViewmodel::class.java)
+    val keyword = remember{key ?: "chicken"}
     LaunchedEffect(true) {
-        recipesViewmodel.add(LoadRecipes())
+        recipesViewmodel.dispatch(LoadRecipes(keyword))
     }
 
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
@@ -43,7 +41,9 @@ fun RecipeView(navHostController: NavHostController) {
         recipeList = recipeState.recipes.allRecipes,
         recipesViewmodel = recipesViewmodel,
         navHostController = navHostController,
-        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate
+        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
+        keyword = keyword,
+        endOfList = recipeState.endOfItems
     )
 }
 
@@ -52,7 +52,9 @@ fun RecipeList(
     recipeList: List<RecipeModel>,
     recipesViewmodel: RecipeListViewmodel,
     navHostController: NavHostController,
-    showPaginationLoading: Boolean
+    showPaginationLoading: Boolean,
+    keyword: String,
+    endOfList: Boolean
 ) {
     val scrollState = rememberLazyListState()
 
@@ -72,13 +74,19 @@ fun RecipeList(
                     val totalItem = scrollState.layoutInfo.totalItemsCount
                     if (index == (totalItem - 1)) {
                         LaunchedEffect(true) {
-                            recipesViewmodel.add(LoadRecipes(isPaginate = true))
+                            if(!endOfList)
+                            recipesViewmodel.dispatch(LoadRecipes(isPaginate = true,query = keyword))
                         }
                     }
                 }
                 if (showPaginationLoading) {
                     item {
                         PaginationLoading()
+                    }
+                }
+                if(endOfList && recipeList.isEmpty()){
+                    item {
+                        Text("Sorry, No result found")
                     }
                 }
             })

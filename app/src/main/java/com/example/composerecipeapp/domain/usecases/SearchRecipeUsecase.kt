@@ -5,11 +5,12 @@ import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.util.NUMBER
 import com.recipeapp.data.network.response.VideoListResponses
+import com.skydoves.landscapist.offset
 
 
 class SearchRecipeUsecase(var recipeRepository: RecipeRepository) :
-    FlowUseCase<List<RecipeModel>, SearchRecipeUsecase.Param>() {
-    override suspend fun run(params: Param): List<RecipeModel> {
+    FlowUseCase<Pair<List<RecipeModel>,Boolean>, SearchRecipeUsecase.Param>() {
+    override suspend fun run(params: Param): Pair<List<RecipeModel>,Boolean> {
         val response =  recipeRepository.searchRecipeFor(params.query,
             params.limitLicense, params.number,params.offset)
         val recipeList = response.results.map{
@@ -21,7 +22,9 @@ class SearchRecipeUsecase(var recipeRepository: RecipeRepository) :
                 it.readyInMinutes
             )
         }
-        return recipeList
+        val endOfList = params.number * params.offset >= response.totalResults
+
+        return Pair(recipeList,endOfList)
     }
 
     data class Param(

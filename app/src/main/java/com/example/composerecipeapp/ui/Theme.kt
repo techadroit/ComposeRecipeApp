@@ -14,7 +14,7 @@ private val DarkColorPalette = darkColors(
     secondary = secondaryColorDark,
     background = backgroundColorDark,
     surface = surfaceColorDark,
-    onBackground = onBackgroundColorDark,
+    onBackground = backgroundColorDark,
     onSurface = onSurfaceColorDark,
     error = errorColor
 )

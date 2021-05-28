@@ -26,7 +26,7 @@ fun RecipesVideoList() {
     val recipesViewModel: VideoListViewmodel =
         viewModel(modelClass = VideoListViewmodel::class.java)
     LaunchedEffect(Unit) {
-        recipesViewModel.add(LoadVideos())
+        recipesViewModel.dispatch(LoadVideos())
     }
     val recipeState = recipesViewModel.stateEmitter.collectAsState().value
 
@@ -55,7 +55,7 @@ fun RecipeListContent(
                 val totalItem = scrollState.layoutInfo.totalItemsCount
                 if (index == (totalItem - 1)) {
                     LaunchedEffect(true) {
-                        recipesViewModel.add(LoadVideos(isPaginate = true))
+                        recipesViewModel.dispatch(LoadVideos(isPaginate = true))
                     }
                 }
             }

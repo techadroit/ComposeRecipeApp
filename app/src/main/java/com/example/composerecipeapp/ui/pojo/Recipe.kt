@@ -16,3 +16,11 @@ data class VideoRecipeModel(
     val views: Int,
     val youTubeId: String
 )
+
+data class RecipeDetailModel(
+    val title: String,
+    val sourceName: String,
+    val sourceUrl: String,
+    val imageUrl: String,
+    val instructions: String
+)
