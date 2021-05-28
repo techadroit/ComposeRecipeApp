@@ -13,7 +13,6 @@ internal object StateStoreFactory {
         initialState: S,
         logger: Logger,
         coroutineContext: CoroutineContext,
-        event: E?
     ): StateStore<S,E> {
         val stateHolder = StateHolderFactory.create(initialState, logger)
         val eventHolder = EventHolderImpl<E>(logger = logger)
@@ -27,7 +26,7 @@ internal object StateStoreFactory {
         logger: Logger,
         eventHolder: EventHolder<E>
     ): StateStore<S,E> {
-        return StateStoreImpl(stateHolder, stateProcessor, logger)
+        return StateStoreImpl(stateHolder, stateProcessor, logger,eventHolder)
     }
 
 //    fun <S : AppState> create(

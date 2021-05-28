@@ -9,12 +9,14 @@ import com.example.composerecipeapp.core.logger.logv
 internal class StateStoreImpl<S : AppState,E: AppEvent> (
     holder: StateHolder<S>,
     processor: StateProcessor<S,E>,
-    private val logger: Logger
-) : StateStore<S,E>(holder, processor) {
+    private val logger: Logger,
+    eHolder: EventHolder<E>
+) : StateStore<S,E>(holder, processor,eHolder) {
 
     override fun clear() {
         logger.logv { "Clearing State Store" }
         stateProcessor.clearProcessor()
         stateHolder.clearHolder()
+        eventHolder.clearEventHolder()
     }
 }

@@ -8,8 +8,10 @@ package com.example.composerecipeapp.core.viewmodel
  */
 abstract class StateStore<S : AppState,E : AppEvent>(
     protected open val stateHolder: StateHolder<S>,
-    protected open val stateProcessor: StateProcessor<S,E>
-) : StateHolder<S> by stateHolder, StateProcessor<S,E> by stateProcessor {
+    protected open val stateProcessor: StateProcessor<S,E>,
+    protected open val eventHolder: EventHolder<E>
+) : StateHolder<S> by stateHolder, EventHolder<E> by eventHolder,
+    StateProcessor<S,E> by stateProcessor {
 
     /**
      * Clear any resources held by this state store.

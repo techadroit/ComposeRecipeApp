@@ -20,5 +20,5 @@ interface EventHolder<E:AppEvent?> {
     /**
      * This method is expected to be called when this state holder is no longer being used
      */
-    fun clearHolder()
+    fun clearEventHolder()
 }

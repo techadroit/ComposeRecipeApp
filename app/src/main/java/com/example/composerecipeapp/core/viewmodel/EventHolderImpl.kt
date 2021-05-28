@@ -18,7 +18,7 @@ class EventHolderImpl<E : AppEvent?>(private val logger: Logger) : EventHolder<E
         _eventStateFlow.value = newEvent
     }
 
-    override fun clearHolder() {
+    override fun clearEventHolder() {
         logger.logv { "Clearing Event Holder" }
         // StateFlow does not need to be closed
     }

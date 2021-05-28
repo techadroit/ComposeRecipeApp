@@ -12,43 +12,39 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<S : AppState, E : AppEvent>(
     initialState: S,
-    stateStoreContext: CoroutineContext = Dispatchers.Default + Job()
+    stateStoreContext: CoroutineContext = Dispatchers.Default + SupervisorJob()
 ) : ViewModel() {
 
     protected val logger: Logger by lazy { androidLogger(tag = this::class.java.simpleName) }
     val eventFlow = emptyFlow<E>()
     val viewModelScope by lazy {
-        CoroutineScope(Dispatchers.IO) + SupervisorJob()
-    }
-
-    abstract fun onEvent(event: E,state: S)
-
-    fun dispatch(event: E) {
-        withState {
-            onEvent(event,it)
-        }
+        CoroutineScope(stateStoreContext)
     }
 
     /**
      * The state store associated with this ViewModel
      */
-    protected open val stateStore = StateStoreFactory.create(
+    protected open val stateStore = StateStoreFactory.create<S,E>(
         initialState,
         androidLogger(this::class.java.simpleName + "StateStore"),
-        stateStoreContext,
-        null
+        stateStoreContext
     )
 
-    val stateEmitter: StateFlow<S> = stateStore.stateObservable
-
     /**
-     * A [kotlinx.coroutines.flow.Flow] of [VectorState] which can be observed by external classes to respond to changes in state.
+     * A [kotlinx.coroutines.flow.Flow] of [AppState] which can be observed by external classes to respond to changes in state.
      */
     val state: Flow<S> = stateStore
         .stateObservable
         .onEach { state ->
             logger.logd { "New state: $state" }
         }
+
+    /**
+     * A [kotlinx.coroutines.flow.Flow] of [AppEvent] which can be observed by external classes to respond to changes in state.
+     */
+    val event: Flow<E> = stateStore.eventObservable.onEach {
+        logger.logd { "New Event: $it" }
+    }.filterNotNull()
 
     /**
      * Access the current value of state stored in the [stateStore].
@@ -60,6 +56,17 @@ abstract class BaseViewModel<S : AppState, E : AppEvent>(
      */
     val currentState: S
         get() = stateStore.state
+
+    val stateEmitter: StateFlow<S> = stateStore.stateObservable
+
+    abstract fun onEvent(event: E,state: S)
+
+    fun dispatch(event: E) {
+        withState {
+            stateStore.offerGetEvent(event)
+            onEvent(event,it)
+        }
+    }
 
     /**
      * The only method through which state mutation is allowed in subclasses.
@@ -103,6 +110,8 @@ abstract class BaseViewModel<S : AppState, E : AppEvent>(
 
 interface AppState
 interface AppEvent
+
+object InitialEvent : AppEvent
 
 
 
