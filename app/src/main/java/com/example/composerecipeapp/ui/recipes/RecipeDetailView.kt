@@ -5,6 +5,9 @@ import android.text.Html
 import android.widget.TextView
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,10 +37,12 @@ fun RecipeDetail(recipeId: String, navController: NavController) {
     val viewModel: RecipeDetailViewModel = viewModel(modelClass = RecipeDetailViewModel::class.java)
     val state = viewModel.stateEmitter.collectAsState().value
 
-    if (state.isLoading)
-        LoadingView()
-    state.recipeDetail?.let {
-        RecipeDetailContentView(it, navController)
+    Surface {
+        if (state.isLoading)
+            LoadingView()
+        state.recipeDetail?.let {
+            RecipeDetailContentView(it, navController)
+        }
     }
 
     LaunchedEffect(recipeId) {
@@ -86,7 +91,7 @@ fun RecipeDescription(recipeDetail: RecipeDetailModel, onSourceClick: (url: Stri
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Text(text = recipeDetail.title)
+        Text(text = recipeDetail.title,style = MaterialTheme.typography.h1)
         Spacer(modifier = Modifier.height(4.dp))
         ClickableText(text = AnnotatedString(recipeDetail.sourceName)) {
             onSourceClick.invoke(recipeDetail.sourceUrl)

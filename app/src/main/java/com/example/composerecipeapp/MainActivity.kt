@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         enableLogging = true
         setContent {
             ComposeRecipeAppTheme {
@@ -52,7 +53,7 @@ fun MainApp() {
         composable("recipe_details/{recipe_id}") {
             val id = it.arguments?.getString("recipe_id")
             id?.let {
-                RecipeDetail(id, navController)
+                    RecipeDetail(id, navController)
             }
         }
         composable("recipe/videos/{youtube_id}"){
@@ -70,7 +71,9 @@ fun MainApp() {
 fun AppContent(parentNavHostController: NavHostController) {
     val navController = rememberNavController()
     val searchViewModel: SearchViewModel = viewModel()
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
+        scaffoldState = scaffoldState,
         bottomBar = {
             BottomBar(
                 navController = navController, items = listOf(

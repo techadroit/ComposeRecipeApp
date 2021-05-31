@@ -5,17 +5,22 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
+import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.recipeapp.view.viewmodel.LoadRecipes
 import com.recipeapp.view.viewmodel.RecipeListViewmodel
@@ -95,7 +100,6 @@ fun RecipeList(
 
 @Composable
 fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostController) {
-    println(" i was composed $index")
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -115,10 +119,47 @@ fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostCo
                     .width(120.dp),
             )
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.title)
-                Text(text = recipe.cookingTime.toString() + " mint")
+                Text(text = recipe.title,style = MaterialTheme.typography.h1)
+                CookingTime(time = recipe.cookingTime.toString())
+                Servings(serving = recipe.servings.toString())
             }
         }
+    }
+}
+
+@Composable
+fun CookingTime(time:String){
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(imageVector = Icons.Default.DateRange, contentDescription = "Cooking Time",
+            tint = Color.LightGray,modifier = Modifier
+                .width(14.dp)
+                .height(14.dp))
+        Spacer(modifier = Modifier.width(2.dp))
+        Text(text = "$time mint",style = MaterialTheme.typography.subtitle1)
+    }
+}
+
+@Composable
+fun Servings(serving:String){
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(imageVector = Icons.Default.Person, contentDescription = "Servings",
+            tint = Color.LightGray,modifier = Modifier
+                .width(14.dp)
+                .height(14.dp))
+        Spacer(modifier = Modifier.width(2.dp))
+        Text(text = "$serving servings",style = MaterialTheme.typography.subtitle1)
+    }
+}
+
+@Preview
+@Composable
+fun CookingTimePreview(){
+    ComposeRecipeAppTheme{
+       Card(modifier = Modifier
+           .height(100.dp)
+           .width(100.dp)) {
+           CookingTime(time = "45")
+       }
     }
 }
 
@@ -135,7 +176,7 @@ fun LoadingView() {
             modifier = Modifier
                 .height(40.dp)
                 .width(40.dp),
-            color = Color.Blue
+            color = MaterialTheme.colors.onBackground
         )
     }
 }
@@ -153,7 +194,7 @@ fun PaginationLoading() {
             modifier = Modifier
                 .height(40.dp)
                 .width(40.dp),
-            color = Color.Blue
+            color = MaterialTheme.colors.onBackground
         )
     }
 }

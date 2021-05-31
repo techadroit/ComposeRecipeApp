@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
+import com.example.composerecipeapp.util.toViews
 import com.recipeapp.view.viewmodel.LoadVideos
 import com.recipeapp.view.viewmodel.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
@@ -99,16 +101,17 @@ fun VideoContent(recipe: VideoRecipeModel) {
         Column {
             Thumbnail(url = recipe.thumbnail)
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.shortTitle, color = Color.Black)
-                Text(text = recipe.views.toString(), color = Color.Black)
+                Text(text = recipe.shortTitle, style = MaterialTheme.typography.h1)
+                Spacer(modifier = Modifier.height(2.dp))
+                Views(views = recipe.views)
             }
         }
     }
 }
 
 @Composable
-fun Thumbnail(url: String){
-    Box(modifier = Modifier.fillMaxSize()){
+fun Thumbnail(url: String) {
+    Box(modifier = Modifier.fillMaxSize()) {
         GlideImage(
             imageModel = url,
             contentScale = ContentScale.Crop,
@@ -132,4 +135,10 @@ fun Thumbnail(url: String){
             )
         }
     }
+}
+
+@Composable
+fun Views(views: Int) {
+    val convertedViews = toViews(views.toLong())
+    Text(text = "$convertedViews views", style = MaterialTheme.typography.subtitle1)
 }
