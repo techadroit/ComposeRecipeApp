@@ -7,6 +7,7 @@ import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey
 import com.recipeapp.data.network.response.RecipeSearchResponse
+import com.recipeapp.data.network.response.SimilarRecipe
 import com.recipeapp.data.network.response.VideoListResponses
 
 class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
@@ -18,6 +19,14 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
     ): RandomRecipesResponse =
         run {
             recipeApiService.getRandomRecipes(limitLicense, tags, number)
+        }
+    suspend fun getSimilarRecipeFor(
+        limitLicense: Boolean,
+        id: String,
+        number: Int
+    ): List<SimilarRecipe> =
+        run {
+            recipeApiService.similarRecipes(id = "644953",limitLicense = limitLicense, number = number)
         }
 
     suspend fun searchRecipeFor(
@@ -34,6 +43,7 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         try {
             return invoker.invoke()
         } catch (e: Exception) {
+            e.printStackTrace()
             throw Failure.ServerError
         }
     }

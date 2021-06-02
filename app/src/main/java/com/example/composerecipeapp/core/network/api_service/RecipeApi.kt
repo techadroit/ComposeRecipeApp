@@ -4,6 +4,7 @@ import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey
 import com.recipeapp.data.network.response.RecipeSearchResponse
+import com.recipeapp.data.network.response.SimilarRecipe
 import com.recipeapp.data.network.response.VideoListResponses
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,6 +19,12 @@ interface RecipeApi {
         @Query("limitLicense") limitLicense: Boolean, @Query("tags") tags: String,
         @Query("number") number: Int, @Query("apiKey") apiKey: String = API_KEY
     ): RandomRecipesResponse
+
+    @GET("recipes/{id}/similar")
+    suspend fun similarRecipes(
+        @Path("id") id: String,@Query("limitLicense") limitLicense: Boolean,
+        @Query("number") number: Int, @Query("apiKey") apiKey: String = API_KEY,
+    ): List<SimilarRecipe>
 
     @GET("recipes/search")
     suspend fun searchRecipes(

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.text.Html
 import android.widget.TextView
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -13,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,8 +29,10 @@ import androidx.navigation.NavController
 import com.example.composerecipeapp.ParentNavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
+import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.util.fullScreen
 import com.recipeapp.view.viewmodel.LoadRecipeDetail
+import com.recipeapp.view.viewmodel.RecipeDetailState
 import com.recipeapp.view.viewmodel.RecipeDetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -41,9 +46,7 @@ fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostC
     Surface {
         if (state.isLoading)
             LoadingView()
-        state.recipeDetail?.let {
-            RecipeDetailContentView(it, navController)
-        }
+        RecipeDetailBody(state = state, navController = navController)
     }
 
     LaunchedEffect(recipeId) {
@@ -52,9 +55,38 @@ fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostC
 }
 
 @Composable
+fun RecipeDetailBody(state: RecipeDetailState,navController: NavController){
+    Column(modifier = Modifier.fullScreen()) {
+        state.recipeDetail?.let {
+            RecipeDetailContentView(it, navController)
+        }
+
+//        state.similarRecipe?.let {
+//            Text(modifier = Modifier.padding(12.dp),text = "Similar Recipes",style = MaterialTheme.typography.h1)
+//            RecipeList(recipeList = it)
+//        }
+    }
+}
+
+@Composable
+fun RecipeList(recipeList: List<RecipeModel>){
+    LazyColumn(
+        content = {
+            itemsIndexed(recipeList){ index,recipe ->
+                RecipeListItem(
+                    recipe = recipe,
+                    index = index,
+                    navHostController = ParentNavHostController.current
+                )
+            }
+        }
+    )
+}
+
+@Composable
 fun RecipeDetailContentView(recipeDetail: RecipeDetailModel, navController: NavController) {
     val context = LocalContext.current
-    Column(modifier = Modifier.fullScreen()) {
+    Column(modifier = Modifier.wrapContentHeight()) {
         GlideImage(
             imageModel = recipeDetail.imageUrl,
             modifier = Modifier
@@ -65,7 +97,6 @@ fun RecipeDetailContentView(recipeDetail: RecipeDetailModel, navController: NavC
             val uri = it.toUri()
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
-
         RecipeContent(recipeDetail = recipeDetail)
     }
 }
@@ -73,7 +104,7 @@ fun RecipeDetailContentView(recipeDetail: RecipeDetailModel, navController: NavC
 @Composable
 fun RecipeContent(recipeDetail: RecipeDetailModel) {
     Column(modifier = Modifier.padding(12.dp)) {
-        AndroidView(modifier = Modifier.fullScreen(),
+        AndroidView(modifier = Modifier.wrapContentHeight(),
             factory = { context ->
                 TextView(context).apply {
                     this.text = Html.fromHtml(recipeDetail.instructions)

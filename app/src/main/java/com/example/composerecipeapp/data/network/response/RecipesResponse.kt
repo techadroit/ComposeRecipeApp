@@ -123,6 +123,15 @@ data class RecipeSearchResponse(
     val baseUri: String
 )
 
+data class SimilarRecipe(
+    val id: Int,
+    val imageType: String,
+    val sourceUrl: String,
+    val readyInMinutes: Int,
+    val servings: Int,
+    val title: String
+)
+
 data class Result(
     val id: Int,
     val image: String,
