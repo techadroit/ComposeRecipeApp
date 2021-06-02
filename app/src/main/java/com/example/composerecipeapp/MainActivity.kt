@@ -1,5 +1,6 @@
 package com.example.composerecipeapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.compose.setContent
@@ -9,9 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -46,29 +45,33 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MainApp() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "main_recipes") {
-        composable("main_recipes") {
-            AppContent(navController)
-        }
-        composable("recipe_details/{recipe_id}") {
-            val id = it.arguments?.getString("recipe_id")
-            id?.let {
-                    RecipeDetail(id, navController)
+    CompositionLocalProvider(ParentNavHostController provides navController) {
+        NavHost(navController = navController, startDestination = "main_recipes") {
+
+            composable("main_recipes") {
+                AppContent()
             }
-        }
-        composable("recipe/videos/{youtube_id}"){
-            val id = it.arguments?.getString("youtube_id")
-            it?.let {
-                VideoPlayer()
+            composable("recipe_details/{recipe_id}") {
+                val id = it.arguments?.getString("recipe_id")
+                id?.let {
+                    RecipeDetail(id)
+                }
+            }
+            composable("recipe/videos/{youtube_id}"){
+                val id = it.arguments?.getString("youtube_id")
+                it?.let {
+                    VideoPlayer()
+                }
             }
         }
     }
+
 }
 
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
-fun AppContent(parentNavHostController: NavHostController) {
+fun AppContent() {
     val navController = rememberNavController()
     val searchViewModel: SearchViewModel = viewModel()
     val scaffoldState = rememberScaffoldState()
@@ -86,7 +89,6 @@ fun AppContent(parentNavHostController: NavHostController) {
     ) {
         navigationConfigurations(
             navController = navController,
-            parentNavHostController,
             searchViewModel
         )
     }
@@ -127,7 +129,7 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
 @Composable
 fun DefaultPreview() {
     ComposeRecipeAppTheme(darkTheme = false) {
-        AppContent(rememberNavController())
+        AppContent()
     }
 }
 
@@ -135,16 +137,15 @@ fun DefaultPreview() {
 @Composable
 fun navigationConfigurations(
     navController: NavHostController,
-    parentNavHostController: NavHostController,
     searchViewModel: SearchViewModel
 ) {
     NavHost(navController, startDestination = "recipes/{keyword}") {
         composable("recipes/{keyword}") {
             val keyword = it.arguments?.getString("keyword")
-            RecipeView(parentNavHostController, keyword)
+            RecipeView( key = keyword)
         }
         composable("videos") {
-            RecipesVideoList(parentNavHostController)
+            RecipesVideoList()
         }
         composable("search") {
             SearchView(navController, searchViewModel)
@@ -161,3 +162,7 @@ fun BottomBarItems.getIcon(): ImageVector =
         Icons.Default.PlayArrow
     }
 
+@SuppressLint("CompositionLocalNaming")
+val ParentNavHostController = compositionLocalOf<NavHostController> {
+    error("No navigation controller found")
+}

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
+import com.example.composerecipeapp.ParentNavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.recipeapp.view.viewmodel.LoadRecipes
@@ -29,7 +30,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun RecipeView(navHostController: NavHostController,key: String?) {
+fun RecipeView(navHostController: NavHostController = ParentNavHostController.current,key: String?) {
 
     val recipesViewmodel: RecipeListViewmodel =
         viewModel(modelClass = RecipeListViewmodel::class.java)

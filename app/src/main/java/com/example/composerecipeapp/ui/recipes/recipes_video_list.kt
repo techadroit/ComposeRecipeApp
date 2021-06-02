@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
+import com.example.composerecipeapp.ParentNavHostController
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.util.toViews
 import com.recipeapp.view.viewmodel.LoadVideos
@@ -30,7 +31,7 @@ import com.recipeapp.view.viewmodel.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun RecipesVideoList(navController: NavController) {
+fun RecipesVideoList(navController: NavController= ParentNavHostController.current) {
 
     val recipesViewModel: VideoListViewmodel =
         viewModel(modelClass = VideoListViewmodel::class.java)

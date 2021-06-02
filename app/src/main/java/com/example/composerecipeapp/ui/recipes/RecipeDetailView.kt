@@ -23,6 +23,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.composerecipeapp.ParentNavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.util.fullScreen
@@ -32,7 +33,7 @@ import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
-fun RecipeDetail(recipeId: String, navController: NavController) {
+fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostController.current) {
 
     val viewModel: RecipeDetailViewModel = viewModel(modelClass = RecipeDetailViewModel::class.java)
     val state = viewModel.stateEmitter.collectAsState().value
