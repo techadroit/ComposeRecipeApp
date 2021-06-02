@@ -18,7 +18,6 @@ internal class StateHolderImpl<S : AppState>(
         get() = _stateObservable
 
     override fun updateState(state: S) {
-        logger.logd { "State: $state" }
         _stateObservable.value = state
     }
 

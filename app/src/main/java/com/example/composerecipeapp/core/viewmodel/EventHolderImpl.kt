@@ -14,7 +14,6 @@ class EventHolderImpl<E : AppEvent?>(private val logger: Logger) : EventHolder<E
         get() = _eventStateFlow
 
     override fun addEvent(newEvent: E) {
-        logger.logd { "Event: $newEvent" }
         _eventStateFlow.value = newEvent
     }
 

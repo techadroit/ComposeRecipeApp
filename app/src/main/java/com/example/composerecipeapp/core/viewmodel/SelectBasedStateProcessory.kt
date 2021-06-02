@@ -1,11 +1,14 @@
 package com.example.composerecipeapp.core.viewmodel
 
 import com.example.composerecipeapp.core.App
+import com.example.composerecipeapp.core.collectIn
 import com.example.composerecipeapp.core.logger.Logger
+import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.core.logger.logd
 import com.example.composerecipeapp.core.logger.logv
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.selects.select
 import kotlin.coroutines.CoroutineContext
 
@@ -61,6 +64,7 @@ internal class SelectBasedStateProcessor<S : AppState,E : AppEvent>(
         } else {
             logger.logv { "Starting in Lazy mode. Call start() to begin processing actions and reducers" }
         }
+        log()
     }
 
     /**
@@ -158,5 +162,18 @@ internal class SelectBasedStateProcessor<S : AppState,E : AppEvent>(
 
     override fun offerGetEvent(event: E) {
        eventHolder.addEvent(event)
+    }
+
+    fun log(){
+        if(enableLogging){
+            eventHolder.eventObservable.collectIn(processorScope) {
+                it?.let {
+                    logger.logd { "Event: $it" }
+                }
+            }
+            stateHolder.stateObservable.collectIn(processorScope) {
+                logger.logd { "State: $it" }
+            }
+        }
     }
 }
