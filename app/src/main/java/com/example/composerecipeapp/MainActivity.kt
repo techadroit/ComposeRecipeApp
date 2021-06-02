@@ -2,7 +2,6 @@ package com.example.composerecipeapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -19,7 +18,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme

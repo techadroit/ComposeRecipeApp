@@ -12,14 +12,11 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import com.example.composerecipeapp.ParentNavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeModel

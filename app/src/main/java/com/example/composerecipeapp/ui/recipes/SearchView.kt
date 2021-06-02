@@ -34,10 +34,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
-import com.google.android.material.color.MaterialColors
 
 @Preview(showBackground = true)
 @Composable
@@ -130,7 +128,7 @@ fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Text
             ),
-            colors = androidx.compose.material.TextFieldDefaults.outlinedTextFieldColors(
+            colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = MaterialTheme.colors.primary
             )
         )
