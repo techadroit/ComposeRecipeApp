@@ -7,6 +7,5 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        NetworkHandler.init(null)
     }
 }

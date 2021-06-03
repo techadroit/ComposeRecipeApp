@@ -1,31 +1,26 @@
-package com.recipeapp.view.viewmodel
+package com.example.composerecipeapp.ui.viewmodel
 
 import com.example.composerecipeapp.core.Consumable
 import com.example.composerecipeapp.core.Resource
 import com.example.composerecipeapp.core.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.network.NetworkHandler
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.core.viewmodel.AppEvent
 import com.example.composerecipeapp.core.viewmodel.AppState
 import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.data.repositories.RecipeRepository
-import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.recipeapp.core.network.api_service.RecipeApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
+import javax.inject.Inject
 
-class RecipeListViewmodel(initialState: RecipeListState = RecipeListState()) :
+@HiltViewModel
+class RecipeListViewmodel @Inject constructor(initialState: RecipeListState, val repos : RecipeRepository,
+                                              val searchUsecase : SearchRecipeUsecase) :
     BaseViewModel<RecipeListState, RecipeEvent>(initialState) {
 
-    lateinit var localRepository: RecipeLocalRepository
     var page = 1
-    private val repos =
-        RecipeRepository(NetworkHandler.getRetrofitInstance().create(RecipeApi::class.java))
-    val searchUsecase by lazy { SearchRecipeUsecase(repos) }
-    val usecase by lazy { SaveRecipeUsecase(localRepository) }
-
 //    fun saveRecipe(recipeModel: RecipeModel) =
 //        usecase(SaveRecipeUsecase.Param(recipeModel))
 //            .collectIn(viewModelScope) {
@@ -82,7 +77,7 @@ class RecipeListViewmodel(initialState: RecipeListState = RecipeListState()) :
             this.onRecipeLoad(isPaginate, endOfItems, recipeList)
         }
 
-    override fun onEvent(event: RecipeEvent,state: RecipeListState) {
+    override fun onEvent(event: RecipeEvent, state: RecipeListState) {
         when (event) {
             is LoadRecipes -> if (event.isPaginate) paginate(event.query) else loadRecipes(event.query)
             else -> {

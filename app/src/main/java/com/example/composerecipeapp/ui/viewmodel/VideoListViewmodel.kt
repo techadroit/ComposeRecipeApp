@@ -10,18 +10,19 @@ import com.example.composerecipeapp.core.viewmodel.AppState
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
+import com.example.composerecipeapp.ui.viewmodel.SideEffect
 import com.example.composerecipeapp.util.QUERY
 import com.recipeapp.core.network.api_service.RecipeApi
 import com.recipeapp.data.network.response.VideoListResponses
 import com.recipeapp.data.network.response.toRecipeModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
+import javax.inject.Inject
 
-class VideoListViewmodel(initalState: RecipeVideoState = RecipeVideoState()) :
+@HiltViewModel
+class VideoListViewmodel @Inject constructor(initalState: RecipeVideoState, val usecase: SearchVideoRecipeUsecase) :
     BaseViewModel<RecipeVideoState, VideoEvents>(initalState) {
     var page = 0
-    val repos =
-        RecipeRepository(NetworkHandler.getRetrofitInstance().create(RecipeApi::class.java))
-    val usecase = SearchVideoRecipeUsecase(repos)
 
     fun getVideoRecipe() {
         setState {

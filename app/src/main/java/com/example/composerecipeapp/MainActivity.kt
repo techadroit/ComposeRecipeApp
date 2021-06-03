@@ -14,6 +14,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,7 +23,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.recipes.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
@@ -71,7 +74,7 @@ fun MainApp() {
 @Composable
 fun AppContent() {
     val navController = rememberNavController()
-    val searchViewModel: SearchViewModel = viewModel()
+    val searchViewModel: SearchViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,

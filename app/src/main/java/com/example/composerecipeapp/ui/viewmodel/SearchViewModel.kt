@@ -1,20 +1,23 @@
 package com.example.composerecipeapp.ui.recipes
 
 import com.example.composerecipeapp.core.collectIn
-import com.example.composerecipeapp.core.network.NetworkHandler
-import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.core.viewmodel.AppEvent
 import com.example.composerecipeapp.core.viewmodel.AppState
-import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.domain.usecases.AutoCompleteUsecase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
+import javax.inject.Inject
 
-class SearchViewModel(initialState: SearchState = SearchState()) :
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    initialState: SearchState,
+    val usecase: AutoCompleteUsecase
+) :
     BaseViewModel<SearchState, AppEvent>(initialState) {
 
-    val usecase = AutoCompleteUsecase(RecipeRepository(NetworkHandler.getRecipeService()))
 
-    override fun onEvent(event: AppEvent,state: SearchState) {
+    override fun onEvent(event: AppEvent, state: SearchState) {
         when (event) {
             is SearchEvent -> searchForKeyword(event.searchText)
         }
@@ -22,7 +25,7 @@ class SearchViewModel(initialState: SearchState = SearchState()) :
 
     private fun searchForKeyword(keyword: String) {
         usecase(keyword)
-            .catch {  }
+            .catch { }
             .collectIn(viewModelScope) {
                 setState {
                     copy(list = it)

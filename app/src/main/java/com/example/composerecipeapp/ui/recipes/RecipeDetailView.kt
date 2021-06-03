@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +22,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.composerecipeapp.ParentNavHostController
@@ -31,16 +30,16 @@ import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.util.fullScreen
-import com.recipeapp.view.viewmodel.LoadRecipeDetail
-import com.recipeapp.view.viewmodel.RecipeDetailState
-import com.recipeapp.view.viewmodel.RecipeDetailViewModel
+import com.example.composerecipeapp.ui.viewmodel.LoadRecipeDetail
+import com.example.composerecipeapp.ui.viewmodel.RecipeDetailState
+import com.example.composerecipeapp.ui.viewmodel.RecipeDetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
 fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostController.current) {
 
-    val viewModel: RecipeDetailViewModel = viewModel(modelClass = RecipeDetailViewModel::class.java)
+    val viewModel: RecipeDetailViewModel = hiltViewModel()
     val state = viewModel.stateEmitter.collectAsState().value
 
     Surface {
@@ -55,7 +54,7 @@ fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostC
 }
 
 @Composable
-fun RecipeDetailBody(state: RecipeDetailState,navController: NavController){
+fun RecipeDetailBody(state: RecipeDetailState, navController: NavController){
     Column(modifier = Modifier.fullScreen()) {
         state.recipeDetail?.let {
             RecipeDetailContentView(it, navController)

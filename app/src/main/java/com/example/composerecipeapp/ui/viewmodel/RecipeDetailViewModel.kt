@@ -1,31 +1,28 @@
-package com.recipeapp.view.viewmodel
+package com.example.composerecipeapp.ui.viewmodel
 
 import com.example.composerecipeapp.core.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.network.NetworkHandler
 import com.example.composerecipeapp.core.viewmodel.AppEvent
 import com.example.composerecipeapp.core.viewmodel.AppState
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.toRecipeDetailModel
-import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase
 import com.example.composerecipeapp.domain.usecases.SimilarRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.recipeapp.core.network.api_service.RecipeApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.zip
+import javax.inject.Inject
 
-class RecipeDetailViewModel(
-    initialState: RecipeDetailState = RecipeDetailState()
+@HiltViewModel
+class RecipeDetailViewModel @Inject constructor(
+    initialState: RecipeDetailState,
+    val usecase: GetRecipeDetailUsecase,
+    val similarUsecase: SimilarRecipeUsecase
 ) : BaseViewModel<RecipeDetailState, RecipeDetailEvent>(initialState) {
 
-    private val repos =
-        RecipeRepository(NetworkHandler.getRetrofitInstance().create(RecipeApi::class.java))
-    var usecase = GetRecipeDetailUsecase(repos)
-    var similarUsecase = SimilarRecipeUsecase(repos)
 
     private fun getRecipeDetailForId(id: String) {
         setState {
@@ -55,7 +52,10 @@ class RecipeDetailViewModel(
         list: List<RecipeModel>
     ) {
         setState {
-            this.onSuccessResponse(recipeDetail = recipeDetailResponse.toRecipeDetailModel(), recipeList = list)
+            this.onSuccessResponse(
+                recipeDetail = recipeDetailResponse.toRecipeDetailModel(),
+                recipeList = list
+            )
         }
     }
 
@@ -80,7 +80,7 @@ fun RecipeDetailState.onSuccessResponse(
     recipeDetail: RecipeDetailModel,
     recipeList: List<RecipeModel>
 ) =
-    this.copy(isLoading = false, recipeDetail = recipeDetail,similarRecipe = recipeList)
+    this.copy(isLoading = false, recipeDetail = recipeDetail, similarRecipe = recipeList)
 
 fun RecipeDetailState.onError(failure: Failure) = this.copy(isLoading = false, failure = failure)
 
