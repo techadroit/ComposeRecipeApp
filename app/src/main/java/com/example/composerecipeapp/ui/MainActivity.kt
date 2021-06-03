@@ -47,17 +47,20 @@ class MainActivity : AppCompatActivity() {
 fun MainApp() {
     val navController = rememberNavController()
     CompositionLocalProvider(ParentNavHostController provides navController) {
-        NavHost(navController = navController, startDestination = "main_recipes") {
-            composable("main_recipes") {
+        NavHost(
+            navController = navController,
+            startDestination = NavigationDirections.mainDestination.destination
+        ) {
+            composable(NavigationDirections.mainDestination.destination) {
                 AppContent()
             }
-            composable("recipe_details/{recipe_id}") {
+            composable(NavigationDirections.recipeDetailDestination.destination) {
                 val id = it.arguments?.getString("recipe_id")
                 id?.let {
                     RecipeDetail(id)
                 }
             }
-            composable("recipe/videos/{youtube_id}") {
+            composable(NavigationDirections.videoPlayer.destination) {
                 val id = it.arguments?.getString("youtube_id")
                 it?.let {
                     VideoPlayer()
@@ -81,7 +84,10 @@ fun AppContent() {
             BottomBar(
                 navController = navController, items = listOf(
                     BottomBarItems("recipes/chicken", "Recipes"),
-                    BottomBarItems("videos", "Videos"),
+                    BottomBarItems(
+                        NavigationDirections.recipeVideoDestination.destination,
+                        "Videos"
+                    ),
                 )
             )
         },

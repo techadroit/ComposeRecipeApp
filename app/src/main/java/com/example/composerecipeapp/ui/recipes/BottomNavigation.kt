@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.composerecipeapp.ui.NavigationDirections
 import com.example.composerecipeapp.ui.recipe_list.RecipeView
 import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.ui.recipe_search.SearchViewModel
@@ -56,15 +57,15 @@ fun NavigationView(
     navController: NavHostController,
     searchViewModel: SearchViewModel
 ) {
-    NavHost(navController, startDestination = "recipes/{keyword}") {
-        composable("recipes/{keyword}") {
+    NavHost(navController, startDestination = NavigationDirections.recipeList.destination) {
+        composable(NavigationDirections.recipeList.destination) {
             val keyword = it.arguments?.getString("keyword")
             RecipeView(key = keyword)
         }
-        composable("videos") {
+        composable(NavigationDirections.recipeVideoDestination.destination) {
             RecipesVideoList()
         }
-        composable("search") {
+        composable(NavigationDirections.searchDestination.destination) {
             SearchView(navController, searchViewModel)
         }
     }
