@@ -14,7 +14,7 @@
         android:theme="@style/Theme.ComposeRecipeApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.ComposeRecipeApp.NoActionBar">
             <intent-filter>

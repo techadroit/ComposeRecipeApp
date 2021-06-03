@@ -1,9 +1,9 @@
 package com.example.composerecipeapp.di
 
-import com.example.composerecipeapp.ui.recipes.SearchState
-import com.example.composerecipeapp.ui.viewmodel.RecipeDetailState
-import com.example.composerecipeapp.ui.viewmodel.RecipeListState
-import com.recipeapp.view.viewmodel.RecipeVideoState
+import com.example.composerecipeapp.ui.recipe_search.SearchState
+import com.example.composerecipeapp.ui.recipe_detail.RecipeDetailState
+import com.example.composerecipeapp.ui.recipe_list.RecipeListState
+import com.example.composerecipeapp.ui.recipe_videos.RecipeVideoState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
