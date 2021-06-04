@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.viewmodel.recipe_video
 
-import com.example.composerecipeapp.core.collectIn
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase

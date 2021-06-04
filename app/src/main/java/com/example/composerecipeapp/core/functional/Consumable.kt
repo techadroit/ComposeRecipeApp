@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.core
+package com.example.composerecipeapp.core.functional
 
 import java.io.Serializable
 

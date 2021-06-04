@@ -1,6 +1,4 @@
-package com.example.composerecipeapp.core
-
-import android.os.Parcelable
+package com.example.composerecipeapp.core.functional
 
 /**
  * A sealed class to represent UI states associated with a resource.

@@ -1,14 +1,12 @@
 package com.example.composerecipeapp.core.viewmodel
 
-import com.example.composerecipeapp.core.App
-import com.example.composerecipeapp.core.collectIn
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.logger.Logger
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.core.logger.logd
 import com.example.composerecipeapp.core.logger.logv
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.selects.select
 import kotlin.coroutines.CoroutineContext
 

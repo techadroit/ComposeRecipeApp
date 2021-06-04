@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.ui.recipe_list
 
 import com.example.composerecipeapp.core.Consumable
-import com.example.composerecipeapp.core.collectIn
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase

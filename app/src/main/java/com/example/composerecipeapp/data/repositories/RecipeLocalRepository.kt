@@ -1,6 +1,5 @@
 package com.example.composerecipeapp.data.repositories
 
-import com.example.composerecipeapp.core.exception.NoSavedRecipe
 import com.example.composerecipeapp.core.repository.BaseRepository
 import com.example.composerecipeapp.data.datasource.RecipeDao
 import com.example.composerecipeapp.data.datasource.SavedRecipe

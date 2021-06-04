@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.viewmodel.save_recipe
 
-import com.example.composerecipeapp.core.collectIn
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.usecase.None
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.domain.usecases.LoadSavedRecipeUsecase

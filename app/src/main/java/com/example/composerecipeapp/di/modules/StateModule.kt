@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.di
+package com.example.composerecipeapp.di.modules
 
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListState

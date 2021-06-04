@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.data.network
+package com.example.composerecipeapp.core.network
 
 sealed class Response{
 
