@@ -17,11 +17,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.composerecipeapp.data.datasource.SavedRecipe
 import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.recipe_list.RecipeView
 import com.example.composerecipeapp.ui.recipe_search.SearchView
-import com.example.composerecipeapp.ui.recipe_search.SearchViewModel
+import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
 import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
 

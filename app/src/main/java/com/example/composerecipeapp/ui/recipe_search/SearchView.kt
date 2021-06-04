@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
+import com.example.composerecipeapp.viewmodel.recipe_search.SearchTextEvent
+import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
 @Preview(showBackground = true)
 @Composable

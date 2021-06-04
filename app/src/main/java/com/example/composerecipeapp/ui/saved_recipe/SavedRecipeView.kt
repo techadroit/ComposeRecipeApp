@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +18,8 @@ import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.viewmodel.save_recipe.LoadRecipe
+import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeViewModel
 
 @Composable
 fun SaveRecipeView(viewModel: SaveRecipeViewModel = hiltViewModel()) {

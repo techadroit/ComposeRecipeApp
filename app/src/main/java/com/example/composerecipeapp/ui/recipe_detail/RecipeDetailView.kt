@@ -27,6 +27,8 @@ import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.fullScreen
+import com.example.composerecipeapp.viewmodel.recipe_detail.LoadRecipeDetail
+import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
 import com.skydoves.landscapist.glide.GlideImage
 
 
