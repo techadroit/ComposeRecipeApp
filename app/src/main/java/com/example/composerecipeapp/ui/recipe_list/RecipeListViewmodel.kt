@@ -107,13 +107,13 @@ data class RecipeListState(
     val endOfItems: Boolean = false
 ) : AppState
 
-open class RecipeEvent : AppEvent
+interface RecipeEvent : AppEvent
 data class LoadRecipes(val query: String, var isPaginate: Boolean = false) :
-    RecipeEvent()
+    RecipeEvent
 
-data class SaveRecipeEvent(val recipeModel: RecipeModel) : RecipeEvent()
+data class SaveRecipeEvent(val recipeModel: RecipeModel) : RecipeEvent
 
-data class RemoveSavedRecipeEvent(val recipeModel: RecipeModel) : RecipeEvent()
+data class RemoveSavedRecipeEvent(val recipeModel: RecipeModel) : RecipeEvent
 
 fun RecipeListState.onRecipeLoad(
     isPaginate: Boolean,

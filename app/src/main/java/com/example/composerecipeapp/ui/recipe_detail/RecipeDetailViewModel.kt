@@ -66,8 +66,8 @@ class RecipeDetailViewModel @Inject constructor(
     }
 }
 
-open class RecipeDetailEvent : AppEvent
-data class LoadRecipeDetail(val id: String) : RecipeDetailEvent()
+interface RecipeDetailEvent : AppEvent
+data class LoadRecipeDetail(val id: String) : RecipeDetailEvent
 
 data class RecipeDetailState(
     val isLoading: Boolean = false,

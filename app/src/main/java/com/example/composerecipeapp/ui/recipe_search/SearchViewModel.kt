@@ -14,12 +14,12 @@ class SearchViewModel @Inject constructor(
     initialState: SearchState,
     val usecase: AutoCompleteUsecase
 ) :
-    BaseViewModel<SearchState, AppEvent>(initialState) {
+    BaseViewModel<SearchState, SearchEvent>(initialState) {
 
 
-    override fun onEvent(event: AppEvent, state: SearchState) {
+    override fun onEvent(event: SearchEvent, state: SearchState) {
         when (event) {
-            is SearchEvent -> searchForKeyword(event.searchText)
+            is SearchTextEvent -> searchForKeyword(event.searchText)
         }
     }
 
@@ -36,4 +36,5 @@ class SearchViewModel @Inject constructor(
 
 data class SearchState(val list: List<String> = emptyList()) : AppState
 
-data class SearchEvent(val searchText: String) : AppEvent
+interface SearchEvent : AppEvent
+data class SearchTextEvent(val searchText: String) : SearchEvent

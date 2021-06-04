@@ -96,7 +96,7 @@ fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel
             value = textState.value,
             onValueChange = {
                 textState.value = it
-                searchViewModel.dispatch(SearchEvent(it.text))
+                searchViewModel.dispatch(SearchTextEvent(it.text))
             },
             modifier = Modifier
                 .fillMaxWidth()
