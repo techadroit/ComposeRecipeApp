@@ -15,14 +15,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.core.logger.enableLogging
+import com.example.composerecipeapp.ui.main_view.BottomBar
+import com.example.composerecipeapp.ui.main_view.BottomBarItems
+import com.example.composerecipeapp.ui.main_view.NavigationView
+import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_detail.RecipeDetail
 import com.example.composerecipeapp.ui.recipe_search.SearchBar
 import com.example.composerecipeapp.ui.recipe_search.SearchViewModel
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
-import com.example.composerecipeapp.ui.recipes.BottomBar
-import com.example.composerecipeapp.ui.recipes.BottomBarItems
-import com.example.composerecipeapp.ui.recipes.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -84,6 +85,10 @@ fun AppContent() {
             BottomBar(
                 navController = navController, items = listOf(
                     BottomBarItems("recipes/chicken", "Recipes"),
+                    BottomBarItems(
+                        NavigationDirections.savedRecipeDestination.destination,
+                        "Saved Recipes"
+                    ),
                     BottomBarItems(
                         NavigationDirections.recipeVideoDestination.destination,
                         "Videos"

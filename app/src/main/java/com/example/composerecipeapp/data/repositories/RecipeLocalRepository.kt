@@ -9,9 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 class RecipeLocalRepository(var recipeDao: RecipeDao) : BaseRepository {
 
-    suspend fun getAllSavedRecipes(): List<SavedRecipe> = recipeDao.getAllSavedRecipe().ifEmpty {
-        throw NoSavedRecipe
-    }
+    suspend fun getAllSavedRecipes(): List<SavedRecipe> = recipeDao.getAllSavedRecipe()
 
 
     fun getSavedRecipesCount(): Flow<Long> = recipeDao.getTotalSavedRecipes()

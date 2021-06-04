@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui
+package com.example.composerecipeapp.ui.navigation
 
 import androidx.navigation.compose.NamedNavArgument
 

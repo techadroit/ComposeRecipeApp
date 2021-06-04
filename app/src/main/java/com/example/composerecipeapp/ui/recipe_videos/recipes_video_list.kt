@@ -24,8 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
-import com.example.composerecipeapp.ui.recipe_list.LoadingView
-import com.example.composerecipeapp.ui.recipe_list.PaginationLoading
+import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.ui.views.PaginationLoading
 import com.example.composerecipeapp.util.toViews
 import com.skydoves.landscapist.glide.GlideImage
 

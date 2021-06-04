@@ -20,13 +20,13 @@ import androidx.navigation.NavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
+import com.example.composerecipeapp.ui.views.*
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeView(
-    navHostController: NavHostController = ParentNavHostController.current,
     key: String?
 ) {
 
@@ -43,7 +43,6 @@ fun RecipeView(
     RecipeList(
         recipeList = recipeState.recipes.allRecipes,
         recipesViewmodel = recipesViewmodel,
-        navHostController = navHostController,
         showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
         keyword = keyword,
         endOfList = recipeState.endOfItems
@@ -54,13 +53,12 @@ fun RecipeView(
 fun RecipeList(
     recipeList: List<RecipeModel>,
     recipesViewmodel: RecipeListViewmodel,
-    navHostController: NavHostController,
     showPaginationLoading: Boolean,
     keyword: String,
     endOfList: Boolean
 ) {
     val scrollState = rememberLazyListState()
-
+    val navHostController = ParentNavHostController.current
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = scrollState,
@@ -71,7 +69,11 @@ fun RecipeList(
                         RecipeListItem(
                             recipe = recipe,
                             index = index,
-                            navHostController = navHostController
+                            {
+                                navHostController.navigate("recipe_details/${it}")
+                            },{
+                                recipesViewmodel.saveRecipe(recipeModel = it)
+                            }
                         )
                     }
                     val totalItem = scrollState.layoutInfo.totalItemsCount
@@ -101,8 +103,9 @@ fun RecipeList(
     }
 }
 
+
 @Composable
-fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostController) {
+fun RecipeListItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit, onSaveClick : (RecipeModel) ->Unit) {
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -111,7 +114,7 @@ fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostCo
                 vertical = if (index == 0) 8.dp else 4.dp
             )
             .clickable(onClick = {
-                navHostController.navigate("recipe_details/${recipe.id}")
+                onRowClick.invoke(recipe.id)
             })
     ) {
         Row {
@@ -125,36 +128,13 @@ fun RecipeListItem(recipe: RecipeModel, index: Int, navHostController: NavHostCo
                 Text(text = recipe.title, style = MaterialTheme.typography.h1)
                 CookingTime(time = recipe.cookingTime.toString())
                 Servings(serving = recipe.servings.toString())
+                Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.End){
+                    SaveIcon(isSaved = recipe.isSaved){
+                        onSaveClick(recipe)
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-fun CookingTime(time: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            imageVector = Icons.Default.DateRange, contentDescription = "Cooking Time",
-            tint = Color.LightGray, modifier = Modifier
-                .width(14.dp)
-                .height(14.dp)
-        )
-        Spacer(modifier = Modifier.width(2.dp))
-        Text(text = "$time mint", style = MaterialTheme.typography.subtitle1)
-    }
-}
-
-@Composable
-fun Servings(serving: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            imageVector = Icons.Default.Person, contentDescription = "Servings",
-            tint = Color.LightGray, modifier = Modifier
-                .width(14.dp)
-                .height(14.dp)
-        )
-        Spacer(modifier = Modifier.width(2.dp))
-        Text(text = "$serving servings", style = MaterialTheme.typography.subtitle1)
     }
 }
 
@@ -171,40 +151,3 @@ fun CookingTimePreview() {
         }
     }
 }
-
-@Composable
-fun LoadingView() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .height(40.dp)
-                .width(40.dp),
-            color = MaterialTheme.colors.onBackground
-        )
-    }
-}
-
-@Composable
-fun PaginationLoading() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .height(40.dp)
-                .width(40.dp),
-            color = MaterialTheme.colors.onBackground
-        )
-    }
-}
-

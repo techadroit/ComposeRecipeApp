@@ -4,8 +4,6 @@ import android.content.Intent
 import android.text.Html
 import android.widget.TextView
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -26,10 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
-import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
-import com.example.composerecipeapp.ui.recipe_list.LoadingView
-import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
+import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.fullScreen
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -57,26 +53,7 @@ fun RecipeDetailBody(state: RecipeDetailState, navController: NavController) {
         state.recipeDetail?.let {
             RecipeDetailContentView(it)
         }
-//        state.similarRecipe?.let {
-//            Text(modifier = Modifier.padding(12.dp),text = "Similar Recipes",style = MaterialTheme.typography.h1)
-//            RecipeList(recipeList = it)
-//        }
     }
-}
-
-@Composable
-fun RecipeList(recipeList: List<RecipeModel>) {
-    LazyColumn(
-        content = {
-            itemsIndexed(recipeList) { index, recipe ->
-                RecipeListItem(
-                    recipe = recipe,
-                    index = index,
-                    navHostController = ParentNavHostController.current
-                )
-            }
-        }
-    )
 }
 
 @Composable

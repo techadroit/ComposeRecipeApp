@@ -5,7 +5,8 @@ data class RecipeModel(
     val title: String,
     val servings: Int,
     val imageUrl: String,
-    val cookingTime: Int
+    val cookingTime: Int,
+    val isSaved: Boolean = false
 )
 
 data class VideoRecipeModel(
@@ -14,7 +15,8 @@ data class VideoRecipeModel(
     val thumbnail: String,
     val title: String,
     val views: Int,
-    val youTubeId: String
+    val youTubeId: String,
+    val isSaved: Boolean = false
 )
 
 data class RecipeDetailModel(
@@ -22,5 +24,6 @@ data class RecipeDetailModel(
     val sourceName: String,
     val sourceUrl: String,
     val imageUrl: String,
-    val instructions: String
+    val instructions: String,
+    val isSaved: Boolean = false
 )

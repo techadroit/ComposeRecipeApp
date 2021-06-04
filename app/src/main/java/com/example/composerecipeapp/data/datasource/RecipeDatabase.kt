@@ -12,7 +12,6 @@ abstract class RecipeDatabase : RoomDatabase() {
 
     abstract fun recipeDao(): RecipeDao
 
-
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.

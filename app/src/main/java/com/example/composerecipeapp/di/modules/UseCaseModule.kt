@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.di.modules
 
+import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.*
 import dagger.Module
@@ -15,17 +16,27 @@ class UseCaseModule {
     fun getSimilarRecipeUseCase(repository: RecipeRepository) = SimilarRecipeUsecase(repository)
 
     @Provides
-    fun getSearchRecipeUseCase(repository: RecipeRepository) = SearchRecipeUsecase(repository)
+    fun getSearchRecipeUseCase(
+        repository: RecipeRepository,
+        localRepository: RecipeLocalRepository
+    ) = SearchRecipeUsecase(repository, localRepository)
 
     @Provides
-    fun getSearchVideoRecipeUseCase(repository: RecipeRepository) = SearchVideoRecipeUsecase(repository)
+    fun getSearchVideoRecipeUseCase(repository: RecipeRepository) =
+        SearchVideoRecipeUsecase(repository)
 
     @Provides
-    fun getRecipeDetailViewUseCase(repository: RecipeRepository) = GetRecipeDetailUsecase(repository)
+    fun getRecipeDetailViewUseCase(repository: RecipeRepository) =
+        GetRecipeDetailUsecase(repository)
 
     @Provides
     fun getAutoCompleteUseCase(repository: RecipeRepository) = AutoCompleteUsecase(repository)
 
-//    @Provides
-//    fun getSavedRecipeUseCase(repository: RecipeLocalRepository) = SaveRecipeUsecase(repository)
+    @Provides
+    fun getSaveRecipeUseCase(localRepository: RecipeLocalRepository) =
+        SaveRecipeUsecase(localRepository)
+
+    @Provides
+    fun getLoadSavedRecipeUseCase(localRepository: RecipeLocalRepository) =
+        LoadSavedRecipeUsecase(localRepository = localRepository)
 }

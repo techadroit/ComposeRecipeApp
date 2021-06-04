@@ -1,0 +1,47 @@
+package com.example.composerecipeapp.ui.views
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+
+@Composable
+fun LoadingView() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp),
+            color = MaterialTheme.colors.onBackground
+        )
+    }
+}
+
+@Composable
+fun PaginationLoading() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .height(40.dp)
+                .width(40.dp),
+            color = MaterialTheme.colors.onBackground
+        )
+    }
+}
+

@@ -1,13 +1,12 @@
 package com.example.composerecipeapp.ui.recipe_list
 
 import com.example.composerecipeapp.core.Consumable
-import com.example.composerecipeapp.core.Resource
 import com.example.composerecipeapp.core.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.core.viewmodel.AppEvent
 import com.example.composerecipeapp.core.viewmodel.AppState
-import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.example.composerecipeapp.core.viewmodel.BaseViewModel
+import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,27 +14,28 @@ import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeListViewmodel @Inject constructor(initialState: RecipeListState, val repos : RecipeRepository,
-                                              val searchUsecase : SearchRecipeUsecase) :
+class RecipeListViewmodel @Inject constructor(
+    initialState: RecipeListState, val savedRecipeUsecase: SaveRecipeUsecase,
+    val searchUsecase: SearchRecipeUsecase
+) :
     BaseViewModel<RecipeListState, RecipeEvent>(initialState) {
 
     var page = 1
-//    fun saveRecipe(recipeModel: RecipeModel) =
-//        usecase(SaveRecipeUsecase.Param(recipeModel))
-//            .collectIn(viewModelScope) {
-//                onRecipeSaved()
-//            }
-//
-//    private fun onRecipeSaved() {
-//        setState {
-//            copy(
-//                onSavedRecipes = Resource.Success(data = None),
-//                sideEffect = Consumable(SideEffect.OnSavedRecipe)
-//            )
-//        }
-//    }
+    fun saveRecipe(recipeModel: RecipeModel) =
+        savedRecipeUsecase(SaveRecipeUsecase.Param(recipeModel))
+            .collectIn(viewModelScope) {
+                onRecipeSaved()
+            }
 
-    fun loadRecipes(query: String) =
+    private fun onRecipeSaved() {
+        setState {
+            copy(
+                sideEffect = Consumable(SideEffect.OnSavedRecipe)
+            )
+        }
+    }
+
+    private fun loadRecipes(query: String) =
         withState {
             if (!it.isLoading) {
                 setState { this.onLoading() }
@@ -43,7 +43,7 @@ class RecipeListViewmodel @Inject constructor(initialState: RecipeListState, val
             }
         }
 
-    fun paginate(query: String) =
+    private fun paginate(query: String) =
         withState {
             if (!it.isLoading) {
                 page++
@@ -79,6 +79,8 @@ class RecipeListViewmodel @Inject constructor(initialState: RecipeListState, val
     override fun onEvent(event: RecipeEvent, state: RecipeListState) {
         when (event) {
             is LoadRecipes -> if (event.isPaginate) paginate(event.query) else loadRecipes(event.query)
+            is SaveRecipeEvent -> saveRecipe(event.recipeModel)
+            is RemoveSavedRecipeEvent -> {}
             else -> {
             }
         }
@@ -91,13 +93,12 @@ sealed class SideEffect {
 
 data class RecipeData(var allRecipes: List<RecipeModel>) {
     operator fun plus(recipeList: List<RecipeModel>): RecipeData {
-        val newList = allRecipes + recipeList
+        val newList = (allRecipes + recipeList).distinctBy { it.id }
         return RecipeData(newList)
     }
 }
 
 data class RecipeListState(
-    val onSavedRecipes: Resource<*>? = Resource.Uninitialized,
     var recipes: RecipeData = RecipeData(emptyList()),
     var sideEffect: Consumable<SideEffect>? = null,
     val isLoading: Boolean = false,
@@ -109,6 +110,10 @@ data class RecipeListState(
 open class RecipeEvent : AppEvent
 data class LoadRecipes(val query: String, var isPaginate: Boolean = false) :
     RecipeEvent()
+
+data class SaveRecipeEvent(val recipeModel: RecipeModel) : RecipeEvent()
+
+data class RemoveSavedRecipeEvent(val recipeModel: RecipeModel) : RecipeEvent()
 
 fun RecipeListState.onRecipeLoad(
     isPaginate: Boolean,
@@ -125,3 +130,11 @@ fun RecipeListState.onLoading(isPaginate: Boolean = false) =
     this.copy(isLoading = true, isPaginate = isPaginate)
 
 fun RecipeListState.onError(failure: Failure) = this.copy(error = failure)
+
+fun RecipeListState.onSaved(recipeId: Int) {
+    val list = this.recipes.allRecipes
+        list.first { it.id == recipeId }
+    this.copy(
+    recipes = RecipeData(list)
+    )
+}
