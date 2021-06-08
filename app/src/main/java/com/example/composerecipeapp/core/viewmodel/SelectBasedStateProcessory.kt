@@ -53,6 +53,7 @@ internal class SelectBasedStateProcessor<S : AppState,E : AppEvent>(
     /**
      * A convenience utility to check if any of the queues contain jobs to be processed
      */
+    @ExperimentalCoroutinesApi
     private val hasMoreJobs: Boolean
         get() = !setStateChannel.isEmpty || !getStateChannel.isEmpty
 
@@ -71,6 +72,7 @@ internal class SelectBasedStateProcessor<S : AppState,E : AppEvent>(
      * If the state processor has been cleared before this reducer is offered, then it is ignored and not added
      * to the queue to be processed
      */
+    @ExperimentalCoroutinesApi
     override fun offerSetAction(reducer: suspend S.() -> S) {
         if (processorScope.isActive && !setStateChannel.isClosedForSend) {
             // TODO Look for a solution to the case where the channel could be closed between the check and this offer
@@ -85,6 +87,7 @@ internal class SelectBasedStateProcessor<S : AppState,E : AppEvent>(
      * If the state processor has been cleared before this action is offered, then it is ignored and not added
      * to the queue to be processed.
      */
+    @ExperimentalCoroutinesApi
     override fun offerGetAction(action: suspend (S) -> Unit) {
         if (processorScope.isActive && !getStateChannel.isClosedForSend) {
             // TODO Look for a solution to the case where the channel could be closed between the check and this offer

@@ -22,8 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.focus.isFocused
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -55,7 +53,6 @@ fun SearchBarPreview() {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .focusModifier()
                     .onFocusChanged {
                     },
                 leadingIcon = { SearchIcon(onFocus = false, {}, {}) },
@@ -102,7 +99,6 @@ fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .focusModifier()
                 .onFocusChanged {
                     if (it.isFocused)
                         onSearchFocus()
@@ -121,7 +117,7 @@ fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel
             keyboardActions = KeyboardActions(onDone = {
                 val text = textState.value.text
                 navController.navigate("recipes/$text")
-                softwareKeyboardController?.hideSoftwareKeyboard()
+                softwareKeyboardController?.hide()
                 view.clearFocus()
                 textState.value = TextFieldValue("")
                 onFocus.value = false

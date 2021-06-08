@@ -23,7 +23,7 @@ sealed class Resource<out T> {
 
         init {
             if(isCached){
-                cachedData?.addAll(data)
+                cachedData.addAll(data)
             }
         }
 

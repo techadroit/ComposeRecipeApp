@@ -62,7 +62,7 @@ fun MainApp() {
                 }
             }
             composable(NavigationDirections.videoPlayer.destination) {
-                val id = it.arguments?.getString("youtube_id")
+//                val id = it.arguments?.getString("youtube_id")
                 it?.let {
                     VideoPlayer()
                 }

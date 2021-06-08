@@ -26,7 +26,7 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         number: Int
     ): List<SimilarRecipe> =
         run {
-            recipeApiService.similarRecipes(id = "644953",limitLicense = limitLicense, number = number)
+            recipeApiService.similarRecipes(id = id,limitLicense = limitLicense, number = number)
         }
 
     suspend fun searchRecipeFor(
