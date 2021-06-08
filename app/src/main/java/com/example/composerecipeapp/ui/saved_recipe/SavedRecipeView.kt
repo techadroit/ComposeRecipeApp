@@ -19,6 +19,7 @@ import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.viewmodel.save_recipe.LoadRecipe
+import com.example.composerecipeapp.viewmodel.save_recipe.RemoveRecipe
 import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeViewModel
 
 @Composable
@@ -78,7 +79,8 @@ fun RecipeList(
                             {
                                 navHostController.navigate("recipe_details/${it}")
                             }, {
-//                                recipesViewmodel.saveRecipe(recipeModel = it)
+                            },{
+                                saveRecipeViewModel.dispatch(RemoveRecipe(recipe))
                             }
                         )
                     }

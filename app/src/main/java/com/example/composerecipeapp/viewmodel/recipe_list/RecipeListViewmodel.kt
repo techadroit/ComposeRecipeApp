@@ -1,9 +1,10 @@
 package com.example.composerecipeapp.viewmodel.recipe_list
 
+import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.Consumable
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
+import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
@@ -14,16 +15,19 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState, val savedRecipeUsecase: SaveRecipeUsecase,
-    val searchUsecase: SearchRecipeUsecase
+    val searchUsecase: SearchRecipeUsecase, val deleteSavedRecipe: DeleteSavedRecipe
 ) :
     BaseViewModel<RecipeListState, RecipeEvent>(initialState) {
 
     var page = 1
-    fun saveRecipe(recipeModel: RecipeModel) =
+    private fun saveRecipe(recipeModel: RecipeModel) =
         savedRecipeUsecase(SaveRecipeUsecase.Param(recipeModel))
             .collectIn(viewModelScope) {
                 onRecipeSaved()
             }
+
+    private fun deleteRecipe(recipeModel: RecipeModel) = deleteSavedRecipe(recipeModel.id)
+        .collectIn(viewModelScope) {}
 
     private fun onRecipeSaved() {
         setState {
@@ -78,8 +82,7 @@ class RecipeListViewmodel @Inject constructor(
         when (event) {
             is LoadRecipes -> if (event.isPaginate) paginate(event.query) else loadRecipes(event.query)
             is SaveRecipeEvent -> saveRecipe(event.recipeModel)
-            is RemoveSavedRecipeEvent -> {
-            }
+            is RemoveSavedRecipeEvent -> deleteRecipe(event.recipeModel)
             else -> {
             }
         }

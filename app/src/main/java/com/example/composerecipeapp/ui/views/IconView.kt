@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun SaveIcon(isSaved: Boolean, onClick: () -> Unit) {
+fun SaveIcon(isSaved: Boolean, onClick: (Boolean) -> Unit) {
     val saved = remember {
         mutableStateOf(isSaved)
     }
@@ -22,7 +22,7 @@ fun SaveIcon(isSaved: Boolean, onClick: () -> Unit) {
             tint = Color.Red,
             modifier = Modifier.clickable {
                 saved.value = false
-                onClick.invoke()
+                onClick.invoke(saved.value)
             })
     else
         Icon(
@@ -30,7 +30,7 @@ fun SaveIcon(isSaved: Boolean, onClick: () -> Unit) {
             contentDescription = "Not Saved",
             modifier = Modifier.clickable {
                 saved.value = true
-                onClick.invoke()
+                onClick.invoke(saved.value)
             })
 
 

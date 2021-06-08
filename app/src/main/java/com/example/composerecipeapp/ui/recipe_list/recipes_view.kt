@@ -17,6 +17,8 @@ import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.*
 import com.example.composerecipeapp.viewmodel.recipe_list.LoadRecipes
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListViewmodel
+import com.example.composerecipeapp.viewmodel.recipe_list.RemoveSavedRecipeEvent
+import com.example.composerecipeapp.viewmodel.recipe_list.SaveRecipeEvent
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -68,7 +70,9 @@ fun RecipeList(
                             {
                                 navHostController.navigate("recipe_details/${it}")
                             },{
-                                recipesViewmodel.saveRecipe(recipeModel = it)
+                                recipesViewmodel.dispatch(SaveRecipeEvent(it))
+                            },{
+                                recipesViewmodel.dispatch(RemoveSavedRecipeEvent(it))
                             }
                         )
                     }
@@ -101,7 +105,8 @@ fun RecipeList(
 
 
 @Composable
-fun RecipeListItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit, onSaveClick : (RecipeModel) ->Unit) {
+fun RecipeListItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit,
+                   onSaveClick : (RecipeModel) ->Unit, onRemoveClick : (RecipeModel) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -126,7 +131,10 @@ fun RecipeListItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit, o
                 Servings(serving = recipe.servings.toString())
                 Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.End){
                     SaveIcon(isSaved = recipe.isSaved){
+                        if(it)
                         onSaveClick(recipe)
+                        else
+                        onRemoveClick(recipe)
                     }
                 }
             }

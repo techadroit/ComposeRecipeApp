@@ -13,6 +13,8 @@ class RecipeLocalRepository(var recipeDao: RecipeDao) : BaseRepository {
 
     fun getSavedRecipesCount(): Flow<Long> = recipeDao.getTotalSavedRecipes()
 
+    suspend fun deleteRecipes(id: Int) = recipeDao.deleteRecipe(id)
+
     /**
      * Insert recipe to database
      * @return
