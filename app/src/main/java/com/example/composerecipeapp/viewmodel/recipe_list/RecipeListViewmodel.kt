@@ -1,13 +1,12 @@
-package com.example.composerecipeapp.ui.recipe_list
+package com.example.composerecipeapp.viewmodel.recipe_list
 
-import com.example.composerecipeapp.core.Consumable
+import com.example.composerecipeapp.core.functional.Consumable
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.viewmodel.BaseViewModel
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.example.composerecipeapp.viewmodel.recipe_list.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject

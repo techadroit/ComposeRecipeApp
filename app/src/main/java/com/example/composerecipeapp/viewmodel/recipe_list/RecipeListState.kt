@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.viewmodel.recipe_list
 
-import com.example.composerecipeapp.core.Consumable
+import com.example.composerecipeapp.core.functional.Consumable
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.viewmodel.AppState
 import com.example.composerecipeapp.ui.pojo.RecipeModel
