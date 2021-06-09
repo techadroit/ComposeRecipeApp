@@ -14,12 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.viewmodel.save_recipe.LoadRecipe
 import com.example.composerecipeapp.viewmodel.save_recipe.RemoveRecipe
+import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeEvent
 import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeViewModel
 
 @Composable
@@ -29,7 +32,7 @@ fun SaveRecipeView(viewModel: SaveRecipeViewModel = hiltViewModel()) {
         viewModel.dispatch(LoadRecipe())
     }
     val state = viewModel.stateEmitter.collectAsState().value
-
+    val navHostController = ParentNavHostController.current
     if (state.isLoading) {
         LoadingView()
     } else {
@@ -39,7 +42,12 @@ fun SaveRecipeView(viewModel: SaveRecipeViewModel = hiltViewModel()) {
         } else
             RecipeList(
                 recipeList = state.recipeData.allRecipes,
-                saveRecipeViewModel = viewModel
+                dispatch = {
+                    viewModel.dispatch(it)
+                },
+                navigate = {
+                    navHostController.navigate(it)
+                }
             )
     }
 
@@ -62,10 +70,10 @@ fun EmptyView() {
 @Composable
 fun RecipeList(
     recipeList: List<RecipeModel>,
-    saveRecipeViewModel: SaveRecipeViewModel
+    dispatch: Dispatch<SaveRecipeEvent>,
+    navigate: Navigate
 ) {
     val scrollState = rememberLazyListState()
-    val navHostController = ParentNavHostController.current
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = scrollState,
@@ -77,10 +85,10 @@ fun RecipeList(
                             recipe = recipe,
                             index = index,
                             {
-                                navHostController.navigate("recipe_details/${it}")
+                                navigate("recipe_details/${it}")
                             }, {
                             },{
-                                saveRecipeViewModel.dispatch(RemoveRecipe(recipe))
+                                dispatch(RemoveRecipe(recipe))
                             }
                         )
                     }

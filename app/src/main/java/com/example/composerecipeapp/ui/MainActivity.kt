@@ -21,7 +21,7 @@ import com.example.composerecipeapp.ui.main_view.NavigationView
 import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_detail.RecipeDetail
-import com.example.composerecipeapp.ui.recipe_search.SearchBar
+import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,7 +96,7 @@ fun AppContent() {
                 )
             )
         },
-        topBar = { SearchBar(navController, searchViewModel = searchViewModel) }
+        topBar = { SearchBarContainer(navController, searchViewModel = searchViewModel) }
     ) {
         NavigationView(
             navController = navController,

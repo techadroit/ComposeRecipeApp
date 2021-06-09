@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -33,7 +34,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
+import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.Navigate
+import com.example.composerecipeapp.ui.PopBackStack
 import com.example.composerecipeapp.util.fullScreen
+import com.example.composerecipeapp.viewmodel.recipe_search.SearchEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchTextEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
@@ -64,8 +69,22 @@ fun SearchBarPreview() {
 
 @ExperimentalComposeUiApi
 @Composable
-fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel) {
+fun SearchBarContainer(navController: NavHostController, searchViewModel: SearchViewModel) {
 
+    SearchBar(
+        navigate = { navController.navigate(it) },
+        dispatch = { searchViewModel.dispatch(it) }) {
+        navController.popBackStack()
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun SearchBar(
+    navigate: Navigate,
+    dispatch: Dispatch<SearchEvent>,
+    popBackStack: PopBackStack
+) {
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
     val view = LocalView.current
 
@@ -75,27 +94,28 @@ fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel
     }
 
     fun onSearchFocus() {
-        navController.navigate("search")
+        navigate("search")
         onFocus.value = true
     }
 
     fun onClearFocus() {
         textState.value = TextFieldValue("")
         onFocus.value = false
-        navController.popBackStack()
+        popBackStack()
     }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp),
+            .padding(12.dp)
+            .testTag("search_bar"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
             value = textState.value,
             onValueChange = {
                 textState.value = it
-                searchViewModel.dispatch(SearchTextEvent(it.text))
+                dispatch(SearchTextEvent(it.text))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,7 +136,7 @@ fun SearchBar(navController: NavHostController, searchViewModel: SearchViewModel
             placeholder = { Text(text = "Enter Text To Search") },
             keyboardActions = KeyboardActions(onDone = {
                 val text = textState.value.text
-                navController.navigate("recipes/$text")
+                navigate("recipes/$text")
                 softwareKeyboardController?.hide()
                 view.clearFocus()
                 textState.value = TextFieldValue("")
@@ -181,12 +201,12 @@ fun SearchIcon(onFocus: Boolean, onSearchClick: () -> Unit, onBackClick: () -> U
     var icon = remember {
         Icons.Default.Search
     }
-
     if (onFocus) icon = Icons.Default.ArrowBack
     val transition = updateTransition(targetState = icon, label = "transition_icon")
-    Icon(transition.targetState, contentDescription = "Search", modifier = Modifier.clickable {
-        if (onFocus) onBackClick() else onSearchClick()
-    })
+    Icon(transition.targetState, contentDescription = if (onFocus) "Search" else "Back",
+        modifier = Modifier.clickable {
+            if (onFocus) onBackClick() else onSearchClick()
+        })
 }
 
 

@@ -41,7 +41,7 @@ fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostC
     Surface {
         if (state.isLoading)
             LoadingView()
-        RecipeDetailBody(state = state, navController = navController)
+        RecipeDetailBody(state = state)
     }
 
     LaunchedEffect(recipeId) {
@@ -50,7 +50,7 @@ fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostC
 }
 
 @Composable
-fun RecipeDetailBody(state: RecipeDetailState, navController: NavController) {
+fun RecipeDetailBody(state: RecipeDetailState) {
     Column(modifier = Modifier.fullScreen()) {
         state.recipeDetail?.let {
             RecipeDetailContentView(it)

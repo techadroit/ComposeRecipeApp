@@ -12,13 +12,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
+import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.*
-import com.example.composerecipeapp.viewmodel.recipe_list.LoadRecipes
-import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListViewmodel
-import com.example.composerecipeapp.viewmodel.recipe_list.RemoveSavedRecipeEvent
-import com.example.composerecipeapp.viewmodel.recipe_list.SaveRecipeEvent
+import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -36,11 +35,17 @@ fun RecipeView(
 
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
 
+    val navHostController = ParentNavHostController.current
     if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()
     RecipeList(
         recipeList = recipeState.recipes.allRecipes,
-        recipesViewmodel = recipesViewmodel,
+        dispatch = {
+                     recipesViewmodel.dispatch(it)
+        },
+        navigate = {
+                   navHostController.navigate(it)
+        },
         showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
         keyword = keyword,
         endOfList = recipeState.endOfItems
@@ -50,13 +55,13 @@ fun RecipeView(
 @Composable
 fun RecipeList(
     recipeList: List<RecipeModel>,
-    recipesViewmodel: RecipeListViewmodel,
+    dispatch: Dispatch<RecipeEvent>,
+    navigate: Navigate,
     showPaginationLoading: Boolean,
     keyword: String,
     endOfList: Boolean
 ) {
     val scrollState = rememberLazyListState()
-    val navHostController = ParentNavHostController.current
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = scrollState,
@@ -68,11 +73,11 @@ fun RecipeList(
                             recipe = recipe,
                             index = index,
                             {
-                                navHostController.navigate("recipe_details/${it}")
+                                navigate("recipe_details/${it}")
                             },{
-                                recipesViewmodel.dispatch(SaveRecipeEvent(it))
+                                dispatch(SaveRecipeEvent(it))
                             },{
-                                recipesViewmodel.dispatch(RemoveSavedRecipeEvent(it))
+                                dispatch(RemoveSavedRecipeEvent(it))
                             }
                         )
                     }
@@ -80,7 +85,7 @@ fun RecipeList(
                     if (index == (totalItem - 1)) {
                         LaunchedEffect(true) {
                             if (!endOfList)
-                                recipesViewmodel.dispatch(
+                                dispatch(
                                     LoadRecipes(
                                         isPaginate = true,
                                         query = keyword

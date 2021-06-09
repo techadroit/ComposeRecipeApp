@@ -22,12 +22,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.PaginationLoading
 import com.example.composerecipeapp.util.toViews
 import com.example.composerecipeapp.viewmodel.recipe_video.LoadVideos
+import com.example.composerecipeapp.viewmodel.recipe_video.VideoEvents
 import com.example.composerecipeapp.viewmodel.recipe_video.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -41,10 +44,14 @@ fun RecipesVideoList(navController: NavController = ParentNavHostController.curr
     val recipeState = recipesViewModel.stateEmitter.collectAsState().value
 
     RecipeListContent(
-        recipesViewModel,
+        {
+            recipesViewModel.dispatch(it)
+        },
         recipeState.data,
         recipeState.isLoading && recipeState.isPaginate,
-        navController
+        {
+            navController.navigate(it)
+        }
     )
     if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()
@@ -52,10 +59,10 @@ fun RecipesVideoList(navController: NavController = ParentNavHostController.curr
 
 @Composable
 fun RecipeListContent(
-    recipesViewModel: VideoListViewmodel,
+    dispatch: Dispatch<VideoEvents>,
     list: List<VideoRecipeModel>,
     showPaginationLoading: Boolean,
-    navHostController: NavController
+    navigate: Navigate
 ) {
     val scrollState = rememberLazyListState()
     LazyColumn(
@@ -63,11 +70,11 @@ fun RecipeListContent(
         contentPadding = PaddingValues(bottom = 80.dp),
         content = {
             itemsIndexed(list) { index, recipe ->
-                VideoCard(index = index, recipe = recipe, navHostController)
+                VideoCard(index = index, recipe = recipe, navigate)
                 val totalItem = scrollState.layoutInfo.totalItemsCount
                 if (index == (totalItem - 1)) {
                     LaunchedEffect(true) {
-                        recipesViewModel.dispatch(LoadVideos(isPaginate = true))
+                        dispatch(LoadVideos(isPaginate = true))
                     }
                 }
             }
@@ -80,7 +87,7 @@ fun RecipeListContent(
 }
 
 @Composable
-fun VideoCard(index: Int, recipe: VideoRecipeModel, navHostController: NavController) {
+fun VideoCard(index: Int, recipe: VideoRecipeModel, navigate: Navigate) {
     Card(
         modifier = Modifier
             .wrapContentHeight()
@@ -89,7 +96,7 @@ fun VideoCard(index: Int, recipe: VideoRecipeModel, navHostController: NavContro
                 vertical = if (index == 0) 8.dp else 4.dp
             )
             .clickable {
-                navHostController.navigate("recipe/videos/${recipe.youTubeId}")
+                navigate("recipe/videos/${recipe.youTubeId}")
             }
     ) {
         VideoContent(recipe = recipe)
