@@ -2,7 +2,7 @@ package com.example.composerecipeapp.viewmodel.recipe_video
 
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.viewmodel.BaseViewModel
+import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
 import com.example.composerecipeapp.util.QUERY
 import com.recipeapp.data.network.response.VideoListResponses
@@ -16,7 +16,7 @@ class VideoListViewmodel @Inject constructor(
     initalState: RecipeVideoState,
     val usecase: SearchVideoRecipeUsecase
 ) :
-    BaseViewModel<RecipeVideoState, VideoEvents>(initalState) {
+    ArcherViewModel<RecipeVideoState, VideoEvents>(initalState) {
     var page = 0
 
     fun getVideoRecipe() {

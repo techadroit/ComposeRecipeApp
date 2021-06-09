@@ -2,7 +2,7 @@ package com.example.composerecipeapp.viewmodel.save_recipe
 
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.usecase.None
-import com.example.composerecipeapp.core.viewmodel.BaseViewModel
+import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.LoadSavedRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
@@ -16,7 +16,7 @@ class SaveRecipeViewModel @Inject constructor(
     val initialState: SaveRecipeState,
     val loadSavedRecipeUseCase: LoadSavedRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe
-) : BaseViewModel<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
+) : ArcherViewModel<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
 
     override fun onEvent(event: SaveRecipeEvent, state: SaveRecipeState) {
         when (event) {

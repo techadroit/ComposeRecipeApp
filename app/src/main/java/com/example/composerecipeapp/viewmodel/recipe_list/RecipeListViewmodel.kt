@@ -3,7 +3,7 @@ package com.example.composerecipeapp.viewmodel.recipe_list
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.Consumable
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.viewmodel.BaseViewModel
+import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
@@ -17,7 +17,7 @@ class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState, val savedRecipeUsecase: SaveRecipeUsecase,
     val searchUsecase: SearchRecipeUsecase, val deleteSavedRecipe: DeleteSavedRecipe
 ) :
-    BaseViewModel<RecipeListState, RecipeEvent>(initialState) {
+    ArcherViewModel<RecipeListState, RecipeEvent>(initialState) {
 
     var page = 1
     private fun saveRecipe(recipeModel: RecipeModel) =
