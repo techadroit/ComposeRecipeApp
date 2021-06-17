@@ -29,11 +29,12 @@ fun RecipeView(
 
     val recipesViewmodel: RecipeListViewmodel = hiltViewModel()
     val keyword = remember { key ?: "chicken" }
-    LaunchedEffect(true) {
-        recipesViewmodel.dispatch(LoadRecipes(keyword))
-    }
 
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
+
+    LaunchedEffect(keyword) {
+        recipesViewmodel.dispatch(LoadRecipes(keyword))
+    }
 
     val navHostController = ParentNavHostController.current
     if (recipeState.isLoading && !recipeState.isPaginate)

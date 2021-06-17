@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -17,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.recipe_list.RecipeView
 import com.example.composerecipeapp.ui.recipe_search.SearchView
@@ -26,6 +28,9 @@ import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
 
 @Composable
 fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     val selectedIndex = remember {
         mutableStateOf(0)
@@ -47,7 +52,15 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
                 onClick = {
                     selectedIndex.value = index
                     val route = mainScreen.routeName
-                    navController.navigate(route)
+                    navController.navigate(route){
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                saveState = true
+                            }
+                        }
+                        restoreState = true
+                        launchSingleTop = true
+                    }
                 })
         }
     }
