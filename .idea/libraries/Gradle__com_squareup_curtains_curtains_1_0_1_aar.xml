@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.squareup.curtains:curtains:1.0.1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/4d3dcade7f391d6a5fca3a73405e8c04/transformed/curtains-1.0.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4d3dcade7f391d6a5fca3a73405e8c04/transformed/curtains-1.0.1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4d3dcade7f391d6a5fca3a73405e8c04/transformed/curtains-1.0.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/809563c9bb32bb5f09716b0342faeb93/transformed/curtains-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/809563c9bb32bb5f09716b0342faeb93/transformed/curtains-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/809563c9bb32bb5f09716b0342faeb93/transformed/curtains-1.0.1/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.curtains/curtains/1.0.1/add3786f162ada0ec25e07108130b683cd8fec4a/curtains-1.0.1-javadoc.jar!/" />
