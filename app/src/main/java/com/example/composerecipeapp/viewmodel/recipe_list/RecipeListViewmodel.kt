@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeListViewmodel @Inject constructor(
+open class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState, val savedRecipeUsecase: SaveRecipeUsecase,
     val searchUsecase: SearchRecipeUsecase, val deleteSavedRecipe: DeleteSavedRecipe
 ) :

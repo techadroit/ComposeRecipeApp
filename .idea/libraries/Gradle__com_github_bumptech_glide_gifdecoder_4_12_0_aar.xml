@@ -4,10 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a43aebd3767528fd56c46167d52942fb/transformed/gifdecoder-4.12.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/850568081b6ef6edefbe5ccdf9480614/transformed/gifdecoder-4.11.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/405d5ab4fddbfc6629385a6558c67588/transformed/gifdecoder-4.12.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a43aebd3767528fd56c46167d52942fb/transformed/gifdecoder-4.12.0/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a43aebd3767528fd56c46167d52942fb/transformed/gifdecoder-4.12.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a43aebd3767528fd56c46167d52942fb/transformed/gifdecoder-4.12.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a43aebd3767528fd56c46167d52942fb/transformed/gifdecoder-4.12.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

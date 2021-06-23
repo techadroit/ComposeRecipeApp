@@ -1,6 +1,5 @@
 package com.example.composerecipeapp.ui.recipe_list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -8,9 +7,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
@@ -20,7 +21,9 @@ import com.example.composerecipeapp.ui.views.*
 import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeView(
@@ -42,17 +45,19 @@ fun RecipeView(
     RecipeList(
         recipeList = recipeState.recipes.allRecipes,
         dispatch = {
-                     recipesViewmodel.dispatch(it)
+            recipesViewmodel.dispatch(it)
         },
         navigate = {
-                   navHostController.navigate(it)
+            navHostController.navigate(it)
         },
         showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
         keyword = keyword,
         endOfList = recipeState.endOfItems
     )
+    recipeState.sideEffect?.consume()?.let { RecipeSideEffect(sideEffect = it) }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun RecipeList(
     recipeList: List<RecipeModel>,
@@ -75,9 +80,9 @@ fun RecipeList(
                             index = index,
                             {
                                 navigate("recipe_details/${it}")
-                            },{
+                            }, {
                                 dispatch(SaveRecipeEvent(it))
-                            },{
+                            }, {
                                 dispatch(RemoveSavedRecipeEvent(it))
                             }
                         )
@@ -110,19 +115,20 @@ fun RecipeList(
 }
 
 
+@ExperimentalMaterialApi
 @Composable
-fun RecipeListItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit,
-                   onSaveClick : (RecipeModel) ->Unit, onRemoveClick : (RecipeModel) -> Unit) {
+fun RecipeListItem(
+    recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit,
+    onSaveClick: (RecipeModel) -> Unit, onRemoveClick: (RecipeModel) -> Unit
+) {
     Card(
+        onClick = { onRowClick.invoke(recipe.id) },
         modifier = Modifier
             .fillMaxSize()
             .padding(
                 horizontal = 12.dp,
                 vertical = if (index == 0) 8.dp else 4.dp
             )
-            .clickable(onClick = {
-                onRowClick.invoke(recipe.id)
-            })
     ) {
         Row {
             GlideImage(
@@ -135,12 +141,12 @@ fun RecipeListItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit,
                 Text(text = recipe.title, style = MaterialTheme.typography.h1)
                 CookingTime(time = recipe.cookingTime.toString())
                 Servings(serving = recipe.servings.toString())
-                Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.End){
-                    SaveIcon(isSaved = recipe.isSaved){
-                        if(it)
-                        onSaveClick(recipe)
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    SaveIcon(isSaved = recipe.isSaved) {
+                        if (it)
+                            onSaveClick(recipe)
                         else
-                        onRemoveClick(recipe)
+                            onRemoveClick(recipe)
                     }
                 }
             }
@@ -158,6 +164,16 @@ fun CookingTimePreview() {
                 .width(100.dp)
         ) {
             CookingTime(time = "45")
+        }
+    }
+}
+
+@Composable
+fun RecipeSideEffect(sideEffect: SideEffect) {
+    val scaffoldState = rememberScaffoldState()
+    when (sideEffect) {
+        is SideEffect.OnSavedRecipe -> SnackbarHost(hostState = scaffoldState.snackbarHostState){
+            Text(text = stringResource(id = R.string.recipe_saved_text))
         }
     }
 }

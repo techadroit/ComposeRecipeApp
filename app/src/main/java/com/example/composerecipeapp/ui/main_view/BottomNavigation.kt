@@ -1,10 +1,7 @@
 package com.example.composerecipeapp.ui.main_view
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -66,6 +63,7 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
 fun NavigationView(

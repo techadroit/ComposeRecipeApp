@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -22,12 +23,13 @@ import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_detail.RecipeDetail
 import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
-import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
+import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @ExperimentalMaterialApi
     @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
@@ -72,6 +75,7 @@ fun MainApp() {
 
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
@@ -96,7 +100,8 @@ fun AppContent() {
                 )
             )
         },
-        topBar = { SearchBarContainer(navController, searchViewModel = searchViewModel) }
+        topBar = { SearchBarContainer(navController, searchViewModel = searchViewModel) },
+        snackbarHost = { scaffoldState.snackbarHostState }
     ) {
         NavigationView(
             navController = navController,
@@ -105,6 +110,7 @@ fun AppContent() {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Preview(showBackground = true, showSystemUi = true)
