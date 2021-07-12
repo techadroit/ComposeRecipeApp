@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_search
 
-import com.example.composerecipeapp.core.viewmodel.AppState
+import com.archerviewmodel.state.ArcherState
 
 
-data class SearchState(val list: List<String> = emptyList()) : AppState
+data class SearchState(val list: List<String> = emptyList()) : ArcherState
 

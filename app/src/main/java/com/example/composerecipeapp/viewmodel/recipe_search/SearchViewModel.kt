@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_search
 
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
+import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.domain.usecases.AutoCompleteUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch

@@ -2,7 +2,7 @@ package com.example.composerecipeapp.ui.recipe_detail
 
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
+import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.toRecipeDetailModel
 import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase

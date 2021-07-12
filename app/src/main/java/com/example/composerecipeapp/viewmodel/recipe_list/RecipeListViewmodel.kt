@@ -3,7 +3,7 @@ package com.example.composerecipeapp.viewmodel.recipe_list
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.Consumable
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
+import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase

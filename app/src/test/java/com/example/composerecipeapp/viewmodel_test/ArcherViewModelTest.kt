@@ -1,8 +1,8 @@
 package com.example.composerecipeapp
 
-import com.example.composerecipeapp.core.viewmodel.AppEvent
-import com.example.composerecipeapp.core.viewmodel.AppState
-import com.example.composerecipeapp.core.viewmodel.ArcherViewModel
+import com.archerviewmodel.events.ArcherEvent
+import com.archerviewmodel.state.ArcherState
+import com.archerviewmodel.ArcherViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.single
@@ -83,9 +83,9 @@ class TestViewModel(val initialState: TestState, coroutineContext: CoroutineCont
 
 }
 
-interface TestEvent : AppEvent
+interface TestEvent : ArcherEvent
 
 data class IncrementCountEvent(val counter: Int) : TestEvent
 data class DecrementCountEvent(val counter: Int) : TestEvent
 
-data class TestState(val counter: Int = 0) : AppState
+data class TestState(val counter: Int = 0) : ArcherState

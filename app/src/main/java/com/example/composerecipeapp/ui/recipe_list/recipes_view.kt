@@ -21,7 +21,6 @@ import com.example.composerecipeapp.ui.views.*
 import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
@@ -172,7 +171,7 @@ fun CookingTimePreview() {
 fun RecipeSideEffect(sideEffect: SideEffect) {
     val scaffoldState = rememberScaffoldState()
     when (sideEffect) {
-        is SideEffect.OnSavedRecipe -> SnackbarHost(hostState = scaffoldState.snackbarHostState){
+        is SideEffect.OnSavedRecipe -> SnackbarHost(hostState = scaffoldState.snackbarHostState) {
             Text(text = stringResource(id = R.string.recipe_saved_text))
         }
     }

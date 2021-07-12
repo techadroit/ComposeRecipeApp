@@ -2,7 +2,7 @@ package com.example.composerecipeapp.viewmodel.recipe_list
 
 import com.example.composerecipeapp.core.functional.Consumable
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.viewmodel.AppState
+import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 
 
@@ -24,7 +24,7 @@ data class RecipeListState(
     val isPaginate: Boolean = false,
     val error: Failure? = null,
     val endOfItems: Boolean = false
-) : AppState
+) : ArcherState
 
 
 fun RecipeListState.onRecipeLoad(

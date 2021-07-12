@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.recipe_search
 
-import com.example.composerecipeapp.core.viewmodel.AppEvent
+import com.archerviewmodel.events.ArcherEvent
 
 
-sealed class SearchEvent : AppEvent
+sealed class SearchEvent : ArcherEvent
 data class SearchTextEvent(val searchText: String) : SearchEvent()
 

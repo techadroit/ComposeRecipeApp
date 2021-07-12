@@ -1,5 +1,5 @@
 package com.example.composerecipeapp.viewmodel_test
 
-import com.example.composerecipeapp.core.viewmodel.AppEvent
+import com.archerviewmodel.events.ArcherEvent
 
-data class CountingEvent(val counter:Int = 1) : AppEvent
+data class CountingEvent(val counter:Int = 1) : ArcherEvent

@@ -2,7 +2,7 @@ package com.example.composerecipeapp
 
 import com.example.composerecipeapp.core.logger.AndroidLogger
 import com.example.composerecipeapp.core.logger.SystemOutLogger
-import com.example.composerecipeapp.core.viewmodel.AppState
+import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.core.viewmodel.StateHolderFactory
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -76,4 +76,4 @@ class StateHolderTest : BaseUnitTest(){
     }
 }
 
-internal data class CountingState(val count: Int = 0) : AppState
+internal data class CountingState(val count: Int = 0) : ArcherState

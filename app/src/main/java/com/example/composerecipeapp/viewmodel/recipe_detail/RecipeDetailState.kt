@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.viewmodel.AppState
+import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 
@@ -11,7 +11,7 @@ data class RecipeDetailState(
     val recipeDetail: RecipeDetailModel? = null,
     val similarRecipe: List<RecipeModel>? = null,
     val failure: Failure? = null
-) : AppState
+) : ArcherState
 
 fun RecipeDetailState.onSuccessResponse(
     recipeDetail: RecipeDetailModel,

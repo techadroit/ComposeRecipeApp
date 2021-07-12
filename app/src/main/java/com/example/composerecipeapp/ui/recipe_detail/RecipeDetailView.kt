@@ -3,10 +3,10 @@ package com.example.composerecipeapp.ui.recipe_detail
 import android.content.Intent
 import android.text.Html
 import android.widget.TextView
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -82,7 +82,9 @@ fun RecipeDetailContentView(recipeDetail: RecipeDetailModel) {
 fun RecipeContent(recipeDetail: RecipeDetailModel) {
     val scrollState = rememberScrollState(0)
     Column(modifier = Modifier.padding(12.dp)) {
-        AndroidView(modifier = Modifier.wrapContentHeight().horizontalScroll(scrollState),
+        AndroidView(modifier = Modifier
+            .wrapContentHeight()
+            .verticalScroll(scrollState),
             factory = { context ->
                 TextView(context).apply {
                     this.text = Html.fromHtml(recipeDetail.instructions)
