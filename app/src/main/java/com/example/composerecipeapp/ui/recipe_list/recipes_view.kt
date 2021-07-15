@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.ui.recipe_list
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -20,7 +21,9 @@ import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.*
 import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
@@ -28,32 +31,38 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun RecipeView(
     key: String?
 ) {
-
     val recipesViewmodel: RecipeListViewmodel = hiltViewModel()
     val keyword = remember { key ?: "chicken" }
-
+    val scope = rememberCoroutineScope()
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
-
+    val scaffoldState = rememberScaffoldState()
     LaunchedEffect(keyword) {
         recipesViewmodel.dispatch(LoadRecipes(keyword))
     }
-
     val navHostController = ParentNavHostController.current
-    if (recipeState.isLoading && !recipeState.isPaginate)
-        LoadingView()
-    RecipeList(
-        recipeList = recipeState.recipes.allRecipes,
-        dispatch = {
-            recipesViewmodel.dispatch(it)
-        },
-        navigate = {
-            navHostController.navigate(it)
-        },
-        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
-        keyword = keyword,
-        endOfList = recipeState.endOfItems
+    Scaffold(
+        scaffoldState = scaffoldState,
+        content = {
+            if (recipeState.isLoading && !recipeState.isPaginate)
+                LoadingView()
+            RecipeList(
+                recipeList = recipeState.recipes.allRecipes,
+                dispatch = {
+                    recipesViewmodel.dispatch(it)
+                },
+                navigate = {
+                    navHostController.navigate(it)
+                },
+                showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
+                keyword = keyword,
+                endOfList = recipeState.endOfItems
+            )
+        }
     )
-    recipeState.sideEffect?.consume()?.let { RecipeSideEffect(sideEffect = it) }
+    recipeState.sideEffect?.consume()
+        ?.let { 
+            RecipeSideEffect(sideEffect = it, scaffoldState = scaffoldState, scope = scope)
+        }
 }
 
 @ExperimentalMaterialApi
@@ -167,12 +176,15 @@ fun CookingTimePreview() {
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun RecipeSideEffect(sideEffect: SideEffect) {
-    val scaffoldState = rememberScaffoldState()
+fun RecipeSideEffect(sideEffect: SideEffect, scaffoldState: ScaffoldState, scope: CoroutineScope) {
     when (sideEffect) {
-        is SideEffect.OnSavedRecipe -> SnackbarHost(hostState = scaffoldState.snackbarHostState) {
-            Text(text = stringResource(id = R.string.recipe_saved_text))
+        is SideEffect.OnSavedRecipe -> {
+            val message = stringResource(id = R.string.recipe_saved_text)
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(message = message)
+            }
         }
     }
 }

@@ -27,7 +27,6 @@ import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
 fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
     val selectedIndex = remember {
         mutableStateOf(0)
