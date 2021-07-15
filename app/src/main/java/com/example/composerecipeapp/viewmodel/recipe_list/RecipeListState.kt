@@ -26,6 +26,31 @@ data class RecipeListState(
     val endOfItems: Boolean = false
 ) : ArcherState
 
+fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
+    val list = this.recipes.allRecipes.map {
+        if (it.id == id)
+            it.copy(isSaved = true)
+        else
+            it
+    }
+    return this.copy(
+        recipes = RecipeData(list),
+        sideEffect = Consumable(SideEffect.OnSavedRecipe)
+    )
+}
+
+fun RecipeListState.onRecipeRemovedFromSavedList(id: Int): RecipeListState {
+    val list = this.recipes.allRecipes.map {
+        if (it.id == id)
+            it.copy(isSaved = false)
+        else
+            it
+    }
+    return this.copy(
+        recipes = RecipeData(list)
+    )
+}
+
 
 fun RecipeListState.onRecipeLoad(
     isPaginate: Boolean,

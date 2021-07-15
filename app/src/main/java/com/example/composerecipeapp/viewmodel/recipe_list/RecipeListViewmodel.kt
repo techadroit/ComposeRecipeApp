@@ -1,9 +1,8 @@
 package com.example.composerecipeapp.viewmodel.recipe_list
 
-import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.Consumable
-import com.example.composerecipeapp.core.functional.collectIn
 import com.archerviewmodel.ArcherViewModel
+import com.example.composerecipeapp.core.exception.Failure
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
@@ -23,19 +22,17 @@ open class RecipeListViewmodel @Inject constructor(
     private fun saveRecipe(recipeModel: RecipeModel) =
         savedRecipeUsecase(SaveRecipeUsecase.Param(recipeModel))
             .collectIn(viewModelScope) {
-                onRecipeSaved()
+                setState {
+                    this.onRecipeSaved(recipeModel.id)
+                }
             }
 
     private fun deleteRecipe(recipeModel: RecipeModel) = deleteSavedRecipe(recipeModel.id)
-        .collectIn(viewModelScope) {}
-
-    private fun onRecipeSaved() {
-        setState {
-            copy(
-                sideEffect = Consumable(SideEffect.OnSavedRecipe)
-            )
+        .collectIn(viewModelScope) {
+            setState {
+                this.onRecipeRemovedFromSavedList(recipeModel.id)
+            }
         }
-    }
 
     private fun loadRecipes(query: String) =
         withState {
@@ -83,8 +80,6 @@ open class RecipeListViewmodel @Inject constructor(
             is LoadRecipes -> if (event.isPaginate) paginate(event.query) else loadRecipes(event.query)
             is SaveRecipeEvent -> saveRecipe(event.recipeModel)
             is RemoveSavedRecipeEvent -> deleteRecipe(event.recipeModel)
-            else -> {
-            }
         }
     }
 }

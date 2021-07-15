@@ -33,13 +33,13 @@ fun RecipeView(
 ) {
     val recipesViewmodel: RecipeListViewmodel = hiltViewModel()
     val keyword = remember { key ?: "chicken" }
-    val scope = rememberCoroutineScope()
     val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
+    val navHostController = ParentNavHostController.current
     val scaffoldState = rememberScaffoldState()
+
     LaunchedEffect(keyword) {
         recipesViewmodel.dispatch(LoadRecipes(keyword))
     }
-    val navHostController = ParentNavHostController.current
     Scaffold(
         scaffoldState = scaffoldState,
         content = {
@@ -60,8 +60,8 @@ fun RecipeView(
         }
     )
     recipeState.sideEffect?.consume()
-        ?.let { 
-            RecipeSideEffect(sideEffect = it, scaffoldState = scaffoldState, scope = scope)
+        ?.let {
+            RecipeSideEffect(sideEffect = it, scaffoldState = scaffoldState)
         }
 }
 
@@ -178,7 +178,9 @@ fun CookingTimePreview() {
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun RecipeSideEffect(sideEffect: SideEffect, scaffoldState: ScaffoldState, scope: CoroutineScope) {
+fun RecipeSideEffect(sideEffect: SideEffect, scaffoldState: ScaffoldState) {
+
+    val scope = rememberCoroutineScope()
     when (sideEffect) {
         is SideEffect.OnSavedRecipe -> {
             val message = stringResource(id = R.string.recipe_saved_text)
