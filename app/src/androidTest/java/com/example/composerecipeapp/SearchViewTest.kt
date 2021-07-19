@@ -2,7 +2,7 @@ package com.example.composerecipeapp
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.*
-import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.recipe_search.SearchBar
 import org.junit.Before
 import org.junit.Test

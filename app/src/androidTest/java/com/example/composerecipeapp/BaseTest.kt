@@ -3,7 +3,7 @@ package com.example.composerecipeapp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.composerecipeapp.ui.ComposeRecipeAppTheme
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import io.mockk.MockKAnnotations
 import org.junit.Before
 import org.junit.Rule

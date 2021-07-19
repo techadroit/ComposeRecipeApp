@@ -6,10 +6,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
@@ -22,13 +24,12 @@ import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
 import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
+import com.example.composerecipeapp.ui.settings.SettingsView
 
 @Composable
 fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-    val selectedIndex = remember {
+    val selectedIndex = rememberSaveable {
         mutableStateOf(0)
     }
 
@@ -83,6 +84,9 @@ fun NavigationView(
         composable(NavigationDirections.searchDestination.destination) {
             SearchView(navController, searchViewModel)
         }
+        composable(NavigationDirections.settings.destination) {
+            SettingsView()
+        }
     }
 }
 
@@ -93,6 +97,8 @@ fun BottomBarItems.getIcon(index: Int): ImageVector =
         Icons.Default.Home
     } else if(index == 1){
         Icons.Default.Favorite
-    }else {
+    } else if(index == 2) {
         Icons.Default.PlayArrow
+    }else{
+        Icons.Default.Settings
     }

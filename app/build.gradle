@@ -98,6 +98,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02'
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha04"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+    implementation "androidx.datastore:datastore-preferences:1.0.0-rc01"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     implementation "com.github.skydoves:landscapist-glide:1.2.2"

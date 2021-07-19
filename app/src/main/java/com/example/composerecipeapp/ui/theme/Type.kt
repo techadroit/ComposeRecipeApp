@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui
+package com.example.composerecipeapp.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
@@ -10,23 +10,22 @@ object Type{
 
     fun create(isDarkMode : Boolean) = if(isDarkMode) darkTypography else typography
 
-
     // Set of Material typography styles to start with
     private val typography = Typography(
         h1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Medium,
-            fontSize = 20.sp
+            fontSize = 18.sp
         ),
         body1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp
+            fontSize = 14.sp
         ),
         subtitle1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             color = lightGrayColor
         )
     )
@@ -35,17 +34,17 @@ object Type{
         h1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Medium,
-            fontSize = 20.sp
+            fontSize = 18.sp
         ),
         body1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp
+            fontSize = 14.sp
         ),
         subtitle1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             color = lightGrayColor
         )
     )

@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui.recipe_detail
+package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.exception.Failure

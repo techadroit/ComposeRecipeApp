@@ -52,4 +52,11 @@ object NavigationDirections {
         override val destination: String
             get() = "saved_recipes"
     }
+
+    val settings = object : NavigationCommand {
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+        override val destination: String
+            get() = "settings"
+    }
 }
