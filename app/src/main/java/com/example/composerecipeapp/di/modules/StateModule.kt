@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.di.modules
 
+import com.example.composerecipeapp.viewmodel.home_recipes.HomeRecipeState
 import com.example.composerecipeapp.viewmodel.main.MainViewState
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListState
@@ -40,4 +41,7 @@ class StateModule {
 
     @Provides
     fun getUserInterestState() = UserInterestState()
+
+    @Provides
+    fun getHomeRecipeState() = HomeRecipeState()
 }

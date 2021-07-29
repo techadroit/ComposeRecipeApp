@@ -40,6 +40,16 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
             recipeApiService.searchRecipes(limitLicense, query, number, offset = offset)
         }
 
+    suspend fun getRecipeForCuisine(
+        cuisine: String,
+        limitLicense: Boolean,
+        number: Int,
+        offset: Int = 0
+    ): RecipeSearchResponse =
+        run {
+            recipeApiService.searchRecipesWithCuisine(limitLicense, cuisine, number, offset = offset)
+        }
+
     suspend fun <T> run(invoker: suspend () -> T): T {
         try {
             return invoker.invoke()

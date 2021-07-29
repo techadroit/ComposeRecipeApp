@@ -33,6 +33,13 @@ interface RecipeApi {
         @Query("offset") offset: Int = 0
     ): RecipeSearchResponse
 
+    @GET("recipes/search")
+    suspend fun searchRecipesWithCuisine(
+        @Query("limitLicense") limitLicense: Boolean, @Query("cuisine") cuisine: String,
+        @Query("number") number: Int, @Query("apiKey") apiKey: String = API_KEY,
+        @Query("offset") offset: Int = 0
+    ): RecipeSearchResponse
+
     @GET("food/videos/search")
     suspend fun searchVideos(
         @Query("query") tags: String,

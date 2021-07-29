@@ -47,24 +47,31 @@ fun UserInterest(navController: NavController) {
                     NextButton(
                         navController = navController,
                         modifier = Modifier.align(Alignment.BottomEnd)
-                    )
+                    ) {
+                        viewModel.dispatch(UserInterestSelected)
+                    }
             }
         }
     }
-    LaunchedEffect(true){
+
+    state.sideEffect?.data?.let {
+        navController.navigate(NavigationDirections.mainDestination.destination) {
+            popUpTo(NavigationDirections.userInterest.destination) {
+                inclusive = true
+            }
+        }
+    }
+
+    LaunchedEffect(true) {
         viewModel.dispatch(LoadSupportedCuisine)
     }
 }
 
 @Composable
-fun NextButton(navController: NavController, modifier: Modifier) {
+fun NextButton(navController: NavController, modifier: Modifier, onClick: () -> Unit) {
     Button(
         onClick = {
-            navController.navigate(NavigationDirections.mainDestination.destination) {
-                popUpTo(NavigationDirections.userInterest.destination) {
-                    inclusive = true
-                }
-            }
+            onClick()
         },
         modifier = modifier,
         colors =

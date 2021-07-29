@@ -24,6 +24,12 @@ object Type{
             fontSize = 14.sp,
             color = onSurfaceColorLight
         ),
+        body2 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            color = onSurfaceColorLight
+        ),
         subtitle1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
@@ -40,6 +46,12 @@ object Type{
             color = onSurfaceColorDark
         ),
         body1 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            color = onSurfaceColorDark
+        ),
+        body2 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,

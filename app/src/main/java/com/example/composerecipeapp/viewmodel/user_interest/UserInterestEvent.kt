@@ -10,4 +10,6 @@ data class SelectedCuisine(val cuisine: Cuisine) : UserInterestEvent()
 
 data class RemoveCuisine(val cuisine: Cuisine) : UserInterestEvent()
 
+object UserInterestSelected : UserInterestEvent()
+
 

@@ -66,4 +66,11 @@ object NavigationDirections {
         override val destination: String
             get() = "user_interest"
     }
+
+    val homeView = object : NavigationCommand {
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+        override val destination: String
+            get() = "home_view"
+    }
 }

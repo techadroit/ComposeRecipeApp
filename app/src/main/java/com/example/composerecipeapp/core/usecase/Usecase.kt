@@ -17,32 +17,39 @@ import kotlinx.coroutines.launch
  * By convention each [UseCase] implementation will execute its job in a background thread
  * (kotlin coroutine) and will post the result in the UI thread.
  */
-abstract class UseCase<out Type, in Params> where Type : Any {
+abstract class UseCase<out Type, in Params>{
 
-    abstract suspend fun run(params: Params): Either<Failure, Type>
-
-    operator fun invoke(params: Params, onResult: (Either<Failure, Type>) -> Unit = {}) {
-        CoroutineScope(Dispatchers.IO).async {
-            val job = run(params)
-            CoroutineScope(Dispatchers.Main).launch {
-                onResult(job)
-            }
-        }
-    }
+    abstract suspend fun run(params: Params): Type
 
 }
 
-abstract class FlowUseCase<out Type, in Params> where Type : Any {
+//abstract class FlowUseCase<out Type, in Params> where Type : Any {
+//
+//    abstract suspend fun run(params: Params): Type
+//
+//    operator fun invoke(params: Params): Flow<Type> {
+//        return flow {
+//            val result = run(params)
+//            emit(result)
+//        }
+//    }
+//
+//}
 
-    abstract suspend fun run(params: Params):  Type
-
-    operator fun invoke(params: Params) : Flow<Type> {
-        return flow{
+abstract class FlowUseCase<out Type, in Params> : UseCase<Type,Params>(){
+    operator fun invoke(params: Params): Flow<Type> {
+        return flow {
             val result = run(params)
             emit(result)
         }
     }
+}
 
+abstract class NewFlowUseCase<out Type, in Params> where Type : Any{
+
+    abstract fun run(params: Params): Flow<Type>
+
+    operator fun invoke(params: Params): Flow<Type> = run(params)
 }
 
 object None

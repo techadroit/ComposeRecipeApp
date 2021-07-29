@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.di.modules
 
+import com.example.composerecipeapp.data.datasource.SettingsDataStore
 import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.*
@@ -47,4 +48,8 @@ class UseCaseModule {
     @Provides
     fun getCuisineUsecase(recipeRepository: RecipeRepository) =
         GetSupportedCuisineUsecase(recipeRepository = recipeRepository)
+
+    @Provides
+    fun getRecipeWithCuisineUseCase(recipeRepository: RecipeRepository,settingsDataStore: SettingsDataStore) =
+        RecipesForSelectedCuisines(recipeRepository = recipeRepository,settingsDataStore = settingsDataStore)
 }

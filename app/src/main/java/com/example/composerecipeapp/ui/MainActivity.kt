@@ -119,7 +119,7 @@ fun AppContent() {
         bottomBar = {
             BottomBar(
                 navController = navController, items = listOf(
-                    BottomBarItems("recipes/chicken", "Recipes"),
+                    BottomBarItems(NavigationDirections.homeView.destination, "Home"),
                     BottomBarItems(
                         NavigationDirections.savedRecipeDestination.destination,
                         "Saved Recipes"
