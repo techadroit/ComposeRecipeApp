@@ -66,6 +66,9 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
 
     abstract fun onEvent(event: E,state: S)
 
+    /**
+     *
+     */
     fun dispatch(event: E) {
         withState {
             stateStore.offerGetEvent(event)

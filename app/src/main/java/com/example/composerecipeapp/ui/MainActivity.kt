@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
@@ -31,6 +32,7 @@ import com.example.composerecipeapp.ui.recipe_detail.RecipeDetail
 import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
+import com.example.composerecipeapp.ui.user_interest.UserInterest
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     val mainViewModel by viewModels<MainViewModel>()
 
+    @ExperimentalFoundationApi
     @ExperimentalMaterialApi
     @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
@@ -55,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
@@ -70,6 +74,7 @@ fun MainContent(mainViewModel: MainViewModel) {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
@@ -79,7 +84,7 @@ fun MainApp() {
     CompositionLocalProvider(ParentNavHostController provides navController) {
         NavHost(
             navController = navController,
-            startDestination = NavigationDirections.mainDestination.destination
+            startDestination = NavigationDirections.userInterest.destination
         ) {
             composable(NavigationDirections.mainDestination.destination) {
                 AppContent()
@@ -91,8 +96,10 @@ fun MainApp() {
                 }
             }
             composable(NavigationDirections.videoPlayer.destination) {
-//                val id = it.arguments?.getString("youtube_id")
                 VideoPlayer()
+            }
+            composable(NavigationDirections.userInterest.destination) {
+                UserInterest(navController)
             }
         }
     }

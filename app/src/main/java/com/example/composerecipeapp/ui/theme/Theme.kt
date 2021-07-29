@@ -1,6 +1,7 @@
 package com.example.composerecipeapp.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -31,6 +32,17 @@ private val LightColorPalette = lightColors(
     error = errorColor
 )
 
+private val UserInterestColorPalette = lightColors(
+    primary= surfaceColor,
+    onPrimary = onPrimaryLight,
+    primaryVariant = surfaceColor,
+    surface = surfaceColor,
+    secondary = secondaryColor,
+    background = backgroundColor,
+    onBackground = onBackgroundColorLight,
+    onSurface = onSurfaceColorLight
+)
+
 @Composable
 fun ComposeRecipeAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -42,6 +54,23 @@ fun ComposeRecipeAppTheme(
         LightColorPalette
     }
 
+    AppTheme(darkTheme = darkTheme, colors = colors, content = content)
+}
+
+@Composable
+fun UserInterestComposable(
+    darkTheme: Boolean,
+    content: @Composable () -> Unit
+) {
+        AppTheme(darkTheme = darkTheme, colors = UserInterestColorPalette,content = content)
+}
+
+@Composable
+fun AppTheme(
+    darkTheme: Boolean,
+    colors: Colors,
+    content: @Composable () -> Unit
+) {
     MaterialTheme(
         colors = colors,
         typography = Type.create(darkTheme),

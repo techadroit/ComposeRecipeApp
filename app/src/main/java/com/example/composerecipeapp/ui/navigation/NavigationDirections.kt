@@ -59,4 +59,11 @@ object NavigationDirections {
         override val destination: String
             get() = "settings"
     }
+
+    val userInterest = object : NavigationCommand {
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+        override val destination: String
+            get() = "user_interest"
+    }
 }

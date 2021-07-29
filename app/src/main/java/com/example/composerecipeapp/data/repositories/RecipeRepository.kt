@@ -2,10 +2,10 @@ package com.example.composerecipeapp.data.repositories
 
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.repository.BaseRepository
-import com.recipeapp.core.network.api_service.RecipeApi
-import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey
+import com.recipeapp.core.network.api_service.RecipeApi
+import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.SimilarRecipe
 import com.recipeapp.data.network.response.VideoListResponses
@@ -20,13 +20,14 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         run {
             recipeApiService.getRandomRecipes(limitLicense, tags, number)
         }
+
     suspend fun getSimilarRecipeFor(
         limitLicense: Boolean,
         id: String,
         number: Int
     ): List<SimilarRecipe> =
         run {
-            recipeApiService.similarRecipes(id = id,limitLicense = limitLicense, number = number)
+            recipeApiService.similarRecipes(id = id, limitLicense = limitLicense, number = number)
         }
 
     suspend fun searchRecipeFor(
@@ -72,5 +73,20 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         run {
             recipeApiService.recipeDetail(id = id, includeNutrition = includeNutrition)
         }
+
+    fun getSupportedCuisine(): List<String> = listOf(
+        "American",
+        "British",
+        "Chinese",
+        "European",
+        "French",
+        "Indian",
+        "Italian",
+        "Irish",
+        "Japanese",
+        "Mediterranean",
+        "Spanish",
+        "Thai"
+    )
 
 }

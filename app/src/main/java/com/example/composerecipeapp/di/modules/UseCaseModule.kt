@@ -43,4 +43,8 @@ class UseCaseModule {
     @Provides
     fun deleteSavedRecipeUseCase(localRepository: RecipeLocalRepository) =
         DeleteSavedRecipe(localRepository = localRepository)
+
+    @Provides
+    fun getCuisineUsecase(recipeRepository: RecipeRepository) =
+        GetSupportedCuisineUsecase(recipeRepository = recipeRepository)
 }

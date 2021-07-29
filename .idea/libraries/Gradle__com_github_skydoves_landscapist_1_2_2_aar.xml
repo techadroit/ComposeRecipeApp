@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.skydoves:landscapist:1.2.2@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/6c2c5fe55df0c8295733c2ba752518da/transformed/landscapist-1.2.2/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6c2c5fe55df0c8295733c2ba752518da/transformed/landscapist-1.2.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6c2c5fe55df0c8295733c2ba752518da/transformed/landscapist-1.2.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/3269ba3e6d21485444267f260d223a85/transformed/landscapist-1.2.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/3269ba3e6d21485444267f260d223a85/transformed/landscapist-1.2.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/3269ba3e6d21485444267f260d223a85/transformed/landscapist-1.2.2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.skydoves/landscapist/1.2.2/ffd476555d4d5670d1bf0aca032cfc9e057b6209/landscapist-1.2.2-javadoc.jar!/" />

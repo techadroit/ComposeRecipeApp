@@ -7,6 +7,7 @@ import com.example.composerecipeapp.viewmodel.recipe_search.SearchState
 import com.example.composerecipeapp.viewmodel.recipe_video.RecipeVideoState
 import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeState
 import com.example.composerecipeapp.viewmodel.settings.SettingsState
+import com.example.composerecipeapp.viewmodel.user_interest.UserInterestState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +37,7 @@ class StateModule {
 
     @Provides
     fun getSettingsState() = SettingsState()
+
+    @Provides
+    fun getUserInterestState() = UserInterestState()
 }

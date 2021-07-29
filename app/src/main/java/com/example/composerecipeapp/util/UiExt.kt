@@ -2,10 +2,17 @@ package com.example.composerecipeapp.util
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.archerviewmodel.ArcherViewModel
+import com.archerviewmodel.events.ArcherEvent
+import com.archerviewmodel.state.ArcherState
 import java.util.*
 
-fun Modifier.fullScreen() = this.fillMaxWidth().fillMaxHeight()
+fun Modifier.fullScreen() = this
+    .fillMaxWidth()
+    .fillMaxHeight()
 
 fun toViews(value: Long): String {
     val suffixes = TreeMap<Long,String>()
@@ -27,3 +34,7 @@ fun toViews(value: Long): String {
     val hasDecimal = truncated < 100 && truncated / 10.0 != (truncated / 10).toDouble()
     return if (hasDecimal) (truncated / 10.0).toString() + suffix else (truncated / 10).toString() + suffix
 }
+
+@Composable
+fun <S : ArcherState, E : ArcherEvent> ArcherViewModel<S,E>.observeState() =
+    this.stateEmitter.collectAsState().value

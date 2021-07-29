@@ -15,12 +15,14 @@ object Type{
         h1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            color = onSurfaceColorLight
         ),
         body1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            color = onSurfaceColorLight
         ),
         subtitle1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
@@ -34,12 +36,14 @@ object Type{
         h1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            color = onSurfaceColorDark
         ),
         body1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            color = onSurfaceColorDark
         ),
         subtitle1 = TextStyle(
             fontFamily = FontFamily.SansSerif,
