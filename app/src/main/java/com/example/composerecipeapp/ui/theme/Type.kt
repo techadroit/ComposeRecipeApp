@@ -6,9 +6,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-object Type{
+object Type {
 
-    fun create(isDarkMode : Boolean) = if(isDarkMode) darkTypography else typography
+    fun create(isDarkMode: Boolean) = if (isDarkMode) darkTypography else typography
 
     // Set of Material typography styles to start with
     private val typography = Typography(
@@ -64,5 +64,4 @@ object Type{
             color = lightGrayColor
         )
     )
-
 }

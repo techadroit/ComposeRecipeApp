@@ -1,8 +1,6 @@
 package com.archerviewmodel.state
 
-import com.archerviewmodel.state.ArcherState
 import kotlinx.coroutines.flow.StateFlow
-
 
 interface StateHolder<S : ArcherState> {
 

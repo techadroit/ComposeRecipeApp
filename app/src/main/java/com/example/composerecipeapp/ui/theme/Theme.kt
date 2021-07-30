@@ -33,7 +33,7 @@ private val LightColorPalette = lightColors(
 )
 
 private val UserInterestColorPalette = lightColors(
-    primary= surfaceColor,
+    primary = surfaceColor,
     onPrimary = onPrimaryLight,
     primaryVariant = surfaceColor,
     surface = surfaceColor,
@@ -62,7 +62,7 @@ fun UserInterestComposable(
     darkTheme: Boolean,
     content: @Composable () -> Unit
 ) {
-        AppTheme(darkTheme = darkTheme, colors = UserInterestColorPalette,content = content)
+    AppTheme(darkTheme = darkTheme, colors = UserInterestColorPalette, content = content)
 }
 
 @Composable

@@ -31,23 +31,25 @@ fun HomeView(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeRecipeViewModel>()
     val state = viewModel.observeState()
     if (state.list.isNotEmpty()) {
-        LazyColumn(content = {
-            items(state.list) {
-                Text(
-                    text = it.cuisine,
-                    style = MaterialTheme.typography.h1,
-                    modifier = Modifier.padding(8.dp)
-                )
-                RecipeListWithCuisine(recipe = it, viewModel = viewModel)
+        LazyColumn(
+            content = {
+                items(state.list) {
+                    Text(
+                        text = it.cuisine,
+                        style = MaterialTheme.typography.h1,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    RecipeListWithCuisine(recipe = it, viewModel = viewModel)
+                }
             }
-        })
+        )
     } else {
         LoadingView()
     }
-    LaunchedEffect(true){
+    LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipeEvent)
     }
-    state.sideEffect?.consume()?.let { onSideEffect(it,navController = navController) }
+    state.sideEffect?.consume()?.let { onSideEffect(it, navController = navController) }
 }
 
 @ExperimentalMaterialApi
@@ -74,7 +76,8 @@ fun RecipeListWithCuisine(
                     viewModel.dispatch(ViewAllRecipes(recipe.cuisine))
                 }
             }
-        })
+        }
+    )
 }
 
 @ExperimentalMaterialApi

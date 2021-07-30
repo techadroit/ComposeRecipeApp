@@ -44,7 +44,7 @@ fun Chip(
         shape = MaterialTheme.shapes.small,
         color = color
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.Center) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             val leader = startIcon()
             val trailer = endIcon()
 
@@ -75,7 +75,6 @@ fun Chip(
                         .padding(horizontal = 4.dp)
                 )
             }
-
         }
     }
 }
@@ -94,7 +93,7 @@ fun SelectableChip(
         label = label,
         isClickable = true,
         onClick = { onClick(!selected) },
-        onStartIconClicked = { onClick(!selected)},
+        onStartIconClicked = { onClick(!selected) },
         isStartIconEnabled = true
     )
 }
@@ -113,4 +112,3 @@ fun RemovableChip(
         onEndIconClicked = { onRemove() }
     )
 }
-

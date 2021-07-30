@@ -1,14 +1,13 @@
 package com.example.composerecipeapp.viewmodel.recipe_detail
 
-import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.exception.Failure
 import com.archerviewmodel.ArcherViewModel
+import com.example.composerecipeapp.core.exception.Failure
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.toRecipeDetailModel
 import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase
 import com.example.composerecipeapp.domain.usecases.SimilarRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.example.composerecipeapp.viewmodel.recipe_detail.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.zip
@@ -20,7 +19,6 @@ class RecipeDetailViewModel @Inject constructor(
     val usecase: GetRecipeDetailUsecase,
     val similarUsecase: SimilarRecipeUsecase
 ) : ArcherViewModel<RecipeDetailState, RecipeDetailEvent>(initialState) {
-
 
     private fun getRecipeDetailForId(id: String) {
         setState {

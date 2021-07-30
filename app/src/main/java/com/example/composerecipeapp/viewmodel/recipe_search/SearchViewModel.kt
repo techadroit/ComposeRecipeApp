@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_search
 
-import com.example.composerecipeapp.core.functional.collectIn
 import com.archerviewmodel.ArcherViewModel
+import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.AutoCompleteUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -13,7 +13,6 @@ class SearchViewModel @Inject constructor(
     val usecase: AutoCompleteUsecase
 ) :
     ArcherViewModel<SearchState, SearchEvent>(initialState) {
-
 
     override fun onEvent(event: SearchEvent, state: SearchState) {
         when (event) {

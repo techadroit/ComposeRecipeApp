@@ -1,11 +1,9 @@
 package com.archerviewmodel.state
 
-import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.core.logger.Logger
 import com.example.composerecipeapp.core.logger.logv
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
 
 internal class StateHolderImpl<S : ArcherState>(
     initialState: S,

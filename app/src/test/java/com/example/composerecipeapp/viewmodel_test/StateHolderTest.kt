@@ -1,8 +1,7 @@
 package com.example.composerecipeapp
 
-import com.example.composerecipeapp.core.logger.AndroidLogger
-import com.example.composerecipeapp.core.logger.SystemOutLogger
 import com.archerviewmodel.state.ArcherState
+import com.example.composerecipeapp.core.logger.SystemOutLogger
 import com.example.composerecipeapp.core.viewmodel.StateHolderFactory
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -12,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class StateHolderTest : BaseUnitTest(){
+class StateHolderTest : BaseUnitTest() {
 
     @Test
     fun `StateHolderFactory creates correctly configured StateHolder instance`() {

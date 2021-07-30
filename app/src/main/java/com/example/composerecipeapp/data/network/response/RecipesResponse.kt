@@ -156,8 +156,8 @@ data class Video(
     val youTubeId: String
 )
 
-fun VideoListResponses.toRecipeModel() : List<VideoRecipeModel>{
+fun VideoListResponses.toRecipeModel(): List<VideoRecipeModel> {
     return this.videos.map {
-        VideoRecipeModel(it.rating,it.shortTitle,it.thumbnail,it.title,it.views,it.youTubeId)
+        VideoRecipeModel(it.rating, it.shortTitle, it.thumbnail, it.title, it.views, it.youTubeId)
     }
 }

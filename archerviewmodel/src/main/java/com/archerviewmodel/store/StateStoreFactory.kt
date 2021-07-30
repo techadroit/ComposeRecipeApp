@@ -1,11 +1,11 @@
 package com.archerviewmodel.store
 
 import com.archerviewmodel.events.ArcherEvent
-import com.archerviewmodel.state.ArcherState
-import com.archerviewmodel.reducer.StateProcessor
-import com.archerviewmodel.reducer.StateProcessorFactory
 import com.archerviewmodel.events.EventHolder
 import com.archerviewmodel.events.EventHolderImpl
+import com.archerviewmodel.reducer.StateProcessor
+import com.archerviewmodel.reducer.StateProcessorFactory
+import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.state.StateHolder
 import com.archerviewmodel.state.StateHolderFactory
 import com.example.composerecipeapp.core.logger.Logger
@@ -16,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
  */
 internal object StateStoreFactory {
 
-    fun <S : ArcherState,E : ArcherEvent> create(
+    fun <S : ArcherState, E : ArcherEvent> create(
         initialState: S,
         logger: Logger,
         coroutineContext: CoroutineContext,
@@ -25,7 +25,7 @@ internal object StateStoreFactory {
         val eventHolder = EventHolderImpl<E>(logger = logger)
         val stateProcessor =
             StateProcessorFactory.create(stateHolder, eventHolder, logger, coroutineContext)
-        return create(stateHolder, stateProcessor, logger,eventHolder)
+        return create(stateHolder, stateProcessor, logger, eventHolder)
     }
 
     fun <S : ArcherState, E : ArcherEvent> create(
@@ -34,7 +34,7 @@ internal object StateStoreFactory {
         logger: Logger,
         eventHolder: EventHolder<E>
     ): StateStore<S, E> {
-        return StateStoreImpl(stateHolder, stateProcessor, logger,eventHolder)
+        return StateStoreImpl(stateHolder, stateProcessor, logger, eventHolder)
     }
 
 //    fun <S : ArcherState> create(

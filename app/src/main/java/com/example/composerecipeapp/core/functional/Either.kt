@@ -48,8 +48,6 @@ sealed class Either<out L, out R> {
 //            is Left -> fnL(a)
 //            is Right -> fnR(b)
 //        }
-
-
 }
 
 // Credits to Alex Hart -> https://proandroiddev.com/kotlins-nothing-type-946de7d464fb

@@ -21,7 +21,7 @@ import com.example.composerecipeapp.core.exception.Failure.FeatureFailure
  * Base Class for handling errors/failures/exceptions.
  * Every feature specific failure should extend [FeatureFailure] class.
  */
-sealed class Failure : Exception(){
+sealed class Failure : Exception() {
     object NetworkConnection : Failure()
     object ServerError : Failure()
     object Unauthorized : Failure()
@@ -32,4 +32,3 @@ sealed class Failure : Exception(){
 }
 
 object NoSavedRecipe : Failure.FeatureFailure()
-

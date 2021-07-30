@@ -1,6 +1,5 @@
 package com.archerviewmodel.state
 
-import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.core.logger.Logger
 
 internal object StateHolderFactory {

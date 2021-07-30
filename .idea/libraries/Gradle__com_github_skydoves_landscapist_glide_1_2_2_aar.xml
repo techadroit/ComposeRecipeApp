@@ -3,8 +3,9 @@
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/cf66467dee15839b3e32b89cdb81a02d/transformed/landscapist-glide-1.2.2/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c7145cc85611cfc5057d02bc0da8287d/transformed/landscapist-glide-1.2.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c7145cc85611cfc5057d02bc0da8287d/transformed/landscapist-glide-1.2.2/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c7145cc85611cfc5057d02bc0da8287d/transformed/landscapist-glide-1.2.2/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/7b9d20caf13493af8b5800410c08383a/transformed/landscapist-glide-1.2.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7b9d20caf13493af8b5800410c08383a/transformed/landscapist-glide-1.2.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7b9d20caf13493af8b5800410c08383a/transformed/landscapist-glide-1.2.2/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.skydoves/landscapist-glide/1.2.2/5a998f569143e10feebdff97a42f8aea8ef2fa64/landscapist-glide-1.2.2-javadoc.jar!/" />

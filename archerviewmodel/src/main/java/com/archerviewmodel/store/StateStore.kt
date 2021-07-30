@@ -1,9 +1,9 @@
 package com.archerviewmodel.store
 
 import com.archerviewmodel.events.ArcherEvent
-import com.archerviewmodel.state.ArcherState
-import com.archerviewmodel.reducer.StateProcessor
 import com.archerviewmodel.events.EventHolder
+import com.archerviewmodel.reducer.StateProcessor
+import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.state.StateHolder
 
 /**
@@ -12,11 +12,12 @@ import com.archerviewmodel.state.StateHolder
  * @param stateHolder The delegate to handle [StateHolder] functions
  * @param stateProcessor The delegate to handle [StateProcessor] functions
  */
-abstract class StateStore<S : ArcherState,E : ArcherEvent>(
+abstract class StateStore<S : ArcherState, E : ArcherEvent>(
     protected open val stateHolder: StateHolder<S>,
     protected open val stateProcessor: StateProcessor<S, E>,
     protected open val eventHolder: EventHolder<E>
-) : StateHolder<S> by stateHolder, EventHolder<E> by eventHolder,
+) : StateHolder<S> by stateHolder,
+    EventHolder<E> by eventHolder,
     StateProcessor<S, E> by stateProcessor {
 
     /**

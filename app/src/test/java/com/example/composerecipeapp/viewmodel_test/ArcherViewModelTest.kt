@@ -1,8 +1,8 @@
 package com.example.composerecipeapp
 
+import com.archerviewmodel.ArcherViewModel
 import com.archerviewmodel.events.ArcherEvent
 import com.archerviewmodel.state.ArcherState
-import com.archerviewmodel.ArcherViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.single
@@ -12,7 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.coroutines.CoroutineContext
 
-internal class ArcherViewModelTest : BaseUnitTest(){
+internal class ArcherViewModelTest : BaseUnitTest() {
     private val job = Job()
     lateinit var viewModel: TestViewModel
     private val initialState = TestState()
@@ -25,9 +25,9 @@ internal class ArcherViewModelTest : BaseUnitTest(){
 
     @ExperimentalCoroutinesApi
     @Test
-    fun checkInitialState(){
+    fun checkInitialState() {
         runBlockingTest {
-            assert(viewModel.currentState == TestState() )
+            assert(viewModel.currentState == TestState())
         }
     }
 
@@ -47,12 +47,12 @@ internal class ArcherViewModelTest : BaseUnitTest(){
 
     @ExperimentalCoroutinesApi
     @Test
-    fun checkLatestStateEmitted(){
+    fun checkLatestStateEmitted() {
         runBlockingTest {
-                viewModel.dispatch(DecrementCountEvent(1))
-                viewModel.dispatch(IncrementCountEvent(1))
-                viewModel.dispatch(IncrementCountEvent(1))
-                assert(viewModel.currentState == TestState(1))
+            viewModel.dispatch(DecrementCountEvent(1))
+            viewModel.dispatch(IncrementCountEvent(1))
+            viewModel.dispatch(IncrementCountEvent(1))
+            assert(viewModel.currentState == TestState(1))
         }
     }
 
@@ -61,7 +61,6 @@ internal class ArcherViewModelTest : BaseUnitTest(){
         viewModel.clear()
         assert(job.isCancelled)
     }
-
 }
 
 class TestViewModel(val initialState: TestState, coroutineContext: CoroutineContext) :
@@ -80,7 +79,6 @@ class TestViewModel(val initialState: TestState, coroutineContext: CoroutineCont
     fun clear() {
         onCleared()
     }
-
 }
 
 interface TestEvent : ArcherEvent

@@ -1,9 +1,8 @@
 package com.archerviewmodel.events
 
-import com.archerviewmodel.events.ArcherEvent
 import kotlinx.coroutines.flow.StateFlow
 
-interface EventHolder<E: ArcherEvent?> {
+interface EventHolder<E : ArcherEvent?> {
 
     val eventObservable: StateFlow<E?>
 

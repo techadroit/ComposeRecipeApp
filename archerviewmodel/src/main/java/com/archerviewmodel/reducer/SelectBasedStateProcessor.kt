@@ -1,8 +1,8 @@
 package com.archerviewmodel.reducer
 
 import com.archerviewmodel.events.ArcherEvent
-import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.events.EventHolder
+import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.state.StateHolder
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.logger.Logger
@@ -29,7 +29,7 @@ import kotlin.coroutines.CoroutineContext
  * @param logger a [Logger] to log miscellaneous information
  * @param coroutineContext The [CoroutineContext] under which this processor will execute jobs sent to it
  */
-internal class SelectBasedStateProcessor<S : ArcherState,E : ArcherEvent>(
+internal class SelectBasedStateProcessor<S : ArcherState, E : ArcherEvent>(
     shouldStartImmediately: Boolean = false,
     private val stateHolder: StateHolder<S>,
     private val eventHolder: EventHolder<E>,
@@ -166,11 +166,11 @@ internal class SelectBasedStateProcessor<S : ArcherState,E : ArcherEvent>(
     }
 
     override fun offerGetEvent(event: E) {
-       eventHolder.addEvent(event)
+        eventHolder.addEvent(event)
     }
 
-    fun log(){
-        if(enableLogging){
+    fun log() {
+        if (enableLogging) {
             eventHolder.eventObservable.collectIn(processorScope) {
                 it?.let {
                     logger.logd { "Event: $it" }

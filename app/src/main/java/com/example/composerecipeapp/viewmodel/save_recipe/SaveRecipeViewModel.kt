@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.save_recipe
 
+import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.usecase.None
-import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.LoadSavedRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeModel
@@ -25,10 +25,10 @@ class SaveRecipeViewModel @Inject constructor(
         }
     }
 
-    private fun removeRecipe(recipeModel: RecipeModel){
-        deleteSavedRecipe(params = recipeModel.id).zip(loadSavedRecipeUseCase(params = None)){ _,result2->
+    private fun removeRecipe(recipeModel: RecipeModel) {
+        deleteSavedRecipe(params = recipeModel.id).zip(loadSavedRecipeUseCase(params = None)) { _, result2 ->
             result2
-        }.collectIn(viewModelScope){
+        }.collectIn(viewModelScope) {
             setState {
                 this.onSuccess(RecipeData(it))
             }

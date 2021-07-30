@@ -21,13 +21,13 @@ class HomeRecipeViewModel @Inject constructor(
         }
     }
 
-    private fun onViewRecipeDetail(recipeId: String){
+    private fun onViewRecipeDetail(recipeId: String) {
         setState {
             copy(sideEffect = SideEffect.ViewRecipesDetailSideEffect(recipeId).asConsumable())
         }
     }
 
-    private fun onViewAllRecipes(cuisine:String){
+    private fun onViewAllRecipes(cuisine: String) {
         setState {
             copy(sideEffect = SideEffect.ViewAllSideEffect(cuisine).asConsumable())
         }

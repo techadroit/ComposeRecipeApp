@@ -10,7 +10,7 @@ import org.junit.Rule
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-abstract class BaseTest{
+abstract class BaseTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -20,7 +20,7 @@ abstract class BaseTest{
         MockKAnnotations.init(this)
     }
 
-    fun useView(content: @Composable () -> Unit){
+    fun useView(content: @Composable () -> Unit) {
         composeTestRule.setContent {
             ComposeRecipeAppTheme {
                 content.invoke()

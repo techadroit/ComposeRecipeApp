@@ -13,8 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class RecipeListViewmodel @Inject constructor(
-    initialState: RecipeListState, val savedRecipeUsecase: SaveRecipeUsecase,
-    val searchUsecase: SearchRecipeUsecase, val deleteSavedRecipe: DeleteSavedRecipe
+    initialState: RecipeListState,
+    val savedRecipeUsecase: SaveRecipeUsecase,
+    val searchUsecase: SearchRecipeUsecase,
+    val deleteSavedRecipe: DeleteSavedRecipe
 ) :
     ArcherViewModel<RecipeListState, RecipeEvent>(initialState) {
 

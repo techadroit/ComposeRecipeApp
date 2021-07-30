@@ -13,5 +13,5 @@ import dagger.hilt.components.SingletonComponent
 class DataStoreModule {
 
     @Provides
-    fun provideSettingsDataStore(@ApplicationContext context: Context)  = SettingsDataStore(context)
+    fun provideSettingsDataStore(@ApplicationContext context: Context) = SettingsDataStore(context)
 }

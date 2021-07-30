@@ -55,7 +55,6 @@ class UserInterestViewModel @Inject constructor(
     }
 }
 
-sealed class SideEffect{
+sealed class SideEffect {
     object OnCuisineSelected : SideEffect()
 }
-

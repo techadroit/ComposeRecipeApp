@@ -11,22 +11,20 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.composerecipeapp.ui.home_view.HomeView
 import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.recipe_list.RecipeView
 import com.example.composerecipeapp.ui.recipe_search.SearchView
-import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
 import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
 import com.example.composerecipeapp.ui.settings.SettingsView
+import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
 @Composable
 fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
@@ -51,7 +49,7 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
                 onClick = {
                     selectedIndex.value = index
                     val route = mainScreen.routeName
-                    navController.navigate(route){
+                    navController.navigate(route) {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 saveState = true
@@ -60,7 +58,8 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
                         restoreState = true
                         launchSingleTop = true
                     }
-                })
+                }
+            )
         }
     }
 }
@@ -80,7 +79,7 @@ fun NavigationView(
                 RecipeView(cuisineKey = keyword)
             }
         }
-        composable(NavigationDirections.homeView.destination){
+        composable(NavigationDirections.homeView.destination) {
             HomeView(navController)
         }
         composable(NavigationDirections.recipeVideoDestination.destination) {
@@ -103,10 +102,10 @@ data class BottomBarItems(val routeName: String, val tabName: String)
 fun BottomBarItems.getIcon(index: Int): ImageVector =
     if (index == 0) {
         Icons.Default.Home
-    } else if(index == 1){
+    } else if (index == 1) {
         Icons.Default.Favorite
-    } else if(index == 2) {
+    } else if (index == 2) {
         Icons.Default.PlayArrow
-    }else{
+    } else {
         Icons.Default.Settings
     }

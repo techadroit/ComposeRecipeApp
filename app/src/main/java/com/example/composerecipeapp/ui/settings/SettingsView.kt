@@ -33,17 +33,17 @@ fun SettingsView() {
                     settingsViewModel.dispatch(ChangeDarkModeSettings(it))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                CuisineList(cuisines = state.list,selectionCount = 5) { it, cuisine ->
+                CuisineList(cuisines = state.list, selectionCount = 5) { it, cuisine ->
                     settingsViewModel.dispatch(
                         if (it) CuisineSelected(cuisine)
                         else CuisineDeSelected(cuisine)
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                if(state.enableSaveOptions)
-                SaveButton(modifier = Modifier.align(Alignment.End)) {
-                    settingsViewModel.dispatch(SaveCuisine)
-                }
+                if (state.enableSaveOptions)
+                    SaveButton(modifier = Modifier.align(Alignment.End)) {
+                        settingsViewModel.dispatch(SaveCuisine)
+                    }
             }
         }
     )
@@ -74,9 +74,12 @@ fun DarkModeON(isDarkModeOn: Boolean, dispatch: Dispatch<Boolean>) {
     ) {
         Text(text = "Dark Mode", style = MaterialTheme.typography.h1)
         Spacer(modifier = Modifier.weight(1f))
-        Switch(checked = isDarkModeOn, onCheckedChange = {
-            dispatch(it)
-        })
+        Switch(
+            checked = isDarkModeOn,
+            onCheckedChange = {
+                dispatch(it)
+            }
+        )
     }
 }
 
@@ -101,6 +104,5 @@ fun SaveButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 @Composable
 fun SavePreview() {
     SaveButton {
-
     }
 }

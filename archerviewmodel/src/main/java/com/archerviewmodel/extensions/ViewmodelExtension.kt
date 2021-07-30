@@ -32,7 +32,6 @@ fun <T> List<T>?.hasAtLeastSize(minSize: Int): Boolean {
     return this.size >= minSize
 }
 
-
 inline fun <T> Flow<T>.collectIn(scope: CoroutineScope, crossinline action: suspend (value: T) -> Unit): Job =
     scope.launch {
         collect {

@@ -13,7 +13,6 @@ import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.MultipleDispatch
 import com.example.composerecipeapp.viewmodel.user_interest.Cuisine
 
-
 @ExperimentalFoundationApi
 @Composable
 fun CuisineList(
@@ -33,7 +32,7 @@ fun CuisineList(
                 selectionCount.value
             ) {
                 if (it) selectionCount.value++ else selectionCount.value--
-                dispatcher(it,cuisine)
+                dispatcher(it, cuisine)
             }
         }
     }
@@ -52,4 +51,3 @@ fun CuisineChip(
         }
     }
 }
-

@@ -98,5 +98,4 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         "Spanish",
         "Thai"
     )
-
 }

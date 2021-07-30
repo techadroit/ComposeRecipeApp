@@ -4,14 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,13 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.MultipleDispatch
 import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.theme.UserInterestComposable
 import com.example.composerecipeapp.ui.theme.primaryColorDark
 import com.example.composerecipeapp.ui.views.CuisineList
-import com.example.composerecipeapp.ui.views.SelectableChip
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.user_interest.*
 
@@ -51,7 +43,7 @@ fun UserInterest(navController: NavController) {
                 CuisineList(
                     cuisines = state.cuisines,
                     modifier = Modifier.align(Alignment.Center),
-                ){ it,cuisine ->
+                ) { it, cuisine ->
                     viewModel.dispatch(
                         if (it)
                             SelectedCuisine(cuisine)
@@ -90,10 +82,10 @@ fun NextButton(modifier: Modifier, onClick: () -> Unit) {
         },
         modifier = modifier,
         colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.secondary,
-            contentColor = MaterialTheme.colors.onSurface
-        )
+            ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.secondary,
+                contentColor = MaterialTheme.colors.onSurface
+            )
     ) {
         Text("Next", style = MaterialTheme.typography.body1)
     }
@@ -102,5 +94,4 @@ fun NextButton(modifier: Modifier, onClick: () -> Unit) {
 @Preview
 @Composable
 fun PreviewUserInterest() {
-
 }

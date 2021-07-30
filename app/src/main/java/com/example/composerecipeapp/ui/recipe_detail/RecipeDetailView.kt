@@ -12,7 +12,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
@@ -23,10 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
@@ -34,7 +31,6 @@ import com.example.composerecipeapp.viewmodel.recipe_detail.LoadRecipeDetail
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
-
 
 @Composable
 fun RecipeDetail(recipeId: String) {
@@ -84,15 +80,16 @@ fun RecipeDetailContentView(recipeDetail: RecipeDetailModel) {
 fun RecipeContent(recipeDetail: RecipeDetailModel) {
     val scrollState = rememberScrollState(0)
     Column(modifier = Modifier.padding(12.dp)) {
-        AndroidView(modifier = Modifier
-            .wrapContentHeight()
-            .verticalScroll(scrollState),
+        AndroidView(
+            modifier = Modifier
+                .wrapContentHeight()
+                .verticalScroll(scrollState),
             factory = { context ->
                 TextView(context).apply {
                     this.text = Html.fromHtml(recipeDetail.instructions)
                 }
-            }) {
-
+            }
+        ) {
         }
     }
 }
@@ -113,8 +110,8 @@ fun RecipeDescription(recipeDetail: RecipeDetailModel, onSourceClick: (url: Stri
     }
 }
 
-class RecipeDetailProvider
-    : PreviewParameterProvider<RecipeDetailModel> {
+class RecipeDetailProvider :
+    PreviewParameterProvider<RecipeDetailModel> {
     override val values: Sequence<RecipeDetailModel>
         get() = sequenceOf(
             RecipeDetailModel(

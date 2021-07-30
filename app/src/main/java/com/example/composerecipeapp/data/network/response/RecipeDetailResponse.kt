@@ -4,7 +4,6 @@ import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.recipeapp.data.network.response.Length
 import com.recipeapp.data.network.response.Measures
 
-
 data class RecipeDetailResponse(
     val aggregateLikes: Int,
     val analyzedInstructions: List<AnalyzedInstructionDetail>,
@@ -163,7 +162,6 @@ data class ProductMatche(
     val score: Double,
     val title: String
 )
-
 
 fun RecipeDetailResponse.toRecipeDetailModel() =
     RecipeDetailModel(

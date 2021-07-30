@@ -16,4 +16,3 @@ sealed class SideEffect {
     data class ViewAllSideEffect(val cuisine: String) : SideEffect()
     data class ViewRecipesDetailSideEffect(val recipeId: String) : SideEffect()
 }
-

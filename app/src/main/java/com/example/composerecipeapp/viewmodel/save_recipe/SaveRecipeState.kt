@@ -11,4 +11,4 @@ data class SaveRecipeState(
 fun SaveRecipeState.onLoading() = this.copy(isLoading = true)
 
 fun SaveRecipeState.onSuccess(recipeData: RecipeData) =
-    this.copy(isLoading = false,recipeData = recipeData)
+    this.copy(isLoading = false, recipeData = recipeData)

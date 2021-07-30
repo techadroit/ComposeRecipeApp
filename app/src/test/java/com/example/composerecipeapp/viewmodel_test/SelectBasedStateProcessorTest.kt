@@ -9,12 +9,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 internal class SelectBasedStateProcessorTest : BaseUnitTest() {
 
     private lateinit var holder: StateHolder<CountingState>
     private lateinit var eventHolder: EventHolder<CountingEvent>
-    private lateinit var processor: SelectBasedStateProcessor<CountingState,CountingEvent>
+    private lateinit var processor: SelectBasedStateProcessor<CountingState, CountingEvent>
 
     @Before
     fun setup() {

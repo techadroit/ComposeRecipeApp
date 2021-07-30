@@ -90,5 +90,4 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun enableSaveOptions(list: List<Cuisine>) = list.count { it.isSelected } == 5
-
 }

@@ -11,7 +11,7 @@ import com.archerviewmodel.state.ArcherState
  * A [reducer] is be processed before any existing [action] in the queue
  * A [action] is given the latest state value as it's parameter
  */
-interface StateProcessor<S : ArcherState,E : ArcherEvent> {
+interface StateProcessor<S : ArcherState, E : ArcherEvent> {
 
     /**
      * Offer a [reducer] to this processor. This action will be processed as soon as
@@ -47,7 +47,3 @@ interface StateProcessor<S : ArcherState,E : ArcherEvent> {
 internal typealias reducer<S> = suspend S.() -> S
 
 internal typealias action<S> = suspend (S) -> Unit
-
-
-
-

@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,10 +32,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.PopBackStack
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchEvent
@@ -74,7 +73,8 @@ fun SearchBarContainer(navController: NavHostController, searchViewModel: Search
 
     SearchBar(
         navigate = { navController.navigate(it) },
-        dispatch = { searchViewModel.dispatch(it) }) {
+        dispatch = { searchViewModel.dispatch(it) }
+    ) {
         navController.popBackStack()
     }
 }
@@ -126,23 +126,29 @@ fun SearchBar(
                 },
             singleLine = true,
             leadingIcon = {
-                SearchIcon(onFocus = onFocus.value, {
-                    softwareKeyboardController?.hide()
-                    onSearchFocus()
-                }, {
-                    softwareKeyboardController?.hide()
-                    onClearFocus()
-                })
+                SearchIcon(
+                    onFocus = onFocus.value,
+                    {
+                        softwareKeyboardController?.hide()
+                        onSearchFocus()
+                    },
+                    {
+                        softwareKeyboardController?.hide()
+                        onClearFocus()
+                    }
+                )
             },
             placeholder = { Text(text = "Enter Text To Search") },
-            keyboardActions = KeyboardActions(onDone = {
-                val text = textState.value.text
-                navigate("recipes/$text")
-                softwareKeyboardController?.hide()
-                view.clearFocus()
-                textState.value = TextFieldValue("")
-                onFocus.value = false
-            }),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    val text = textState.value.text
+                    navigate("recipes/$text")
+                    softwareKeyboardController?.hide()
+                    view.clearFocus()
+                    textState.value = TextFieldValue("")
+                    onFocus.value = false
+                }
+            ),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Text
@@ -196,7 +202,6 @@ fun KeywordList(list: List<String>, onEvent: (String) -> Unit) {
     }
 }
 
-
 @Composable
 fun SearchIcon(onFocus: Boolean, onSearchClick: () -> Unit, onBackClick: () -> Unit) {
     var icon = remember {
@@ -204,11 +209,10 @@ fun SearchIcon(onFocus: Boolean, onSearchClick: () -> Unit, onBackClick: () -> U
     }
     if (onFocus) icon = Icons.Default.ArrowBack
     val transition = updateTransition(targetState = icon, label = "transition_icon")
-    Icon(transition.targetState, contentDescription = if (onFocus) "Search" else "Back",
+    Icon(
+        transition.targetState, contentDescription = if (onFocus) "Search" else "Back",
         modifier = Modifier.clickable {
             if (onFocus) onBackClick() else onSearchClick()
-        })
+        }
+    )
 }
-
-
-

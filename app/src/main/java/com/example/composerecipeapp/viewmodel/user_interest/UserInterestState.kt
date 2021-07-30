@@ -6,7 +6,7 @@ import com.example.composerecipeapp.core.functional.Consumable
 data class UserInterestState(
     val cuisines: List<Cuisine> = emptyList(),
     val enableNextOptions: Boolean = false,
-    val sideEffect: Consumable<SideEffect> ?= null
+    val sideEffect: Consumable<SideEffect> ? = null
 ) : ArcherState
 
 data class Cuisine(val name: String, val isSelected: Boolean = false)

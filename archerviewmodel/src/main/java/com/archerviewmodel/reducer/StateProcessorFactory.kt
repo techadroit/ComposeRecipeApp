@@ -1,8 +1,8 @@
 package com.archerviewmodel.reducer
 
 import com.archerviewmodel.events.ArcherEvent
-import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.events.EventHolder
+import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.state.StateHolder
 import com.example.composerecipeapp.core.logger.Logger
 import kotlin.coroutines.CoroutineContext
@@ -21,7 +21,7 @@ internal object StateProcessorFactory {
      *
      * @return A class implementing StateProcessor
      */
-    fun <S : ArcherState,E : ArcherEvent> create(
+    fun <S : ArcherState, E : ArcherEvent> create(
         stateHolder: StateHolder<S>,
         eventHolder: EventHolder<E>,
         logger: Logger,

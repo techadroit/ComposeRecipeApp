@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.squareup.leakcanary:plumber-android:2.7@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1395680b500fa0a52250224639ff0697/transformed/plumber-android-2.7/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/1395680b500fa0a52250224639ff0697/transformed/plumber-android-2.7/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1395680b500fa0a52250224639ff0697/transformed/plumber-android-2.7/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/02eee08ab137950b3befc94e33b49cd3/transformed/plumber-android-2.7/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/02eee08ab137950b3befc94e33b49cd3/transformed/plumber-android-2.7/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/02eee08ab137950b3befc94e33b49cd3/transformed/plumber-android-2.7/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/plumber-android/2.7/8263537f0697a5a0252474c42ee3f3ba7f143a28/plumber-android-2.7-javadoc.jar!/" />

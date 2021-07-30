@@ -12,9 +12,9 @@ import javax.inject.Inject
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @HiltAndroidApp
-class App : Application(){
+class App : Application() {
 
-    @Inject lateinit var networkHandler : NetworkHandler
+    @Inject lateinit var networkHandler: NetworkHandler
 
     override fun onCreate() {
         super.onCreate()

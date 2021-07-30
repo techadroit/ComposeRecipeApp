@@ -8,7 +8,6 @@ import com.example.composerecipeapp.util.NUMBER
 import com.recipeapp.data.network.response.VideoListResponses
 import com.skydoves.landscapist.offset
 
-
 class SearchRecipeUsecase(
     var recipeRepository: RecipeRepository,
     var localRepository: RecipeLocalRepository
@@ -43,7 +42,6 @@ class SearchRecipeUsecase(
     )
 }
 
-
 class SearchVideoRecipeUsecase(var recipeRepository: RecipeRepository) :
     FlowUseCase<VideoListResponses, SearchVideoRecipeUsecase.Param>() {
     override suspend fun run(params: Param): VideoListResponses {
@@ -52,4 +50,3 @@ class SearchVideoRecipeUsecase(var recipeRepository: RecipeRepository) :
 
     data class Param(var query: String, var number: Int = NUMBER, var offset: Int = 0)
 }
-

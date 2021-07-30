@@ -29,7 +29,7 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
     /**
      * The state store associated with this ViewModel
      */
-    protected val stateStore = StateStoreFactory.create<S,E>(
+    protected val stateStore = StateStoreFactory.create<S, E>(
         initialState,
         androidLogger(this::class.java.simpleName + "StateStore"),
         stateStoreContext
@@ -64,7 +64,7 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
 
     val stateEmitter: StateFlow<S> = stateStore.stateObservable
 
-    abstract fun onEvent(event: E,state: S)
+    abstract fun onEvent(event: E, state: S)
 
     /**
      *
@@ -72,7 +72,7 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
     fun dispatch(event: E) {
         withState {
             stateStore.offerGetEvent(event)
-            onEvent(event,it)
+            onEvent(event, it)
         }
     }
 
@@ -113,9 +113,4 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
         super.onCleared()
         stateStore.clear()
     }
-
 }
-
-
-
-

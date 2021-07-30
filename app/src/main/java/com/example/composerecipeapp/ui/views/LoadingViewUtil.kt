@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun LoadingView() {
     Column(
@@ -46,4 +45,3 @@ fun PaginationLoading() {
         )
     }
 }
-

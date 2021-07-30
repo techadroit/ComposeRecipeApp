@@ -14,7 +14,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -104,7 +103,6 @@ fun MainApp() {
             }
         }
     }
-
 }
 
 @ExperimentalFoundationApi
@@ -120,7 +118,8 @@ fun AppContent() {
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomBar(
-                navController = navController, items = listOf(
+                navController = navController,
+                items = listOf(
                     BottomBarItems(NavigationDirections.homeView.destination, "Home"),
                     BottomBarItems(
                         NavigationDirections.savedRecipeDestination.destination,

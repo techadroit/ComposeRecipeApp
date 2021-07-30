@@ -13,11 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.*
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_list.*
@@ -87,10 +87,12 @@ fun RecipeList(
                             recipe = recipe,
                             index = index,
                             {
-                                navigate("recipe_details/${it}")
-                            }, {
+                                navigate("recipe_details/$it")
+                            },
+                            {
                                 dispatch(SaveRecipeEvent(it))
-                            }, {
+                            },
+                            {
                                 dispatch(RemoveSavedRecipeEvent(it))
                             }
                         )
@@ -118,16 +120,19 @@ fun RecipeList(
                         Text("Sorry, No result found")
                     }
                 }
-            })
+            }
+        )
     }
 }
-
 
 @ExperimentalMaterialApi
 @Composable
 fun RecipeListItem(
-    recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit,
-    onSaveClick: (RecipeModel) -> Unit, onRemoveClick: (RecipeModel) -> Unit
+    recipe: RecipeModel,
+    index: Int,
+    onRowClick: (Int) -> Unit,
+    onSaveClick: (RecipeModel) -> Unit,
+    onRemoveClick: (RecipeModel) -> Unit
 ) {
     Card(
         onClick = { onRowClick.invoke(recipe.id) },

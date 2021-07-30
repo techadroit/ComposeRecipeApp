@@ -2,7 +2,7 @@
 buildscript {
     ext {
         compose_version = '1.0.0'
-        ktlint_version = '9.4.1'
+        ktlint_version = '10.1.0'
     }
     repositories {
         google()

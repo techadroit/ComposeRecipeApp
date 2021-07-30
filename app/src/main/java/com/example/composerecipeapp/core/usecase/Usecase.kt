@@ -1,13 +1,7 @@
 package com.example.composerecipeapp.core.usecase
 
-import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.Either
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
@@ -17,13 +11,12 @@ import kotlinx.coroutines.launch
  * By convention each [UseCase] implementation will execute its job in a background thread
  * (kotlin coroutine) and will post the result in the UI thread.
  */
-abstract class UseCase<out Type, in Params>{
+abstract class UseCase<out Type, in Params> {
 
     abstract suspend fun run(params: Params): Type
-
 }
 
-//abstract class FlowUseCase<out Type, in Params> where Type : Any {
+// abstract class FlowUseCase<out Type, in Params> where Type : Any {
 //
 //    abstract suspend fun run(params: Params): Type
 //
@@ -34,9 +27,9 @@ abstract class UseCase<out Type, in Params>{
 //        }
 //    }
 //
-//}
+// }
 
-abstract class FlowUseCase<out Type, in Params> : UseCase<Type,Params>(){
+abstract class FlowUseCase<out Type, in Params> : UseCase<Type, Params>() {
     operator fun invoke(params: Params): Flow<Type> {
         return flow {
             val result = run(params)
@@ -45,7 +38,7 @@ abstract class FlowUseCase<out Type, in Params> : UseCase<Type,Params>(){
     }
 }
 
-abstract class NewFlowUseCase<out Type, in Params> where Type : Any{
+abstract class NewFlowUseCase<out Type, in Params> where Type : Any {
 
     abstract fun run(params: Params): Flow<Type>
 

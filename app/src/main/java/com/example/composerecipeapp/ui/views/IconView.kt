@@ -17,13 +17,15 @@ fun SaveIcon(isSaved: Boolean, onClick: (Boolean) -> Unit) {
         mutableStateOf(isSaved)
     }
     if (saved.value)
-        Icon(imageVector = Icons.Default.Favorite,
+        Icon(
+            imageVector = Icons.Default.Favorite,
             contentDescription = "Saved",
             tint = Color.Red,
             modifier = Modifier.clickable {
                 saved.value = false
                 onClick.invoke(saved.value)
-            })
+            }
+        )
     else
         Icon(
             imageVector = Icons.Default.FavoriteBorder,
@@ -31,7 +33,6 @@ fun SaveIcon(isSaved: Boolean, onClick: (Boolean) -> Unit) {
             modifier = Modifier.clickable {
                 saved.value = true
                 onClick.invoke(saved.value)
-            })
-
-
+            }
+        )
 }

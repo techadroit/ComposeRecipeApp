@@ -22,26 +22,30 @@ fun VideoPlayer() {
     // Do not recreate the player everytime this Composable commits
     val exoPlayer = remember(context) {
         SimpleExoPlayer.Builder(context).build().apply {
-            val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(context,
-                Util.getUserAgent(context, context.packageName))
+            val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
+                context,
+                Util.getUserAgent(context, context.packageName)
+            )
 
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(
                     Uri.parse(
-                    // Big Buck Bunny from Blender Project
-                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                ))
+                        // Big Buck Bunny from Blender Project
+                        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    )
+                )
 
             this.prepare(source)
         }
     }
-    AndroidView(modifier = Modifier.fullScreen(),
+    AndroidView(
+        modifier = Modifier.fullScreen(),
         factory = { context ->
             PlayerView(context).apply {
                 player = exoPlayer
             }
-        }) {
+        }
+    ) {
         it.player?.playWhenReady = true
     }
-
 }

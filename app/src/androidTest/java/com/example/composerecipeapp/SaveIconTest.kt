@@ -15,15 +15,15 @@ class SaveIconTest : BaseTest() {
     lateinit var lambdaSlot: (Boolean) -> Unit
 
     @Before
-    fun setUp(){
+    fun setUp() {
         every { lambdaSlot.invoke(any()) } returns Unit
     }
 
     @Test
-    fun verifySaveEventCalled(){
+    fun verifySaveEventCalled() {
         useView {
             SaveIcon(isSaved = false) {
-               lambdaSlot.invoke(it)
+                lambdaSlot.invoke(it)
             }
         }
 
@@ -36,10 +36,10 @@ class SaveIconTest : BaseTest() {
     }
 
     @Test
-    fun verifyRemoveEventCalled(){
+    fun verifyRemoveEventCalled() {
         useView {
             SaveIcon(isSaved = true) {
-               lambdaSlot.invoke(it)
+                lambdaSlot.invoke(it)
             }
         }
 

@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.core.logger
 
-var enableLogging:Boolean = false
+var enableLogging: Boolean = false
 
 /**
  * An implementation of [Logger] which writes logs to [System.out]

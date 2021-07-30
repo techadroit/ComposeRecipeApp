@@ -5,9 +5,9 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.recipe_list.RecipeList
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListViewmodel
 import com.example.composerecipeapp.viewmodel.recipe_list.RemoveSavedRecipeEvent
 import com.example.composerecipeapp.viewmodel.recipe_list.SaveRecipeEvent
@@ -25,7 +25,7 @@ class RecipeListTest : BaseTest() {
     lateinit var viewmodel: RecipeListViewmodel
 
     @Before
-    fun setUp(){
+    fun setUp() {
         every { viewmodel.dispatch(any()) } returns Unit
     }
 
@@ -36,7 +36,7 @@ class RecipeListTest : BaseTest() {
                 RecipeList(
                     recipeList = list,
                     dispatch = {
-                               viewmodel.dispatch(it)
+                        viewmodel.dispatch(it)
                     },
                     navigate = {},
                     showPaginationLoading = showPagination,

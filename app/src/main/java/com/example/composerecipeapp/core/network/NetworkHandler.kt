@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.core.network
 
-import com.google.gson.Gson
 import com.example.composerecipeapp.BuildConfig
+import com.google.gson.Gson
 import com.recipeapp.core.network.api_service.RecipeApi
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -9,7 +9,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
 
 object NetworkHandler {
 
