@@ -15,8 +15,8 @@ class SearchRecipeUsecase(
 ) :
     FlowUseCase<Pair<List<RecipeModel>, Boolean>, SearchRecipeUsecase.Param>() {
     override suspend fun run(params: Param): Pair<List<RecipeModel>, Boolean> {
-        val response = recipeRepository.searchRecipeFor(
-            params.query,
+        val response = recipeRepository.getRecipeForCuisine(
+            params.cuisine,
             params.limitLicense, params.number, params.offset
         )
         val savedList = localRepository.getAllSavedRecipes().map { it.id }
@@ -37,7 +37,7 @@ class SearchRecipeUsecase(
 
     data class Param(
         var limitLicense: Boolean = true,
-        var query: String,
+        var cuisine: String,
         var number: Int = 10,
         var offset: Int = 0
     )

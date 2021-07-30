@@ -38,6 +38,7 @@ import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.PopBackStack
 import com.example.composerecipeapp.util.fullScreen
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchTextEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
@@ -157,7 +158,7 @@ fun SearchBar(
 @Composable
 fun SearchView(navController: NavHostController, searchViewModel: SearchViewModel) {
 
-    val state = searchViewModel.stateEmitter.collectAsState().value
+    val state = searchViewModel.observeState()
     val focusManager = LocalFocusManager.current
 
     AnimatedVisibility(

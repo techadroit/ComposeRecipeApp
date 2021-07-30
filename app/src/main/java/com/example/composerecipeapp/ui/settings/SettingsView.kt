@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.settings.ChangeDarkModeSettings
 import com.example.composerecipeapp.viewmodel.settings.InitializeSettings
 import com.example.composerecipeapp.viewmodel.settings.SettingsState
@@ -22,7 +23,7 @@ fun SettingsView() {
     val scaffoldState = rememberScaffoldState()
     val settingsViewModel : SettingsViewModel = hiltViewModel()
     settingsViewModel.dispatch(InitializeSettings)
-    val state = settingsViewModel.stateEmitter.collectAsState().value
+    val state = settingsViewModel.observeState()
     Scaffold(
         scaffoldState = scaffoldState,
         content = {

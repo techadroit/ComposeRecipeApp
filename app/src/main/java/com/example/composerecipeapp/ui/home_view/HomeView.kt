@@ -1,81 +1,84 @@
 package com.example.composerecipeapp.ui.home_view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.example.composerecipeapp.R
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.observeState
-import com.example.composerecipeapp.viewmodel.home_recipes.HomeRecipeViewModel
-import com.example.composerecipeapp.viewmodel.home_recipes.LoadRecipeEvent
-import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeEvent
+import com.example.composerecipeapp.viewmodel.home_recipes.*
 import com.skydoves.landscapist.glide.GlideImage
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeView() {
+fun HomeView(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeRecipeViewModel>()
     val state = viewModel.observeState()
     if (state.list.isNotEmpty()) {
-        Surface {
-            Column(modifier = Modifier.wrapContentSize()) {
-                LazyColumn(content = {
-                    items(state.list){
-                        Text(
-                            text = it.cuisine,
-                            style = MaterialTheme.typography.h1,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                        RecipeListWithCuisine(recipe = it, dispatch = {}, navigate = {})
-                    }
-                })
+        LazyColumn(content = {
+            items(state.list) {
+                Text(
+                    text = it.cuisine,
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.padding(8.dp)
+                )
+                RecipeListWithCuisine(recipe = it, viewModel = viewModel)
             }
-        }
+        })
     } else {
         LoadingView()
     }
     viewModel.dispatch(LoadRecipeEvent)
+    state.sideEffect?.consume()?.let { onSideEffect(it,navController = navController) }
 }
 
 @ExperimentalMaterialApi
 @Composable
 fun RecipeListWithCuisine(
     recipe: RecipeWithCuisine,
-    dispatch: Dispatch<SaveRecipeEvent>,
-    navigate: Navigate
+    viewModel: HomeRecipeViewModel
 ) {
     val scrollState = rememberLazyListState()
-    Column(modifier = Modifier.wrapContentSize()) {
-        LazyRow(
-            state = scrollState,
-            contentPadding = PaddingValues(bottom = 80.dp),
-            content = {
-                itemsIndexed(recipe.recipeList) { index, recipe ->
-                    key(index) {
-                        RecipeItem(
-                            recipe = recipe,
-                            index = index
-                        ) {
-                        }
+    LazyRow(
+        state = scrollState,
+        content = {
+            itemsIndexed(recipe.recipeList) { index, recipe ->
+                key(index) {
+                    RecipeItem(
+                        recipe = recipe
+                    ) {
+                        viewModel.dispatch(ViewRecipeDetail(recipeId = it.toString()))
                     }
                 }
-            })
-    }
+            }
+            item {
+                ViewAll {
+                    viewModel.dispatch(ViewAllRecipes(recipe.cuisine))
+                }
+            }
+        })
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun RecipeItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit) {
+fun RecipeItem(recipe: RecipeModel, onRowClick: (Int) -> Unit) {
     Card(
-        onClick = { onRowClick.invoke(recipe.id) },
+        onClick = { onRowClick(recipe.id) },
         modifier = Modifier
             .height(270.dp)
             .width(140.dp)
@@ -97,6 +100,42 @@ fun RecipeItem(recipe: RecipeModel, index: Int, onRowClick: (Int) -> Unit) {
                 maxLines = 2,
                 modifier = Modifier.padding(4.dp)
             )
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun ViewAll(dispatch: Dispatch<Unit>) {
+    Card(
+        modifier = Modifier
+            .clickable { dispatch(Unit) }
+            .height(270.dp)
+            .width(140.dp)
+            .padding(
+                horizontal = 12.dp,
+                vertical = 8.dp
+            )
+    ) {
+        Column(verticalArrangement = Arrangement.Center) {
+            Text(
+                text = stringResource(id = R.string.view_all),
+                style = MaterialTheme.typography.h1,
+                maxLines = 2,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun onSideEffect(sideEffect: SideEffect, navController: NavHostController) {
+    when (sideEffect) {
+        is SideEffect.ViewAllSideEffect ->
+            navController.navigate("recipes/${sideEffect.cuisine}")
+        is SideEffect.ViewRecipesDetailSideEffect -> {
+            val navHostController = ParentNavHostController.current
+            navHostController.navigate("recipe_details/${sideEffect.recipeId}")
         }
     }
 }

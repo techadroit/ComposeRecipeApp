@@ -38,7 +38,7 @@ open class RecipeListViewmodel @Inject constructor(
         withState {
             if (!it.isLoading) {
                 setState { this.onLoading() }
-                searchRecipe(query = query)
+                searchRecipe(cuisine = query)
             }
         }
 
@@ -47,12 +47,12 @@ open class RecipeListViewmodel @Inject constructor(
             if (!it.isLoading) {
                 page++
                 setState { this.onLoading(true) }
-                searchRecipe(query = query, isPaginate = true)
+                searchRecipe(cuisine = query, isPaginate = true)
             }
         }
 
-    private fun searchRecipe(query: String, isPaginate: Boolean = false) {
-        searchUsecase(SearchRecipeUsecase.Param(query = query, offset = page))
+    private fun searchRecipe(cuisine: String, isPaginate: Boolean = false) {
+        searchUsecase(SearchRecipeUsecase.Param(cuisine = cuisine, offset = page))
             .catch { e ->
                 handleFailure(e as Failure, isPaginate = isPaginate)
             }.collectIn(viewModelScope) {

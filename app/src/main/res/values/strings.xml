@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ComposeRecipeApp</string>
     <string name="recipe_saved_text">Recipe Saved Successfully</string>
+    <string name="view_all">View All</string>
 </resources>

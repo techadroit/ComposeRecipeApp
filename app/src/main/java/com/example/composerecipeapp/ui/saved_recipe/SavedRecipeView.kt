@@ -21,6 +21,7 @@ import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.save_recipe.LoadRecipe
 import com.example.composerecipeapp.viewmodel.save_recipe.RemoveRecipe
 import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeEvent
@@ -33,7 +34,7 @@ fun SaveRecipeView(viewModel: SaveRecipeViewModel = hiltViewModel()) {
     LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipe())
     }
-    val state = viewModel.stateEmitter.collectAsState().value
+    val state = viewModel.observeState()
     val navHostController = ParentNavHostController.current
     if (state.isLoading) {
         LoadingView()

@@ -33,6 +33,7 @@ import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.user_interest.UserInterest
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 @ExperimentalMaterialApi
 @Composable
 fun MainContent(mainViewModel: MainViewModel) {
-    val state = mainViewModel.stateEmitter.collectAsState().value
+    val state = mainViewModel.observeState()
     AppCompatDelegate.setDefaultNightMode(
         if (state.isDarkModeOn) AppCompatDelegate.MODE_NIGHT_YES
         else AppCompatDelegate.MODE_NIGHT_NO

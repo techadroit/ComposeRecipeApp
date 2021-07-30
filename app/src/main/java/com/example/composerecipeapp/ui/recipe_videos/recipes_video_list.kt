@@ -28,6 +28,7 @@ import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.PaginationLoading
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.util.toViews
 import com.example.composerecipeapp.viewmodel.recipe_video.LoadVideos
 import com.example.composerecipeapp.viewmodel.recipe_video.VideoEvents
@@ -41,7 +42,7 @@ fun RecipesVideoList(navController: NavController = ParentNavHostController.curr
     LaunchedEffect(Unit) {
         recipesViewModel.dispatch(LoadVideos())
     }
-    val recipeState = recipesViewModel.stateEmitter.collectAsState().value
+    val recipeState = recipesViewModel.observeState()
 
     RecipeListContent(
         {

@@ -74,10 +74,12 @@ fun NavigationView(
     NavHost(navController, startDestination = NavigationDirections.homeView.destination) {
         composable(NavigationDirections.recipeList.destination) {
             val keyword = it.arguments?.getString("keyword")
-            RecipeView(key = keyword)
+            keyword?.let {
+                RecipeView(cuisineKey = keyword)
+            }
         }
         composable(NavigationDirections.homeView.destination){
-            HomeView()
+            HomeView(navController)
         }
         composable(NavigationDirections.recipeVideoDestination.destination) {
             RecipesVideoList()

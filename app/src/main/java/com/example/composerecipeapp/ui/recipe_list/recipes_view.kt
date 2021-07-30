@@ -19,6 +19,7 @@ import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.*
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,16 +29,16 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeView(
-    key: String?
+    cuisineKey: String
 ) {
     val recipesViewmodel: RecipeListViewmodel = hiltViewModel()
-    val keyword = remember { key ?: "chicken" }
-    val recipeState = recipesViewmodel.stateEmitter.collectAsState().value
+    val cuisine = remember { cuisineKey }
+    val recipeState = recipesViewmodel.observeState()
     val navHostController = ParentNavHostController.current
     val scaffoldState = rememberScaffoldState()
 
-    LaunchedEffect(keyword) {
-        recipesViewmodel.dispatch(LoadRecipes(keyword))
+    LaunchedEffect(cuisine) {
+        recipesViewmodel.dispatch(LoadRecipes(cuisine))
     }
     Scaffold(
         scaffoldState = scaffoldState,
@@ -53,7 +54,7 @@ fun RecipeView(
                     navHostController.navigate(it)
                 },
                 showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
-                keyword = keyword,
+                keyword = cuisine,
                 endOfList = recipeState.endOfItems
             )
         }

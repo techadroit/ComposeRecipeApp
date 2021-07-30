@@ -29,6 +29,7 @@ import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.fullScreen
+import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_detail.LoadRecipeDetail
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailViewModel
@@ -36,10 +37,10 @@ import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
-fun RecipeDetail(recipeId: String, navController: NavController = ParentNavHostController.current) {
+fun RecipeDetail(recipeId: String) {
 
     val viewModel: RecipeDetailViewModel = hiltViewModel()
-    val state = viewModel.stateEmitter.collectAsState().value
+    val state = viewModel.observeState()
 
     Surface {
         if (state.isLoading)
