@@ -1,6 +1,7 @@
 package com.example.composerecipeapp.ui.main_view
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -64,6 +65,7 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable

@@ -14,13 +14,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.MultipleDispatch
 import com.example.composerecipeapp.ui.navigation.NavigationDirections
 import com.example.composerecipeapp.ui.theme.UserInterestComposable
+import com.example.composerecipeapp.ui.theme.primaryColorDark
+import com.example.composerecipeapp.ui.views.CuisineList
 import com.example.composerecipeapp.ui.views.SelectableChip
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.user_interest.*
@@ -38,14 +43,24 @@ fun UserInterest(navController: NavController) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
+                Text(
+                    modifier = Modifier.align(Alignment.TopStart),
+                    text = stringResource(id = R.string.select_cuisine),
+                    style = MaterialTheme.typography.h1.copy(color = primaryColorDark)
+                )
                 CuisineList(
                     cuisines = state.cuisines,
                     modifier = Modifier.align(Alignment.Center),
-                    viewModel = viewModel
-                )
+                ){ it,cuisine ->
+                    viewModel.dispatch(
+                        if (it)
+                            SelectedCuisine(cuisine)
+                        else
+                            RemoveCuisine(cuisine)
+                    )
+                }
                 if (state.enableNextOptions)
                     NextButton(
-                        navController = navController,
                         modifier = Modifier.align(Alignment.BottomEnd)
                     ) {
                         viewModel.dispatch(UserInterestSelected)
@@ -68,7 +83,7 @@ fun UserInterest(navController: NavController) {
 }
 
 @Composable
-fun NextButton(navController: NavController, modifier: Modifier, onClick: () -> Unit) {
+fun NextButton(modifier: Modifier, onClick: () -> Unit) {
     Button(
         onClick = {
             onClick()
@@ -81,49 +96,6 @@ fun NextButton(navController: NavController, modifier: Modifier, onClick: () -> 
         )
     ) {
         Text("Next", style = MaterialTheme.typography.body1)
-    }
-}
-
-@ExperimentalFoundationApi
-@Composable
-fun CuisineList(
-    cuisines: List<Cuisine>,
-    modifier: Modifier = Modifier,
-    viewModel: UserInterestViewModel
-) {
-    val selectionCount = remember {
-        mutableStateOf(0)
-    }
-    LazyVerticalGrid(cells = GridCells.Adaptive(120.dp), modifier = modifier) {
-        itemsIndexed(cuisines) { _, cuisine ->
-            CuisineChip(
-                text = cuisine.name,
-                isSelected = cuisine.isSelected,
-                selectionCount.value
-            ) {
-                if (it) selectionCount.value++ else selectionCount.value--
-                viewModel.dispatch(
-                    if (it)
-                        SelectedCuisine(cuisine)
-                    else
-                        RemoveCuisine(cuisine)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CuisineChip(
-    text: String,
-    isSelected: Boolean,
-    selectionCount: Int,
-    dispatcher: Dispatch<Boolean>
-) {
-    SelectableChip(label = text, contentDescription = "", selected = isSelected) {
-        if ((selectionCount < 5) || (selectionCount >= 5 && !it)) {
-            dispatcher(it)
-        }
     }
 }
 

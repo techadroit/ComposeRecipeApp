@@ -4,10 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0253a8833e69be2ff053159cafa4845d/transformed/exoplayer-common-2.14.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e72d94dd2ce95190949c103660557c79/transformed/exoplayer-common-2.14.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0253a8833e69be2ff053159cafa4845d/transformed/exoplayer-common-2.14.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0253a8833e69be2ff053159cafa4845d/transformed/exoplayer-common-2.14.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0253a8833e69be2ff053159cafa4845d/transformed/exoplayer-common-2.14.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0253a8833e69be2ff053159cafa4845d/transformed/exoplayer-common-2.14.1/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

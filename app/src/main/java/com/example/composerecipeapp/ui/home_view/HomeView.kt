@@ -8,6 +8,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,7 +44,9 @@ fun HomeView(navController: NavHostController) {
     } else {
         LoadingView()
     }
-    viewModel.dispatch(LoadRecipeEvent)
+    LaunchedEffect(true){
+        viewModel.dispatch(LoadRecipeEvent)
+    }
     state.sideEffect?.consume()?.let { onSideEffect(it,navController = navController) }
 }
 

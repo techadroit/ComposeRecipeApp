@@ -52,4 +52,8 @@ class UseCaseModule {
     @Provides
     fun getRecipeWithCuisineUseCase(recipeRepository: RecipeRepository,settingsDataStore: SettingsDataStore) =
         RecipesForSelectedCuisines(recipeRepository = recipeRepository,settingsDataStore = settingsDataStore)
+
+    @Provides
+    fun getSavedRecipeCuisineUseCase(recipeRepository: RecipeRepository,settingsDataStore: SettingsDataStore) =
+        GetSavedRecipeCuisine(recipeRepository = recipeRepository,settingsDataStore = settingsDataStore)
 }
