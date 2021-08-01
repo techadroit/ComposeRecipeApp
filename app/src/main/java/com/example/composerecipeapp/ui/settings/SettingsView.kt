@@ -29,6 +29,11 @@ fun SettingsView() {
         scaffoldState = scaffoldState,
         content = {
             Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Settings",
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
                 DarkModeON(state.isDarkModeOn) {
                     settingsViewModel.dispatch(ChangeDarkModeSettings(it))
                 }
@@ -48,7 +53,7 @@ fun SettingsView() {
         }
     )
 
-    state.sideEffect?.consume()?.let {
+    state.viewEffect?.consume()?.let {
         scope.launch {
             scaffoldState.snackbarHostState.showSnackbar(message = "Settings Saved Successfully")
         }
@@ -90,11 +95,6 @@ fun SaveButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             onClick()
         },
         modifier = modifier,
-//        colors =
-//        ButtonDefaults.buttonColors(
-//            backgroundColor = MaterialTheme.colors.secondary,
-//            contentColor = MaterialTheme.colors.onSurface
-//        )
     ) {
         Text("Save", style = MaterialTheme.typography.body1)
     }

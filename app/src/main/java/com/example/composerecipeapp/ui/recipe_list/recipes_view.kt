@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
+import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
@@ -31,14 +32,14 @@ import kotlinx.coroutines.launch
 fun RecipeView(
     cuisineKey: String
 ) {
-    val recipesViewmodel: RecipeListViewmodel = hiltViewModel()
+    val recipesViewModel: RecipeListViewmodel = hiltViewModel()
     val cuisine = remember { cuisineKey }
-    val recipeState = recipesViewmodel.observeState()
+    val recipeState = recipesViewModel.observeState()
     val navHostController = ParentNavHostController.current
     val scaffoldState = rememberScaffoldState()
 
     LaunchedEffect(cuisine) {
-        recipesViewmodel.dispatch(LoadRecipes(cuisine))
+        recipesViewModel.dispatch(LoadRecipes(cuisine))
     }
     Scaffold(
         scaffoldState = scaffoldState,
@@ -48,7 +49,7 @@ fun RecipeView(
             RecipeList(
                 recipeList = recipeState.recipes.allRecipes,
                 dispatch = {
-                    recipesViewmodel.dispatch(it)
+                    recipesViewModel.dispatch(it)
                 },
                 navigate = {
                     navHostController.navigate(it)
@@ -59,9 +60,9 @@ fun RecipeView(
             )
         }
     )
-    recipeState.sideEffect?.consume()
+    recipeState.viewEffect?.consume()
         ?.let {
-            RecipeSideEffect(sideEffect = it, scaffoldState = scaffoldState)
+            RecipeViewEffect(viewEffect = it, scaffoldState = scaffoldState)
         }
 }
 
@@ -183,11 +184,11 @@ fun CookingTimePreview() {
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun RecipeSideEffect(sideEffect: SideEffect, scaffoldState: ScaffoldState) {
+fun RecipeViewEffect(viewEffect: ViewEffect, scaffoldState: ScaffoldState) {
 
     val scope = rememberCoroutineScope()
-    when (sideEffect) {
-        is SideEffect.OnSavedRecipe -> {
+    when (viewEffect) {
+        is OnSavedRecipe -> {
             val message = stringResource(id = R.string.recipe_saved_text)
             scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(message = message)

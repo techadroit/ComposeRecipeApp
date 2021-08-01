@@ -29,7 +29,7 @@ class UserInterestViewModel @Inject constructor(
         viewModelScope.launch {
             settingsDataStore.storeCuisine(state.cuisines.filter { it.isSelected }.map { it.name })
             setState {
-                copy(sideEffect = SideEffect.OnCuisineSelected.asConsumable())
+                copy(viewEffect = OnCuisineSelected.asConsumable())
             }
         }
     }
@@ -53,8 +53,4 @@ class UserInterestViewModel @Inject constructor(
             }
         }
     }
-}
-
-sealed class SideEffect {
-    object OnCuisineSelected : SideEffect()
 }

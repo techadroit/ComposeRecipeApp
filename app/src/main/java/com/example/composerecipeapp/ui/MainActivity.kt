@@ -12,14 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.ui.main_view.BottomBar
@@ -133,7 +134,12 @@ fun AppContent() {
                 )
             )
         },
-        topBar = { SearchBarContainer(navController, searchViewModel = searchViewModel) },
+        topBar = {
+            if (currentRoute(navController = navController)
+                != NavigationDirections.settings.destination
+            )
+                SearchBarContainer(navController, searchViewModel = searchViewModel)
+        },
         snackbarHost = { scaffoldState.snackbarHostState }
     ) {
         Box(modifier = Modifier.padding(it)) {
@@ -143,6 +149,12 @@ fun AppContent() {
             )
         }
     }
+}
+
+@Composable
+fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
 
 @ExperimentalFoundationApi

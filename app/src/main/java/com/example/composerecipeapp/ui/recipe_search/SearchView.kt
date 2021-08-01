@@ -154,7 +154,7 @@ fun SearchBar(
                 keyboardType = KeyboardType.Text
             ),
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colors.primary
+                focusedBorderColor = MaterialTheme.colors.onSurface
             )
         )
     }

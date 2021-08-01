@@ -61,7 +61,7 @@ fun UserInterest(navController: NavController) {
         }
     }
 
-    state.sideEffect?.data?.let {
+    state.viewEffect?.data?.let {
         navController.navigate(NavigationDirections.mainDestination.destination) {
             popUpTo(NavigationDirections.userInterest.destination) {
                 inclusive = true

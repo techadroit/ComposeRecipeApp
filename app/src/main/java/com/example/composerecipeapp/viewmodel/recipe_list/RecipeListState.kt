@@ -3,11 +3,10 @@ package com.example.composerecipeapp.viewmodel.recipe_list
 import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.Consumable
+import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 
-sealed class SideEffect {
-    object OnSavedRecipe : SideEffect()
-}
+object OnSavedRecipe : ViewEffect()
 
 data class RecipeData(var allRecipes: List<RecipeModel>) {
     operator fun plus(recipeList: List<RecipeModel>): RecipeData {
@@ -18,7 +17,7 @@ data class RecipeData(var allRecipes: List<RecipeModel>) {
 
 data class RecipeListState(
     var recipes: RecipeData = RecipeData(emptyList()),
-    var sideEffect: Consumable<SideEffect>? = null,
+    var viewEffect: Consumable<ViewEffect>? = null,
     val isLoading: Boolean = false,
     val isPaginate: Boolean = false,
     val error: Failure? = null,
@@ -34,7 +33,7 @@ fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
     }
     return this.copy(
         recipes = RecipeData(list),
-        sideEffect = Consumable(SideEffect.OnSavedRecipe)
+        viewEffect = Consumable(OnSavedRecipe)
     )
 }
 

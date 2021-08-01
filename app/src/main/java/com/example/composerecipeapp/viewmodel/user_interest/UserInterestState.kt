@@ -2,11 +2,14 @@ package com.example.composerecipeapp.viewmodel.user_interest
 
 import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.core.functional.Consumable
+import com.example.composerecipeapp.core.functional.ViewEffect
+
+object OnCuisineSelected : ViewEffect()
 
 data class UserInterestState(
     val cuisines: List<Cuisine> = emptyList(),
     val enableNextOptions: Boolean = false,
-    val sideEffect: Consumable<SideEffect> ? = null
+    val viewEffect: Consumable<ViewEffect> ? = null
 ) : ArcherState
 
 data class Cuisine(val name: String, val isSelected: Boolean = false)

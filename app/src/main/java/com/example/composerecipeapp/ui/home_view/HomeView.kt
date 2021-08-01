@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.composerecipeapp.R
+import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.pojo.RecipeModel
@@ -31,25 +32,31 @@ fun HomeView(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeRecipeViewModel>()
     val state = viewModel.observeState()
     if (state.list.isNotEmpty()) {
-        LazyColumn(
-            content = {
-                items(state.list) {
-                    Text(
-                        text = it.cuisine,
-                        style = MaterialTheme.typography.h1,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                    RecipeListWithCuisine(recipe = it, viewModel = viewModel)
-                }
-            }
-        )
+        HomeViewContent(list = state.list, viewModel = viewModel)
     } else {
         LoadingView()
     }
     LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipeEvent)
     }
-    state.sideEffect?.consume()?.let { onSideEffect(it, navController = navController) }
+    state.viewEffect?.consume()?.let { onViewEffect(it, navController = navController) }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun HomeViewContent(list: List<RecipeWithCuisine>, viewModel: HomeRecipeViewModel) {
+    LazyColumn(
+        content = {
+            items(list) {
+                Text(
+                    text = it.cuisine,
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.padding(8.dp)
+                )
+                RecipeListWithCuisine(recipe = it, viewModel = viewModel)
+            }
+        }
+    )
 }
 
 @ExperimentalMaterialApi
@@ -135,13 +142,13 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
 }
 
 @Composable
-fun onSideEffect(sideEffect: SideEffect, navController: NavHostController) {
-    when (sideEffect) {
-        is SideEffect.ViewAllSideEffect ->
-            navController.navigate("recipes/${sideEffect.cuisine}")
-        is SideEffect.ViewRecipesDetailSideEffect -> {
+fun onViewEffect(viewEffect: ViewEffect, navController: NavHostController) {
+    when (viewEffect) {
+        is ViewAllViewEffect ->
+            navController.navigate("recipes/${viewEffect.cuisine}")
+        is ViewRecipesDetailViewEffect -> {
             val navHostController = ParentNavHostController.current
-            navHostController.navigate("recipe_details/${sideEffect.recipeId}")
+            navHostController.navigate("recipe_details/${viewEffect.recipeId}")
         }
     }
 }

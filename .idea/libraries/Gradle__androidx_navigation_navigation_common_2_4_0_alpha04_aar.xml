@@ -2,8 +2,8 @@
   <library name="Gradle: androidx.navigation:navigation-common:2.4.0-alpha04@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/17ed145cbb9a83dd03a91ce496a29758/transformed/navigation-common-2.4.0-alpha04/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/17ed145cbb9a83dd03a91ce496a29758/transformed/navigation-common-2.4.0-alpha04/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/17ed145cbb9a83dd03a91ce496a29758/transformed/navigation-common-2.4.0-alpha04/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/17ed145cbb9a83dd03a91ce496a29758/transformed/navigation-common-2.4.0-alpha04/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

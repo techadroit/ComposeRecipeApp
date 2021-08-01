@@ -34,7 +34,7 @@ class SettingsViewModel @Inject constructor(
         withState {
             settingsDataStore.storeCuisine(it.list.filter { it.isSelected }.map { it.name })
             setState {
-                copy(sideEffect = CuisinePreferencesSaved.asConsumable())
+                copy(viewEffect = CuisinePreferencesSaved.asConsumable())
             }
         }
     }

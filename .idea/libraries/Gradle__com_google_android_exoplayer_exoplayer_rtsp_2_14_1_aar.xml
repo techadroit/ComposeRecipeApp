@@ -4,7 +4,6 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/2f9070221317961f703cd82c95b912f1/transformed/exoplayer-rtsp-2.14.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2decf5676a841c65b113e11ae064babc/transformed/exoplayer-rtsp-2.14.1/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/2f9070221317961f703cd82c95b912f1/transformed/exoplayer-rtsp-2.14.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2f9070221317961f703cd82c95b912f1/transformed/exoplayer-rtsp-2.14.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2f9070221317961f703cd82c95b912f1/transformed/exoplayer-rtsp-2.14.1/AndroidManifest.xml" />
