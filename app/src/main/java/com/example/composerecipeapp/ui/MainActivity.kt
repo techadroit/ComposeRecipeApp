@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,7 +72,9 @@ fun MainContent(mainViewModel: MainViewModel) {
         else AppCompatDelegate.MODE_NIGHT_NO
     )
     ComposeRecipeAppTheme(darkTheme = state.isDarkModeOn) {
-        MainApp()
+        state.showLandingScreen?.let {
+            MainApp(it)
+        }
     }
 }
 
@@ -79,12 +83,15 @@ fun MainContent(mainViewModel: MainViewModel) {
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
-fun MainApp() {
+fun MainApp(showLandingScreen: Boolean) {
     val navController = rememberNavController()
     CompositionLocalProvider(ParentNavHostController provides navController) {
         NavHost(
             navController = navController,
-            startDestination = NavigationDirections.userInterest.destination
+            startDestination = if (showLandingScreen)
+                NavigationDirections.userInterest.destination
+            else
+                NavigationDirections.mainDestination.destination
         ) {
             composable(NavigationDirections.mainDestination.destination) {
                 AppContent()

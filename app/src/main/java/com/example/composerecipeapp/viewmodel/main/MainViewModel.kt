@@ -4,6 +4,7 @@ import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.data.datasource.SettingsDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,9 +21,11 @@ class MainViewModel @Inject constructor(
     }
 
     private fun loadSettings() {
-        settingsDataStore.isDarkModeOn().collectIn(viewModelScope) {
+        settingsDataStore.getCuisines().zip(settingsDataStore.isDarkModeOn()) { list, darkMode ->
+            MainViewState(isDarkModeOn = darkMode, showLandingScreen = list.isEmpty())
+        }.collectIn(viewModelScope) {
             setState {
-                copy(isDarkModeOn = it)
+                it
             }
         }
     }

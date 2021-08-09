@@ -35,6 +35,6 @@ class SettingsDataStore(val context: Context) {
     }
 
     fun getCuisines(): Flow<List<String>> = context.dataStore.data.map {
-        it[cuisines]?.split(",") ?: emptyList<String>()
+        it[cuisines]?.split(",") ?: emptyList()
     }
 }

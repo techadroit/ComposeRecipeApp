@@ -79,7 +79,7 @@ fun DarkModeON(isDarkModeOn: Boolean, dispatch: Dispatch<Boolean>) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = stringResource(id = R.string.settings), style = MaterialTheme.typography.h1)
+        Text(text = stringResource(id = R.string.dark_mode), style = MaterialTheme.typography.h1)
         Spacer(modifier = Modifier.weight(1f))
         Switch(
             checked = isDarkModeOn,
