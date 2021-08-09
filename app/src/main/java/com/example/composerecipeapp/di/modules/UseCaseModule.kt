@@ -27,8 +27,11 @@ class UseCaseModule {
         SearchVideoRecipeUsecase(repository)
 
     @Provides
-    fun getRecipeDetailViewUseCase(repository: RecipeRepository) =
-        GetRecipeDetailUsecase(repository)
+    fun getRecipeDetailViewUseCase(
+        repository: RecipeRepository,
+        localRepository: RecipeLocalRepository
+    ) =
+        GetRecipeDetailUsecase(repository, localRepository)
 
     @Provides
     fun getAutoCompleteUseCase(repository: RecipeRepository) = AutoCompleteUsecase(repository)
@@ -50,10 +53,22 @@ class UseCaseModule {
         GetSupportedCuisineUsecase(recipeRepository = recipeRepository)
 
     @Provides
-    fun getRecipeWithCuisineUseCase(recipeRepository: RecipeRepository, settingsDataStore: SettingsDataStore) =
-        RecipesForSelectedCuisines(recipeRepository = recipeRepository, settingsDataStore = settingsDataStore)
+    fun getRecipeWithCuisineUseCase(
+        recipeRepository: RecipeRepository,
+        settingsDataStore: SettingsDataStore
+    ) =
+        RecipesForSelectedCuisines(
+            recipeRepository = recipeRepository,
+            settingsDataStore = settingsDataStore
+        )
 
     @Provides
-    fun getSavedRecipeCuisineUseCase(recipeRepository: RecipeRepository, settingsDataStore: SettingsDataStore) =
-        GetSavedRecipeCuisine(recipeRepository = recipeRepository, settingsDataStore = settingsDataStore)
+    fun getSavedRecipeCuisineUseCase(
+        recipeRepository: RecipeRepository,
+        settingsDataStore: SettingsDataStore
+    ) =
+        GetSavedRecipeCuisine(
+            recipeRepository = recipeRepository,
+            settingsDataStore = settingsDataStore
+        )
 }

@@ -10,6 +10,8 @@ class RecipeLocalRepository(var recipeDao: RecipeDao) : BaseRepository {
 
     suspend fun getAllSavedRecipes(): List<SavedRecipe> = recipeDao.getAllSavedRecipe()
 
+    suspend fun isSaved(recipeId: Int) = recipeDao.isSavedRecipe(recipeId) > 0
+
     fun getSavedRecipesCount(): Flow<Long> = recipeDao.getTotalSavedRecipes()
 
     suspend fun deleteRecipes(id: Int) = recipeDao.deleteRecipe(id)

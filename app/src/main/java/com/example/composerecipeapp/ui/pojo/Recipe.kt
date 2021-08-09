@@ -20,10 +20,17 @@ data class VideoRecipeModel(
 )
 
 data class RecipeDetailModel(
+    val id: Int,
     val title: String,
     val sourceName: String,
     val sourceUrl: String,
     val imageUrl: String,
     val instructions: String,
+    val servings: Int,
+    val cookingTime: Int,
     val isSaved: Boolean = false
+)
+
+fun RecipeDetailModel.toRecipe() = RecipeModel(
+    this.id, this.title, this.servings, this.imageUrl, this.cookingTime, this.isSaved
 )

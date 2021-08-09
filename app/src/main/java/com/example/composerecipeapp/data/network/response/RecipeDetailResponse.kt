@@ -163,11 +163,15 @@ data class ProductMatche(
     val title: String
 )
 
-fun RecipeDetailResponse.toRecipeDetailModel() =
+fun RecipeDetailResponse.toRecipeDetailModel(isSaved: Boolean = false) =
     RecipeDetailModel(
+        id = this.id,
+        servings = this.servings,
+        cookingTime = 0,
         title = this.title,
         sourceName = this.sourceName,
         sourceUrl = this.sourceUrl,
         imageUrl = this.image,
-        instructions = this.instructions
+        instructions = this.instructions,
+        isSaved = isSaved
     )

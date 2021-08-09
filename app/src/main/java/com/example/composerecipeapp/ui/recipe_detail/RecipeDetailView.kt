@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.ui.views.SaveIcon
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
-import com.example.composerecipeapp.viewmodel.recipe_detail.LoadRecipeDetail
-import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
-import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailViewModel
+import com.example.composerecipeapp.viewmodel.recipe_detail.*
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -41,7 +41,7 @@ fun RecipeDetail(recipeId: String) {
     Surface {
         if (state.isLoading)
             LoadingView()
-        RecipeDetailBody(state = state)
+        RecipeDetailBody(state = state, viewModel = viewModel)
     }
 
     LaunchedEffect(recipeId) {
@@ -50,16 +50,18 @@ fun RecipeDetail(recipeId: String) {
 }
 
 @Composable
-fun RecipeDetailBody(state: RecipeDetailState) {
+fun RecipeDetailBody(state: RecipeDetailState, viewModel: RecipeDetailViewModel) {
     Column(modifier = Modifier.fullScreen()) {
         state.recipeDetail?.let {
-            RecipeDetailContentView(it)
+            RecipeDetailContentView(it) {
+                viewModel.dispatch(if (it) SaveRecipe else RemoveRecipe)
+            }
         }
     }
 }
 
 @Composable
-fun RecipeDetailContentView(recipeDetail: RecipeDetailModel) {
+fun RecipeDetailContentView(recipeDetail: RecipeDetailModel, dispatch: Dispatch<Boolean>) {
     val context = LocalContext.current
     Column(modifier = Modifier.wrapContentHeight()) {
         GlideImage(
@@ -68,10 +70,12 @@ fun RecipeDetailContentView(recipeDetail: RecipeDetailModel) {
                 .fillMaxWidth()
                 .height(240.dp)
         )
-        RecipeDescription(recipeDetail = recipeDetail) {
+        RecipeDescription(recipeDetail = recipeDetail, {
             val uri = it.toUri()
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
-        }
+        }, {
+            dispatch(it)
+        })
         RecipeContent(recipeDetail = recipeDetail)
     }
 }
@@ -95,14 +99,23 @@ fun RecipeContent(recipeDetail: RecipeDetailModel) {
 }
 
 @Composable
-fun RecipeDescription(recipeDetail: RecipeDetailModel, onSourceClick: (url: String) -> Unit) {
+fun RecipeDescription(
+    recipeDetail: RecipeDetailModel,
+    onSourceClick: (url: String) -> Unit,
+    dispatch: Dispatch<Boolean>
+) {
     Column(
         Modifier
             .padding(12.dp)
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Text(text = recipeDetail.title, style = MaterialTheme.typography.h1)
+        Row {
+            Text(text = recipeDetail.title, style = MaterialTheme.typography.h1)
+            SaveIcon(isSaved = recipeDetail.isSaved, onClick = {
+                dispatch(it)
+            })
+        }
         Spacer(modifier = Modifier.height(4.dp))
         ClickableText(text = AnnotatedString(recipeDetail.sourceName)) {
             onSourceClick.invoke(recipeDetail.sourceUrl)
@@ -119,7 +132,11 @@ class RecipeDetailProvider :
                 sourceName = "Spoonacular",
                 sourceUrl = "",
                 instructions = "many instrucdtions",
-                imageUrl = ""
+                imageUrl = "",
+                cookingTime = 0,
+                servings = 0,
+                isSaved = false,
+                id = 0
             )
         )
 
@@ -134,6 +151,6 @@ fun RecipeDescription1(
     recipeDetail: RecipeDetailModel
 ) {
     ComposeRecipeAppTheme(darkTheme = true) {
-        RecipeDescription(recipeDetail) {}
+        RecipeDescription(recipeDetail, {}, {})
     }
 }

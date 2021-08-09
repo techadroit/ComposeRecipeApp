@@ -4,6 +4,7 @@ import com.archerviewmodel.state.ArcherState
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.recipeapp.data.network.response.Recipe
 
 data class RecipeDetailState(
     val isLoading: Boolean = false,
@@ -21,3 +22,9 @@ fun RecipeDetailState.onSuccessResponse(
 fun RecipeDetailState.onError(failure: Failure) = this.copy(isLoading = false, failure = failure)
 
 fun RecipeDetailState.onLoading() = this.copy(isLoading = true)
+
+fun RecipeDetailState.onRemoveFromSavedList() =
+    this.copy(recipeDetail = this.recipeDetail?.copy(isSaved = false))
+
+fun RecipeDetailState.onRecipeSaved()  =
+    this.copy(recipeDetail = this.recipeDetail?.copy(isSaved = true))
