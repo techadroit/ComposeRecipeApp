@@ -11,7 +11,7 @@ abstract class RecipeDao {
     abstract suspend fun getAllSavedRecipe(): List<SavedRecipe>
 
     @Query("SELECT count(id) from saved_recipe where id = :id")
-    abstract suspend fun isSavedRecipe(id:Int): Int
+    abstract suspend fun isSavedRecipe(id: Int): Int
 
     @Query("SELECT count(id) from saved_recipe")
     abstract fun getSavedRecipesCount(): Flow<Long>

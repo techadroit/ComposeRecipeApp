@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
         enableLogging = true
         mainViewModel.dispatch(LoadSettings)
         setContent {

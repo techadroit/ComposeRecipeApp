@@ -19,6 +19,7 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
@@ -89,7 +90,7 @@ fun RecipeListWithCuisine(
 
 @ExperimentalMaterialApi
 @Composable
-fun RecipeItem(recipe: RecipeModel, onRowClick: (Int) -> Unit) {
+fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
     Card(
         onClick = { onRowClick(recipe.id) },
         modifier = Modifier

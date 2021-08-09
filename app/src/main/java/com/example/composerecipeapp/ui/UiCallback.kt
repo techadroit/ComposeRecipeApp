@@ -7,3 +7,5 @@ typealias MultipleDispatch<T, E> = (T, E) -> Unit
 typealias Navigate = (String) -> Unit
 
 typealias PopBackStack = () -> Unit
+
+typealias OnClick<T> = (T) -> Unit

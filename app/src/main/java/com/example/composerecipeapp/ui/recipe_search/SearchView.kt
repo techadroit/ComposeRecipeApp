@@ -26,12 +26,14 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.PopBackStack
@@ -61,7 +63,7 @@ fun SearchBarPreview() {
                     .onFocusChanged {
                     },
                 leadingIcon = { SearchIcon(onFocus = false, {}, {}) },
-                placeholder = { Text(text = "Enter Text To Search") },
+                placeholder = { Text(stringResource(id = R.string.text_to_search)) },
             )
         }
     }
@@ -138,7 +140,7 @@ fun SearchBar(
                     }
                 )
             },
-            placeholder = { Text(text = "Enter Text To Search") },
+            placeholder = { Text(stringResource(id = R.string.text_to_search)) },
             keyboardActions = KeyboardActions(
                 onDone = {
                     val text = textState.value.text
@@ -188,7 +190,7 @@ fun EmptySearchView() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Search result will appear here")
+        Text(stringResource(id = R.string.search_result))
     }
 }
 

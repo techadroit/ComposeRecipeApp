@@ -16,6 +16,7 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
+import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
@@ -30,9 +31,9 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeView(
-    cuisineKey: String
+    cuisineKey: String,
+    recipesViewModel: RecipeListViewmodel = hiltViewModel()
 ) {
-    val recipesViewModel: RecipeListViewmodel = hiltViewModel()
     val cuisine = remember { cuisineKey }
     val recipeState = recipesViewModel.observeState()
     val navHostController = ParentNavHostController.current
@@ -118,7 +119,7 @@ fun RecipeList(
                 }
                 if (endOfList && recipeList.isEmpty()) {
                     item {
-                        Text("Sorry, No result found")
+                        Text(stringResource(id = R.string.no_result))
                     }
                 }
             }
@@ -131,9 +132,9 @@ fun RecipeList(
 fun RecipeListItem(
     recipe: RecipeModel,
     index: Int,
-    onRowClick: (Int) -> Unit,
-    onSaveClick: (RecipeModel) -> Unit,
-    onRemoveClick: (RecipeModel) -> Unit
+    onRowClick: OnClick<Int>,
+    onSaveClick: OnClick<RecipeModel>,
+    onRemoveClick: OnClick<RecipeModel>
 ) {
     Card(
         onClick = { onRowClick.invoke(recipe.id) },

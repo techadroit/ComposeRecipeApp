@@ -8,9 +8,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.views.CuisineList
 import com.example.composerecipeapp.util.observeState
@@ -30,7 +32,7 @@ fun SettingsView() {
         content = {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Settings",
+                    text = stringResource(id = R.string.settings),
                     style = MaterialTheme.typography.h1,
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
@@ -77,7 +79,7 @@ fun DarkModeON(isDarkModeOn: Boolean, dispatch: Dispatch<Boolean>) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "Dark Mode", style = MaterialTheme.typography.h1)
+        Text(text = stringResource(id = R.string.settings), style = MaterialTheme.typography.h1)
         Spacer(modifier = Modifier.weight(1f))
         Switch(
             checked = isDarkModeOn,
@@ -96,7 +98,7 @@ fun SaveButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
         },
         modifier = modifier,
     ) {
-        Text("Save", style = MaterialTheme.typography.body1)
+        Text(text = stringResource(id = R.string.save), style = MaterialTheme.typography.body1)
     }
 }
 

@@ -87,7 +87,7 @@ fun NextButton(modifier: Modifier, onClick: () -> Unit) {
                 contentColor = MaterialTheme.colors.onSurface
             )
     ) {
-        Text("Next", style = MaterialTheme.typography.body1)
+        Text(text = stringResource(id = R.string.next), style = MaterialTheme.typography.body1)
     }
 }
 

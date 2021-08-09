@@ -53,8 +53,8 @@ fun RecipeDetail(recipeId: String) {
 fun RecipeDetailBody(state: RecipeDetailState, viewModel: RecipeDetailViewModel) {
     Column(modifier = Modifier.fullScreen()) {
         state.recipeDetail?.let {
-            RecipeDetailContentView(it) {
-                viewModel.dispatch(if (it) SaveRecipe else RemoveRecipe)
+            RecipeDetailContentView(it) { isSaved ->
+                viewModel.dispatch(if (isSaved) SaveRecipe else RemoveRecipe)
             }
         }
     }
@@ -70,12 +70,16 @@ fun RecipeDetailContentView(recipeDetail: RecipeDetailModel, dispatch: Dispatch<
                 .fillMaxWidth()
                 .height(240.dp)
         )
-        RecipeDescription(recipeDetail = recipeDetail, {
-            val uri = it.toUri()
-            context.startActivity(Intent(Intent.ACTION_VIEW, uri))
-        }, {
-            dispatch(it)
-        })
+        RecipeDescription(
+            recipeDetail = recipeDetail,
+            {
+                val uri = it.toUri()
+                context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+            },
+            {
+                dispatch(it)
+            }
+        )
         RecipeContent(recipeDetail = recipeDetail)
     }
 }
@@ -112,9 +116,12 @@ fun RecipeDescription(
     ) {
         Row {
             Text(text = recipeDetail.title, style = MaterialTheme.typography.h1)
-            SaveIcon(isSaved = recipeDetail.isSaved, onClick = {
-                dispatch(it)
-            })
+            SaveIcon(
+                isSaved = recipeDetail.isSaved,
+                onClick = {
+                    dispatch(it)
+                }
+            )
         }
         Spacer(modifier = Modifier.height(4.dp))
         ClickableText(text = AnnotatedString(recipeDetail.sourceName)) {
