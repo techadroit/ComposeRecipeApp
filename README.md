@@ -1,9 +1,15 @@
 <h1 align="center">Compose RecipeApp</h1>
 
 <p align="center">A demo Recipe App using Jetpack Compose and Hilt based on MVI and clean architecture. The App showcases some of thebest practices to 
-follow when building apps with jetpack compose.</p>
-
+follow when building apps with jetpack compose. This App also supports Dark and light mode.</p>
 </br>
+
+<p align="center">
+<img src="https://img.shields.io/github/issues/techadroit/ComposeRecipeApp"/>  
+  <img src = "https://img.shields.io/github/forks/techadroit/ComposeRecipeApp"/>
+  <img src="https://img.shields.io/github/stars/techadroit/ComposeRecipeApp"/>
+  <a href="https://twitter.com/techadroit89"><img alt="twitter" src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Ftechadroit%2FComposeRecipeApp"/></>
+</p>
 
 ## Tech stack & Open-source libraries </br>
 - Minimum SDK level 21 </br>
