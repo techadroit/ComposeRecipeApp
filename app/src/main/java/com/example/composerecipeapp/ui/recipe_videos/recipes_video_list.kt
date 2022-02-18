@@ -38,30 +38,26 @@ import com.skydoves.landscapist.glide.GlideImage
 fun RecipesVideoList(navController: NavController = ParentNavHostController.current) {
 
     val recipesViewModel: VideoListViewmodel = hiltViewModel()
-    LaunchedEffect(Unit) {
-        recipesViewModel.dispatch(LoadVideos())
-    }
     val recipeState = recipesViewModel.observeState()
 
-    RecipeListContent(
-        {
+    RecipeListContent(recipeState.data,
+        recipeState.isLoading && recipeState.isPaginate, {
             recipesViewModel.dispatch(it)
-        },
-        recipeState.data,
-        recipeState.isLoading && recipeState.isPaginate,
-        {
+        }, {
             navController.navigate(it)
-        }
-    )
-    if (recipeState.isLoading && !recipeState.isPaginate)
+        })
+
+    if (recipeState.isLoading && !recipeState.isPaginate) {
         LoadingView()
+        recipesViewModel.dispatch(LoadVideos())
+    }
 }
 
 @Composable
 fun RecipeListContent(
-    dispatch: Dispatch<VideoEvents>,
     list: List<VideoRecipeModel>,
     showPaginationLoading: Boolean,
+    dispatch: Dispatch<VideoEvents>,
     navigate: Navigate
 ) {
     val scrollState = rememberLazyListState()

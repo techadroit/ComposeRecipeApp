@@ -5,7 +5,7 @@ import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 
 data class RecipeVideoState(
     val data: List<VideoRecipeModel> = emptyList(),
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val isPaginate: Boolean = false
 ) : ArcherState
 

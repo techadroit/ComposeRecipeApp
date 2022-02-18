@@ -8,13 +8,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.R
 import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
@@ -32,12 +32,11 @@ import com.skydoves.landscapist.glide.GlideImage
 fun HomeView(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeRecipeViewModel>()
     val state = viewModel.observeState()
+
     if (state.list.isNotEmpty()) {
         HomeViewContent(list = state.list, viewModel = viewModel)
     } else {
         LoadingView()
-    }
-    LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipeEvent)
     }
     state.viewEffect?.consume()?.let { onViewEffect(it, navController = navController) }
@@ -45,7 +44,10 @@ fun HomeView(navController: NavHostController) {
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeViewContent(list: List<RecipeWithCuisine>, viewModel: HomeRecipeViewModel) {
+fun HomeViewContent(
+    list: List<RecipeWithCuisine>,
+    viewModel: ArcherViewModel<HomeRecipeState, HomeRecipeEvent>
+) {
     LazyColumn(
         content = {
             items(list) {
@@ -64,7 +66,7 @@ fun HomeViewContent(list: List<RecipeWithCuisine>, viewModel: HomeRecipeViewMode
 @Composable
 fun RecipeListWithCuisine(
     recipe: RecipeWithCuisine,
-    viewModel: HomeRecipeViewModel
+    viewModel: ArcherViewModel<HomeRecipeState, HomeRecipeEvent>
 ) {
     val scrollState = rememberLazyListState()
     LazyRow(
