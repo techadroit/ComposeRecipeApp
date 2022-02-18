@@ -4,13 +4,6 @@
 follow when building apps with jetpack compose. This App also supports Dark and light mode.</p>
 </br>
 
-<p align="center">
-<img src="https://img.shields.io/github/issues/techadroit/ComposeRecipeApp"/>  
-  <img src = "https://img.shields.io/github/forks/techadroit/ComposeRecipeApp"/>
-  <img src="https://img.shields.io/github/stars/techadroit/ComposeRecipeApp"/>
-  <a href="https://twitter.com/techadroit89"><img alt="twitter" src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Ftechadroit%2FComposeRecipeApp"/></>
-</p>
-
 ## Tech stack & Open-source libraries </br>
 - Minimum SDK level 21 </br>
 - 100% [Kotlin](https://kotlinlang.org/) based + [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
@@ -29,4 +22,36 @@ follow when building apps with jetpack compose. This App also supports Dark and 
 - [Landscapist](https://github.com/skydoves/Landscapist) - Jetpack Compose image loading library</br>
 - [Retrofit2 & OkHttp3](https://github.com/square/retrofit) - construct the REST APIs and paging network data.
 - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore?gclid=CjwKCAjw64eJBhAGEiwABr9o2FD-BDrGrl7q2ZrxLXPQcOBCs22FgfloM8yLgoZzW21JZdeuYPxP0RoCcSwQAvD_BwE&gclsrc=aw.ds) 
+
+
+<table>
+    <caption>Dark Mode</caption>
+  <td>
+    <p align="center">
+      <img src="https://user-images.githubusercontent.com/4759634/152944374-4d7c28c7-01c8-443f-9bd7-2bcb7952c4f7.png" alt="Recipe Home Screen" width="300"/>
+    </p>
+  </td>
+  <td>
+    <p align="center">
+      <img src="https://user-images.githubusercontent.com/4759634/152944396-87708a75-8786-4a06-9929-b077bf458372.png" alt="Recipe Video Screen" width="300"/>
+    </p>
+  </td>
+</tr>
+</table>
+
+
+<table>
+    <caption>Light Mode</caption>
+  <td>
+    <p align="center">
+      <img src="https://user-images.githubusercontent.com/4759634/152944407-f09b8e65-d8d6-48c9-b44c-3d1d519e24ef.png" alt="Recipe Home Screen" width="300"/>
+    </p>
+  </td>
+  <td>
+    <p align="center">
+      <img src="https://user-images.githubusercontent.com/4759634/152944417-ad7cdfbf-678b-48bc-b75b-04e2366f8029.png" alt="Recipe Video Screen" width="300"/>
+    </p>
+  </td>
+</tr>
+</table>
 
