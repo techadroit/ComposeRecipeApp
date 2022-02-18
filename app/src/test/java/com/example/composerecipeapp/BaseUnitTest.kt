@@ -1,13 +1,14 @@
 package com.example.composerecipeapp
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 
 abstract class BaseUnitTest {
 
     @ExperimentalCoroutinesApi
-    protected val testCoroutineDispatcher = TestCoroutineDispatcher()
+    protected val testCoroutineDispatcher = StandardTestDispatcher()
+
     @ExperimentalCoroutinesApi
-    protected val testScope = TestCoroutineScope(testCoroutineDispatcher)
+    protected val testScope = TestScope(testCoroutineDispatcher)
 }

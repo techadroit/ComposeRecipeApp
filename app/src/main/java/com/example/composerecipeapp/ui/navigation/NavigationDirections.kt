@@ -1,6 +1,7 @@
 package com.example.composerecipeapp.ui.navigation
 
-import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.NamedNavArgument
+
 
 object NavigationDirections {
 
