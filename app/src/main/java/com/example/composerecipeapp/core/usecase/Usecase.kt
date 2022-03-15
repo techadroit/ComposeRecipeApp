@@ -29,6 +29,7 @@ abstract class UseCase<out Type, in Params> {
 //
 // }
 
+
 abstract class FlowUseCase<out Type, in Params> : UseCase<Type, Params>() {
     operator fun invoke(params: Params): Flow<Type> {
         return flow {

@@ -9,7 +9,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
@@ -24,26 +24,49 @@ import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
 import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
 import com.example.composerecipeapp.ui.settings.SettingsView
+import com.example.composerecipeapp.viewmodel.main.MainViewModel
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
+@ExperimentalMaterialApi
 @Composable
-fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
+fun BottomBar(
+    navController: NavHostController,
+    items: List<BottomBarItems>,
+    mainViewModel: MainViewModel
+) {
 
     val selectedIndex = rememberSaveable {
         mutableStateOf(0)
     }
+
+    val counter = mainViewModel.counter.collectAsState().value
 
     BottomNavigation {
         items.forEachIndexed { index, mainScreen ->
             BottomNavigationItem(
                 icon = {
                     val isSelected = selectedIndex.value == index
-                    Icon(
-                        mainScreen.getIcon(index),
-                        tint = if (isSelected) MaterialTheme.colors.secondary
-                        else Color.LightGray,
-                        contentDescription = mainScreen.tabName
-                    )
+                    if (index == 1) {
+                        BadgeBox(badgeContent = {
+                            if (counter > 0) {
+                                Text(text = counter.toString())
+                            }
+                        }) {
+                            Icon(
+                                mainScreen.getIcon(index),
+                                tint = if (isSelected) MaterialTheme.colors.secondary
+                                else Color.LightGray,
+                                contentDescription = mainScreen.tabName
+                            )
+                        }
+                    } else {
+                        Icon(
+                            mainScreen.getIcon(index),
+                            tint = if (isSelected) MaterialTheme.colors.secondary
+                            else Color.LightGray,
+                            contentDescription = mainScreen.tabName
+                        )
+                    }
                 },
                 selected = true,
                 onClick = {

@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.archerviewmodel.ArcherViewModel
+import com.archerviewmodel.extensions.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
@@ -10,7 +10,6 @@ import com.example.composerecipeapp.domain.usecases.SimilarRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.pojo.toRecipe
-import com.example.composerecipeapp.viewmodel.recipe_list.onRecipeSaved
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.zip

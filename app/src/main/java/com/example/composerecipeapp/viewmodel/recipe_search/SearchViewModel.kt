@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_search
 
 import com.archerviewmodel.ArcherViewModel
-import com.example.composerecipeapp.core.functional.collectIn
+import com.archerviewmodel.extensions.collectIn
 import com.example.composerecipeapp.domain.usecases.AutoCompleteUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -20,7 +20,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchForKeyword(keyword: String) {
+    fun searchForKeyword(keyword: String) {
         usecase(keyword)
             .catch { }
             .collectIn(viewModelScope) {

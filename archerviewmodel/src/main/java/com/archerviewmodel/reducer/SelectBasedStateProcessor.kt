@@ -2,9 +2,9 @@ package com.archerviewmodel.reducer
 
 import com.archerviewmodel.events.ArcherEvent
 import com.archerviewmodel.events.EventHolder
+import com.archerviewmodel.extensions.collectIn
 import com.archerviewmodel.state.ArcherState
 import com.archerviewmodel.state.StateHolder
-import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.logger.Logger
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.core.logger.logd
@@ -52,7 +52,7 @@ internal class SelectBasedStateProcessor<S : ArcherState, E : ArcherEvent>(
      * Queue for actions on the current state.
      * Has unlimited capacity so that sending new elements to it is not a blocking operation
      **/
-    private val getStateChannel: Channel<action<S>> = Channel(Channel.UNLIMITED)
+    val getStateChannel: Channel<action<S>> = Channel(Channel.UNLIMITED)
 
     /**
      * A convenience utility to check if any of the queues contain jobs to be processed

@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.recipe_video
 
 import com.archerviewmodel.ArcherViewModel
+import com.archerviewmodel.extensions.collectIn
 import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
 import com.example.composerecipeapp.util.QUERY
 import com.recipeapp.data.network.response.VideoListResponses

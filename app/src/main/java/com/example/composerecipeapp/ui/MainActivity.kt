@@ -73,7 +73,7 @@ fun MainContent(mainViewModel: MainViewModel) {
     )
     ComposeRecipeAppTheme(darkTheme = state.isDarkModeOn) {
         state.showLandingScreen?.let {
-            MainApp(it)
+            MainApp(it, mainViewModel)
         }
     }
 }
@@ -83,7 +83,7 @@ fun MainContent(mainViewModel: MainViewModel) {
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
-fun MainApp(showLandingScreen: Boolean) {
+fun MainApp(showLandingScreen: Boolean, mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     CompositionLocalProvider(ParentNavHostController provides navController) {
         NavHost(
@@ -94,7 +94,7 @@ fun MainApp(showLandingScreen: Boolean) {
                 NavigationDirections.mainDestination.destination
         ) {
             composable(NavigationDirections.mainDestination.destination) {
-                AppContent()
+                AppContent(mainViewModel)
             }
             composable(NavigationDirections.recipeDetailDestination.destination) {
                 val id = it.arguments?.getString("recipe_id")
@@ -117,7 +117,7 @@ fun MainApp(showLandingScreen: Boolean) {
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
-fun AppContent() {
+fun AppContent(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     val searchViewModel: SearchViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
@@ -137,7 +137,8 @@ fun AppContent() {
                         "Videos"
                     ),
                     BottomBarItems(NavigationDirections.settings.destination, "Settings")
-                )
+                ),
+                mainViewModel = mainViewModel
             )
         },
         topBar = {
@@ -171,6 +172,6 @@ fun currentRoute(navController: NavHostController): String? {
 @Composable
 fun DefaultPreview() {
     ComposeRecipeAppTheme(darkTheme = false) {
-        AppContent()
+//        AppContent()
     }
 }

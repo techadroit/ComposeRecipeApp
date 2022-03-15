@@ -11,7 +11,10 @@ import com.example.composerecipeapp.core.logger.Logger
 import com.example.composerecipeapp.core.logger.androidLogger
 import com.example.composerecipeapp.core.logger.logd
 import com.example.composerecipeapp.core.logger.logv
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
@@ -22,9 +25,9 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
 
     protected val logger: Logger by lazy { androidLogger(tag = this::class.java.simpleName) }
     private val eventFlow = emptyFlow<E>()
-    val viewModelScope by lazy {
+    var viewModelScope =
         CoroutineScope(stateStoreContext)
-    }
+
 
     /**
      * The state store associated with this ViewModel
@@ -71,8 +74,8 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
      */
     fun dispatch(event: E) {
         withState {
-            stateStore.offerGetEvent(event)
             onEvent(event, it)
+            stateStore.offerGetEvent(event)
         }
     }
 
@@ -112,5 +115,27 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
         logger.logv { "Clearing ViewModel" }
         super.onCleared()
         stateStore.clear()
+    }
+
+    suspend fun runStateTest(
+        e: E, func: (event: E, state: S) -> Unit
+    ) {
+        dispatch(e)
+        val event = event.first()
+        delay(1000)
+        println(" the event is $event")
+        val state = state.first()
+        println(" the state is $state")
+        func(event, state)
+    }
+
+    suspend fun runTest(
+        e: E, func: (event: E, state: S) -> Unit
+    ) {
+        onEvent(e, currentState)
+        delay(1000)
+        val state = currentState
+        println(" the state is $state")
+        func(e, state)
     }
 }

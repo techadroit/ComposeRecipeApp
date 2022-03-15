@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.core.functional
+package com.archerviewmodel.extensions
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

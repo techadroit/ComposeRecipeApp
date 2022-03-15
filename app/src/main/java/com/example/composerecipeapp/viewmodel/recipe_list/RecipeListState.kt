@@ -13,6 +13,8 @@ data class RecipeData(var allRecipes: List<RecipeModel>) {
         val newList = (allRecipes + recipeList).distinctBy { it.id }
         return RecipeData(newList)
     }
+
+    fun isEmpty() = allRecipes.isEmpty()
 }
 
 data class RecipeListState(

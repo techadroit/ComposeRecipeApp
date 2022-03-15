@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.home_recipes
 
 import com.archerviewmodel.ArcherViewModel
+import com.archerviewmodel.extensions.collectIn
 import com.example.composerecipeapp.core.functional.asConsumable
-import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.usecase.None
 import com.example.composerecipeapp.domain.usecases.RecipesForSelectedCuisines
 import dagger.hilt.android.lifecycle.HiltViewModel
