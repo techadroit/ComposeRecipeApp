@@ -18,6 +18,12 @@ class MainViewModel @Inject constructor(
     ArcherViewModel<MainViewState, MainViewEvent>(initialState = initialState) {
 
     val counter = MutableStateFlow(0L)
+    val showBadge = MutableStateFlow(false)
+    var currentIndex = 0
+
+    fun onScreenChange(index: Int) {
+        currentIndex = index
+    }
 
     override fun onEvent(event: MainViewEvent, state: MainViewState) {
         when (event) {

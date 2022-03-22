@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,7 +33,7 @@ import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 fun BottomBar(
     navController: NavHostController,
     items: List<BottomBarItems>,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
 
     val selectedIndex = rememberSaveable {
@@ -40,36 +41,37 @@ fun BottomBar(
     }
 
     val counter = mainViewModel.counter.collectAsState().value
+    val showBadge = mainViewModel.showBadge.collectAsState().value
 
     BottomNavigation {
+
         items.forEachIndexed { index, mainScreen ->
             BottomNavigationItem(
                 icon = {
                     val isSelected = selectedIndex.value == index
-                    if (index == 1) {
+                    if (index == 1 && showBadge) {
                         BadgeBox(badgeContent = {
                             if (counter > 0) {
                                 Text(text = counter.toString())
                             }
                         }) {
-                            Icon(
-                                mainScreen.getIcon(index),
-                                tint = if (isSelected) MaterialTheme.colors.secondary
-                                else Color.LightGray,
-                                contentDescription = mainScreen.tabName
+                            BottomIcons(
+                                index = index,
+                                bottomBarItems = mainScreen,
+                                isSelected = isSelected
                             )
                         }
                     } else {
-                        Icon(
-                            mainScreen.getIcon(index),
-                            tint = if (isSelected) MaterialTheme.colors.secondary
-                            else Color.LightGray,
-                            contentDescription = mainScreen.tabName
+                        BottomIcons(
+                            index = index,
+                            bottomBarItems = mainScreen,
+                            isSelected = isSelected
                         )
                     }
                 },
                 selected = true,
                 onClick = {
+                    mainViewModel.onScreenChange(index)
                     selectedIndex.value = index
                     val route = mainScreen.routeName
                     navController.navigate(route) {
@@ -85,6 +87,17 @@ fun BottomBar(
             )
         }
     }
+
+}
+
+@Composable
+fun BottomIcons(index: Int, bottomBarItems: BottomBarItems, isSelected: Boolean) {
+    Icon(
+        bottomBarItems.getIcon(index),
+        tint = if (isSelected) MaterialTheme.colors.secondary
+        else Color.LightGray,
+        contentDescription = bottomBarItems.tabName
+    )
 }
 
 @ExperimentalFoundationApi
@@ -132,3 +145,8 @@ fun BottomBarItems.getIcon(index: Int): ImageVector =
     } else {
         Icons.Default.Settings
     }
+
+const val HOME = 0
+const val FAVOURITES = 1
+const val VIDEOS = 2
+const val SETTINGS = 3
