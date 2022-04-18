@@ -15,6 +15,11 @@ data class RecipeData(var allRecipes: List<RecipeModel>) {
     }
 
     fun isEmpty() = allRecipes.isEmpty()
+
+    /**
+     * check if there is atleast one saved recipes
+     */
+    fun hasSaved() = allRecipes.count { it.isSaved } > 0
 }
 
 data class RecipeListState(
