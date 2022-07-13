@@ -1,4 +1,4 @@
-package com.recipeapp.core.network.api_service
+package com.example.composerecipeapp.core.network.api_service
 
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey

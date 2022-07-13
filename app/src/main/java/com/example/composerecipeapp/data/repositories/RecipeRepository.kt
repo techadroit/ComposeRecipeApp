@@ -1,10 +1,10 @@
 package com.example.composerecipeapp.data.repositories
 
 import com.example.composerecipeapp.core.exception.Failure
+import com.example.composerecipeapp.core.network.api_service.RecipeApi
 import com.example.composerecipeapp.core.repository.BaseRepository
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey
-import com.recipeapp.core.network.api_service.RecipeApi
 import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.SimilarRecipe
