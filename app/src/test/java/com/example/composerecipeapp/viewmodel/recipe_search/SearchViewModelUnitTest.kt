@@ -5,10 +5,11 @@ import com.example.composerecipeapp.domain.usecases.AutoCompleteUsecase
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flow
-import org.junit.After
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+
 
 class SearchViewModelUnitTest : BaseUnitTest() {
 
@@ -20,12 +21,7 @@ class SearchViewModelUnitTest : BaseUnitTest() {
 
     @Before
     fun setUp() {
-        searchViewModel = SearchViewModel(initialState, useCase, testContext)
-    }
-
-    @After
-    fun cleanUp() {
-        searchViewModel.clearResource()
+        searchViewModel = SearchViewModel(initialState, useCase)
     }
 
     @Test
@@ -33,7 +29,7 @@ class SearchViewModelUnitTest : BaseUnitTest() {
         coEvery { useCase(any()) } returns flow {
             emit(response)
         }
-        executeTest {
+        runTest {
             searchViewModel.runStateTest(SearchTextEvent("Chicken")) { _, s ->
                 assertTrue(s.list == response)
             }

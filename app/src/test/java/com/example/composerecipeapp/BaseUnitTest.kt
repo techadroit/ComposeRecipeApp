@@ -1,14 +1,18 @@
 package com.example.composerecipeapp
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
+import io.mockk.MockKAnnotations
+import org.junit.BeforeClass
 
 abstract class BaseUnitTest {
 
-    @ExperimentalCoroutinesApi
-    protected val testCoroutineDispatcher = StandardTestDispatcher()
+//    @ExperimentalCoroutinesApi
+//    protected val testCoroutineDispatcher = StandardTestDispatcher()
+//
+//    @ExperimentalCoroutinesApi
+//    protected val testScope = TestScope(testCoroutineDispatcher)
 
-    @ExperimentalCoroutinesApi
-    protected val testScope = TestScope(testCoroutineDispatcher)
+    @BeforeClass
+    fun b() {
+        MockKAnnotations.init()
+    }
 }

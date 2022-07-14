@@ -11,7 +11,9 @@ import com.example.composerecipeapp.core.logger.Logger
 import com.example.composerecipeapp.core.logger.androidLogger
 import com.example.composerecipeapp.core.logger.logd
 import com.example.composerecipeapp.core.logger.logv
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
@@ -112,5 +114,12 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
         logger.logv { "Clearing ViewModel" }
         super.onCleared()
         stateStore.clear()
+    }
+
+    suspend fun runStateTest(e: E, onResponse: (E, S) -> Unit) {
+        dispatch(e)
+        val event = event.single()
+        val state = state.single()
+        onResponse(event, state)
     }
 }

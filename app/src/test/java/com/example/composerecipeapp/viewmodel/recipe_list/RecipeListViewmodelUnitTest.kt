@@ -9,6 +9,8 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -31,7 +33,6 @@ class RecipeListViewmodelUnitTest : BaseUnitTest() {
 
     @After
     fun afterTest() {
-        viewModel?.clearResource()
         viewModel = null
         println("I was called after")
     }
@@ -44,7 +45,6 @@ class RecipeListViewmodelUnitTest : BaseUnitTest() {
             savedRecipeUsecase,
             searchUsecase,
             deleteSavedRecipe,
-            testContext
         )
         println("I was called before")
     }
@@ -52,7 +52,7 @@ class RecipeListViewmodelUnitTest : BaseUnitTest() {
     @Test
     fun testLoadRecipes() {
         coEvery { searchUsecase(any()) } returns flow { emit(listOf(recipeModel) to false) }
-        executeTest {
+        runTest {
             viewModel?.runStateTest(LoadRecipes("query")) { e, s ->
                 assert(s.isLoading)
             }
@@ -62,7 +62,7 @@ class RecipeListViewmodelUnitTest : BaseUnitTest() {
     @Test
     fun testSavedRecipes() {
         coEvery { savedRecipeUsecase(any()) } returns flow { emit(1L) }
-        executeTest {
+        runTest {
             viewModel?.runStateTest(SaveRecipeEvent(recipeModel)) { e, s ->
                 assert(e is SaveRecipeEvent)
                 verify(atLeast = 1) { savedRecipeUsecase(any()) }
@@ -73,10 +73,9 @@ class RecipeListViewmodelUnitTest : BaseUnitTest() {
     @Test
     fun testDelete() {
         coEvery { deleteSavedRecipe(any()) } returns flow { emit(1) }
-        executeTest {
+        runBlocking {
             viewModel?.runStateTest(RemoveSavedRecipeEvent(recipeModel)) { e, s ->
                 assert(e is RemoveSavedRecipeEvent)
-                assert(!s.recipes.isEmpty())
             }
         }
     }
