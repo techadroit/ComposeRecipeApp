@@ -1,9 +1,9 @@
 package com.example.composerecipeapp.ui.views
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +24,7 @@ fun CuisineList(
     val selectionCount = remember {
         mutableStateOf(selectionCount)
     }
-    LazyVerticalGrid(cells = GridCells.Adaptive(120.dp), modifier = modifier) {
+    LazyVerticalGrid(columns = GridCells.Adaptive(120.dp), modifier = modifier) {
         itemsIndexed(cuisines) { _, cuisine ->
             CuisineChip(
                 text = cuisine.name,

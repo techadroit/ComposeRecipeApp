@@ -10,7 +10,6 @@ import com.example.composerecipeapp.domain.usecases.SimilarRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.pojo.toRecipe
-import com.example.composerecipeapp.viewmodel.recipe_list.onRecipeSaved
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.zip
