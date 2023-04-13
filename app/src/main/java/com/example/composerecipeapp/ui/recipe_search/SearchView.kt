@@ -32,8 +32,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.composerecipeapp.R
+import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
+import com.example.composerecipeapp.platform.navigation.screens.RecipeListIntent
+import com.example.composerecipeapp.platform.navigation.screens.SearchScreenIntent
+import com.example.composerecipeapp.platform.navigation.screens.SearchViewIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.PopBackStack
@@ -71,10 +74,19 @@ fun SearchBarPreview() {
 
 @ExperimentalComposeUiApi
 @Composable
-fun SearchBarContainer(navController: NavHostController, searchViewModel: SearchViewModel) {
+fun SearchBarContainer(
+    parentNavigation: AppMainNavigation,
+    navController: AppMainNavigation,
+    searchViewModel: SearchViewModel
+) {
 
     SearchBar(
-        navigate = { navController.navigate(it) },
+        navigate = {
+            if (it is SearchViewIntent)
+                navController.navigateTo(it)
+            else
+                parentNavigation.navigateTo(it)
+        },
         dispatch = { searchViewModel.dispatch(it) }
     ) {
         navController.popBackStack()
@@ -97,7 +109,7 @@ fun SearchBar(
     }
 
     fun onSearchFocus() {
-        navigate("search")
+        navigate(SearchViewIntent())
         onFocus.value = true
     }
 
@@ -144,7 +156,7 @@ fun SearchBar(
             keyboardActions = KeyboardActions(
                 onDone = {
                     val text = textState.value.text
-                    navigate("recipes/$text")
+                    navigate(SearchScreenIntent(text = text))
                     softwareKeyboardController?.hide()
                     view.clearFocus()
                     textState.value = TextFieldValue("")
@@ -164,7 +176,7 @@ fun SearchBar(
 
 @ExperimentalAnimationApi
 @Composable
-fun SearchView(navController: NavHostController, searchViewModel: SearchViewModel) {
+fun SearchView(appMainNavigation: AppMainNavigation, searchViewModel: SearchViewModel) {
 
     val state = searchViewModel.observeState()
     val focusManager = LocalFocusManager.current
@@ -177,7 +189,7 @@ fun SearchView(navController: NavHostController, searchViewModel: SearchViewMode
         if (state.list.isEmpty())
             EmptySearchView()
         KeywordList(list = state.list) {
-            navController.navigate("recipes/$it")
+            appMainNavigation.navigateTo(navItems = RecipeListIntent(it))
             focusManager.clearFocus()
         }
     }
