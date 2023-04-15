@@ -30,14 +30,18 @@ import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.platform.navigation.screens.*
 import com.example.composerecipeapp.ui.main_view.BottomBar
 import com.example.composerecipeapp.ui.main_view.BottomBarItems
+import com.example.composerecipeapp.ui.main_view.MainScreen
 import com.example.composerecipeapp.ui.main_view.NavigationView
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_detail.RecipeDetail
+import com.example.composerecipeapp.ui.recipe_detail.RecipeDetailScreen
 import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
+import com.example.composerecipeapp.ui.recipe_videos.VideoPlayerScreen
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.user_interest.UserInterest
+import com.example.composerecipeapp.ui.user_interest.UserInterestScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
@@ -113,63 +117,10 @@ fun MainApp(
             else
                 MainViewIntent()
         ) {
-            NavComposable(UserInterestIntent()) {
-                UserInterest()
-            }
-            NavComposable(MainViewIntent()) {
-                val mainViewNavigator = appMainNavigationFactory.create(rememberNavController())
-                CompositionLocalProvider(MainViewNavigator provides mainViewNavigator) {
-                    AppContent()
-                }
-            }
-            NavComposable(RecipeDetailIntent()) {
-                val arguments = RecipeDetailIntent.getArguments(it.arguments)
-                RecipeDetail(recipeId = arguments.recipeId)
-            }
-            NavComposable(VideoPlayerIntent()) {
-                VideoPlayer()
-            }
-        }
-    }
-}
-
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@Composable
-fun AppContent() {
-    val topLevelNavigator = ParentNavHostController.current
-    val searchViewModel: SearchViewModel = hiltViewModel()
-    val scaffoldState = rememberScaffoldState()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        bottomBar = {
-            BottomBar(
-                items = listOf(
-                    BottomBarItems(HomeViewIntent.getScreenName(), "Home"),
-                    BottomBarItems(
-                        SavedRecipeIntent.getScreenName(),
-                        "Saved Recipes"
-                    ),
-                    BottomBarItems(
-                        RecipeVideoListIntent.getScreenName(),
-                        "Videos"
-                    ),
-                    BottomBarItems(SettingsViewIntent.getScreenName(), "Settings")
-                )
-            )
-        },
-        topBar = {
-            if (topLevelNavigator.getCurrentRoute()
-                != SettingsViewIntent.getScreenName()
-            )
-                SearchBarContainer(searchViewModel = searchViewModel)
-        },
-        snackbarHost = { scaffoldState.snackbarHostState }
-    ) {
-        Box(modifier = Modifier.padding(it)) {
-            NavigationView(searchViewModel)
+            UserInterestScreen()
+            MainScreen(appMainNavigationFactory)
+            RecipeDetailScreen()
+            VideoPlayerScreen()
         }
     }
 }
@@ -180,14 +131,3 @@ fun currentRoute(navController: NavHostController): String? {
     return navBackStackEntry?.destination?.route
 }
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DefaultPreview() {
-    ComposeRecipeAppTheme(darkTheme = false) {
-//        AppContent()
-    }
-}
