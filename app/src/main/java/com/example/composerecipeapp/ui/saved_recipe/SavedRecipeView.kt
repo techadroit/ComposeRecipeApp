@@ -21,6 +21,7 @@ import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailInte
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.observeState
@@ -33,9 +34,8 @@ import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeViewModel
 @Composable
 fun SaveRecipeView(
     viewModel: SaveRecipeViewModel = hiltViewModel(),
-    appMainNavigation: AppMainNavigation
 ) {
-
+    val topLevelNavigator = ParentNavHostController.current
     LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipe())
     }
@@ -53,7 +53,7 @@ fun SaveRecipeView(
                     viewModel.dispatch(it)
                 },
                 navigate = {
-                    appMainNavigation.navigateTo(it)
+                    topLevelNavigator.navigateTo(it)
                 }
             )
     }

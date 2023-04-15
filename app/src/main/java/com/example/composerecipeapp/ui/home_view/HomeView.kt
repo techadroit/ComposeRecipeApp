@@ -23,6 +23,8 @@ import com.example.composerecipeapp.platform.navigation.screens.RecipeListIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.home_recipes.*
@@ -30,10 +32,12 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeView(parentNavigation: AppMainNavigation, appMainNavigation: AppMainNavigation) {
+fun HomeView() {
+
+    val topLevelNavigator = ParentNavHostController.current
+    val mainViewNavigator = MainViewNavigator.current
     val viewModel = hiltViewModel<HomeRecipeViewModel>()
     val state = viewModel.observeState()
-
 
     if (state.list.isNotEmpty()) {
         HomeViewContent(list = state.list, viewModel = viewModel)
@@ -41,7 +45,7 @@ fun HomeView(parentNavigation: AppMainNavigation, appMainNavigation: AppMainNavi
         LoadingView()
         viewModel.dispatch(LoadRecipeEvent)
     }
-    state.viewEffect?.consume()?.let { onViewEffect(it, parentNavigation, appMainNavigation) }
+    state.viewEffect?.consume()?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
 }
 
 @ExperimentalMaterialApi
@@ -153,11 +157,9 @@ fun onViewEffect(
     appMainNavigation: AppMainNavigation
 ) {
     when (viewEffect) {
-        is ViewAllViewEffect -> appMainNavigation.navigateTo(RecipeListIntent(cuisine = viewEffect.cuisine))
-//            navController.navigate("recipes/${viewEffect.cuisine}")
-        is ViewRecipesDetailViewEffect -> {
+        is ViewAllViewEffect ->
+            appMainNavigation.navigateTo(RecipeListIntent(cuisine = viewEffect.cuisine))
+        is ViewRecipesDetailViewEffect ->
             parentNavigation.navigateTo(RecipeDetailIntent(detailId = viewEffect.recipeId))
-        }
-        else -> {}
     }
 }

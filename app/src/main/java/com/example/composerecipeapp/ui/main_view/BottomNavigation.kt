@@ -18,6 +18,8 @@ import com.example.composerecipeapp.platform.navigation.navigator.AppNavHost
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.platform.navigation.screens.*
 import com.example.composerecipeapp.ui.home_view.HomeView
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeView
 import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
@@ -26,8 +28,9 @@ import com.example.composerecipeapp.ui.settings.SettingsView
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
 @Composable
-fun BottomBar(appMainNavigation: AppMainNavigation, items: List<BottomBarItems>) {
+fun BottomBar(items: List<BottomBarItems>) {
 
+    val mainViewNavigator = MainViewNavigator.current
     val selectedIndex = rememberSaveable {
         mutableStateOf(0)
     }
@@ -48,7 +51,7 @@ fun BottomBar(appMainNavigation: AppMainNavigation, items: List<BottomBarItems>)
                 onClick = {
                     selectedIndex.value = index
                     val route = mainScreen.routeName
-                    val navController = appMainNavigation.getNavController()
+                    val navController = mainViewNavigator.getNavController()
                     navController.navigate(route) {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
@@ -69,31 +72,31 @@ fun BottomBar(appMainNavigation: AppMainNavigation, items: List<BottomBarItems>)
 @ExperimentalAnimationApi
 @Composable
 fun NavigationView(
-    navController: AppMainNavigation,
-    searchViewModel: SearchViewModel,
-    appMainNavigation: AppMainNavigation
+    searchViewModel: SearchViewModel
 ) {
+
+    val mainViewNavigator = MainViewNavigator.current
     AppNavHost(
-        appMainNavigation,
+        mainViewNavigator,
         startDestination = HomeViewIntent()
     ) {
         NavComposable(RecipeListIntent()) {
             val arguments = RecipeListIntent.getArguments(it.arguments)
             arguments?.let {
-                RecipeView(cuisineKey = arguments.recipeId, navController)
+                RecipeView(cuisineKey = arguments.recipeId)
             }
         }
         NavComposable(HomeViewIntent()) {
-            HomeView(navController, appMainNavigation)
+            HomeView()
         }
         NavComposable(RecipeVideoListIntent()) {
-            RecipesVideoList(navController)
+            RecipesVideoList()
         }
         NavComposable(SavedRecipeIntent()) {
-            SaveRecipeView(appMainNavigation = appMainNavigation)
+            SaveRecipeView()
         }
         NavComposable(SearchViewIntent()) {
-            SearchView(appMainNavigation, searchViewModel)
+            SearchView(searchViewModel)
         }
         NavComposable(SettingsViewIntent()) {
             SettingsView()

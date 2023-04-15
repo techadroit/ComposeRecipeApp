@@ -38,8 +38,9 @@ import com.example.composerecipeapp.viewmodel.recipe_video.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun RecipesVideoList(appMainNavigation: AppMainNavigation) {
+fun RecipesVideoList() {
 
+    val topLevelNavigator = ParentNavHostController.current
     val recipesViewModel: VideoListViewmodel = hiltViewModel()
     val recipeState = recipesViewModel.observeState()
 
@@ -47,7 +48,7 @@ fun RecipesVideoList(appMainNavigation: AppMainNavigation) {
         recipeState.isLoading && recipeState.isPaginate, {
             recipesViewModel.dispatch(it)
         }, {
-            appMainNavigation.navigateTo(it)
+            topLevelNavigator.navigateTo(it)
         })
 
     if (recipeState.isLoading && !recipeState.isPaginate) {

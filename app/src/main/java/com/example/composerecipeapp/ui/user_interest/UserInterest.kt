@@ -17,6 +17,7 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.platform.navigation.screens.MainViewIntent
 import com.example.composerecipeapp.platform.navigation.screens.UserInterestIntent
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.UserInterestComposable
 import com.example.composerecipeapp.ui.theme.primaryColorDark
 import com.example.composerecipeapp.ui.views.CuisineList
@@ -25,7 +26,8 @@ import com.example.composerecipeapp.viewmodel.user_interest.*
 
 @ExperimentalFoundationApi
 @Composable
-fun UserInterest(appMainNavigation: AppMainNavigation) {
+fun UserInterest() {
+    val topLevelNavigator = ParentNavHostController.current
     val viewModel: UserInterestViewModel = hiltViewModel()
     val state = viewModel.observeState()
 
@@ -63,12 +65,7 @@ fun UserInterest(appMainNavigation: AppMainNavigation) {
     }
 
     state.viewEffect?.data?.let {
-        appMainNavigation.navigateTo(MainViewIntent(), UserInterestIntent(), true)
-//        navController.navigate(MainViewIntent.getScreenName()) {
-//            popUpTo(UserInterestIntent.getScreenName()) {
-//                inclusive = true
-//            }
-//        }
+        topLevelNavigator.navigateTo(MainViewIntent(), UserInterestIntent(), true)
     }
 
     LaunchedEffect(true) {

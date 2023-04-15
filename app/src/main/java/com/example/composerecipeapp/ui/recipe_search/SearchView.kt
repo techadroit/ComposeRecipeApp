@@ -33,13 +33,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.platform.navigation.screens.RecipeListIntent
 import com.example.composerecipeapp.platform.navigation.screens.SearchScreenIntent
 import com.example.composerecipeapp.platform.navigation.screens.SearchViewIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.PopBackStack
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
@@ -75,21 +75,19 @@ fun SearchBarPreview() {
 @ExperimentalComposeUiApi
 @Composable
 fun SearchBarContainer(
-    parentNavigation: AppMainNavigation,
-    navController: AppMainNavigation,
     searchViewModel: SearchViewModel
 ) {
-
+    val mainViewNavigator = MainViewNavigator.current
     SearchBar(
         navigate = {
             if (it is SearchViewIntent)
-                navController.navigateTo(it)
+                mainViewNavigator.navigateTo(it)
             else
-                parentNavigation.navigateTo(it)
+                mainViewNavigator.navigateTo(it)
         },
         dispatch = { searchViewModel.dispatch(it) }
     ) {
-        navController.popBackStack()
+        mainViewNavigator.popBackStack()
     }
 }
 
@@ -176,8 +174,9 @@ fun SearchBar(
 
 @ExperimentalAnimationApi
 @Composable
-fun SearchView(appMainNavigation: AppMainNavigation, searchViewModel: SearchViewModel) {
+fun SearchView(searchViewModel: SearchViewModel) {
 
+    val mainViewNavigator = MainViewNavigator.current
     val state = searchViewModel.observeState()
     val focusManager = LocalFocusManager.current
 
@@ -189,7 +188,7 @@ fun SearchView(appMainNavigation: AppMainNavigation, searchViewModel: SearchView
         if (state.list.isEmpty())
             EmptySearchView()
         KeywordList(list = state.list) {
-            appMainNavigation.navigateTo(navItems = RecipeListIntent(it))
+            mainViewNavigator.navigateTo(navItems = RecipeListIntent(it))
             focusManager.clearFocus()
         }
     }

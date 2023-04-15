@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui
+package com.example.composerecipeapp.ui.main
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -31,10 +31,10 @@ import com.example.composerecipeapp.platform.navigation.screens.*
 import com.example.composerecipeapp.ui.main_view.BottomBar
 import com.example.composerecipeapp.ui.main_view.BottomBarItems
 import com.example.composerecipeapp.ui.main_view.NavigationView
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_detail.RecipeDetail
 import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
-import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayer
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.user_interest.UserInterest
@@ -105,8 +105,7 @@ fun MainApp(
     appMainNavigation: AppMainNavigation,
     appMainNavigationFactory: AppMainNavigationFactory
 ) {
-    val navController = rememberNavController()
-    CompositionLocalProvider(ParentNavHostController provides navController) {
+    CompositionLocalProvider(ParentNavHostController provides appMainNavigation) {
         AppNavHost(
             navigator = appMainNavigation,
             startDestination = if (showLandingScreen)
@@ -115,10 +114,13 @@ fun MainApp(
                 MainViewIntent()
         ) {
             NavComposable(UserInterestIntent()) {
-                UserInterest(appMainNavigation)
+                UserInterest()
             }
             NavComposable(MainViewIntent()) {
-                AppContent(appMainNavigation, appMainNavigationFactory)
+                val mainViewNavigator = appMainNavigationFactory.create(rememberNavController())
+                CompositionLocalProvider(MainViewNavigator provides mainViewNavigator) {
+                    AppContent()
+                }
             }
             NavComposable(RecipeDetailIntent()) {
                 val arguments = RecipeDetailIntent.getArguments(it.arguments)
@@ -130,57 +132,20 @@ fun MainApp(
         }
     }
 }
-//@ExperimentalFoundationApi
-//@ExperimentalMaterialApi
-//@ExperimentalComposeUiApi
-//@ExperimentalAnimationApi
-//@Composable
-//fun MainApp(showLandingScreen: Boolean) {
-//    val navController = rememberNavController()
-//    CompositionLocalProvider(ParentNavHostController provides navController) {
-//        NavHost(
-//            navController = navController,
-//            startDestination = if (showLandingScreen)
-//                NavigationDirections.userInterest.destination
-//            else
-//                NavigationDirections.mainDestination.destination
-//        ) {
-//            composable(NavigationDirections.mainDestination.destination) {
-//                AppContent()
-//            }
-//            composable(NavigationDirections.recipeDetailDestination.destination) {
-//                val id = it.arguments?.getString("recipe_id")
-//                id?.let {
-//                    RecipeDetail(id)
-//                }
-//            }
-//            composable(NavigationDirections.videoPlayer.destination) {
-//                VideoPlayer()
-//            }
-//            composable(NavigationDirections.userInterest.destination) {
-//                UserInterest(navController)
-//            }
-//        }
-//    }
-//}
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
-fun AppContent(
-    parentNavigation: AppMainNavigation,
-    appMainNavigationFactory: AppMainNavigationFactory
-) {
-    val appMainNavigation = appMainNavigationFactory.create(rememberNavController())
+fun AppContent() {
+    val topLevelNavigator = ParentNavHostController.current
     val searchViewModel: SearchViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomBar(
-                appMainNavigation = appMainNavigation,
                 items = listOf(
                     BottomBarItems(HomeViewIntent.getScreenName(), "Home"),
                     BottomBarItems(
@@ -196,23 +161,15 @@ fun AppContent(
             )
         },
         topBar = {
-            if (appMainNavigation.getCurrentRoute()
+            if (topLevelNavigator.getCurrentRoute()
                 != SettingsViewIntent.getScreenName()
             )
-                SearchBarContainer(
-                    parentNavigation,
-                    appMainNavigation,
-                    searchViewModel = searchViewModel
-                )
+                SearchBarContainer(searchViewModel = searchViewModel)
         },
         snackbarHost = { scaffoldState.snackbarHostState }
     ) {
         Box(modifier = Modifier.padding(it)) {
-            NavigationView(
-                navController = parentNavigation,
-                searchViewModel,
-                appMainNavigation = appMainNavigation,
-            )
+            NavigationView(searchViewModel)
         }
     }
 }

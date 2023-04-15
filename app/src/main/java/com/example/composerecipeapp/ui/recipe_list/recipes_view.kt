@@ -20,6 +20,7 @@ import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.*
@@ -35,9 +36,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun RecipeView(
     cuisineKey: String,
-    appMainNavigation: AppMainNavigation,
     recipesViewModel: RecipeListViewmodel = hiltViewModel()
 ) {
+    val topLevelNavigator = ParentNavHostController.current
     val cuisine = remember { cuisineKey }
     val recipeState = recipesViewModel.observeState()
     val scaffoldState = rememberScaffoldState()
@@ -56,7 +57,7 @@ fun RecipeView(
                     recipesViewModel.dispatch(it)
                 },
                 navigate = {
-                    appMainNavigation.navigateTo(it)
+                    topLevelNavigator.navigateTo(it)
                 },
                 showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
                 keyword = cuisine,
