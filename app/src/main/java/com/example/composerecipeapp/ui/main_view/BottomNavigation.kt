@@ -9,16 +9,17 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
+import com.example.composerecipeapp.platform.navigation.navigator.AppNavHost
+import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.example.composerecipeapp.platform.navigation.screens.*
 import com.example.composerecipeapp.ui.home_view.HomeView
-import com.example.composerecipeapp.ui.navigation.NavigationDirections
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeView
 import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
@@ -27,8 +28,9 @@ import com.example.composerecipeapp.ui.settings.SettingsView
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
 @Composable
-fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
+fun BottomBar(items: List<BottomBarItems>) {
 
+    val mainViewNavigator = MainViewNavigator.current
     val selectedIndex = rememberSaveable {
         mutableStateOf(0)
     }
@@ -49,6 +51,7 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
                 onClick = {
                     selectedIndex.value = index
                     val route = mainScreen.routeName
+                    val navController = mainViewNavigator.getNavController()
                     navController.navigate(route) {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
@@ -69,29 +72,33 @@ fun BottomBar(navController: NavHostController, items: List<BottomBarItems>) {
 @ExperimentalAnimationApi
 @Composable
 fun NavigationView(
-    navController: NavHostController,
     searchViewModel: SearchViewModel
 ) {
-    NavHost(navController, startDestination = NavigationDirections.homeView.destination) {
-        composable(NavigationDirections.recipeList.destination) {
-            val keyword = it.arguments?.getString("keyword")
-            keyword?.let {
-                RecipeView(cuisineKey = keyword)
+
+    val mainViewNavigator = MainViewNavigator.current
+    AppNavHost(
+        mainViewNavigator,
+        startDestination = HomeViewIntent()
+    ) {
+        NavComposable(RecipeListIntent()) {
+            val arguments = RecipeListIntent.getArguments(it.arguments)
+            arguments?.let {
+                RecipeView(cuisineKey = arguments.recipeId)
             }
         }
-        composable(NavigationDirections.homeView.destination) {
-            HomeView(navController)
+        NavComposable(HomeViewIntent()) {
+            HomeView()
         }
-        composable(NavigationDirections.recipeVideoDestination.destination) {
+        NavComposable(RecipeVideoListIntent()) {
             RecipesVideoList()
         }
-        composable(NavigationDirections.savedRecipeDestination.destination) {
+        NavComposable(SavedRecipeIntent()) {
             SaveRecipeView()
         }
-        composable(NavigationDirections.searchDestination.destination) {
-            SearchView(navController, searchViewModel)
+        NavComposable(SearchViewIntent()) {
+            SearchView(searchViewModel)
         }
-        composable(NavigationDirections.settings.destination) {
+        NavComposable(SettingsViewIntent()) {
             SettingsView()
         }
     }

@@ -21,6 +21,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
+import com.example.composerecipeapp.platform.navigation.screens.RecipeVideoListIntent
+import com.example.composerecipeapp.platform.navigation.screens.VideoPlayerIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
@@ -35,8 +38,9 @@ import com.example.composerecipeapp.viewmodel.recipe_video.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun RecipesVideoList(navController: NavController = ParentNavHostController.current) {
+fun RecipesVideoList() {
 
+    val topLevelNavigator = ParentNavHostController.current
     val recipesViewModel: VideoListViewmodel = hiltViewModel()
     val recipeState = recipesViewModel.observeState()
 
@@ -44,7 +48,7 @@ fun RecipesVideoList(navController: NavController = ParentNavHostController.curr
         recipeState.isLoading && recipeState.isPaginate, {
             recipesViewModel.dispatch(it)
         }, {
-            navController.navigate(it)
+            topLevelNavigator.navigateTo(it)
         })
 
     if (recipeState.isLoading && !recipeState.isPaginate) {
@@ -93,7 +97,7 @@ fun VideoCard(index: Int, recipe: VideoRecipeModel, navigate: Navigate) {
                 vertical = if (index == 0) 8.dp else 4.dp
             )
             .clickable {
-                navigate("recipe/videos/${recipe.youTubeId}")
+                navigate(VideoPlayerIntent(recipe.youTubeId))
             }
     ) {
         VideoContent(recipe = recipe)

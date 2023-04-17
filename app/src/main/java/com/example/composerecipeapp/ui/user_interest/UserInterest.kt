@@ -13,18 +13,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.ui.navigation.NavigationDirections
+import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
+import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.example.composerecipeapp.platform.navigation.screens.MainViewIntent
+import com.example.composerecipeapp.platform.navigation.screens.UserInterestIntent
+import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.UserInterestComposable
 import com.example.composerecipeapp.ui.theme.primaryColorDark
 import com.example.composerecipeapp.ui.views.CuisineList
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.user_interest.*
 
+@OptIn(ExperimentalFoundationApi::class)
+fun NavGraphBuilder.UserInterestScreen(){
+    NavComposable(UserInterestIntent()) {
+        UserInterest()
+    }
+}
+
 @ExperimentalFoundationApi
 @Composable
-fun UserInterest(navController: NavController) {
+fun UserInterest() {
+    val topLevelNavigator = ParentNavHostController.current
     val viewModel: UserInterestViewModel = hiltViewModel()
     val state = viewModel.observeState()
 
@@ -62,11 +74,7 @@ fun UserInterest(navController: NavController) {
     }
 
     state.viewEffect?.data?.let {
-        navController.navigate(NavigationDirections.mainDestination.destination) {
-            popUpTo(NavigationDirections.userInterest.destination) {
-                inclusive = true
-            }
-        }
+        topLevelNavigator.navigateTo(MainViewIntent(), UserInterestIntent(), true)
     }
 
     LaunchedEffect(true) {
@@ -82,10 +90,10 @@ fun NextButton(modifier: Modifier, onClick: () -> Unit) {
         },
         modifier = modifier,
         colors =
-            ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.secondary,
-                contentColor = MaterialTheme.colors.onSurface
-            )
+        ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.secondary,
+            contentColor = MaterialTheme.colors.onSurface
+        )
     ) {
         Text(text = stringResource(id = R.string.next), style = MaterialTheme.typography.body1)
     }

@@ -6,6 +6,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavGraphBuilder
+import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.example.composerecipeapp.platform.navigation.screens.VideoPlayerIntent
 import com.example.composerecipeapp.util.fullScreen
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -13,6 +16,12 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+
+fun NavGraphBuilder.VideoPlayerScreen(){
+    NavComposable(VideoPlayerIntent()) {
+        VideoPlayer()
+    }
+}
 
 @Composable
 fun VideoPlayer() {

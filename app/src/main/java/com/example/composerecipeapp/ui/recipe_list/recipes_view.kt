@@ -14,10 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
 import com.example.composerecipeapp.core.functional.ViewEffect
+import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
+import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.*
@@ -27,6 +30,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -34,9 +38,9 @@ fun RecipeView(
     cuisineKey: String,
     recipesViewModel: RecipeListViewmodel = hiltViewModel()
 ) {
+    val topLevelNavigator = ParentNavHostController.current
     val cuisine = remember { cuisineKey }
     val recipeState = recipesViewModel.observeState()
-    val navHostController = ParentNavHostController.current
     val scaffoldState = rememberScaffoldState()
 
     LaunchedEffect(cuisine) {
@@ -53,7 +57,7 @@ fun RecipeView(
                     recipesViewModel.dispatch(it)
                 },
                 navigate = {
-                    navHostController.navigate(it)
+                    topLevelNavigator.navigateTo(it)
                 },
                 showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
                 keyword = cuisine,
@@ -89,7 +93,7 @@ fun RecipeList(
                             recipe = recipe,
                             index = index,
                             {
-                                navigate("recipe_details/$it")
+                                navigate(RecipeDetailIntent(detailId = it.toString()))
                             },
                             {
                                 dispatch(SaveRecipeEvent(it))

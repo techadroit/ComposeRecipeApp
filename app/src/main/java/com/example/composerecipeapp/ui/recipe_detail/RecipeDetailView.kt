@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
@@ -31,6 +34,13 @@ import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_detail.*
 import com.skydoves.landscapist.glide.GlideImage
+
+fun NavGraphBuilder.RecipeDetailScreen(){
+    NavComposable(RecipeDetailIntent()) {
+        val arguments = RecipeDetailIntent.getArguments(it.arguments)
+        RecipeDetail(recipeId = arguments.recipeId)
+    }
+}
 
 @Composable
 fun RecipeDetail(recipeId: String) {

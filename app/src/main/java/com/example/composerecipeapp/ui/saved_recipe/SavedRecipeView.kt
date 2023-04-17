@@ -16,6 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
+import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
+import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.pojo.RecipeModel
@@ -30,13 +32,14 @@ import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeViewModel
 
 @ExperimentalMaterialApi
 @Composable
-fun SaveRecipeView(viewModel: SaveRecipeViewModel = hiltViewModel()) {
-
+fun SaveRecipeView(
+    viewModel: SaveRecipeViewModel = hiltViewModel(),
+) {
+    val topLevelNavigator = ParentNavHostController.current
     LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipe())
     }
     val state = viewModel.observeState()
-    val navHostController = ParentNavHostController.current
     if (state.isLoading) {
         LoadingView()
     } else {
@@ -50,7 +53,7 @@ fun SaveRecipeView(viewModel: SaveRecipeViewModel = hiltViewModel()) {
                     viewModel.dispatch(it)
                 },
                 navigate = {
-                    navHostController.navigate(it)
+                    topLevelNavigator.navigateTo(it)
                 }
             )
     }
@@ -88,7 +91,7 @@ fun RecipeList(
                             recipe = recipe,
                             index = index,
                             {
-                                navigate("recipe_details/$it")
+                                navigate(RecipeDetailIntent(detailId = it.toString()))
                             },
                             {
                             },

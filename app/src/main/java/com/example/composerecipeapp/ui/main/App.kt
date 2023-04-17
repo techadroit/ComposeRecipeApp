@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui
+package com.example.composerecipeapp.ui.main
 
 import android.app.Application
 import android.content.Context
