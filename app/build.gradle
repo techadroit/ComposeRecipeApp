@@ -3,20 +3,21 @@ plugins {
     alias libs.plugins.kotlin
     alias libs.plugins.hilt.dagger
     id "org.jetbrains.kotlin.kapt"
+    id "recipe.android.application"
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.3"
+//    compileSdkVersion 33
+//    buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.composerecipeapp"
-        minSdkVersion 24
-        targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
+//        applicationId "com.example.composerecipeapp"
+//        minSdkVersion 24
+//        targetSdkVersion 33
+//        versionCode 1
+//        versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -25,18 +26,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion "1.4.0"
     }
 }
 
