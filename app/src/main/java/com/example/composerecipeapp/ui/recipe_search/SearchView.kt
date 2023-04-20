@@ -33,9 +33,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.platform.navigation.screens.RecipeListIntent
-import com.example.composerecipeapp.platform.navigation.screens.SearchScreenIntent
-import com.example.composerecipeapp.platform.navigation.screens.SearchViewIntent
+import com.example.composerecipeapp.ui.destinations.RecipeListIntent
+import com.example.composerecipeapp.ui.destinations.SearchScreenIntent
+import com.example.composerecipeapp.ui.destinations.SearchViewIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.PopBackStack

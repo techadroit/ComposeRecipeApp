@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.platform.navigation.screens
+package com.example.composerecipeapp.ui.destinations
 
 import android.os.Bundle
 import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
