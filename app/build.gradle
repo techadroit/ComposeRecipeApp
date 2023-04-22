@@ -4,40 +4,16 @@ plugins {
     alias libs.plugins.hilt.dagger
     id "org.jetbrains.kotlin.kapt"
     id "recipe.android.application"
+    id "android.application.compose"
 }
 
 android {
-//    compileSdkVersion 33
-//    buildToolsVersion "30.0.3"
-
-    defaultConfig {
-//        applicationId "com.example.composerecipeapp"
-//        minSdkVersion 24
-//        targetSdkVersion 33
-//        versionCode 1
-//        versionName "1.0"
-
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-//    kotlinOptions {
-//        jvmTarget = '1.8'
-//    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion "1.4.0"
     }
 }
 
@@ -75,11 +51,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.4.0'
 
-    implementation libs.androidx.compose
-    implementation libs.androidx.compose.foundation
-    implementation libs.androidx.compose.material
-    implementation libs.androidx.compose.ui.tooling
-//    implementation libs.compose
+//    implementation libs.androidx.compose
+//    implementation libs.androidx.compose.foundation
+//    implementation libs.androidx.compose.material
+//    implementation libs.androidx.compose.ui.tooling
+////    implementation libs.compose
     androidTestImplementation libs.androidx.compose.ui.test.junit
     debugImplementation libs.androidx.compose.ui.test.junit
 
