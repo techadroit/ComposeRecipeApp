@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.core.network
 
+import com.example.composerecipeapp.core.network.call_adapter.FlowCallAdapterFactory
 import com.google.gson.Gson
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -54,6 +55,7 @@ class DebugServiceProvider(
         return Retrofit.Builder()
             .baseUrl(url)
             .addConverterFactory(gsonConverter)
+            .addCallAdapterFactory(FlowCallAdapterFactory())
             .client(client).build()
     }
 
