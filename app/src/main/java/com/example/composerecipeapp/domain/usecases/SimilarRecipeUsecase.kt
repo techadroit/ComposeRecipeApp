@@ -1,16 +1,17 @@
 package com.example.composerecipeapp.domain.usecases
 
-import com.example.composerecipeapp.core.usecase.FlowUseCase
-import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.example.composerecipeapp.core.usecase.NewFlowUseCase
+import com.example.composerecipeapp.data.repositories.NewRecipeRepository
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class SimilarRecipeUsecase(var recipeRepository: RecipeRepository) :
-    FlowUseCase<List<RecipeModel>, SimilarRecipeUsecase.Param>() {
-    override suspend fun run(params: Param): List<RecipeModel> {
-        val response = recipeRepository.getSimilarRecipeFor(
-            params.limitLicense, params.id, params.number
-        )
-        val recipeList = response.map {
+class SimilarRecipeUsecase(var recipeRepository: NewRecipeRepository) :
+    NewFlowUseCase<List<RecipeModel>, SimilarRecipeUsecase.Param>() {
+    override fun run(params: Param): Flow<List<RecipeModel>> = recipeRepository.getSimilarRecipeFor(
+        params.limitLicense, params.id, params.number
+    ).map { response ->
+        response.map {
             RecipeModel(
                 it.id,
                 it.title,
@@ -19,8 +20,6 @@ class SimilarRecipeUsecase(var recipeRepository: RecipeRepository) :
                 it.readyInMinutes
             )
         }
-
-        return recipeList
     }
 
     data class Param(

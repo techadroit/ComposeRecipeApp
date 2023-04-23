@@ -1,7 +1,6 @@
 package com.example.composerecipeapp.data.repositories
 
-import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.network.api_service.RecipeApi
+import com.example.composerecipeapp.core.network.api_service.NewRecipeApi
 import com.example.composerecipeapp.core.repository.BaseRepository
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey
@@ -9,89 +8,68 @@ import com.recipeapp.data.network.response.RandomRecipesResponse
 import com.recipeapp.data.network.response.RecipeSearchResponse
 import com.recipeapp.data.network.response.SimilarRecipe
 import com.recipeapp.data.network.response.VideoListResponses
+import kotlinx.coroutines.flow.Flow
 
-class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
+const val PAGE_ITEMS = 10
 
-    suspend fun getRandomRecipe(
+class NewRecipeRepository(val recipeApiService: NewRecipeApi) : BaseRepository {
+
+     fun getRandomRecipe(
         limitLicense: Boolean,
         tags: String,
-        number: Int
-    ): RandomRecipesResponse =
-        run {
+        number: Int = PAGE_ITEMS
+    ): Flow<RandomRecipesResponse> =
             recipeApiService.getRandomRecipes(limitLicense, tags, number)
-        }
 
-    suspend fun getSimilarRecipeFor(
+     fun getSimilarRecipeFor(
         limitLicense: Boolean,
         id: String,
-        number: Int
-    ): List<SimilarRecipe> =
-        run {
+        number: Int = PAGE_ITEMS
+    ): Flow<List<SimilarRecipe>> =
             recipeApiService.similarRecipes(id = id, limitLicense = limitLicense, number = number)
-        }
 
-    suspend fun searchRecipeFor(
+     fun searchRecipeFor(
         query: String,
         limitLicense: Boolean,
-        number: Int,
+        number: Int= PAGE_ITEMS,
         offset: Int = 0
-    ): RecipeSearchResponse =
-        run {
+    ): Flow<RecipeSearchResponse> =
             recipeApiService.searchRecipes(limitLicense, query, number, offset = offset)
-        }
 
-    suspend fun getRecipeForCuisine(
+     fun getRecipeForCuisine(
         cuisine: String,
         limitLicense: Boolean,
-        number: Int,
+        number: Int= PAGE_ITEMS,
         offset: Int = 0
-    ): RecipeSearchResponse =
-        run {
+    ): Flow<RecipeSearchResponse> =
             recipeApiService.searchRecipesWithCuisine(limitLicense, cuisine, number, offset = offset)
-        }
-    suspend fun getRecipesForCuisine(
+
+     fun getRecipesForCuisine(
         cuisine: String,
         limitLicense: Boolean,
-        number: Int,
+        number: Int= PAGE_ITEMS,
         offset: Int = 0
-    ): RecipeSearchResponse =
-        run {
+    ): Flow<RecipeSearchResponse> =
             recipeApiService.searchRecipesWithCuisine(limitLicense, cuisine, number, offset = offset)
-        }
 
-    suspend fun <T> run(invoker: suspend () -> T): T {
-        try {
-            return invoker.invoke()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw Failure.ServerError
-        }
-    }
-
-    suspend fun searchVideoRecipeFor(
+     fun searchVideoRecipeFor(
         query: String,
-        number: Int,
+        number: Int = PAGE_ITEMS,
         Offset: Int = 0
-    ): VideoListResponses =
-        run {
+    ): Flow<VideoListResponses> =
             recipeApiService.searchVideos(tags = query, number = number, offset = Offset)
-        }
 
-    suspend fun searchKeyword(
+     fun searchKeyword(
         query: String,
-        number: Int
-    ): List<SearchKey> =
-        run {
+        number: Int = PAGE_ITEMS
+    ): Flow<List<SearchKey>> =
             recipeApiService.searchKeyword(tags = query, number = number)
-        }
 
-    suspend fun getRecipeDetailForId(
+     fun getRecipeDetailForId(
         id: String,
         includeNutrition: Boolean
-    ): RecipeDetailResponse =
-        run {
+    ): Flow<RecipeDetailResponse> =
             recipeApiService.recipeDetail(id = id, includeNutrition = includeNutrition)
-        }
 
     fun getSupportedCuisine(): List<String> = listOf(
         "American",
@@ -108,3 +86,4 @@ class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
         "Thai"
     )
 }
+

@@ -1,6 +1,7 @@
 package com.recipeapp.data.network.response
 
 import com.example.composerecipeapp.data.network.response.Ingredient
+import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 
 data class RandomRecipesResponse(
@@ -161,3 +162,15 @@ fun VideoListResponses.toRecipeModel(): List<VideoRecipeModel> {
         VideoRecipeModel(it.rating, it.shortTitle, it.thumbnail, it.title, it.views, it.youTubeId)
     }
 }
+
+fun RecipeSearchResponse.toRecipeModel(isSaved:(Int)->Boolean): List<RecipeModel> =
+    results.map {
+        RecipeModel(
+            it.id,
+            it.title,
+            it.servings,
+            baseUri + it.image,
+            it.readyInMinutes,
+            isSaved = isSaved(it.id)
+        )
+    }

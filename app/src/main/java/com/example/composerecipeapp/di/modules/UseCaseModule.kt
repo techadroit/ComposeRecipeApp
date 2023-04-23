@@ -1,6 +1,7 @@
 package com.example.composerecipeapp.di.modules
 
 import com.example.composerecipeapp.data.datasource.SettingsDataStore
+import com.example.composerecipeapp.data.repositories.NewRecipeRepository
 import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.domain.usecases.*
@@ -14,27 +15,27 @@ import dagger.hilt.android.components.ViewModelComponent
 class UseCaseModule {
 
     @Provides
-    fun getSimilarRecipeUseCase(repository: RecipeRepository) = SimilarRecipeUsecase(repository)
+    fun getSimilarRecipeUseCase(repository: NewRecipeRepository) = SimilarRecipeUsecase(repository)
 
     @Provides
     fun getSearchRecipeUseCase(
-        repository: RecipeRepository,
+        repository: NewRecipeRepository,
         localRepository: RecipeLocalRepository
     ) = SearchRecipeUsecase(repository, localRepository)
 
     @Provides
-    fun getSearchVideoRecipeUseCase(repository: RecipeRepository) =
+    fun getSearchVideoRecipeUseCase(repository: NewRecipeRepository) =
         SearchVideoRecipeUsecase(repository)
 
     @Provides
     fun getRecipeDetailViewUseCase(
-        repository: RecipeRepository,
+        repository: NewRecipeRepository,
         localRepository: RecipeLocalRepository
     ) =
         GetRecipeDetailUsecase(repository, localRepository)
 
     @Provides
-    fun getAutoCompleteUseCase(repository: RecipeRepository) = AutoCompleteUsecase(repository)
+    fun getAutoCompleteUseCase(repository: NewRecipeRepository) = AutoCompleteUsecase(repository)
 
     @Provides
     fun getSaveRecipeUseCase(localRepository: RecipeLocalRepository) =
@@ -49,12 +50,12 @@ class UseCaseModule {
         DeleteSavedRecipe(localRepository = localRepository)
 
     @Provides
-    fun getCuisineUsecase(recipeRepository: RecipeRepository) =
+    fun getCuisineUsecase(recipeRepository: NewRecipeRepository) =
         GetSupportedCuisineUsecase(recipeRepository = recipeRepository)
 
     @Provides
     fun getRecipeWithCuisineUseCase(
-        recipeRepository: RecipeRepository,
+        recipeRepository: NewRecipeRepository,
         settingsDataStore: SettingsDataStore
     ) =
         RecipesForSelectedCuisines(

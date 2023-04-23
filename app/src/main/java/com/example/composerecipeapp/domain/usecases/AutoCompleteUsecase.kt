@@ -1,12 +1,15 @@
 package com.example.composerecipeapp.domain.usecases
 
-import com.example.composerecipeapp.core.usecase.FlowUseCase
-import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.example.composerecipeapp.core.usecase.NewFlowUseCase
+import com.example.composerecipeapp.data.repositories.NewRecipeRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class AutoCompleteUsecase(val repository: RecipeRepository) : FlowUseCase<List<String>, String>() {
-    override suspend fun run(params: String): List<String> {
-        return repository.searchKeyword(params, 10).map {
-            it.title
+class AutoCompleteUsecase(val repository: NewRecipeRepository) :
+    NewFlowUseCase<List<String>, String>() {
+    override fun run(params: String): Flow<List<String>> {
+        return repository.searchKeyword(params).map {
+            it.map { it.title }
         }
     }
 }
