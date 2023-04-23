@@ -3,12 +3,17 @@ package com.example.composerecipeapp.ui.home_view
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -40,12 +45,42 @@ fun HomeView() {
     val state = viewModel.observeState()
 
     if (state.list.isNotEmpty()) {
-        HomeViewContent(list = state.list, viewModel = viewModel)
+        RefreshView(content = {
+            HomeViewContent(list = state.list, viewModel = viewModel)
+        }) {
+            viewModel.dispatch(RefreshHomeEvent)
+        }
     } else {
         LoadingView()
         viewModel.dispatch(LoadRecipeEvent)
     }
     state.viewEffect?.consume()?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun RefreshView(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+    onRefresh: () -> Unit
+) {
+    val isRefreshing by remember {
+        mutableStateOf(false)
+    }
+    val pullRefreshState = rememberPullRefreshState(refreshing = isRefreshing, onRefresh = {
+        onRefresh()
+    })
+    Box(
+        modifier
+            .pullRefresh(pullRefreshState)
+    ) {
+        content()
+        PullRefreshIndicator(
+            refreshing = isRefreshing,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
+    }
 }
 
 @ExperimentalMaterialApi
@@ -54,6 +89,8 @@ fun HomeViewContent(
     list: List<RecipeWithCuisine>,
     viewModel: ArcherViewModel<HomeRecipeState, HomeRecipeEvent>
 ) {
+
+
     LazyColumn(
         content = {
             items(list) {
