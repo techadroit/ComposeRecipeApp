@@ -3,6 +3,7 @@ package com.example.composerecipeapp.viewmodel.recipe_list
 import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.collectIn
+import com.example.composerecipeapp.core.network.api_service.RecipeApi
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
 import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
@@ -16,7 +17,8 @@ open class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState,
     val savedRecipeUsecase: SaveRecipeUsecase,
     val searchUsecase: SearchRecipeUsecase,
-    val deleteSavedRecipe: DeleteSavedRecipe
+    val deleteSavedRecipe: DeleteSavedRecipe,
+    val recipeService: RecipeApi
 ) :
     ArcherViewModel<RecipeListState, RecipeEvent>(initialState) {
 
@@ -54,8 +56,9 @@ open class RecipeListViewmodel @Inject constructor(
         }
 
     private fun searchRecipe(cuisine: String, isPaginate: Boolean = false) {
-        searchUsecase(SearchRecipeUsecase.Param(cuisine = cuisine, offset = page))
-            .catch { e ->
+
+        val param = SearchRecipeUsecase.Param(cuisine = cuisine, offset = page)
+        searchUsecase(param).catch { e ->
                 handleFailure(e as Failure, isPaginate = isPaginate)
             }.collectIn(viewModelScope) {
                 handleRecipeSearch(it.first, isPaginate, it.second)

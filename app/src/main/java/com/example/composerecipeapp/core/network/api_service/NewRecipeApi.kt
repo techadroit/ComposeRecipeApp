@@ -11,63 +11,62 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-val API_KEY = "95aed809c8d84dd6b831b9aaa35c5f24"
-
-interface RecipeApi {
+interface NewRecipeApi {
 
     @GET("recipes/random")
-    suspend fun getRandomRecipes(
+     fun getRandomRecipes(
         @Query("limitLicense") limitLicense: Boolean,
         @Query("tags") tags: String,
         @Query("number") number: Int,
         @Query("apiKey") apiKey: String = API_KEY
-    ): RandomRecipesResponse
+    ): Flow<RandomRecipesResponse>
 
     @GET("recipes/{id}/similar")
-    suspend fun similarRecipes(
+     fun similarRecipes(
         @Path("id") id: String,
         @Query("limitLicense") limitLicense: Boolean,
         @Query("number") number: Int,
         @Query("apiKey") apiKey: String = API_KEY,
-    ): List<SimilarRecipe>
+    ): Flow<List<SimilarRecipe>>
 
     @GET("recipes/search")
-    suspend fun searchRecipes(
+     fun searchRecipes(
         @Query("limitLicense") limitLicense: Boolean,
         @Query("query") tags: String,
         @Query("number") number: Int,
         @Query("apiKey") apiKey: String = API_KEY,
         @Query("offset") offset: Int = 0
-    ): RecipeSearchResponse
+    ): Flow<RecipeSearchResponse>
 
     @GET("recipes/search")
-    suspend fun searchRecipesWithCuisine(
+     fun searchRecipesWithCuisine(
         @Query("limitLicense") limitLicense: Boolean,
         @Query("cuisine") cuisine: String,
         @Query("number") number: Int,
         @Query("apiKey") apiKey: String = API_KEY,
         @Query("offset") offset: Int = 0
-    ): RecipeSearchResponse
+    ): Flow<RecipeSearchResponse>
 
     @GET("food/videos/search")
-    suspend fun searchVideos(
+     fun searchVideos(
         @Query("query") tags: String,
         @Query("number") number: Int,
         @Query("apiKey") apiKey: String = API_KEY,
         @Query("offset") offset: Int = 0
-    ): VideoListResponses
+    ): Flow<VideoListResponses>
 
     @GET("recipes/autocomplete")
-    suspend fun searchKeyword(
+     fun searchKeyword(
         @Query("query") tags: String,
         @Query("number") number: Int,
         @Query("apiKey") apiKey: String = API_KEY,
-    ): List<SearchKey>
+    ): Flow<List<SearchKey>>
 
     @GET("recipes/{id}/information")
-    suspend fun recipeDetail(
+     fun recipeDetail(
         @Path("id") id: String,
         @Query("includeNutrition") includeNutrition: Boolean = false,
         @Query("apiKey") apiKey: String = API_KEY
-    ): RecipeDetailResponse
+    ): Flow<RecipeDetailResponse>
 }
+

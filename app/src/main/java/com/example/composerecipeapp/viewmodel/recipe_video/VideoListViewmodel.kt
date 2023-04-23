@@ -4,6 +4,7 @@ import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
+import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.util.QUERY
 import com.recipeapp.data.network.response.VideoListResponses
 import com.recipeapp.data.network.response.toRecipeModel
@@ -39,9 +40,9 @@ class VideoListViewmodel @Inject constructor(
         }
     }
 
-    private fun handleVideoResponse(responses: VideoListResponses, isPaginate: Boolean = false) {
+    private fun handleVideoResponse(responses: List<VideoRecipeModel>, isPaginate: Boolean = false) {
         setState {
-            this.onSuccess(recipeModel = responses.toRecipeModel(), isPaginate = isPaginate)
+            this.onSuccess(recipeModel = responses, isPaginate = isPaginate)
         }
     }
 

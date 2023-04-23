@@ -109,7 +109,7 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
      */
     @CallSuper
     override fun onCleared() {
-        logger.logv { "Clearing ViewModel" }
+        logger.logv { "Clearing ViewModel ${this::class}" }
         super.onCleared()
         stateStore.clear()
     }
