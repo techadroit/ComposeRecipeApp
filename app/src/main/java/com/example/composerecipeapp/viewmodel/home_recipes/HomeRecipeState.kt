@@ -13,5 +13,8 @@ data class HomeRecipeState(
 fun HomeRecipeState.onLoad(list: List<RecipeWithCuisine>) =
     copy(list = list)
 
+fun HomeRecipeState.add(items: RecipeWithCuisine) =
+    copy(list = list.toMutableList().apply { add(items) })
+
 data class ViewAllViewEffect(val cuisine: String) : ViewEffect()
 data class ViewRecipesDetailViewEffect(val recipeId: String) : ViewEffect()

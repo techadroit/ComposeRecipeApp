@@ -34,9 +34,9 @@ class HomeRecipeViewModel @Inject constructor(
     }
 
     private fun loadRecipes() {
-        recipeWithCuisine(None).collectIn(viewModelScope) {
+        recipeWithCuisine().collectIn(viewModelScope) {
             setState {
-                this.onLoad(it)
+                this.add(it)
             }
         }
     }
