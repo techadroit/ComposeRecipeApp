@@ -32,9 +32,9 @@ fun Project.addComposeDependencies(){
         add("implementation", androidComposeMaterial)
         add("implementation", androidComposeUiTooling)
 
-//        val androidComposeUiTestJunit = libs.findLibrary("androidx-compose-ui-test-junit").get()
-//        val androidComposeUiTestManifest = libs.findLibrary("androidx-compose-ui-test-manifest").get()
-//        add("androidTestImplementation", platform(androidComposeUiTestJunit))
-//        add("androidTestImplementation", platform(androidComposeUiTestManifest))
+        val androidComposeUiTestJunit = libs.findLibrary("androidx-compose-ui-test-junit").get()
+        val androidComposeUiTestManifest = libs.findLibrary("androidx-compose-ui-test-manifest").get()
+        add("androidTestImplementation", androidComposeUiTestJunit)
+        add("androidTestImplementation", androidComposeUiTestManifest)
     }
 }
