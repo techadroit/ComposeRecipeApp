@@ -2,4 +2,5 @@
 /.gradle
 /.idea
 /build-logic/build
+/build-logic/.gradle
 /build-logic/convention/build

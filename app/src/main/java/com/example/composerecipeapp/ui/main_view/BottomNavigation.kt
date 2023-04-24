@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.composerecipeapp.platform.navigation.navigator.AppNavHost
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
-import com.example.composerecipeapp.platform.navigation.screens.*
+import com.example.composerecipeapp.ui.destinations.*
 import com.example.composerecipeapp.ui.home_view.HomeView
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.recipe_list.RecipeListScreen
