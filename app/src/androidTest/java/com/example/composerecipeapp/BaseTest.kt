@@ -15,20 +15,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 abstract class BaseTest {
 
-//    /**
-//     * Manages the components' state and is used to perform injection on your test
-//     */
-//    @get:Rule(order = 0)
-//    val hiltRule = HiltAndroidRule(this)
-//
-//    /**
-//     * Create a temporary folder used to create a Data Store file. This guarantees that
-//     * the file is removed in between each test, preventing a crash.
-//     */
-//    @BindValue
-//    @get:Rule(order = 1)
-//    val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
-
     /**
      * Use the primary activity to initialize the app normally.
      */
