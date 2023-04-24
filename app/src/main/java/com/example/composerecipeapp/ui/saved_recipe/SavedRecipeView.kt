@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
@@ -24,15 +23,13 @@ import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
-import com.example.composerecipeapp.viewmodel.save_recipe.LoadRecipe
-import com.example.composerecipeapp.viewmodel.save_recipe.RemoveRecipe
-import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeEvent
-import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeViewModel
+import com.example.composerecipeapp.viewmodel.save_recipe.*
 
 @ExperimentalMaterialApi
 @Composable
-fun SaveRecipeView(
+fun FavouriteRecipeScreen(
     viewModel: SaveRecipeViewModel = hiltViewModel(),
 ) {
     val topLevelNavigator = ParentNavHostController.current
@@ -46,18 +43,25 @@ fun SaveRecipeView(
         val list = state.recipeData.allRecipes
         if (list.isEmpty()) {
             EmptyView()
-        } else
-            RecipeList(
-                recipeList = state.recipeData.allRecipes,
-                dispatch = {
-                    viewModel.dispatch(it)
-                },
-                navigate = {
-                    topLevelNavigator.navigateTo(it)
-                }
-            )
+        } else {
+            RefreshView(content = {
+                RecipeList(
+                    recipeList = state.recipeData.allRecipes,
+                    dispatch = {
+                        viewModel.dispatch(it)
+                    },
+                    navigate = {
+                        topLevelNavigator.navigateTo(it)
+                    }
+                )
+            }) {
+                viewModel.dispatch(RefreshViewEvent)
+            }
+        }
     }
 }
+
+
 
 @Composable
 fun EmptyView() {

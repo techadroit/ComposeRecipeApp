@@ -21,7 +21,8 @@ data class RecipeListState(
     val isLoading: Boolean = false,
     val isPaginate: Boolean = false,
     val error: Failure? = null,
-    val endOfItems: Boolean = false
+    val endOfItems: Boolean = false,
+    val selectedQuery: String? = null
 ) : ArcherState
 
 fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
@@ -60,8 +61,8 @@ fun RecipeListState.onRecipeLoad(
     endOfItems = endOfItems
 )
 
-fun RecipeListState.onLoading(isPaginate: Boolean = false) =
-    this.copy(isLoading = true, isPaginate = isPaginate)
+fun RecipeListState.onLoading(isPaginate: Boolean = false, query: String? = null) =
+    this.copy(isLoading = true, isPaginate = isPaginate, selectedQuery = query)
 
 fun RecipeListState.onError(failure: Failure) = this.copy(error = failure)
 

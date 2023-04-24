@@ -22,6 +22,7 @@ class SaveRecipeViewModel @Inject constructor(
         when (event) {
             is LoadRecipe -> loadRecipes()
             is RemoveRecipe -> removeRecipe(event.recipeModel)
+            is RefreshViewEvent -> loadRecipes()
         }
     }
 

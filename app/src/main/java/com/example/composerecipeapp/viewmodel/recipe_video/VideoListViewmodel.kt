@@ -5,9 +5,6 @@ import com.example.composerecipeapp.core.exception.Failure
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
-import com.example.composerecipeapp.util.QUERY
-import com.recipeapp.data.network.response.VideoListResponses
-import com.recipeapp.data.network.response.toRecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
@@ -20,16 +17,10 @@ class VideoListViewmodel @Inject constructor(
     ArcherViewModel<RecipeVideoState, VideoEvents>(initalState) {
     var page = 0
 
-    fun getVideoRecipe() {
-        setState {
-            this.onLoading()
-        }
-        searchVideo(QUERY)
-    }
-
     private fun searchVideo(query: String, isPaginate: Boolean = false) {
         setState {
-            this.onLoading(isPaginate = isPaginate)
+            onLoading(isPaginate = isPaginate)
+                .setQuery(query)
         }
         usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page)).catch {
             handleResponseFailure(this as Failure)
@@ -49,9 +40,19 @@ class VideoListViewmodel @Inject constructor(
     private fun handleResponseFailure(failure: Failure) {
     }
 
+    private fun refresh(){
+        page=0
+        val selectedQuery = currentState.query ?: throw NullPointerException("No Selected Query found in the state")
+        setState {
+            RecipeVideoState()
+        }
+        searchVideo(selectedQuery,false)
+    }
+
     override fun onEvent(event: VideoEvents, state: RecipeVideoState) {
         when (event) {
             is LoadVideos -> searchVideo(event.query, event.isPaginate)
+            is RefreshVideoScreen -> refresh()
         }
     }
 }

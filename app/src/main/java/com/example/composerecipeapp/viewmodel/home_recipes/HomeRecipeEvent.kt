@@ -5,6 +5,7 @@ import com.archerviewmodel.events.ArcherEvent
 sealed class HomeRecipeEvent : ArcherEvent
 
 object LoadRecipeEvent : HomeRecipeEvent()
+object RefreshHomeEvent : HomeRecipeEvent()
 
 data class ViewAllRecipes(val cuisine: String) : HomeRecipeEvent()
 
