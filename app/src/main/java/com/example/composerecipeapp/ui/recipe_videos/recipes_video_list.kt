@@ -20,9 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
-import com.example.composerecipeapp.platform.navigation.screens.RecipeVideoListIntent
 import com.example.composerecipeapp.platform.navigation.screens.VideoPlayerIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
@@ -30,9 +27,11 @@ import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.PaginationLoading
+import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.util.toViews
 import com.example.composerecipeapp.viewmodel.recipe_video.LoadVideos
+import com.example.composerecipeapp.viewmodel.recipe_video.RefreshVideoScreen
 import com.example.composerecipeapp.viewmodel.recipe_video.VideoEvents
 import com.example.composerecipeapp.viewmodel.recipe_video.VideoListViewmodel
 import com.skydoves.landscapist.glide.GlideImage
@@ -44,12 +43,16 @@ fun RecipesVideoList() {
     val recipesViewModel: VideoListViewmodel = hiltViewModel()
     val recipeState = recipesViewModel.observeState()
 
-    RecipeListContent(recipeState.data,
-        recipeState.isLoading && recipeState.isPaginate, {
-            recipesViewModel.dispatch(it)
-        }, {
-            topLevelNavigator.navigateTo(it)
-        })
+    RefreshView(content = {
+        RecipeListContent(recipeState.data,
+            recipeState.isLoading && recipeState.isPaginate, {
+                recipesViewModel.dispatch(it)
+            }, {
+                topLevelNavigator.navigateTo(it)
+            })
+    }) {
+        recipesViewModel.dispatch(RefreshVideoScreen)
+    }
 
     if (recipeState.isLoading && !recipeState.isPaginate) {
         LoadingView()

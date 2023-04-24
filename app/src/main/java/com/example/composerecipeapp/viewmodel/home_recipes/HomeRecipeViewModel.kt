@@ -12,6 +12,10 @@ class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
     val initialState: HomeRecipeState
 ) : ArcherViewModel<HomeRecipeState, HomeRecipeEvent>(initialState) {
+
+    init {
+        dispatch(LoadRecipeEvent)
+    }
     override fun onEvent(event: HomeRecipeEvent, state: HomeRecipeState) {
         when (event) {
             is LoadRecipeEvent -> loadRecipes()
@@ -21,7 +25,7 @@ class HomeRecipeViewModel @Inject constructor(
         }
     }
 
-    fun refresh() {
+    private fun refresh() {
         val newState = HomeRecipeState()
         setState {
             newState

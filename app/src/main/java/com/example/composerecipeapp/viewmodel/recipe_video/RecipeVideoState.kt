@@ -5,6 +5,7 @@ import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 
 data class RecipeVideoState(
     val data: List<VideoRecipeModel> = emptyList(),
+    val query:String? = null,
     val isLoading: Boolean = true,
     val isPaginate: Boolean = false
 ) : ArcherState
@@ -14,3 +15,6 @@ fun RecipeVideoState.onSuccess(recipeModel: List<VideoRecipeModel>, isPaginate: 
 
 fun RecipeVideoState.onLoading(isPaginate: Boolean = false) =
     this.copy(isPaginate = isPaginate, isLoading = true)
+
+fun RecipeVideoState.setQuery(query: String) =
+    this.copy(query = query)

@@ -31,6 +31,7 @@ import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.home_recipes.*
 import com.skydoves.landscapist.glide.GlideImage
@@ -52,35 +53,8 @@ fun HomeView() {
         }
     } else {
         LoadingView()
-        viewModel.dispatch(LoadRecipeEvent)
     }
     state.viewEffect?.consume()?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun RefreshView(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-    onRefresh: () -> Unit
-) {
-    val isRefreshing by remember {
-        mutableStateOf(false)
-    }
-    val pullRefreshState = rememberPullRefreshState(refreshing = isRefreshing, onRefresh = {
-        onRefresh()
-    })
-    Box(
-        modifier
-            .pullRefresh(pullRefreshState)
-    ) {
-        content()
-        PullRefreshIndicator(
-            refreshing = isRefreshing,
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
-    }
 }
 
 @ExperimentalMaterialApi

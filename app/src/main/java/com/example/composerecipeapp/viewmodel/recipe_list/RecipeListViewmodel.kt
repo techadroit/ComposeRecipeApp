@@ -41,7 +41,7 @@ open class RecipeListViewmodel @Inject constructor(
     private fun loadRecipes(query: String) =
         withState {
             if (!it.isLoading) {
-                setState { this.onLoading() }
+                setState { this.onLoading(query = query) }
                 searchRecipe(cuisine = query)
             }
         }
@@ -65,6 +65,17 @@ open class RecipeListViewmodel @Inject constructor(
             }
     }
 
+    private fun refreshRecipeList(){
+        page = 1
+        withState {
+            val selectedQuery = it.selectedQuery ?: return@withState
+            setState {
+                RecipeListState()
+            }
+            loadRecipes(selectedQuery)
+        }
+    }
+
     private fun handleFailure(failure: Failure, isPaginate: Boolean = false) {
         setState {
             this.onError(failure = failure)
@@ -85,6 +96,7 @@ open class RecipeListViewmodel @Inject constructor(
             is LoadRecipes -> if (event.isPaginate) paginate(event.query) else loadRecipes(event.query)
             is SaveRecipeEvent -> saveRecipe(event.recipeModel)
             is RemoveSavedRecipeEvent -> deleteRecipe(event.recipeModel)
+            is RefreshRecipeList -> refreshRecipeList()
         }
     }
 }

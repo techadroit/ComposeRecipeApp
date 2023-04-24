@@ -20,7 +20,6 @@ import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.*
@@ -34,7 +33,7 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
-fun RecipeView(
+fun RecipeListScreen(
     cuisineKey: String,
     recipesViewModel: RecipeListViewmodel = hiltViewModel()
 ) {
@@ -49,26 +48,46 @@ fun RecipeView(
     Scaffold(
         scaffoldState = scaffoldState,
         content = {
-            if (recipeState.isLoading && !recipeState.isPaginate)
-                LoadingView()
-            RecipeList(
-                recipeList = recipeState.recipes.allRecipes,
-                dispatch = {
-                    recipesViewModel.dispatch(it)
-                },
-                navigate = {
-                    topLevelNavigator.navigateTo(it)
-                },
-                showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
-                keyword = cuisine,
-                endOfList = recipeState.endOfItems
-            )
+            RefreshView(content = {
+                RecipeScreenContent(
+                    cuisine = cuisine,
+                    recipeState = recipeState,
+                    recipesViewModel = recipesViewModel,
+                    navigator = topLevelNavigator
+                )
+            }) {
+                recipesViewModel.dispatch(RefreshRecipeList)
+            }
         }
     )
     recipeState.viewEffect?.consume()
         ?.let {
             RecipeViewEffect(viewEffect = it, scaffoldState = scaffoldState)
         }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun RecipeScreenContent(
+    cuisine: String,
+    recipeState: RecipeListState,
+    recipesViewModel: RecipeListViewmodel,
+    navigator: AppMainNavigation
+) {
+    if (recipeState.isLoading && !recipeState.isPaginate)
+        LoadingView()
+    RecipeList(
+        recipeList = recipeState.recipes.allRecipes,
+        dispatch = {
+            recipesViewModel.dispatch(it)
+        },
+        navigate = {
+            navigator.navigateTo(it)
+        },
+        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
+        keyword = cuisine,
+        endOfList = recipeState.endOfItems
+    )
 }
 
 @ExperimentalMaterialApi

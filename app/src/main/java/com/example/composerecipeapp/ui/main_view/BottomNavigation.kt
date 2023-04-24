@@ -13,17 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.platform.navigation.navigator.AppNavHost
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.platform.navigation.screens.*
 import com.example.composerecipeapp.ui.home_view.HomeView
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
-import com.example.composerecipeapp.ui.recipe_list.RecipeView
+import com.example.composerecipeapp.ui.recipe_list.RecipeListScreen
 import com.example.composerecipeapp.ui.recipe_search.SearchView
 import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
-import com.example.composerecipeapp.ui.saved_recipe.SaveRecipeView
+import com.example.composerecipeapp.ui.saved_recipe.FavouriteRecipeScreen
 import com.example.composerecipeapp.ui.settings.SettingsView
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
@@ -83,7 +81,7 @@ fun NavigationView(
         NavComposable(RecipeListIntent()) {
             val arguments = RecipeListIntent.getArguments(it.arguments)
             arguments?.let {
-                RecipeView(cuisineKey = arguments.recipeId)
+                RecipeListScreen(cuisineKey = arguments.recipeId)
             }
         }
         NavComposable(HomeViewIntent()) {
@@ -93,7 +91,7 @@ fun NavigationView(
             RecipesVideoList()
         }
         NavComposable(SavedRecipeIntent()) {
-            SaveRecipeView()
+            FavouriteRecipeScreen()
         }
         NavComposable(SearchViewIntent()) {
             SearchView(searchViewModel)
