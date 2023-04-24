@@ -23,8 +23,8 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.core.functional.ViewEffect
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
-import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
-import com.example.composerecipeapp.platform.navigation.screens.RecipeListIntent
+import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
+import com.example.composerecipeapp.ui.destinations.RecipeListIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel

@@ -14,8 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
 import com.example.composerecipeapp.core.functional.ViewEffect
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
-import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
+import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.Navigate
 import com.example.composerecipeapp.ui.OnClick

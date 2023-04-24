@@ -16,7 +16,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.rememberNavController
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigationFactory
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
-import com.example.composerecipeapp.platform.navigation.screens.*
+import com.example.composerecipeapp.ui.destinations.*
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer

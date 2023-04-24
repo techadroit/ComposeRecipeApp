@@ -24,7 +24,7 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
-import com.example.composerecipeapp.platform.navigation.screens.RecipeDetailIntent
+import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.Dispatch
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
