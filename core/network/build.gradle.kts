@@ -13,10 +13,10 @@ android {
 
 }
 
-//kapt {
-//    generateStubs = true
-//    correctErrorTypes = true
-//}
+kapt {
+    generateStubs = true
+    correctErrorTypes = true
+}
 
 dependencies {
 

@@ -20,7 +20,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
             val extension = extensions.getByType<ApplicationExtension>()
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extension.apply {
                 addSdks()

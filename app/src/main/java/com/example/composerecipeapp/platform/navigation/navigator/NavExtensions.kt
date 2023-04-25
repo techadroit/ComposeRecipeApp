@@ -5,7 +5,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.compose.NamedNavArgument
 
 @Composable
 public fun AppNavHost(

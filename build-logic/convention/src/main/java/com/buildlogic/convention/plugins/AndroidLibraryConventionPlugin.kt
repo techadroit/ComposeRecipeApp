@@ -19,7 +19,6 @@ class AndroidLibraryConventionPlugin  : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
             val extension = extensions.getByType<LibraryExtension>()
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extension.apply {
                 addSdks()

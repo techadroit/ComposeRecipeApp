@@ -13,14 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
-
-    @Provides
-    fun getServiceProvider(): NetworkServiceProvider = if (BuildConfig.DEBUG) {
-        DebugServiceProvider()
-    } else {
-        throw IllegalStateException("Initialize Your Prod Services with production url.")
-    }
+class ApiModule {
 
     @Provides
     fun getRecipeApiService(networkServiceProvider: NetworkServiceProvider) =
