@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.data.repositories
 
-import com.example.composerecipeapp.core.repository.BaseRepository
+import com.core.platform.repository.BaseRepository
 import com.example.composerecipeapp.data.datasource.RecipeDao
 import com.example.composerecipeapp.data.datasource.SavedRecipe
 import com.example.composerecipeapp.ui.pojo.RecipeModel

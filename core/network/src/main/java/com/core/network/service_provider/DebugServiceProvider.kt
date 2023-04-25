@@ -1,6 +1,6 @@
-package com.example.composerecipeapp.core.network
+package com.core.network.service_provider
 
-import com.example.composerecipeapp.core.network.call_adapter.FlowCallAdapterFactory
+import com.core.network.call_adapter.FlowCallAdapterFactory
 import com.google.gson.Gson
 import okhttp3.Cache
 import okhttp3.OkHttpClient

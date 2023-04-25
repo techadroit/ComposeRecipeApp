@@ -3,6 +3,7 @@ package com.buildlogic.convention
 import com.android.build.api.dsl.ApplicationExtension
 import com.buildlogic.convention.options.addCompileOptions
 import com.buildlogic.convention.options.addKotlinOptions
+import com.buildlogic.convention.versions.SdkVersion
 import com.buildlogic.convention.versions.addAppVersion
 import com.buildlogic.convention.versions.addSdks
 import org.gradle.api.Plugin
@@ -19,13 +20,13 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
             val extension = extensions.getByType<ApplicationExtension>()
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extension.apply {
                 addSdks()
                 addAppVersion()
                 addCompileOptions()
                 addKotlinOptions()
+                defaultConfig.targetSdk = SdkVersion.TARGET_SDK
             }
         }
     }

@@ -1,8 +1,6 @@
 package com.example.composerecipeapp.data.network.response
 
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
-import com.recipeapp.data.network.response.Length
-import com.recipeapp.data.network.response.Measures
 
 data class RecipeDetailResponse(
     val aggregateLikes: Int,

@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.domain.usecases
 
-import com.example.composerecipeapp.core.usecase.NewFlowUseCase
-import com.example.composerecipeapp.core.usecase.None
+import com.core.platform.usecase.NewFlowUseCase
+import com.core.platform.usecase.None
 import com.example.composerecipeapp.data.datasource.SettingsDataStore
 import com.example.composerecipeapp.data.repositories.RecipeRepository
 import com.example.composerecipeapp.viewmodel.user_interest.Cuisine

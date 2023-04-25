@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.core.usecase
+package com.core.platform.usecase
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

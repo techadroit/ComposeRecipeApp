@@ -1,8 +1,6 @@
 package com.example.composerecipeapp.di.modules
 
-import com.example.composerecipeapp.BuildConfig
-import com.example.composerecipeapp.core.network.DebugServiceProvider
-import com.example.composerecipeapp.core.network.NetworkServiceProvider
+import com.core.network.service_provider.NetworkServiceProvider
 import com.example.composerecipeapp.core.network.api_service.NewRecipeApi
 import com.example.composerecipeapp.core.network.api_service.RecipeApi
 import dagger.Module
@@ -13,14 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
-
-    @Provides
-    fun getServiceProvider(): NetworkServiceProvider = if (BuildConfig.DEBUG) {
-        DebugServiceProvider()
-    } else {
-        throw IllegalStateException("Initialize Your Prod Services with production url.")
-    }
+class ApiModule {
 
     @Provides
     fun getRecipeApiService(networkServiceProvider: NetworkServiceProvider) =

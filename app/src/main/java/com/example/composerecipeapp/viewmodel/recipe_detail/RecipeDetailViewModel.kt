@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.archerviewmodel.ArcherViewModel
-import com.example.composerecipeapp.core.exception.Failure
+import com.core.platform.exception.Failure
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
 import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase

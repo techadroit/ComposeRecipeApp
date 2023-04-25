@@ -1,10 +1,10 @@
 package com.example.composerecipeapp.viewmodel.settings
 
 import com.archerviewmodel.ArcherViewModel
-import com.example.composerecipeapp.core.functional.asConsumable
+import com.core.platform.functional.asConsumable
 import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.functional.pairOf
-import com.example.composerecipeapp.core.usecase.None
+import com.core.platform.usecase.None
 import com.example.composerecipeapp.data.datasource.SettingsDataStore
 import com.example.composerecipeapp.domain.usecases.GetSavedRecipeCuisine
 import com.example.composerecipeapp.viewmodel.user_interest.Cuisine

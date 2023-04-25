@@ -9,6 +9,9 @@ class AndroidHiltConventionPlugin : BasePlugins() {
 
     override fun apply(target: Project) {
         with(target) {
+            with(pluginManager) {
+                apply("dagger.hilt.android.plugin")
+            }
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             val hiltNavigation = libs.findLibrary("androidx-hilt-navigation").get()
             val hilt = libs.findLibrary("androidx-hilt").get()
