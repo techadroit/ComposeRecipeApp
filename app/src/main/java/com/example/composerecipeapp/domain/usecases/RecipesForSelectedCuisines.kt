@@ -3,8 +3,8 @@ package com.example.composerecipeapp.domain.usecases
 import com.example.composerecipeapp.data.datasource.SettingsDataStore
 import com.example.composerecipeapp.data.repositories.NewRecipeRepository
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.recipeapp.data.network.response.RecipeSearchResponse
-import com.recipeapp.data.network.response.toRecipeModel
+import com.example.composerecipeapp.data.network.response.RecipeSearchResponse
+import com.example.composerecipeapp.data.network.response.toRecipeModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapConcat

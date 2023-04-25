@@ -1,7 +1,7 @@
-package com.example.composerecipeapp.core.functional
+package com.core.platform.functional
 
-import com.example.composerecipeapp.core.functional.Either.Left
-import com.example.composerecipeapp.core.functional.Either.Right
+import com.core.platform.functional.Either.Left
+import com.core.platform.functional.Either.Right
 
 /**
  * Represents a value of one of two possible types (a disjoint union).

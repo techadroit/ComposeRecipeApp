@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.core.functional
+package com.core.platform.functional
 
 /**
  * A sealed class to represent UI states associated with a resource.

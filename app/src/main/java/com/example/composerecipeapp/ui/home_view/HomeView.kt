@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.core.functional.ViewEffect
+import com.core.platform.functional.ViewEffect
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent

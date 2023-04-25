@@ -1,9 +1,9 @@
 package com.example.composerecipeapp.viewmodel.user_interest
 
 import com.archerviewmodel.ArcherViewModel
-import com.example.composerecipeapp.core.functional.asConsumable
+import com.core.platform.functional.asConsumable
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.usecase.None
+import com.core.platform.usecase.None
 import com.example.composerecipeapp.data.datasource.SettingsDataStore
 import com.example.composerecipeapp.domain.usecases.GetSupportedCuisineUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel

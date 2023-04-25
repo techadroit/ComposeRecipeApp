@@ -1,13 +1,8 @@
 package com.example.composerecipeapp.data.repositories
 
+import com.core.platform.repository.BaseRepository
 import com.example.composerecipeapp.core.network.api_service.NewRecipeApi
-import com.example.composerecipeapp.core.repository.BaseRepository
-import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
-import com.example.composerecipeapp.data.network.response.SearchKey
-import com.recipeapp.data.network.response.RandomRecipesResponse
-import com.recipeapp.data.network.response.RecipeSearchResponse
-import com.recipeapp.data.network.response.SimilarRecipe
-import com.recipeapp.data.network.response.VideoListResponses
+import com.example.composerecipeapp.data.network.response.*
 import kotlinx.coroutines.flow.Flow
 
 const val PAGE_ITEMS = 10

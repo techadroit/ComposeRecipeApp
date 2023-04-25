@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.settings
 
 import com.archerviewmodel.state.ArcherState
-import com.example.composerecipeapp.core.functional.Consumable
-import com.example.composerecipeapp.core.functional.ViewEffect
+import com.core.platform.functional.Consumable
+import com.core.platform.functional.ViewEffect
 import com.example.composerecipeapp.viewmodel.user_interest.Cuisine
 
 data class SettingsState(

@@ -2,10 +2,10 @@ package com.example.composerecipeapp.core.network.api_service
 
 import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
 import com.example.composerecipeapp.data.network.response.SearchKey
-import com.recipeapp.data.network.response.RandomRecipesResponse
-import com.recipeapp.data.network.response.RecipeSearchResponse
-import com.recipeapp.data.network.response.SimilarRecipe
-import com.recipeapp.data.network.response.VideoListResponses
+import com.example.composerecipeapp.data.network.response.RandomRecipesResponse
+import com.example.composerecipeapp.data.network.response.RecipeSearchResponse
+import com.example.composerecipeapp.data.network.response.SimilarRecipe
+import com.example.composerecipeapp.data.network.response.VideoListResponses
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path

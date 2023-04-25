@@ -1,14 +1,9 @@
 package com.example.composerecipeapp.data.repositories
 
-import com.example.composerecipeapp.core.exception.Failure
+import com.core.platform.exception.Failure
+import com.core.platform.repository.BaseRepository
 import com.example.composerecipeapp.core.network.api_service.RecipeApi
-import com.example.composerecipeapp.core.repository.BaseRepository
-import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
-import com.example.composerecipeapp.data.network.response.SearchKey
-import com.recipeapp.data.network.response.RandomRecipesResponse
-import com.recipeapp.data.network.response.RecipeSearchResponse
-import com.recipeapp.data.network.response.SimilarRecipe
-import com.recipeapp.data.network.response.VideoListResponses
+import com.example.composerecipeapp.data.network.response.*
 
 class RecipeRepository(val recipeApiService: RecipeApi) : BaseRepository {
 

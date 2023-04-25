@@ -1,8 +1,8 @@
 package com.example.composerecipeapp.viewmodel.home_recipes
 
 import com.archerviewmodel.state.ArcherState
-import com.example.composerecipeapp.core.functional.Consumable
-import com.example.composerecipeapp.core.functional.ViewEffect
+import com.core.platform.functional.Consumable
+import com.core.platform.functional.ViewEffect
 import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 
 data class HomeRecipeState(

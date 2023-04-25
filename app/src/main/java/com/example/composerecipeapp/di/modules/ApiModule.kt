@@ -1,8 +1,6 @@
 package com.example.composerecipeapp.di.modules
 
-import com.core.network.service_provider.DebugServiceProvider
 import com.core.network.service_provider.NetworkServiceProvider
-import com.example.composerecipeapp.BuildConfig
 import com.example.composerecipeapp.core.network.api_service.NewRecipeApi
 import com.example.composerecipeapp.core.network.api_service.RecipeApi
 import dagger.Module

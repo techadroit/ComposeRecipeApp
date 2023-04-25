@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.archerviewmodel.state.ArcherState
-import com.example.composerecipeapp.core.exception.Failure
+import com.core.platform.exception.Failure
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 

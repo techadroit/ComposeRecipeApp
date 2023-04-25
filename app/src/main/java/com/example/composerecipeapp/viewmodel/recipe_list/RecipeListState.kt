@@ -1,9 +1,9 @@
 package com.example.composerecipeapp.viewmodel.recipe_list
 
 import com.archerviewmodel.state.ArcherState
-import com.example.composerecipeapp.core.exception.Failure
-import com.example.composerecipeapp.core.functional.Consumable
-import com.example.composerecipeapp.core.functional.ViewEffect
+import com.core.platform.exception.Failure
+import com.core.platform.functional.Consumable
+import com.core.platform.functional.ViewEffect
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 
 object OnSavedRecipe : ViewEffect()

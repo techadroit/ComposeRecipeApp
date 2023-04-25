@@ -16,3 +16,4 @@ rootProject.name = "ComposeRecipeApp"
 include(":app")
 include(":archerviewmodel")
 include(":core:network")
+include(":core:platform")

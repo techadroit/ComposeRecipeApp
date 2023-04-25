@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.domain.usecases
 
-import com.example.composerecipeapp.core.usecase.FlowUseCase
+import com.core.platform.usecase.FlowUseCase
 import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.data.repositories.mapToRecipeEntity
 import com.example.composerecipeapp.ui.pojo.RecipeModel

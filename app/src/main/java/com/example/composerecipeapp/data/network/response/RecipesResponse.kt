@@ -1,6 +1,5 @@
-package com.recipeapp.data.network.response
+package com.example.composerecipeapp.data.network.response
 
-import com.example.composerecipeapp.data.network.response.Ingredient
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 
