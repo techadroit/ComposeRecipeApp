@@ -1,7 +1,7 @@
 plugins {
     id("android.module.library")
-    id("android.application.network")
     id("android.application.hilt")
+    id("android.application.network")
 }
 
 android {
@@ -11,4 +11,14 @@ android {
         buildConfig = true
     }
 
+}
+
+//kapt {
+//    generateStubs = true
+//    correctErrorTypes = true
+//}
+
+dependencies {
+
+    implementation(libs.kotlinx.coroutines.android)
 }
