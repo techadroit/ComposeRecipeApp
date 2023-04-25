@@ -2,7 +2,7 @@ plugins {
 //    alias libs.plugins.android.application
 //    alias libs.plugins.kotlin
 //    alias libs.plugins.hilt.dagger
-    id "org.jetbrains.kotlin.kapt"
+//    id "org.jetbrains.kotlin.kapt"
     id "android.application"
     id "android.application.compose"
     id "android.application.core"
