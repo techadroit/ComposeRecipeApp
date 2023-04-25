@@ -1,6 +1,7 @@
 package com.buildlogic.convention.versions
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
 
 object SdkVersion {
     val COMPILE_SDK = 33
@@ -8,10 +9,9 @@ object SdkVersion {
     val MIN_SDK = 24
 }
 
-fun ApplicationExtension.addSdks(){
+fun CommonExtension<*,*,*,*>.addSdks(){
     compileSdk = SdkVersion.COMPILE_SDK
     defaultConfig.apply {
-        targetSdk = SdkVersion.TARGET_SDK
         minSdk = SdkVersion.MIN_SDK
     }
 }

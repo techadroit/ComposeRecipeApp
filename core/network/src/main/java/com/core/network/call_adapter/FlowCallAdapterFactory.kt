@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.core.network.call_adapter
+package com.core.network.call_adapter
 
 import kotlinx.coroutines.flow.Flow
 import retrofit2.CallAdapter
