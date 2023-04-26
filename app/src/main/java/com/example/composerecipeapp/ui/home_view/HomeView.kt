@@ -30,7 +30,6 @@ import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.home_recipes.*
 import com.skydoves.landscapist.glide.GlideImage
 
-
 @Composable
 fun HomeView() {
 
@@ -51,7 +50,6 @@ fun HomeView() {
     state.viewEffect?.consume()?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
 }
 
-
 @Composable
 fun HomeViewContent(
     list: List<RecipeWithCuisine>,
@@ -70,7 +68,6 @@ fun HomeViewContent(
         }
     )
 }
-
 
 @Composable
 fun RecipeListWithCuisine(
@@ -98,7 +95,6 @@ fun RecipeListWithCuisine(
         }
     )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -129,7 +125,6 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
         }
     }
 }
-
 
 @Composable
 fun ViewAll(dispatch: Dispatch<Unit>) {

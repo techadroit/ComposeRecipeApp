@@ -21,6 +21,7 @@ class RecipeListTest : BaseTest() {
 
     val recipeList: List<RecipeModel> =
         listOf(RecipeModel(1, "Recipe", 45, "", 10, false))
+
     @MockK
     lateinit var viewmodel: RecipeListViewmodel
 
@@ -28,7 +29,6 @@ class RecipeListTest : BaseTest() {
     fun setUp() {
         every { viewmodel.dispatch(any()) } returns Unit
     }
-
 
     fun launchApp(list: List<RecipeModel>, showPagination: Boolean = false) {
         composeTestRule.setContent {
@@ -47,13 +47,11 @@ class RecipeListTest : BaseTest() {
         }
     }
 
-
     @Test
     fun listLoaded() {
         launchApp(recipeList)
         composeTestRule.onNodeWithText("Recipe").assertExists()
     }
-
 
     @Test
     fun onSaveClick() {
@@ -62,7 +60,6 @@ class RecipeListTest : BaseTest() {
         composeTestRule.onNodeWithContentDescription("Saved").assertExists()
         verify { viewmodel.dispatch(ofType(SaveRecipeEvent::class)) }
     }
-
 
     @Test
     fun onRemoveFromSaveClick() {
@@ -75,7 +72,6 @@ class RecipeListTest : BaseTest() {
         composeTestRule.onNodeWithContentDescription("Not Saved").assertExists()
         verify { viewmodel.dispatch(ofType(RemoveSavedRecipeEvent::class)) }
     }
-
 
     @Test
     fun paginationExist() {

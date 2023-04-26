@@ -15,14 +15,12 @@ fun HomeViewContentPreview() {
     )
 }
 
-
 @Preview("RecipeListWithCuisine View")
 @Composable
 fun RecipeListWithCuisinePreview() {
     val recipe = PreviewHelper.recipeWithCuisine
     RecipeListWithCuisine(recipe = recipe, PreviewViewModel(HomeRecipeState()))
 }
-
 
 @Preview("RecipeItem View", widthDp = 300, heightDp = 350)
 @Composable
@@ -32,7 +30,6 @@ fun RecipeItemPreview() {
 
     }
 }
-
 
 @Preview("View All Button", widthDp = 300, heightDp = 350)
 @Composable

@@ -92,7 +92,6 @@ fun RecipeScreenContent(
     )
 }
 
-
 @Composable
 fun RecipeList(
     recipeList: List<RecipeModel>,
@@ -151,7 +150,6 @@ fun RecipeList(
         )
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var appMainNavigation: AppMainNavigation
 
     @ExperimentalFoundationApi
-
     @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
-
 @Composable
 fun MainContent(
     mainViewModel: MainViewModel,
@@ -84,7 +82,6 @@ fun MainContent(
 }
 
 @ExperimentalFoundationApi
-
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable

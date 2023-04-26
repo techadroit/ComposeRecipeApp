@@ -74,7 +74,6 @@ fun BottomBar(items: List<BottomBarItems>) {
 }
 
 @ExperimentalFoundationApi
-
 @ExperimentalAnimationApi
 @Composable
 fun NavigationView(
