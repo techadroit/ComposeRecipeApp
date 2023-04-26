@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.Navigate
+import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.destinations.VideoPlayerIntent
 import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
@@ -113,7 +113,7 @@ fun VideoContent(recipe: VideoRecipeModel) {
         Column {
             Thumbnail(url = recipe.thumbnail)
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.shortTitle, style = MaterialTheme.typography.h1)
+                Text(text = recipe.shortTitle, style = MaterialTheme.typography.displayLarge)
                 Spacer(modifier = Modifier.height(2.dp))
                 Views(views = recipe.views)
             }
@@ -152,5 +152,5 @@ fun Thumbnail(url: String) {
 @Composable
 fun Views(views: Int) {
     val convertedViews = toViews(views.toLong())
-    Text(text = "$convertedViews views", style = MaterialTheme.typography.subtitle1)
+    Text(text = "$convertedViews views", style = MaterialTheme.typography.titleMedium)
 }

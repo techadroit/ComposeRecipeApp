@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
-import com.example.composerecipeapp.ui.Dispatch
+import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.LoadingView
@@ -125,7 +125,7 @@ fun RecipeDescription(
             .wrapContentHeight()
     ) {
         Row {
-            Text(text = recipeDetail.title, style = MaterialTheme.typography.h1)
+            Text(text = recipeDetail.title, style = MaterialTheme.typography.displayLarge)
             SaveIcon(
                 isSaved = recipeDetail.isSaved,
                 onClick = {

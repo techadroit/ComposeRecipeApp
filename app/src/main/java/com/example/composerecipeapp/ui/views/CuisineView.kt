@@ -9,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.MultipleDispatch
+import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.util.MultipleDispatch
 import com.example.composerecipeapp.viewmodel.user_interest.Cuisine
 
 @ExperimentalFoundationApi

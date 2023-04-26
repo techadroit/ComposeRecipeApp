@@ -1,6 +1,6 @@
 package com.example.composerecipeapp
 
-import androidx.compose.material.ExperimentalMaterialApi
+
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -21,6 +21,7 @@ class RecipeListTest : BaseTest() {
 
     val recipeList: List<RecipeModel> =
         listOf(RecipeModel(1, "Recipe", 45, "", 10, false))
+
     @MockK
     lateinit var viewmodel: RecipeListViewmodel
 
@@ -29,7 +30,6 @@ class RecipeListTest : BaseTest() {
         every { viewmodel.dispatch(any()) } returns Unit
     }
 
-    @ExperimentalMaterialApi
     fun launchApp(list: List<RecipeModel>, showPagination: Boolean = false) {
         composeTestRule.setContent {
             ComposeRecipeAppTheme {
@@ -47,14 +47,12 @@ class RecipeListTest : BaseTest() {
         }
     }
 
-    @ExperimentalMaterialApi
     @Test
     fun listLoaded() {
         launchApp(recipeList)
         composeTestRule.onNodeWithText("Recipe").assertExists()
     }
 
-    @ExperimentalMaterialApi
     @Test
     fun onSaveClick() {
         launchApp(recipeList)
@@ -63,7 +61,6 @@ class RecipeListTest : BaseTest() {
         verify { viewmodel.dispatch(ofType(SaveRecipeEvent::class)) }
     }
 
-    @ExperimentalMaterialApi
     @Test
     fun onRemoveFromSaveClick() {
 
@@ -76,7 +73,6 @@ class RecipeListTest : BaseTest() {
         verify { viewmodel.dispatch(ofType(RemoveSavedRecipeEvent::class)) }
     }
 
-    @ExperimentalMaterialApi
     @Test
     fun paginationExist() {
 

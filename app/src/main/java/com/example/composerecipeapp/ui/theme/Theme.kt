@@ -1,41 +1,46 @@
 package com.example.composerecipeapp.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.example.composerecipeapp.ui.shapes
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColorScheme(
     primary = primaryColorDark,
-    primaryVariant = primaryVariantColorDark,
+    primaryContainer = primaryVariantColorDark,
     onPrimary = onPrimary,
     secondary = secondaryColorDark,
+    secondaryContainer = secondaryColorDark,
+    onSecondaryContainer = accentColor,
     background = backgroundColorDark,
     surface = surfaceColorDark,
+    surfaceVariant = surfaceColorDark,
     onBackground = onBackgroundColorDark,
     onSurface = onSurfaceColorDark,
     error = errorColor
 )
 
-private val LightColorPalette = lightColors(
+private val LightColorPalette = lightColorScheme(
     primary = primaryColorLight,
-    primaryVariant = primaryVariantColorLight,
+    primaryContainer = primaryVariantColorLight,
     secondary = secondaryColorLight,
+    secondaryContainer = primaryVariantColorLight,
+    onSecondaryContainer = accentColor,
     onPrimary = onPrimaryLight,
     background = backgroundColorLight,
     surface = surfaceColorLight,
+    surfaceVariant = surfaceColorLight,
     onBackground = onBackgroundColorLight,
     onSurface = onSurfaceColorLight,
     error = errorColor
 )
 
-private val UserInterestColorPalette = lightColors(
+private val UserInterestColorPalette = lightColorScheme(
     primary = surfaceColor,
     onPrimary = onPrimaryLight,
-    primaryVariant = surfaceColor,
+    primaryContainer = surfaceColor,
     surface = surfaceColor,
     secondary = secondaryColor,
     background = backgroundColor,
@@ -68,11 +73,11 @@ fun UserInterestComposable(
 @Composable
 fun AppTheme(
     darkTheme: Boolean,
-    colors: Colors,
+    colors: ColorScheme,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = Type.create(darkTheme),
         shapes = shapes,
         content = content

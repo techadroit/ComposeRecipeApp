@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var appMainNavigation: AppMainNavigation
 
     @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
     @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
-@ExperimentalMaterialApi
 @Composable
 fun MainContent(
     mainViewModel: MainViewModel,
@@ -84,7 +82,6 @@ fun MainContent(
 }
 
 @ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable

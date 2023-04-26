@@ -4,9 +4,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.NavigationBar
+
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -23,7 +24,7 @@ import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
     ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class
 )
 fun NavGraphBuilder.MainScreen(
@@ -37,17 +38,15 @@ fun NavGraphBuilder.MainScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
 fun AppContent() {
     val topLevelNavigator = ParentNavHostController.current
     val searchViewModel: SearchViewModel = hiltViewModel()
-    val scaffoldState = rememberScaffoldState()
     Scaffold(
-        scaffoldState = scaffoldState,
         bottomBar = {
             BottomBar(
                 items = listOf(
@@ -70,7 +69,6 @@ fun AppContent() {
             )
                 SearchBarContainer(searchViewModel = searchViewModel)
         },
-        snackbarHost = { scaffoldState.snackbarHostState }
     ) {
         Box(modifier = Modifier.padding(it)) {
             NavigationView(searchViewModel)

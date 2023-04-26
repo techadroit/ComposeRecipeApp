@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui
+package com.example.composerecipeapp.ui.util
 
 import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
 

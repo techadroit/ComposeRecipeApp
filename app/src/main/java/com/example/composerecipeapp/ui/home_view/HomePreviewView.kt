@@ -1,13 +1,11 @@
 package com.example.composerecipeapp.ui.home_view
 
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composerecipeapp.util.PreviewHelper
 import com.example.composerecipeapp.util.PreviewViewModel
 import com.example.composerecipeapp.viewmodel.home_recipes.HomeRecipeState
 
-@ExperimentalMaterialApi
 @Preview("HomeViewContent Preview")
 @Composable
 fun HomeViewContentPreview() {
@@ -17,7 +15,6 @@ fun HomeViewContentPreview() {
     )
 }
 
-@ExperimentalMaterialApi
 @Preview("RecipeListWithCuisine View")
 @Composable
 fun RecipeListWithCuisinePreview() {
@@ -25,7 +22,6 @@ fun RecipeListWithCuisinePreview() {
     RecipeListWithCuisine(recipe = recipe, PreviewViewModel(HomeRecipeState()))
 }
 
-@ExperimentalMaterialApi
 @Preview("RecipeItem View", widthDp = 300, heightDp = 350)
 @Composable
 fun RecipeItemPreview() {
@@ -35,7 +31,6 @@ fun RecipeItemPreview() {
     }
 }
 
-@ExperimentalMaterialApi
 @Preview("View All Button", widthDp = 300, heightDp = 350)
 @Composable
 fun ViewAllPreview() {

@@ -3,17 +3,11 @@ package com.example.composerecipeapp.ui.home_view
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -25,8 +19,8 @@ import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.destinations.RecipeListIntent
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.OnClick
+import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.util.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
@@ -36,7 +30,6 @@ import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.home_recipes.*
 import com.skydoves.landscapist.glide.GlideImage
 
-@ExperimentalMaterialApi
 @Composable
 fun HomeView() {
 
@@ -57,20 +50,17 @@ fun HomeView() {
     state.viewEffect?.consume()?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
 }
 
-@ExperimentalMaterialApi
 @Composable
 fun HomeViewContent(
     list: List<RecipeWithCuisine>,
     viewModel: ArcherViewModel<HomeRecipeState, HomeRecipeEvent>
 ) {
-
-
     LazyColumn(
         content = {
             items(list) {
                 Text(
                     text = it.cuisine,
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier.padding(8.dp)
                 )
                 RecipeListWithCuisine(recipe = it, viewModel = viewModel)
@@ -79,7 +69,6 @@ fun HomeViewContent(
     )
 }
 
-@ExperimentalMaterialApi
 @Composable
 fun RecipeListWithCuisine(
     recipe: RecipeWithCuisine,
@@ -107,7 +96,7 @@ fun RecipeListWithCuisine(
     )
 }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
     Card(
@@ -129,7 +118,7 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
             )
             Text(
                 text = recipe.title,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyMedium,
                 maxLines = 2,
                 modifier = Modifier.padding(4.dp)
             )
@@ -137,7 +126,6 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 fun ViewAll(dispatch: Dispatch<Unit>) {
     Card(
@@ -153,7 +141,7 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
         Column(verticalArrangement = Arrangement.Center) {
             Text(
                 text = stringResource(id = R.string.view_all),
-                style = MaterialTheme.typography.h1,
+                style = MaterialTheme.typography.displayLarge,
                 maxLines = 2,
                 modifier = Modifier.padding(16.dp)
             )

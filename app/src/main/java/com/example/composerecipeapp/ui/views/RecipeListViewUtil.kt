@@ -1,9 +1,9 @@
 package com.example.composerecipeapp.ui.views
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
@@ -24,7 +24,7 @@ fun CookingTime(time: String) {
                 .height(14.dp)
         )
         Spacer(modifier = Modifier.width(2.dp))
-        Text(text = "$time mint", style = MaterialTheme.typography.subtitle1)
+        Text(text = "$time mint", style = MaterialTheme.typography.titleMedium)
     }
 }
 
@@ -39,6 +39,6 @@ fun Servings(serving: String) {
                 .height(14.dp)
         )
         Spacer(modifier = Modifier.width(2.dp))
-        Text(text = "$serving servings", style = MaterialTheme.typography.subtitle1)
+        Text(text = "$serving servings", style = MaterialTheme.typography.titleMedium)
     }
 }
