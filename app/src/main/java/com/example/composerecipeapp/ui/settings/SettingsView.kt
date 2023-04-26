@@ -100,12 +100,17 @@ fun DarkModeON(isDarkModeOn: Boolean, dispatch: Dispatch<Boolean>) {
 @Composable
 fun SaveButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        shape = ButtonDefaults.filledTonalShape,
         onClick = {
             onClick()
         },
         modifier = modifier,
     ) {
-        Text(text = stringResource(id = R.string.save), style = MaterialTheme.typography.bodyLarge)
+        Text(text = stringResource(id = R.string.save),
+            style = MaterialTheme.typography.bodyLarge)
     }
 }
 
