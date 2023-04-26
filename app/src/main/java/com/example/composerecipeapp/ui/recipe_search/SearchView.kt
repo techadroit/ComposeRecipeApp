@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -36,9 +36,9 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.destinations.RecipeListIntent
 import com.example.composerecipeapp.ui.destinations.SearchScreenIntent
 import com.example.composerecipeapp.ui.destinations.SearchViewIntent
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.Navigate
-import com.example.composerecipeapp.ui.PopBackStack
+import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.util.Navigate
+import com.example.composerecipeapp.ui.util.PopBackStack
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
@@ -47,6 +47,7 @@ import com.example.composerecipeapp.viewmodel.recipe_search.SearchEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchTextEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun SearchBarPreview() {
@@ -91,6 +92,7 @@ fun SearchBarContainer(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalComposeUiApi
 @Composable
 fun SearchBar(
@@ -166,7 +168,7 @@ fun SearchBar(
                 keyboardType = KeyboardType.Text
             ),
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colors.onSurface
+                focusedBorderColor = MaterialTheme.colorScheme.onSurface
             )
         )
     }

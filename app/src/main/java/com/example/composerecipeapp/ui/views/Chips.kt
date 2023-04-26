@@ -4,10 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -40,7 +40,6 @@ fun Chip(
             enabled = isClickable,
             onClick = { onClick() }
         ).padding(4.dp),
-        elevation = 8.dp,
         shape = MaterialTheme.shapes.small,
         color = color
     ) {
@@ -62,7 +61,7 @@ fun Chip(
             Text(
                 label,
                 modifier = Modifier.padding(8.dp),
-                style = MaterialTheme.typography.button.copy(color = Color.Black)
+                style = MaterialTheme.typography.labelLarge.copy(color = Color.Black)
             )
 
             if (trailer != null) {

@@ -2,7 +2,8 @@ package com.example.composerecipeapp.ui.main_view
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -11,8 +12,10 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import com.example.composerecipeapp.platform.navigation.navigator.AppNavHost
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.*
@@ -33,19 +36,24 @@ fun BottomBar(items: List<BottomBarItems>) {
         mutableStateOf(0)
     }
 
-    BottomNavigation {
+    NavigationBar(
+        modifier = Modifier.height(48.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+    ) {
         items.forEachIndexed { index, mainScreen ->
-            BottomNavigationItem(
+            val isSelected = selectedIndex.value == index
+            NavigationBarItem(
+                colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        indicatorColor = MaterialTheme.colorScheme.surface ),
+                alwaysShowLabel = false,
                 icon = {
-                    val isSelected = selectedIndex.value == index
                     Icon(
                         mainScreen.getIcon(index),
-                        tint = if (isSelected) MaterialTheme.colors.secondary
-                        else Color.LightGray,
                         contentDescription = mainScreen.tabName
                     )
                 },
-                selected = true,
+                selected = isSelected,
                 onClick = {
                     selectedIndex.value = index
                     val route = mainScreen.routeName
@@ -66,7 +74,7 @@ fun BottomBar(items: List<BottomBarItems>) {
 }
 
 @ExperimentalFoundationApi
-@ExperimentalMaterialApi
+
 @ExperimentalAnimationApi
 @Composable
 fun NavigationView(

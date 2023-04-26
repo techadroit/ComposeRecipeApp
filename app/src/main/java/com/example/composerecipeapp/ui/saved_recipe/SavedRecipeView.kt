@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.Navigate
+import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
@@ -27,7 +27,7 @@ import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.save_recipe.*
 
-@ExperimentalMaterialApi
+
 @Composable
 fun FavouriteRecipeScreen(
     viewModel: SaveRecipeViewModel = hiltViewModel(),
@@ -71,11 +71,11 @@ fun EmptyView() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(stringResource(id = R.string.no_saved_recipe), style = MaterialTheme.typography.h1)
+        Text(stringResource(id = R.string.no_saved_recipe), style = MaterialTheme.typography.displayLarge)
     }
 }
 
-@ExperimentalMaterialApi
+
 @Composable
 fun RecipeList(
     recipeList: List<RecipeModel>,

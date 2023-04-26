@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,9 +16,9 @@ import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
-import com.example.composerecipeapp.ui.Dispatch
-import com.example.composerecipeapp.ui.Navigate
-import com.example.composerecipeapp.ui.OnClick
+import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.util.Navigate
+import com.example.composerecipeapp.ui.util.OnClick
 import com.example.composerecipeapp.ui.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
@@ -29,8 +29,8 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@ExperimentalMaterialApi
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeListScreen(
@@ -40,13 +40,14 @@ fun RecipeListScreen(
     val topLevelNavigator = ParentNavHostController.current
     val cuisine = remember { cuisineKey }
     val recipeState = recipesViewModel.observeState()
-    val scaffoldState = rememberScaffoldState()
+    val snackBarState = remember{
+        SnackbarHostState()
+    }
 
     LaunchedEffect(cuisine) {
         recipesViewModel.dispatch(LoadRecipes(cuisine))
     }
     Scaffold(
-        scaffoldState = scaffoldState,
         content = {
             RefreshView(content = {
                 RecipeScreenContent(
@@ -58,15 +59,16 @@ fun RecipeListScreen(
             }) {
                 recipesViewModel.dispatch(RefreshRecipeList)
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(snackBarState) }
     )
     recipeState.viewEffect?.consume()
         ?.let {
-            RecipeViewEffect(viewEffect = it, scaffoldState = scaffoldState)
+            RecipeViewEffect(viewEffect = it, snackBarState)
         }
 }
 
-@ExperimentalMaterialApi
+
 @Composable
 fun RecipeScreenContent(
     cuisine: String,
@@ -90,7 +92,7 @@ fun RecipeScreenContent(
     )
 }
 
-@ExperimentalMaterialApi
+
 @Composable
 fun RecipeList(
     recipeList: List<RecipeModel>,
@@ -150,7 +152,8 @@ fun RecipeList(
     }
 }
 
-@ExperimentalMaterialApi
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeListItem(
     recipe: RecipeModel,
@@ -176,7 +179,7 @@ fun RecipeListItem(
                     .width(120.dp),
             )
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.title, style = MaterialTheme.typography.h1)
+                Text(text = recipe.title, style = MaterialTheme.typography.displayLarge)
                 CookingTime(time = recipe.cookingTime.toString())
                 Servings(serving = recipe.servings.toString())
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -208,14 +211,14 @@ fun CookingTimePreview() {
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun RecipeViewEffect(viewEffect: ViewEffect, scaffoldState: ScaffoldState) {
+fun RecipeViewEffect(viewEffect: ViewEffect, snackBarState: SnackbarHostState) {
 
     val scope = rememberCoroutineScope()
     when (viewEffect) {
         is OnSavedRecipe -> {
             val message = stringResource(id = R.string.recipe_saved_text)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(message = message)
+                snackBarState.showSnackbar(message = message)
             }
         }
     }

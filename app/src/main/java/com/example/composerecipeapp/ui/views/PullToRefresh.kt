@@ -1,10 +1,10 @@
 package com.example.composerecipeapp.ui.views
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.pullrefresh.PullRefreshIndicator
+import androidx.compose.material3.pullrefresh.pullRefresh
+import androidx.compose.material3.pullrefresh.rememberPullRefreshState
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RefreshView(
     modifier: Modifier = Modifier,
@@ -26,8 +25,7 @@ fun RefreshView(
         onRefresh()
     })
     Box(
-        modifier
-            .pullRefresh(pullRefreshState)
+        modifier.pullRefresh(pullRefreshState)
     ) {
         content()
         PullRefreshIndicator(
