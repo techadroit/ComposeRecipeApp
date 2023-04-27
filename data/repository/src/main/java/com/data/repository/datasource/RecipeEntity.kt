@@ -1,9 +1,8 @@
-package com.example.composerecipeapp.data.datasource
+package com.data.repository.datasource
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.composerecipeapp.ui.pojo.RecipeModel
 
 @Entity(tableName = "saved_recipe")
 class SavedRecipe(
@@ -18,7 +17,3 @@ class SavedRecipe(
     @ColumnInfo(name = "title")
     val title: String
 )
-
-fun SavedRecipe.toRecipeModal(isSaved: Boolean = false): RecipeModel {
-    return RecipeModel(id, title, servings, imageUrl, readyInMinutes, isSaved)
-}

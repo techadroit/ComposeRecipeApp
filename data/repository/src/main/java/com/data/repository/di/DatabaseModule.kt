@@ -1,7 +1,7 @@
-package com.example.composerecipeapp.di.modules
+package com.data.repository.di
 
 import android.content.Context
-import com.example.composerecipeapp.data.datasource.RecipeDatabase
+import com.data.repository.datasource.RecipeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,8 +13,10 @@ import dagger.hilt.components.SingletonComponent
 class DatabaseModule {
 
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context) = RecipeDatabase.getDatabase(context)
+    fun provideDatabase(@ApplicationContext context: Context) =
+        RecipeDatabase.getDatabase(context)
 
     @Provides
-    fun provideRecipeDatasource(database: RecipeDatabase) = database.recipeDao()
+    fun provideRecipeDatasource(database: RecipeDatabase) =
+        database.recipeDao()
 }

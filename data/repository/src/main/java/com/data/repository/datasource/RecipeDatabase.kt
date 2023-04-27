@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.data.datasource
+package com.data.repository.datasource
 
 import android.content.Context
 import androidx.room.Database

@@ -6,11 +6,6 @@ plugins {
 
 android {
     namespace = "com.core.network"
-
-    buildFeatures{
-        buildConfig = true
-    }
-
 }
 
 kapt {

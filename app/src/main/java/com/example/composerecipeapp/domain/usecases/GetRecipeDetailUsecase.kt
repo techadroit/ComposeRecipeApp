@@ -1,12 +1,11 @@
 package com.example.composerecipeapp.domain.usecases
 
 import com.core.platform.usecase.NewFlowUseCase
-import com.example.composerecipeapp.data.network.response.toRecipeDetailModel
-import com.example.composerecipeapp.data.repositories.NewRecipeRepository
-import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
+import com.data.repository.repositories.NewRecipeRepository
+import com.data.repository.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
+import com.example.composerecipeapp.ui.pojo.toRecipeDetailModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 
 class GetRecipeDetailUsecase(

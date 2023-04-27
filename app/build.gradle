@@ -28,6 +28,7 @@ dependencies {
     implementation project(':archerviewmodel')
     implementation project(':core:network')
     implementation project(':core:platform')
+    implementation project(':data:repository')
     implementation "androidx.datastore:datastore-preferences:1.0.0-rc01"
     implementation "com.github.skydoves:landscapist-glide:1.2.2"
     implementation 'com.google.android.exoplayer:exoplayer:2.14.1'

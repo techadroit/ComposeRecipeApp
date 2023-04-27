@@ -1,10 +1,10 @@
 package com.example.composerecipeapp.domain.usecases
 
-import com.example.composerecipeapp.data.datasource.SettingsDataStore
-import com.example.composerecipeapp.data.repositories.NewRecipeRepository
+import com.data.repository.datasource.SettingsDataStore
+import com.data.repository.repositories.NewRecipeRepository
+import com.data.repository.response.RecipeSearchResponse
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.example.composerecipeapp.data.network.response.RecipeSearchResponse
-import com.example.composerecipeapp.data.network.response.toRecipeModel
+import com.example.composerecipeapp.ui.pojo.toRecipeModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapConcat
@@ -29,7 +29,10 @@ class RecipesForSelectedCuisines(
             }
     }
 
-    private fun transform(cuisine: String, response: RecipeSearchResponse): RecipeWithCuisine {
+    private fun transform(
+        cuisine: String,
+        response: RecipeSearchResponse
+    ): RecipeWithCuisine {
         val recipeList = response.toRecipeModel { false }
         return RecipeWithCuisine(cuisine, recipeList)
     }

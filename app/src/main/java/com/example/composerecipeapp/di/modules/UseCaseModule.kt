@@ -1,9 +1,8 @@
 package com.example.composerecipeapp.di.modules
 
-import com.example.composerecipeapp.data.datasource.SettingsDataStore
-import com.example.composerecipeapp.data.repositories.NewRecipeRepository
-import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
-import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.data.repository.datasource.SettingsDataStore
+import com.data.repository.repositories.NewRecipeRepository
+import com.data.repository.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.domain.usecases.*
 import dagger.Module
 import dagger.Provides
@@ -15,7 +14,8 @@ import dagger.hilt.android.components.ViewModelComponent
 class UseCaseModule {
 
     @Provides
-    fun getSimilarRecipeUseCase(repository: NewRecipeRepository) = SimilarRecipeUsecase(repository)
+    fun getSimilarRecipeUseCase(repository: NewRecipeRepository) =
+        SimilarRecipeUsecase(repository)
 
     @Provides
     fun getSearchRecipeUseCase(
@@ -35,7 +35,8 @@ class UseCaseModule {
         GetRecipeDetailUsecase(repository, localRepository)
 
     @Provides
-    fun getAutoCompleteUseCase(repository: NewRecipeRepository) = AutoCompleteUsecase(repository)
+    fun getAutoCompleteUseCase(repository: NewRecipeRepository) =
+        AutoCompleteUsecase(repository)
 
     @Provides
     fun getSaveRecipeUseCase(localRepository: RecipeLocalRepository) =
@@ -65,7 +66,7 @@ class UseCaseModule {
 
     @Provides
     fun getSavedRecipeCuisineUseCase(
-        recipeRepository: RecipeRepository,
+        recipeRepository: NewRecipeRepository,
         settingsDataStore: SettingsDataStore
     ) =
         GetSavedRecipeCuisine(

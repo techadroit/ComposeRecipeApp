@@ -1,8 +1,7 @@
-package com.example.composerecipeapp.di.modules
+package com.data.repository.di
 
 import com.core.network.service_provider.NetworkServiceProvider
-import com.example.composerecipeapp.core.network.api_service.NewRecipeApi
-import com.example.composerecipeapp.core.network.api_service.RecipeApi
+import com.data.repository.NewRecipeApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,10 +11,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {
-
-    @Provides
-    fun getRecipeApiService(networkServiceProvider: NetworkServiceProvider) =
-        networkServiceProvider.getService(RecipeApi::class.java)
 
     @Singleton
     @Provides
