@@ -4,7 +4,7 @@ import com.archerviewmodel.ArcherViewModel
 import com.core.platform.functional.asConsumable
 import com.example.composerecipeapp.core.functional.collectIn
 import com.core.platform.usecase.None
-import com.example.composerecipeapp.data.datasource.SettingsDataStore
+import com.data.repository.datasource.SettingsDataStore
 import com.example.composerecipeapp.domain.usecases.GetSupportedCuisineUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -2,14 +2,14 @@ package com.example.composerecipeapp.domain.usecases
 
 import com.core.platform.usecase.NewFlowUseCase
 import com.core.platform.usecase.None
-import com.example.composerecipeapp.data.datasource.SettingsDataStore
-import com.example.composerecipeapp.data.repositories.RecipeRepository
+import com.data.repository.datasource.SettingsDataStore
+import com.data.repository.repositories.NewRecipeRepository
 import com.example.composerecipeapp.viewmodel.user_interest.Cuisine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetSavedRecipeCuisine(
-    val recipeRepository: RecipeRepository,
+    val recipeRepository: NewRecipeRepository,
     val settingsDataStore: SettingsDataStore
 ) : NewFlowUseCase<List<Cuisine>, None>() {
     override fun run(params: None): Flow<List<Cuisine>> =

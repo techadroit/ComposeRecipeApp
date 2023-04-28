@@ -1,11 +1,6 @@
 package com.example.composerecipeapp.core.network.api_service
 
-import com.example.composerecipeapp.data.network.response.RecipeDetailResponse
-import com.example.composerecipeapp.data.network.response.SearchKey
-import com.example.composerecipeapp.data.network.response.RandomRecipesResponse
-import com.example.composerecipeapp.data.network.response.RecipeSearchResponse
-import com.example.composerecipeapp.data.network.response.SimilarRecipe
-import com.example.composerecipeapp.data.network.response.VideoListResponses
+import com.data.repository.response.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

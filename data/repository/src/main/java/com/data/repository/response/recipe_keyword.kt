@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.data.network.response
+package com.data.repository.response
 
 typealias SearchKeyResponse = ArrayList<SearchKey>
 

@@ -4,11 +4,6 @@ plugins {
 
 android {
     namespace = "com.core.platform"
-
-    buildFeatures{
-        buildConfig = true
-    }
-
 }
 
 dependencies {

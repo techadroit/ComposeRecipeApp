@@ -17,8 +17,7 @@ open class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState,
     val savedRecipeUsecase: SaveRecipeUsecase,
     val searchUsecase: SearchRecipeUsecase,
-    val deleteSavedRecipe: DeleteSavedRecipe,
-    val recipeService: RecipeApi
+    val deleteSavedRecipe: DeleteSavedRecipe
 ) :
     ArcherViewModel<RecipeListState, RecipeEvent>(initialState) {
 

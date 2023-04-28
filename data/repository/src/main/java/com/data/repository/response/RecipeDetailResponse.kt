@@ -1,6 +1,4 @@
-package com.example.composerecipeapp.data.network.response
-
-import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
+package com.data.repository.response
 
 data class RecipeDetailResponse(
     val aggregateLikes: Int,
@@ -161,15 +159,3 @@ data class ProductMatche(
     val title: String
 )
 
-fun RecipeDetailResponse.toRecipeDetailModel(isSaved: Boolean = false) =
-    RecipeDetailModel(
-        id = this.id,
-        servings = this.servings,
-        cookingTime = 0,
-        title = this.title,
-        sourceName = this.sourceName,
-        sourceUrl = this.sourceUrl,
-        imageUrl = this.image,
-        instructions = this.instructions,
-        isSaved = isSaved
-    )

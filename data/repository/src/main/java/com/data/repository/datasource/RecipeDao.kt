@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.data.datasource
+package com.data.repository.datasource
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

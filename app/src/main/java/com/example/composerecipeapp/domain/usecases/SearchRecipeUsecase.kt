@@ -1,10 +1,10 @@
 package com.example.composerecipeapp.domain.usecases
 
 import com.core.platform.usecase.NewFlowUseCase
-import com.example.composerecipeapp.data.repositories.NewRecipeRepository
-import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
+import com.data.repository.repositories.NewRecipeRepository
+import com.data.repository.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.example.composerecipeapp.data.network.response.toRecipeModel
+import com.example.composerecipeapp.ui.pojo.toRecipeModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

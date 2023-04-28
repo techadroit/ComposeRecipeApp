@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.domain.usecases
 
 import com.core.platform.usecase.NewFlowUseCase
-import com.example.composerecipeapp.data.repositories.NewRecipeRepository
+import com.data.repository.repositories.NewRecipeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
