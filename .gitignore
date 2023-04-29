@@ -5,3 +5,6 @@
 /build-logic/.gradle
 /build-logic/convention/build
 /data/repository/build
+/domain/common/build
+/domain/favourite/build
+/domain/recipe/build

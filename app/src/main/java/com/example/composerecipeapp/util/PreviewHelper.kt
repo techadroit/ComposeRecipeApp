@@ -3,8 +3,8 @@ package com.example.composerecipeapp.util
 import com.archerviewmodel.ArcherViewModel
 import com.archerviewmodel.events.ArcherEvent
 import com.archerviewmodel.state.ArcherState
-import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeModel
+import com.domain.recipe.cuisines.RecipeWithCuisine
 
 object PreviewHelper {
     val recipe = RecipeModel(

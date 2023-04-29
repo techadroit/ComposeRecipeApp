@@ -2,14 +2,14 @@ package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.archerviewmodel.ArcherViewModel
 import com.core.platform.exception.Failure
+import com.domain.common.pojo.RecipeDetailModel
+import com.domain.common.pojo.RecipeModel
+import com.domain.common.pojo.toRecipe
+import com.domain.favourite.DeleteSavedRecipe
+import com.domain.favourite.SaveRecipeUsecase
+import com.domain.recipe.SimilarRecipeUsecase
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
-import com.example.composerecipeapp.domain.usecases.GetRecipeDetailUsecase
-import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
-import com.example.composerecipeapp.domain.usecases.SimilarRecipeUsecase
-import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
-import com.example.composerecipeapp.ui.pojo.RecipeModel
-import com.example.composerecipeapp.ui.pojo.toRecipe
+import com.domain.recipe.GetRecipeDetailUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.zip
@@ -77,7 +77,7 @@ class RecipeDetailViewModel @Inject constructor(
     }
 
     private fun saveRecipe(recipeModel: RecipeModel) =
-        savedRecipeUsecase(SaveRecipeUsecase.Param(recipeModel))
+        savedRecipeUsecase(com.domain.favourite.SaveRecipeUsecase.Param(recipeModel))
             .collectIn(viewModelScope) {
                 setState {
                     this.onRecipeSaved()

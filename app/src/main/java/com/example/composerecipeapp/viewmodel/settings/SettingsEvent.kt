@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.settings
 
 import com.archerviewmodel.events.ArcherEvent
-import com.example.composerecipeapp.viewmodel.user_interest.Cuisine
+import com.domain.common.pojo.Cuisine
 
 sealed class SettingsEvent : ArcherEvent
 

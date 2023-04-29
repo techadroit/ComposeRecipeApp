@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_list
 
 import com.archerviewmodel.events.ArcherEvent
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeModel
 
 sealed class RecipeEvent : ArcherEvent
 data class LoadRecipes(val query: String, var isPaginate: Boolean = false) :

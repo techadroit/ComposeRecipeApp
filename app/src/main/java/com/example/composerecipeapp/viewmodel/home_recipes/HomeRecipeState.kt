@@ -3,7 +3,7 @@ package com.example.composerecipeapp.viewmodel.home_recipes
 import com.archerviewmodel.state.ArcherState
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
+import com.domain.recipe.cuisines.RecipeWithCuisine
 
 data class HomeRecipeState(
     val list: List<RecipeWithCuisine> = emptyList(),

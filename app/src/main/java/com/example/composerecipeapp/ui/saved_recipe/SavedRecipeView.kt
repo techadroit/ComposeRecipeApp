@@ -19,7 +19,7 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView

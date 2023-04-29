@@ -23,10 +23,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import com.domain.common.pojo.RecipeDetailModel
 import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.util.Dispatch
-import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.SaveIcon

@@ -2,9 +2,9 @@ package com.example.composerecipeapp.viewmodel.recipe_video
 
 import com.archerviewmodel.ArcherViewModel
 import com.core.platform.exception.Failure
+import com.domain.common.pojo.VideoRecipeModel
+import com.domain.recipe.video.SearchVideoRecipeUsecase
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.domain.usecases.SearchVideoRecipeUsecase
-import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject

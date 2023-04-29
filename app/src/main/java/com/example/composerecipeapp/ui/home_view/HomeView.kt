@@ -15,13 +15,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.domain.usecases.RecipeWithCuisine
 import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.destinations.RecipeListIntent
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.OnClick
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeModel
+import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView

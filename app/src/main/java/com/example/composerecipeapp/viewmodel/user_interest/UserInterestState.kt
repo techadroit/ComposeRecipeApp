@@ -3,6 +3,7 @@ package com.example.composerecipeapp.viewmodel.user_interest
 import com.archerviewmodel.state.ArcherState
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
+import com.domain.common.pojo.Cuisine
 
 object OnCuisineSelected : ViewEffect()
 
@@ -11,8 +12,6 @@ data class UserInterestState(
     val enableNextOptions: Boolean = false,
     val viewEffect: Consumable<ViewEffect> ? = null
 ) : ArcherState
-
-data class Cuisine(val name: String, val isSelected: Boolean = false)
 
 fun UserInterestState.onCuisineSelected(cuisine: Cuisine): UserInterestState {
     val newList = cuisines.map { if (it == cuisine) it.copy(isSelected = true) else it }
