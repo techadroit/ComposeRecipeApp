@@ -4,7 +4,7 @@ import com.archerviewmodel.state.ArcherState
 import com.core.platform.exception.Failure
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeModel
 
 object OnSavedRecipe : ViewEffect()
 

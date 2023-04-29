@@ -5,7 +5,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.ui.recipe_list.RecipeList
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListViewmodel

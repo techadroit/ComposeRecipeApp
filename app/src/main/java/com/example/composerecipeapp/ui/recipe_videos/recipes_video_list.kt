@@ -20,10 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.domain.common.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.destinations.VideoPlayerIntent
-import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.PaginationLoading

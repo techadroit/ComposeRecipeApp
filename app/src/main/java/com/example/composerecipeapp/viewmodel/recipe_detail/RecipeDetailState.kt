@@ -2,8 +2,8 @@ package com.example.composerecipeapp.viewmodel.recipe_detail
 
 import com.archerviewmodel.state.ArcherState
 import com.core.platform.exception.Failure
-import com.example.composerecipeapp.ui.pojo.RecipeDetailModel
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.common.pojo.RecipeDetailModel
+import com.domain.common.pojo.RecipeModel
 
 data class RecipeDetailState(
     val isLoading: Boolean = false,

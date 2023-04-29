@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.recipe_video
 
 import com.archerviewmodel.state.ArcherState
-import com.example.composerecipeapp.ui.pojo.VideoRecipeModel
+import com.domain.common.pojo.VideoRecipeModel
 
 data class RecipeVideoState(
     val data: List<VideoRecipeModel> = emptyList(),

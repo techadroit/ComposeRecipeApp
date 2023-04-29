@@ -6,8 +6,8 @@ import com.example.composerecipeapp.core.functional.collectIn
 import com.example.composerecipeapp.core.functional.pairOf
 import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
-import com.example.composerecipeapp.domain.usecases.GetSavedRecipeCuisine
-import com.example.composerecipeapp.viewmodel.user_interest.Cuisine
+import com.domain.common.pojo.Cuisine
+import com.domain.favourite.GetSavedRecipeCuisine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch

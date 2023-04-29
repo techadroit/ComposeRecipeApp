@@ -5,7 +5,8 @@ import com.core.platform.functional.asConsumable
 import com.example.composerecipeapp.core.functional.collectIn
 import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
-import com.example.composerecipeapp.domain.usecases.GetSupportedCuisineUsecase
+import com.domain.common.pojo.Cuisine
+import com.domain.recipe.cuisines.GetSupportedCuisineUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

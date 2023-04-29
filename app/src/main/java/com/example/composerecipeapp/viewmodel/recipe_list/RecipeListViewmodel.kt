@@ -2,12 +2,11 @@ package com.example.composerecipeapp.viewmodel.recipe_list
 
 import com.archerviewmodel.ArcherViewModel
 import com.core.platform.exception.Failure
+import com.domain.common.pojo.RecipeModel
+import com.domain.favourite.DeleteSavedRecipe
+import com.domain.favourite.SaveRecipeUsecase
+import com.domain.recipe.search.SearchRecipeUsecase
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.network.api_service.RecipeApi
-import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
-import com.example.composerecipeapp.domain.usecases.SaveRecipeUsecase
-import com.example.composerecipeapp.domain.usecases.SearchRecipeUsecase
-import com.example.composerecipeapp.ui.pojo.RecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
@@ -23,7 +22,7 @@ open class RecipeListViewmodel @Inject constructor(
 
     var page = 1
     private fun saveRecipe(recipeModel: RecipeModel) =
-        savedRecipeUsecase(SaveRecipeUsecase.Param(recipeModel))
+        savedRecipeUsecase(com.domain.favourite.SaveRecipeUsecase.Param(recipeModel))
             .collectIn(viewModelScope) {
                 setState {
                     this.onRecipeSaved(recipeModel.id)
@@ -58,13 +57,13 @@ open class RecipeListViewmodel @Inject constructor(
 
         val param = SearchRecipeUsecase.Param(cuisine = cuisine, offset = page)
         searchUsecase(param).catch { e ->
-                handleFailure(e as Failure, isPaginate = isPaginate)
-            }.collectIn(viewModelScope) {
-                handleRecipeSearch(it.first, isPaginate, it.second)
-            }
+            handleFailure(e as Failure, isPaginate = isPaginate)
+        }.collectIn(viewModelScope) {
+            handleRecipeSearch(it.first, isPaginate, it.second)
+        }
     }
 
-    private fun refreshRecipeList(){
+    private fun refreshRecipeList() {
         page = 1
         withState {
             val selectedQuery = it.selectedQuery ?: return@withState

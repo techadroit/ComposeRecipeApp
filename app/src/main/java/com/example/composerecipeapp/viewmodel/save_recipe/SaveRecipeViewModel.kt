@@ -3,9 +3,9 @@ package com.example.composerecipeapp.viewmodel.save_recipe
 import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.core.functional.collectIn
 import com.core.platform.usecase.None
-import com.example.composerecipeapp.domain.usecases.DeleteSavedRecipe
-import com.example.composerecipeapp.domain.usecases.LoadSavedRecipeUsecase
-import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.domain.favourite.DeleteSavedRecipe
+import com.domain.favourite.LoadSavedRecipeUsecase
+import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
@@ -14,8 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SaveRecipeViewModel @Inject constructor(
     val initialState: SaveRecipeState,
-    val loadSavedRecipeUseCase: LoadSavedRecipeUsecase,
-    val deleteSavedRecipe: DeleteSavedRecipe
+    val loadSavedRecipeUseCase: com.domain.favourite.LoadSavedRecipeUsecase,
+    val deleteSavedRecipe: com.domain.favourite.DeleteSavedRecipe
 ) : ArcherViewModel<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
 
     override fun onEvent(event: SaveRecipeEvent, state: SaveRecipeState) {
