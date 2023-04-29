@@ -1,9 +1,9 @@
 package com.example.composerecipeapp.domain.usecases
 
 import com.core.platform.usecase.FlowUseCase
-import com.example.composerecipeapp.data.repositories.RecipeLocalRepository
-import com.example.composerecipeapp.data.repositories.mapToRecipeEntity
+import com.data.repository.repositories.RecipeLocalRepository
 import com.example.composerecipeapp.ui.pojo.RecipeModel
+import com.example.composerecipeapp.ui.pojo.mapToRecipeEntity
 
 class SaveRecipeUsecase(var localRepository: RecipeLocalRepository) :
     FlowUseCase<Long, SaveRecipeUsecase.Param>() {

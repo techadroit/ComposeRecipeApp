@@ -2,7 +2,7 @@ package com.example.composerecipeapp.viewmodel.main
 
 import com.archerviewmodel.ArcherViewModel
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.data.datasource.SettingsDataStore
+import com.data.repository.datasource.SettingsDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import javax.inject.Inject

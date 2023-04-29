@@ -1,21 +1,21 @@
-package com.example.composerecipeapp.data.datasource
+package com.data.repository.datasource
 
-import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.composerecipeapp.ui.main.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SettingsDataStore(val context: Context) {
+class SettingsDataStore(val dataStore: DataStore<Preferences>) {
 
     private val darkModeOn = booleanPreferencesKey("dark_mode")
     private val cuisines = stringPreferencesKey("cuisines")
 
     suspend fun addDarkModeOn(isSelected: Boolean) {
         try {
-            context.dataStore.edit {
+            dataStore.edit {
                 it[darkModeOn] = isSelected
             }
         } catch (e: Exception) {
@@ -24,17 +24,17 @@ class SettingsDataStore(val context: Context) {
     }
 
     fun isDarkModeOn(): Flow<Boolean> =
-        context.dataStore.data.map {
+        dataStore.data.map {
             it[darkModeOn] ?: false
         }
 
     suspend fun storeCuisine(list: List<String>) {
-        context.dataStore.edit {
+        dataStore.edit {
             it[cuisines] = list.joinToString(separator = ",")
         }
     }
 
-    fun getCuisines(): Flow<List<String>> = context.dataStore.data.map {
+    fun getCuisines(): Flow<List<String>> = dataStore.data.map {
         it[cuisines]?.split(",") ?: emptyList()
     }
 }
