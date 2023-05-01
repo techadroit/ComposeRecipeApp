@@ -16,17 +16,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.ui.destinations.MainViewIntent
-import com.example.composerecipeapp.ui.destinations.UserInterestIntent
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.UserInterestComposable
 import com.example.composerecipeapp.ui.theme.primaryColorDark
 import com.example.composerecipeapp.ui.views.CuisineList
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.user_interest.*
+import com.recipe.app.navigation.intent.MainViewIntent
+import com.recipe.app.navigation.intent.UserInterestIntent
+import com.recipe.app.navigation.provider.ParentNavHostController
 
 @OptIn(ExperimentalFoundationApi::class)
-fun NavGraphBuilder.UserInterestScreen(){
+fun NavGraphBuilder.UserInterestScreen() {
     NavComposable(UserInterestIntent()) {
         UserInterest()
     }

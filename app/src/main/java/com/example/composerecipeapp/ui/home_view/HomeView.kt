@@ -16,18 +16,18 @@ import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
 import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
-import com.example.composerecipeapp.ui.destinations.RecipeListIntent
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.OnClick
 import com.domain.common.pojo.RecipeModel
 import com.domain.recipe.cuisines.RecipeWithCuisine
-import com.example.composerecipeapp.ui.provider.MainViewNavigator
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.home_recipes.*
+import com.recipe.app.navigation.intent.RecipeDetailIntent
+import com.recipe.app.navigation.intent.RecipeListIntent
+import com.recipe.app.navigation.provider.MainViewNavigator
+import com.recipe.app.navigation.provider.ParentNavHostController
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable

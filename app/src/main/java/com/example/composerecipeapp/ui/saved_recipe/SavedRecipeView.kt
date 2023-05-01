@@ -18,14 +18,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
-import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.domain.common.pojo.RecipeModel
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.save_recipe.*
+import com.recipe.app.navigation.intent.RecipeDetailIntent
+import com.recipe.app.navigation.provider.ParentNavHostController
 
 
 @Composable

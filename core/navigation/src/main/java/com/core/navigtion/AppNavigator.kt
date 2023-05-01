@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.core.navigtion.intent.DestinationIntent
 import com.core.navigtion.navigator.Navigator
 
 class AppNavigator constructor(private val navHostController: NavHostController) :

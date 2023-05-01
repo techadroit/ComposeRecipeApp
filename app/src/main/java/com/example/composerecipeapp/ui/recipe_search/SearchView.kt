@@ -33,19 +33,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.ui.destinations.RecipeListIntent
-import com.example.composerecipeapp.ui.destinations.SearchScreenIntent
-import com.example.composerecipeapp.ui.destinations.SearchViewIntent
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.util.PopBackStack
-import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchTextEvent
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
+import com.recipe.app.navigation.intent.RecipeListIntent
+import com.recipe.app.navigation.intent.SearchScreenIntent
+import com.recipe.app.navigation.intent.SearchViewIntent
+import com.recipe.app.navigation.provider.MainViewNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)

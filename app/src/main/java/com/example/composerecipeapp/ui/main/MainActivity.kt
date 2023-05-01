@@ -17,10 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.core.navigtion.AppNavigator
 import com.core.navigtion.navigator.AppNavHost
 import com.example.composerecipeapp.core.logger.enableLogging
-import com.example.composerecipeapp.ui.destinations.MainViewIntent
-import com.example.composerecipeapp.ui.destinations.UserInterestIntent
 import com.example.composerecipeapp.ui.main_view.MainScreen
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_detail.RecipeDetailScreen
 import com.example.composerecipeapp.ui.recipe_videos.VideoPlayerScreen
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
@@ -28,6 +25,9 @@ import com.example.composerecipeapp.ui.user_interest.UserInterestScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
+import com.recipe.app.navigation.intent.MainViewIntent
+import com.recipe.app.navigation.intent.UserInterestIntent
+import com.recipe.app.navigation.provider.ParentNavHostController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

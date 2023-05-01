@@ -1,12 +1,12 @@
 package com.example.composerecipeapp.ui.util
 
-import com.core.navigtion.DestinationIntent
+import com.core.navigtion.intent.DestinationIntent
 
 typealias Dispatch<T> = (T) -> Unit
 
 typealias MultipleDispatch<T, E> = (T, E) -> Unit
 
-typealias Navigate = (com.core.navigtion.DestinationIntent) -> Unit
+typealias Navigate = (DestinationIntent) -> Unit
 
 typealias PopBackStack = () -> Unit
 

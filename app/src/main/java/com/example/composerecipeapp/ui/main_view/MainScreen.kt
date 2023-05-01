@@ -15,11 +15,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.rememberNavController
 import com.core.navigtion.AppNavigator
 import com.core.navigtion.navigator.NavComposable
-import com.example.composerecipeapp.ui.destinations.*
-import com.example.composerecipeapp.ui.provider.MainViewNavigator
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
+import com.recipe.app.navigation.intent.*
+import com.recipe.app.navigation.provider.MainViewNavigator
+import com.recipe.app.navigation.provider.ParentNavHostController
 
 @OptIn(
     ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,

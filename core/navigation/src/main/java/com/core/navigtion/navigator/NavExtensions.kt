@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import androidx.navigation.compose.ComposeNavigator
-import com.core.navigtion.DestinationIntent
+import com.core.navigtion.intent.DestinationIntent
 
 @Composable
 public fun AppNavHost(

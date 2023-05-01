@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui.provider
+package com.recipe.app.navigation.provider
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.compositionLocalOf

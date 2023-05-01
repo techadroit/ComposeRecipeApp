@@ -1,4 +1,4 @@
-package com.core.navigtion
+package com.core.navigtion.intent
 
 interface DestinationIntent {
     val screenName: String
