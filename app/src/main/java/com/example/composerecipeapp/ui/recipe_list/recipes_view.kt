@@ -12,9 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.core.navigtion.AppNavigator
 import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
@@ -74,7 +74,7 @@ fun RecipeScreenContent(
     cuisine: String,
     recipeState: RecipeListState,
     recipesViewModel: RecipeListViewmodel,
-    navigator: AppMainNavigation
+    navigator: AppNavigator
 ) {
     if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()

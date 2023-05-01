@@ -29,6 +29,10 @@ gradlePlugin{
             id = "android.application.compose"
             implementationClass = "com.buildlogic.convention.plugins.AndroidComposeConventionPlugin"
         }
+        register("androidLibraryCompose") {
+            id = "android.library.compose"
+            implementationClass = "com.buildlogic.convention.plugins.AndroidLibraryComposePlugin"
+        }
         register("coreAndroid") {
             id = "android.application.core"
             implementationClass = "com.buildlogic.convention.plugins.AndroidCoreConventionPlugin"

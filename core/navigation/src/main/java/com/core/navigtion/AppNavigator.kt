@@ -1,14 +1,13 @@
-package com.example.composerecipeapp.platform.navigation.navigator
+package com.core.navigtion
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
+import com.core.navigtion.navigator.Navigator
 
-class AppMainNavigation @AssistedInject constructor(@Assisted val navHostController: NavHostController) :
+class AppNavigator constructor(private val navHostController: NavHostController) :
     Navigator<DestinationIntent> {
     override fun navigateTo(
         navItems: DestinationIntent,
@@ -17,7 +16,7 @@ class AppMainNavigation @AssistedInject constructor(@Assisted val navHostControl
     ) {
         try {
             val route = navItems.getRouteName()
-            navHostController.navigate(route){
+            navHostController.navigate(route) {
                 popUpTo?.let {
                     popUpTo(it.getRouteName()) {
                         inclusive = included
@@ -39,7 +38,13 @@ class AppMainNavigation @AssistedInject constructor(@Assisted val navHostControl
         return navHostController
     }
 
-    fun popBackStack(){
+    fun popBackStack() {
         navHostController.popBackStack()
+    }
+
+    companion object {
+        fun create(navHostController: NavHostController): AppNavigator {
+            return AppNavigator(navHostController)
+        }
     }
 }

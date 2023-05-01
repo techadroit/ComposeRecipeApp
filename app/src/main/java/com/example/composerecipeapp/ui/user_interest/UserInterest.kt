@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import com.core.navigtion.navigator.NavComposable
 import com.example.composerecipeapp.R
-import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.MainViewIntent
 import com.example.composerecipeapp.ui.destinations.UserInterestIntent
 import com.example.composerecipeapp.ui.provider.ParentNavHostController

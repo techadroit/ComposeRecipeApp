@@ -5,8 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.NavigationBar
-
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -15,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.rememberNavController
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigationFactory
-import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.core.navigtion.AppNavigator
+import com.core.navigtion.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.*
 import com.example.composerecipeapp.ui.provider.MainViewNavigator
 import com.example.composerecipeapp.ui.provider.ParentNavHostController
@@ -27,11 +25,9 @@ import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
     ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
     ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class
 )
-fun NavGraphBuilder.MainScreen(
-    appMainNavigationFactory: AppMainNavigationFactory
-) {
+fun NavGraphBuilder.MainScreen() {
     NavComposable(MainViewIntent()) {
-        val mainViewNavigator = appMainNavigationFactory.create(rememberNavController())
+        val mainViewNavigator = AppNavigator.create(rememberNavController())
         CompositionLocalProvider(MainViewNavigator provides mainViewNavigator) {
             AppContent()
         }

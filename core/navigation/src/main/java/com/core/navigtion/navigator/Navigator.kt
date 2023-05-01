@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.platform.navigation.navigator
+package com.core.navigtion.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController

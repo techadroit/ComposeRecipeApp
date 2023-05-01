@@ -1,10 +1,11 @@
-package com.example.composerecipeapp.platform.navigation.navigator
+package com.core.navigtion.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import androidx.navigation.compose.ComposeNavigator
+import com.core.navigtion.DestinationIntent
 
 @Composable
 public fun AppNavHost(

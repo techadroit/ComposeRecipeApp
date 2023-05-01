@@ -13,11 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.example.composerecipeapp.platform.navigation.navigator.AppNavHost
-import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.core.navigtion.navigator.AppNavHost
+import com.core.navigtion.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.*
 import com.example.composerecipeapp.ui.home_view.HomeView
 import com.example.composerecipeapp.ui.provider.MainViewNavigator

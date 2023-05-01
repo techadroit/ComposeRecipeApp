@@ -1,12 +1,12 @@
 package com.example.composerecipeapp.ui.destinations
 
 import android.os.Bundle
-import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
+import com.core.navigtion.DestinationIntent
 
 data class RecipeListIntent(
     override val screenName: String = getScreenName(),
     val cuisine: String? = null
-) : DestinationIntent {
+) : com.core.navigtion.DestinationIntent {
 
     override fun toRoute(): String = "recipes/${cuisine}"
 
@@ -24,7 +24,8 @@ data class RecipeListIntent(
     }
 }
 
-data class HomeViewIntent(override val screenName: String = getScreenName()) : DestinationIntent {
+data class HomeViewIntent(override val screenName: String = getScreenName()) :
+    com.core.navigtion.DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "home_view"
@@ -32,7 +33,7 @@ data class HomeViewIntent(override val screenName: String = getScreenName()) : D
 }
 
 data class RecipeVideoListIntent(override val screenName: String = getScreenName()) :
-    DestinationIntent {
+    com.core.navigtion.DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "recipe_video"
@@ -40,14 +41,15 @@ data class RecipeVideoListIntent(override val screenName: String = getScreenName
 }
 
 data class SavedRecipeIntent(override val screenName: String = getScreenName()) :
-    DestinationIntent {
+    com.core.navigtion.DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "saved_recipe"
     }
 }
 
-data class SearchViewIntent(override val screenName: String = getScreenName()) : DestinationIntent {
+data class SearchViewIntent(override val screenName: String = getScreenName()) :
+    com.core.navigtion.DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "search_view"
@@ -55,7 +57,7 @@ data class SearchViewIntent(override val screenName: String = getScreenName()) :
 }
 
 data class SettingsViewIntent(override val screenName: String = getScreenName()) :
-    DestinationIntent {
+    com.core.navigtion.DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "settings_view"

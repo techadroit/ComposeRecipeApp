@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavGraphBuilder
-import com.example.composerecipeapp.platform.navigation.navigator.NavComposable
+import com.core.navigtion.navigator.NavComposable
 import com.example.composerecipeapp.ui.destinations.VideoPlayerIntent
 import com.example.composerecipeapp.util.fullScreen
 import com.google.android.exoplayer2.SimpleExoPlayer

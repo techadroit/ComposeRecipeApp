@@ -1,23 +1,24 @@
 package com.example.composerecipeapp.ui.destinations
 
 import android.os.Bundle
-import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
+import com.core.navigtion.DestinationIntent
 
 data class UserInterestIntent(override val screenName: String = getScreenName()) :
-    DestinationIntent {
+    com.core.navigtion.DestinationIntent {
     companion object {
         fun getScreenName() = "user_interest"
     }
 }
 
 data class MainViewIntent(override val screenName: String = getScreenName()) :
-    DestinationIntent {
+    com.core.navigtion.DestinationIntent {
     companion object {
         fun getScreenName() = "main_view"
     }
 }
 
-data class VideoPlayerIntent(override val screenName: String = getScreenName(), val youTubeId: String? = null) : DestinationIntent{
+data class VideoPlayerIntent(override val screenName: String = getScreenName(), val youTubeId: String? = null) :
+    com.core.navigtion.DestinationIntent {
 
     override fun toRoute(): String {
         return "recipe/videos/${youTubeId}"
@@ -28,7 +29,8 @@ data class VideoPlayerIntent(override val screenName: String = getScreenName(), 
     }
 }
 
-data class SearchScreenIntent(override val screenName: String = getScreenName(), val text: String? = null) : DestinationIntent{
+data class SearchScreenIntent(override val screenName: String = getScreenName(), val text: String? = null) :
+    com.core.navigtion.DestinationIntent {
 
     override fun toRoute(): String {
         return "recipe/search/${text}"
@@ -42,7 +44,7 @@ data class SearchScreenIntent(override val screenName: String = getScreenName(),
 data class RecipeDetailIntent(
     override val screenName: String = getScreenName(),
     val detailId: String? = null
-) : DestinationIntent {
+) : com.core.navigtion.DestinationIntent {
 
     override fun toRoute() = "recipe_details/${detailId}"
 

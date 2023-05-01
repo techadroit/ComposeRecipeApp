@@ -13,9 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
+import com.core.navigtion.AppNavigator
 import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
 import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.destinations.RecipeListIntent
 import com.example.composerecipeapp.ui.util.Dispatch
@@ -152,8 +152,8 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
 @Composable
 fun onViewEffect(
     viewEffect: ViewEffect,
-    parentNavigation: AppMainNavigation,
-    appMainNavigation: AppMainNavigation
+    parentNavigation: AppNavigator,
+    appMainNavigation: AppNavigator
 ) {
     when (viewEffect) {
         is ViewAllViewEffect ->
