@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.platform.navigation.navigator
+package com.core.navigtion.intent
 
 interface DestinationIntent {
     val screenName: String

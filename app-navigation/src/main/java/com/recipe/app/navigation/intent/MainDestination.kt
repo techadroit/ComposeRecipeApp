@@ -1,7 +1,7 @@
-package com.example.composerecipeapp.ui.destinations
+package com.recipe.app.navigation.intent
 
 import android.os.Bundle
-import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
+import com.core.navigtion.intent.DestinationIntent
 
 data class UserInterestIntent(override val screenName: String = getScreenName()) :
     DestinationIntent {
@@ -17,7 +17,8 @@ data class MainViewIntent(override val screenName: String = getScreenName()) :
     }
 }
 
-data class VideoPlayerIntent(override val screenName: String = getScreenName(), val youTubeId: String? = null) : DestinationIntent{
+data class VideoPlayerIntent(override val screenName: String = getScreenName(), val youTubeId: String? = null) :
+    DestinationIntent {
 
     override fun toRoute(): String {
         return "recipe/videos/${youTubeId}"
@@ -28,7 +29,8 @@ data class VideoPlayerIntent(override val screenName: String = getScreenName(), 
     }
 }
 
-data class SearchScreenIntent(override val screenName: String = getScreenName(), val text: String? = null) : DestinationIntent{
+data class SearchScreenIntent(override val screenName: String = getScreenName(), val text: String? = null) :
+    DestinationIntent {
 
     override fun toRoute(): String {
         return "recipe/search/${text}"

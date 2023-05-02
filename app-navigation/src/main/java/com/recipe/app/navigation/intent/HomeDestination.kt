@@ -1,7 +1,7 @@
-package com.example.composerecipeapp.ui.destinations
+package com.recipe.app.navigation.intent
 
 import android.os.Bundle
-import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
+import com.core.navigtion.intent.DestinationIntent
 
 data class RecipeListIntent(
     override val screenName: String = getScreenName(),
@@ -24,7 +24,8 @@ data class RecipeListIntent(
     }
 }
 
-data class HomeViewIntent(override val screenName: String = getScreenName()) : DestinationIntent {
+data class HomeViewIntent(override val screenName: String = getScreenName()) :
+    DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "home_view"
@@ -47,7 +48,8 @@ data class SavedRecipeIntent(override val screenName: String = getScreenName()) 
     }
 }
 
-data class SearchViewIntent(override val screenName: String = getScreenName()) : DestinationIntent {
+data class SearchViewIntent(override val screenName: String = getScreenName()) :
+    DestinationIntent {
 
     companion object {
         fun getScreenName(): String = "search_view"

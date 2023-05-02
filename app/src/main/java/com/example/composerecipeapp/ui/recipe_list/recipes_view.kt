@@ -12,19 +12,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.core.navigtion.AppNavigator
 import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.platform.navigation.navigator.AppMainNavigation
-import com.example.composerecipeapp.ui.destinations.RecipeDetailIntent
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.util.OnClick
 import com.domain.common.pojo.RecipeModel
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.views.*
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_list.*
+import com.recipe.app.navigation.intent.RecipeDetailIntent
+import com.recipe.app.navigation.provider.ParentNavHostController
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -74,7 +74,7 @@ fun RecipeScreenContent(
     cuisine: String,
     recipeState: RecipeListState,
     recipesViewModel: RecipeListViewmodel,
-    navigator: AppMainNavigation
+    navigator: AppNavigator
 ) {
     if (recipeState.isLoading && !recipeState.isPaginate)
         LoadingView()

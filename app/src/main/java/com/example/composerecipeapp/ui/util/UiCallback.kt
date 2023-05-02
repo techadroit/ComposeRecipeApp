@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.ui.util
 
-import com.example.composerecipeapp.platform.navigation.navigator.DestinationIntent
+import com.core.navigtion.intent.DestinationIntent
 
 typealias Dispatch<T> = (T) -> Unit
 

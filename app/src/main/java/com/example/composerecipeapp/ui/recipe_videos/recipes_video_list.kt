@@ -23,8 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.domain.common.pojo.VideoRecipeModel
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
-import com.example.composerecipeapp.ui.destinations.VideoPlayerIntent
-import com.example.composerecipeapp.ui.provider.ParentNavHostController
 import com.example.composerecipeapp.ui.views.LoadingView
 import com.example.composerecipeapp.ui.views.PaginationLoading
 import com.example.composerecipeapp.ui.views.RefreshView
@@ -34,6 +32,8 @@ import com.example.composerecipeapp.viewmodel.recipe_video.LoadVideos
 import com.example.composerecipeapp.viewmodel.recipe_video.RefreshVideoScreen
 import com.example.composerecipeapp.viewmodel.recipe_video.VideoEvents
 import com.example.composerecipeapp.viewmodel.recipe_video.VideoListViewmodel
+import com.recipe.app.navigation.intent.VideoPlayerIntent
+import com.recipe.app.navigation.provider.ParentNavHostController
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
