@@ -3,7 +3,7 @@ package com.example.composerecipeapp
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.*
 import com.example.composerecipeapp.ui.recipe_search.SearchBar
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
+import com.core.themes.ComposeRecipeAppTheme
 import org.junit.Before
 import org.junit.Test
 
@@ -13,7 +13,7 @@ class SearchViewTest : BaseTest() {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            ComposeRecipeAppTheme {
+            com.core.themes.ComposeRecipeAppTheme {
                 SearchBar(navigate = { }, dispatch = { }) {
                 }
             }

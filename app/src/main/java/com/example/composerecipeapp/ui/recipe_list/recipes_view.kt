@@ -19,10 +19,10 @@ import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.util.OnClick
 import com.domain.common.pojo.RecipeModel
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
-import com.example.composerecipeapp.ui.views.*
+import com.core.themes.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_list.*
+import com.feature.common.ui.common_views.*
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
 import com.skydoves.landscapist.glide.GlideImage
@@ -196,7 +196,7 @@ fun RecipeListItem(
 @Preview
 @Composable
 fun CookingTimePreview() {
-    ComposeRecipeAppTheme {
+    com.core.themes.ComposeRecipeAppTheme {
         Card(
             modifier = Modifier
                 .height(100.dp)

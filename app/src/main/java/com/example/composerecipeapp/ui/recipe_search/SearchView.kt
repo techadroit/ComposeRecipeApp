@@ -36,7 +36,7 @@ import com.example.composerecipeapp.R
 import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.example.composerecipeapp.ui.util.PopBackStack
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
+import com.core.themes.ComposeRecipeAppTheme
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchEvent
@@ -51,7 +51,7 @@ import com.recipe.app.navigation.provider.MainViewNavigator
 @Preview(showBackground = true)
 @Composable
 fun SearchBarPreview() {
-    ComposeRecipeAppTheme(darkTheme = false) {
+    com.core.themes.ComposeRecipeAppTheme(darkTheme = false) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

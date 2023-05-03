@@ -20,10 +20,10 @@ import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.OnClick
 import com.domain.common.pojo.RecipeModel
 import com.domain.recipe.cuisines.RecipeWithCuisine
-import com.example.composerecipeapp.ui.views.LoadingView
-import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.home_recipes.*
+import com.feature.common.ui.common_views.LoadingView
+import com.feature.common.ui.common_views.RefreshView
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.intent.RecipeListIntent
 import com.recipe.app.navigation.provider.MainViewNavigator
