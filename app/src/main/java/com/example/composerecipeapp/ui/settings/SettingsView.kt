@@ -15,8 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composerecipeapp.R
+import com.example.composerecipeapp.ui.user_interest.CuisineList
 import com.example.composerecipeapp.ui.util.Dispatch
-import com.example.composerecipeapp.ui.views.CuisineList
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.settings.*
 import kotlinx.coroutines.launch

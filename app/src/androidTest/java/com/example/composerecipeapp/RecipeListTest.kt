@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.ui.recipe_list.RecipeList
-import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
+import com.core.themes.ComposeRecipeAppTheme
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListViewmodel
 import com.example.composerecipeapp.viewmodel.recipe_list.RemoveSavedRecipeEvent
 import com.example.composerecipeapp.viewmodel.recipe_list.SaveRecipeEvent
@@ -32,7 +32,7 @@ class RecipeListTest : BaseTest() {
 
     fun launchApp(list: List<RecipeModel>, showPagination: Boolean = false) {
         composeTestRule.setContent {
-            ComposeRecipeAppTheme {
+            com.core.themes.ComposeRecipeAppTheme {
                 RecipeList(
                     recipeList = list,
                     dispatch = {

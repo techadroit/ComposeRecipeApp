@@ -20,13 +20,12 @@ import com.example.composerecipeapp.ui.util.Dispatch
 import com.example.composerecipeapp.ui.util.Navigate
 import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.ui.recipe_list.RecipeListItem
-import com.example.composerecipeapp.ui.views.LoadingView
-import com.example.composerecipeapp.ui.views.RefreshView
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.save_recipe.*
+import com.feature.common.ui.common_views.LoadingView
+import com.feature.common.ui.common_views.RefreshView
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
-
 
 @Composable
 fun FavouriteRecipeScreen(
