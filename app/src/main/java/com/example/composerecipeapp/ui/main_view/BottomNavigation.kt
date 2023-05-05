@@ -20,10 +20,10 @@ import com.core.navigtion.navigator.NavComposable
 import com.example.composerecipeapp.ui.home_view.HomeView
 import com.example.composerecipeapp.ui.recipe_list.RecipeListScreen
 import com.example.composerecipeapp.ui.recipe_search.SearchView
+import com.example.composerecipeapp.ui.recipe_videos.RecipesVideoList
 import com.example.composerecipeapp.ui.saved_recipe.FavouriteRecipeScreen
 import com.example.composerecipeapp.ui.settings.SettingsView
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
-import com.feature.recipe.video.ui.RecipesVideoList
 import com.recipe.app.navigation.intent.*
 import com.recipe.app.navigation.provider.MainViewNavigator
 

@@ -25,12 +25,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
 import com.domain.common.pojo.RecipeDetailModel
+import com.example.composerecipeapp.ui.theme.ComposeRecipeAppTheme
 import com.example.composerecipeapp.ui.util.Dispatch
+import com.example.composerecipeapp.ui.views.LoadingView
+import com.example.composerecipeapp.ui.views.SaveIcon
 import com.example.composerecipeapp.util.fullScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.recipe_detail.*
-import com.feature.common.ui.common_views.LoadingView
-import com.feature.common.ui.common_views.SaveIcon
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -166,7 +167,7 @@ fun RecipeDescription1(
     @PreviewParameter(RecipeDetailProvider::class)
     recipeDetail: RecipeDetailModel
 ) {
-    com.core.themes.ComposeRecipeAppTheme(darkTheme = true) {
+    ComposeRecipeAppTheme(darkTheme = true) {
         RecipeDescription(recipeDetail, {}, {})
     }
 }

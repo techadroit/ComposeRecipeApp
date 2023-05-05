@@ -5,10 +5,10 @@ import com.example.composerecipeapp.viewmodel.main.MainViewState
 import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
 import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListState
 import com.example.composerecipeapp.viewmodel.recipe_search.SearchState
+import com.example.composerecipeapp.viewmodel.recipe_video.RecipeVideoState
 import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeState
 import com.example.composerecipeapp.viewmodel.settings.SettingsState
 import com.example.composerecipeapp.viewmodel.user_interest.UserInterestState
-import com.feature.recipe.video.state.RecipeVideoState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
