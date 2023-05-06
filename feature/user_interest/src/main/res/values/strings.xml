@@ -1,0 +1,4 @@
+<resources>
+    <string name="select_cuisine"> Select 5 cuisines </string>
+    <string name="next">Next</string>
+</resources>

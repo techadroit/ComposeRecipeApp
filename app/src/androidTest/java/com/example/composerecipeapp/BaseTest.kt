@@ -26,7 +26,7 @@ abstract class BaseTest {
 
     fun useView(content: @Composable () -> Unit) {
         composeTestRule.setContent {
-            com.core.themes.ComposeRecipeAppTheme {
+            ComposeRecipeAppTheme {
                 content.invoke()
             }
         }

@@ -3,12 +3,12 @@ package com.example.composerecipeapp.ui.main_view
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -17,13 +17,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.core.navigtion.navigator.AppNavHost
 import com.core.navigtion.navigator.NavComposable
-import com.example.composerecipeapp.ui.home_view.HomeView
-import com.example.composerecipeapp.ui.recipe_list.RecipeListScreen
-import com.example.composerecipeapp.ui.recipe_search.SearchView
-import com.example.composerecipeapp.ui.saved_recipe.FavouriteRecipeScreen
-import com.example.composerecipeapp.ui.settings.SettingsView
-import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
+import com.feature.home.ui.HomeView
+import com.feature.recipe.list.ui.SearchView
+import com.feature.recipe.list.ui.RecipeListScreen
 import com.feature.recipe.video.ui.RecipesVideoList
+import com.feature.saved.recipes.ui.FavouriteRecipeScreen
+import com.feature.settings.ui.SettingsView
 import com.recipe.app.navigation.intent.*
 import com.recipe.app.navigation.provider.MainViewNavigator
 
@@ -76,7 +75,7 @@ fun BottomBar(items: List<BottomBarItems>) {
 @ExperimentalAnimationApi
 @Composable
 fun NavigationView(
-    searchViewModel: SearchViewModel
+    searchViewModel: com.feature.recipe.list.viewmodel.SearchViewModel
 ) {
 
     val mainViewNavigator = MainViewNavigator.current
