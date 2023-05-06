@@ -15,8 +15,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.rememberNavController
 import com.core.navigtion.AppNavigator
 import com.core.navigtion.navigator.NavComposable
-import com.example.composerecipeapp.ui.recipe_search.SearchBarContainer
-import com.example.composerecipeapp.viewmodel.recipe_search.SearchViewModel
+import com.feature.recipe.list.ui.SearchBarContainer
+import com.feature.recipe.list.viewmodel.SearchViewModel
 import com.recipe.app.navigation.intent.*
 import com.recipe.app.navigation.provider.MainViewNavigator
 import com.recipe.app.navigation.provider.ParentNavHostController

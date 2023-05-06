@@ -13,5 +13,6 @@ dependencies {
     implementation(project(":core:platform"))
     implementation(project(":core:themes"))
     implementation(project(":feature:common"))
+    implementation(project(":domain:common"))
     implementation(libs.image.loading)
 }

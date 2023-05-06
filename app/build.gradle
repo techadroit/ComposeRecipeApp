@@ -16,6 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+//    dynamicFeatures = [':feature:saved_recipes', ':feature:user_intereset', ':feature:recipe_list', ':feature:settings', ':feature:home', ':feature:recipe_detail']
 }
 
 kapt {
@@ -24,7 +25,6 @@ kapt {
 }
 
 dependencies {
-
     implementation project(':archerviewmodel')
     implementation project(':core:network')
     implementation project(':core:platform')
@@ -38,6 +38,12 @@ dependencies {
     implementation project(':feature:common')
     implementation project(':feature:common-ui')
     implementation project(':feature:recipe-video')
+    implementation project(':feature:saved_recipes')
+    implementation project(':feature:settings')
+    implementation project(':feature:user_interest')
+    implementation project(':feature:recipe_list')
+    implementation project(':feature:home')
+    implementation project(':feature:recipe_detail')
     implementation "androidx.datastore:datastore-preferences:1.0.0-rc01"
     implementation "com.github.skydoves:landscapist-glide:1.2.2"
     implementation 'com.google.android.exoplayer:exoplayer:2.14.1'

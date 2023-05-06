@@ -16,14 +16,15 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.core.navigtion.AppNavigator
 import com.core.navigtion.navigator.AppNavHost
+import com.core.themes.ComposeRecipeAppTheme
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.ui.main_view.MainScreen
-import com.example.composerecipeapp.ui.recipe_detail.RecipeDetailScreen
-import com.example.composerecipeapp.ui.user_interest.UserInterestScreen
 import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
+import com.feature.recipe.detail.ui.RecipeDetailScreen
 import com.feature.recipe.video.ui.VideoPlayerScreen
+import com.feature.user.interest.ui.UserInterestScreen
 import com.recipe.app.navigation.intent.MainViewIntent
 import com.recipe.app.navigation.intent.UserInterestIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
@@ -64,7 +65,7 @@ fun MainContent(
         if (state.isDarkModeOn) AppCompatDelegate.MODE_NIGHT_YES
         else AppCompatDelegate.MODE_NIGHT_NO
     )
-    com.core.themes.ComposeRecipeAppTheme(darkTheme = state.isDarkModeOn) {
+    ComposeRecipeAppTheme(darkTheme = state.isDarkModeOn) {
         state.showLandingScreen?.let {
             MainApp(it, appMainNavigation)
         }

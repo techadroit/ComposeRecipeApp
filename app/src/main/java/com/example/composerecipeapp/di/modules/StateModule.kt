@@ -2,13 +2,12 @@ package com.example.composerecipeapp.di.modules
 
 import com.example.composerecipeapp.viewmodel.home_recipes.HomeRecipeState
 import com.example.composerecipeapp.viewmodel.main.MainViewState
-import com.example.composerecipeapp.viewmodel.recipe_detail.RecipeDetailState
-import com.example.composerecipeapp.viewmodel.recipe_list.RecipeListState
-import com.example.composerecipeapp.viewmodel.recipe_search.SearchState
-import com.example.composerecipeapp.viewmodel.save_recipe.SaveRecipeState
 import com.example.composerecipeapp.viewmodel.settings.SettingsState
-import com.example.composerecipeapp.viewmodel.user_interest.UserInterestState
+import com.feature.recipe.detail.state.RecipeDetailState
+import com.feature.recipe.list.state.RecipeListState
 import com.feature.recipe.video.state.RecipeVideoState
+import com.feature.saved.recipes.state.SaveRecipeState
+import com.feature.user.interest.state.UserInterestState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +24,7 @@ class StateModule {
     fun getRecipeVideoState() = RecipeVideoState()
 
     @Provides
-    fun getRecipeSearchState() = SearchState()
+    fun getRecipeSearchState() = com.feature.recipe.list.state.SearchState()
 
     @Provides
     fun getRecipeDetailState() = RecipeDetailState()
