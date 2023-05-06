@@ -1,6 +1,6 @@
 package com.example.composerecipeapp.di.modules
 
-import com.example.composerecipeapp.viewmodel.home_recipes.HomeRecipeState
+import com.feature.home.state.HomeRecipeState
 import com.example.composerecipeapp.viewmodel.main.MainViewState
 import com.example.composerecipeapp.viewmodel.settings.SettingsState
 import com.feature.recipe.detail.state.RecipeDetailState

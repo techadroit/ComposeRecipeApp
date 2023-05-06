@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.ui.home_view
+package com.feature.home.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,16 +14,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
-import com.example.composerecipeapp.R
 import com.core.platform.functional.ViewEffect
-import com.example.composerecipeapp.ui.util.Dispatch
-import com.example.composerecipeapp.ui.util.OnClick
 import com.domain.common.pojo.RecipeModel
 import com.domain.recipe.cuisines.RecipeWithCuisine
-import com.example.composerecipeapp.util.observeState
-import com.example.composerecipeapp.viewmodel.home_recipes.*
+import com.feature.common.Dispatch
+import com.feature.common.OnClick
+import com.feature.common.observeState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
+import com.feature.home.state.*
+import com.feature.home.viewmodel.HomeRecipeViewModel
+import com.feature.recipe.home.R
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.intent.RecipeListIntent
 import com.recipe.app.navigation.provider.MainViewNavigator

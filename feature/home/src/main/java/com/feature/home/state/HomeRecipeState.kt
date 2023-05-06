@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.viewmodel.home_recipes
+package com.feature.home.state
 
 import com.archerviewmodel.state.ArcherState
 import com.core.platform.functional.Consumable

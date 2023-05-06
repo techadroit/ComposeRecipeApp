@@ -1,23 +1,4 @@
 <resources>
-    <string name="app_name">ComposeRecipeApp</string>
-    <string name="recipe_saved_text">Recipe Saved Successfully</string>
-    <string name="view_all">View All</string>
-    <string name="setting_cuisine"> Your Preferred Cuisine </string>
     <string name="select_cuisine"> Select 5 cuisines </string>
-    <string name="no_result"> Sorry, No result found </string>
-    <string name="text_to_search"> Enter Text To Search </string>
-    <string name="search_result"> Search result will appear here </string>
-    <string name="no_saved_recipe"> No Saved Recipes </string>
-    <string name="settings_saved"> Settings Saved Successfully</string>
-    <string name="settings">Settings</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="save">Save</string>
     <string name="next">Next</string>
-    <string name="title_recipe_video">Module Title</string>
-    <string name="title_saved_recipes">Saved Recipes</string>
-    <string name="title_user_intereset">User Interest</string>
-    <string name="title_recipe_list">Recipe List</string>
-    <string name="title_settings">Settings</string>
-    <string name="title_home">Home</string>
-    <string name="title_recipe_detail">Recipe Detail</string>
 </resources>

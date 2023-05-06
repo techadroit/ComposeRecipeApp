@@ -1,9 +1,10 @@
-package com.example.composerecipeapp.viewmodel.home_recipes
+package com.feature.home.viewmodel
 
 import com.archerviewmodel.ArcherViewModel
 import com.core.platform.functional.asConsumable
 import com.domain.recipe.cuisines.RecipesForSelectedCuisines
 import com.example.composerecipeapp.core.functional.collectIn
+import com.feature.home.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

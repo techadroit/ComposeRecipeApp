@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.core.navigtion.navigator.AppNavHost
 import com.core.navigtion.navigator.NavComposable
-import com.example.composerecipeapp.ui.home_view.HomeView
+import com.feature.home.ui.HomeView
 import com.feature.recipe.list.ui.SearchView
 import com.feature.recipe.list.ui.RecipeListScreen
 import com.feature.recipe.video.ui.RecipesVideoList

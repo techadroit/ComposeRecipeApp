@@ -1,10 +1,10 @@
-//package com.example.composerecipeapp.ui.home_view
+package com.feature.home.ui//package com.example.composerecipeapp.ui.home_view
 //
 //import androidx.compose.runtime.Composable
 //import androidx.compose.ui.tooling.preview.Preview
 //import com.example.composerecipeapp.util.PreviewHelper
 //import com.example.composerecipeapp.util.PreviewViewModel
-//import com.example.composerecipeapp.viewmodel.home_recipes.HomeRecipeState
+//import com.feature.home.state.HomeRecipeState
 //
 //@Preview("HomeViewContent Preview")
 //@Composable

@@ -19,9 +19,9 @@ import com.core.navigtion.navigator.AppNavHost
 import com.core.themes.ComposeRecipeAppTheme
 import com.example.composerecipeapp.core.logger.enableLogging
 import com.example.composerecipeapp.ui.main_view.MainScreen
-import com.example.composerecipeapp.util.observeState
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
+import com.feature.common.observeState
 import com.feature.recipe.detail.ui.RecipeDetailScreen
 import com.feature.recipe.video.ui.VideoPlayerScreen
 import com.feature.user.interest.ui.UserInterestScreen
