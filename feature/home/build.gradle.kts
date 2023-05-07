@@ -17,6 +17,6 @@ dependencies {
     implementation(project(":core:platform"))
     implementation(project(":feature:common"))
     implementation(project(":feature:common-ui"))
-    implementation("com.google.android.exoplayer:exoplayer:2.14.1")
+    implementation(libs.androidx.compose.constraintLayout)
     implementation(libs.image.loading)
 }

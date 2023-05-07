@@ -1,5 +1,6 @@
 package com.archerviewmodel
 
+import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import com.archerviewmodel.events.ArcherEvent
@@ -11,7 +12,10 @@ import com.example.composerecipeapp.core.logger.Logger
 import com.example.composerecipeapp.core.logger.androidLogger
 import com.example.composerecipeapp.core.logger.logd
 import com.example.composerecipeapp.core.logger.logv
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
@@ -20,10 +24,14 @@ abstract class ArcherViewModel<S : ArcherState, E : ArcherEvent>(
     stateStoreContext: CoroutineContext = Dispatchers.Default + SupervisorJob()
 ) : ViewModel() {
 
+    private val exceptionHandler = CoroutineExceptionHandler { context, exception ->
+        exception.printStackTrace()
+        exception.message?.let { Log.d("Error", it) }
+    }
     protected val logger: Logger by lazy { androidLogger(tag = this::class.java.simpleName) }
     private val eventFlow = emptyFlow<E>()
     val viewModelScope by lazy {
-        CoroutineScope(stateStoreContext)
+        CoroutineScope(stateStoreContext + exceptionHandler)
     }
 
     /**
