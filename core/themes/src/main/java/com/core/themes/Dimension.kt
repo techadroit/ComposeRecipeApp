@@ -1,5 +1,6 @@
 package com.core.themes
 
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 
@@ -18,4 +19,8 @@ object Dimension {
     val cardHeight = 220.dp
     val cardHorizontalPadding = 12.dp
     val cardVerticalPadding = 8.dp
+
+    val contentPadding = 80.dp
+
+    val videoListGrid = GridCells.Fixed(2)
 }

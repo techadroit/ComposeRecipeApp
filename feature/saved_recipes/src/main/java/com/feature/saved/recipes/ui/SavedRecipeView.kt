@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.core.themes.dimension
 import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
@@ -90,7 +91,7 @@ fun RecipeList(
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = scrollState,
-            contentPadding = PaddingValues(bottom = 80.dp),
+            contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
             content = {
                 itemsIndexed(recipeList) { index, recipe ->
                     key(index) {
