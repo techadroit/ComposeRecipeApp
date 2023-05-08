@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
+import com.core.themes.spacerSmall
 import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.feature.common.Dispatch
@@ -179,7 +180,8 @@ fun RecipeListItem(
                     .width(120.dp),
             )
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.title, style = MaterialTheme.typography.displayLarge)
+                Text(text = recipe.title, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.spacerSmall())
                 CookingTime(time = recipe.cookingTime.toString())
                 Servings(serving = recipe.servings.toString())
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {

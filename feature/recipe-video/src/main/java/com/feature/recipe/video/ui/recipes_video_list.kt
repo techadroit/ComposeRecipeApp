@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.core.themes.spacerSmall
 import com.domain.common.pojo.VideoRecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
@@ -112,8 +113,8 @@ fun VideoContent(recipe: VideoRecipeModel) {
         Column {
             Thumbnail(url = recipe.thumbnail)
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.shortTitle, style = MaterialTheme.typography.displayLarge)
-                Spacer(modifier = Modifier.height(2.dp))
+                Text(text = recipe.shortTitle, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.spacerSmall())
                 Views(views = recipe.views)
             }
         }

@@ -41,7 +41,7 @@ fun SavedRecipeListItem(
                     .width(120.dp),
             )
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.title, style = MaterialTheme.typography.displayLarge)
+                Text(text = recipe.title, style = MaterialTheme.typography.bodyMedium)
                 CookingTime(time = recipe.cookingTime.toString())
                 Servings(serving = recipe.servings.toString())
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {

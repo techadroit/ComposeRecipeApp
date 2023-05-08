@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":app-navigation"))
     implementation(project(":core:navigation"))
     implementation(project(":core:platform"))
+    implementation(project(":core:themes"))
     implementation(project(":feature:common"))
     implementation(project(":feature:common-ui"))
     implementation("com.google.android.exoplayer:exoplayer:2.14.1")

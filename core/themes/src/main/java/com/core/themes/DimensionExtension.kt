@@ -22,3 +22,5 @@ fun Modifier.homePadding() = padding(
     top = MaterialTheme.dimension().cardVerticalPadding,
     bottom = MaterialTheme.dimension().cardVerticalPadding,
 )
+
+fun Modifier.spacerSmall() = height(2.dp)
