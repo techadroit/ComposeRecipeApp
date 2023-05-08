@@ -1,5 +1,6 @@
 package com.feature.saved.recipes.ui
 
+import RecipeListItem
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -93,15 +94,20 @@ fun RecipeList(
             content = {
                 itemsIndexed(recipeList) { index, recipe ->
                     key(index) {
-                        SavedRecipeListItem(
-                            recipe = recipe,
+                        RecipeListItem(
+                            title = recipe.title,
+                            imageUrl = recipe.imageUrl,
+                            cookingTime = recipe.cookingTime,
+                            servings = recipe.servings,
+                            isSaved = recipe.isSaved,
                             index = index,
-                            {
-                                navigate(RecipeDetailIntent(detailId = it.toString()))
+                            onRowClick = {
+                                navigate(RecipeDetailIntent(detailId = recipe.id.toString()))
                             },
-                            {
+                            onSaveClick = {
+
                             },
-                            {
+                            onRemoveClick = {
                                 dispatch(RemoveRecipe(recipe))
                             }
                         )
