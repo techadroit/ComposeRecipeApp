@@ -7,7 +7,8 @@ val errorColor = Color(0xffd00036)
 
 val primaryColorDark = Color(0xFF4E342E)
 val primaryVariantColorDark = Color(0xff3E2723)
-val secondaryColorDark = accentColor
+val secondaryColorDark = Color(0xff3E2723)
+val onSecondaryColorDark = Color(0xFFfaa627)
 val backgroundColorDark = Color(0xFF4E342E)
 val surfaceColorDark = Color(0xFF5D4037)
 val onBackgroundColorDark = Color(0xFFF5F5F5)

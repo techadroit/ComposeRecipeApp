@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":app-navigation"))
     implementation(project(":core:navigation"))
     implementation(project(":core:platform"))
+    implementation(project(":core:themes"))
     implementation(project(":feature:common"))
     implementation(project(":feature:common-ui"))
     implementation(libs.androidx.compose.constraintLayout)

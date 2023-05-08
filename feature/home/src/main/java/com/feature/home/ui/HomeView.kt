@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
+import com.core.themes.homeCard
 import com.domain.common.pojo.RecipeModel
 import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
@@ -126,13 +127,7 @@ fun RecipeListWithCuisine(
 fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
     Card(
         onClick = { onRowClick(recipe.id) },
-        modifier = Modifier
-//            .height(270.dp)
-//            .width(140.dp)
-            .padding(
-                horizontal = 12.dp,
-                vertical = 8.dp
-            )
+        modifier = Modifier.homeCard()
     ) {
         ConstraintLayout {
             val (thumbnail, title) = createRefs()
@@ -164,13 +159,8 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
 fun ViewAll(dispatch: Dispatch<Unit>) {
     Card(
         modifier = Modifier
+            .homeCard()
             .clickable { dispatch(Unit) }
-//            .height(270.dp)
-//            .width(140.dp)
-            .padding(
-                horizontal = 12.dp,
-                vertical = 8.dp
-            )
     ) {
         Column(verticalArrangement = Arrangement.Center) {
             Text(
