@@ -16,7 +16,7 @@ object Dimension {
     val thumbnailHeight = 180.dp
     val thumbnailWidth = 160.dp
 
-    val cardHeight = 220.dp
+    val cardHeight = 230.dp
     val cardHorizontalPadding = 12.dp
     val cardVerticalPadding = 8.dp
 

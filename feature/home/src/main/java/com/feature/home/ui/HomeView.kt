@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
+import com.core.themes.dimension
 import com.core.themes.homeCard
 import com.core.themes.homePadding
 import com.domain.common.pojo.RecipeModel
@@ -156,9 +157,15 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
                             top.linkTo(thumbnail.bottom)
                             start.linkTo(thumbnail.start)
                             end.linkTo(thumbnail.end)
+                            bottom.linkTo(parent.bottom)
                             width = Dimension.fillToConstraints
                         }
-                        .padding(8.dp)
+                        .padding(
+                            start = MaterialTheme.dimension().paddingSubtitle,
+                            top = MaterialTheme.dimension().paddingSubtitle,
+                            bottom = MaterialTheme.dimension().paddingSubtitle,
+//                            bottom = 0.dp,
+                        )
                 )
             }
         }
@@ -170,9 +177,12 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
     Card(
         modifier = Modifier
             .homeCard()
+            .homePadding()
             .clickable { dispatch(Unit) }
     ) {
-        Column(verticalArrangement = Arrangement.Center) {
+        Column(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.Center) {
             Text(
                 text = stringResource(id = R.string.view_all),
                 style = MaterialTheme.typography.displayLarge,
