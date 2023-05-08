@@ -78,7 +78,7 @@ fun RecipeListScreen(
 fun RecipeScreenContent(
     cuisine: String,
     recipeState: RecipeListState,
-    recipesViewModel: com.feature.recipe.list.viewmodel.RecipeListViewmodel,
+    recipesViewModel: RecipeListViewmodel,
     navigator: AppNavigator
 ) {
     if (recipeState.isLoading && !recipeState.isPaginate)

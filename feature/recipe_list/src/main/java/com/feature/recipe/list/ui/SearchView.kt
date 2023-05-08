@@ -183,7 +183,7 @@ fun SearchView(searchViewModel: com.feature.recipe.list.viewmodel.SearchViewMode
         if (state.list.isEmpty())
             EmptySearchView()
         KeywordList(list = state.list) {
-            mainViewNavigator.navigateTo(navItems = RecipeListIntent(it))
+            mainViewNavigator.navigateTo(navItems = RecipeListIntent(cuisine=it))
             focusManager.clearFocus()
         }
     }
