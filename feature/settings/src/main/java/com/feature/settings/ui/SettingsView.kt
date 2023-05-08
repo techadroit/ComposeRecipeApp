@@ -89,6 +89,9 @@ fun DarkModeON(isDarkModeOn: Boolean, dispatch: Dispatch<Boolean>) {
         )
         Spacer(modifier = Modifier.weight(1f))
         Switch(
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = MaterialTheme.colorScheme.onSecondaryContainer
+            ),
             checked = isDarkModeOn,
             onCheckedChange = {
                 dispatch(it)
@@ -99,10 +102,7 @@ fun DarkModeON(isDarkModeOn: Boolean, dispatch: Dispatch<Boolean>) {
 
 @Composable
 fun SaveButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Button(
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+    OutlinedButton(
         shape = ButtonDefaults.filledTonalShape,
         onClick = {
             onClick()

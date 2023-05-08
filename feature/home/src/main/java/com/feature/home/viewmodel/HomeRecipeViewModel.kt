@@ -6,6 +6,7 @@ import com.domain.recipe.cuisines.RecipesForSelectedCuisines
 import com.example.composerecipeapp.core.functional.collectIn
 import com.feature.home.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,9 +48,19 @@ class HomeRecipeViewModel @Inject constructor(
     }
 
     private fun loadRecipes() {
-        recipeWithCuisine().collectIn(viewModelScope) {
+        setState {
+            showLoading(true)
+        }
+        recipeWithCuisine()
+            .catch {
+                setState {
+                    this.onViewEffect(LoadingError("Unable to Load"))
+                        .showLoading(false)
+                }
+            }
+            .collectIn(viewModelScope) {
             setState {
-                this.add(it)
+                this.add(it).showLoading(false)
             }
         }
     }

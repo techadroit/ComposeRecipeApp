@@ -4,6 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -20,6 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.core.themes.dimension
+import com.core.themes.iconHeightMedium
+import com.core.themes.spacerSmall
 import com.domain.common.pojo.VideoRecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
@@ -66,10 +73,12 @@ fun RecipeListContent(
     dispatch: Dispatch<VideoEvents>,
     navigate: Navigate
 ) {
-    val scrollState = rememberLazyListState()
-    LazyColumn(
+    val scrollState = rememberLazyGridState()
+
+    LazyVerticalGrid(
+        columns = MaterialTheme.dimension().videoListGrid,
         state = scrollState,
-        contentPadding = PaddingValues(bottom = 80.dp),
+        contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
         content = {
             itemsIndexed(list) { index, recipe ->
                 VideoCard(index = index, recipe = recipe, navigate)
@@ -87,6 +96,27 @@ fun RecipeListContent(
             }
         }
     )
+
+//    LazyColumn(
+//        state = scrollState,
+//        contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
+//        content = {
+//            itemsIndexed(list) { index, recipe ->
+//                VideoCard(index = index, recipe = recipe, navigate)
+//                val totalItem = scrollState.layoutInfo.totalItemsCount
+//                if (index == (totalItem - 1)) {
+//                    LaunchedEffect(true) {
+//                        dispatch(LoadVideos(isPaginate = true))
+//                    }
+//                }
+//            }
+//            if (showPaginationLoading) {
+//                item {
+//                    PaginationLoading()
+//                }
+//            }
+//        }
+//    )
 }
 
 @Composable
@@ -112,8 +142,8 @@ fun VideoContent(recipe: VideoRecipeModel) {
         Column {
             Thumbnail(url = recipe.thumbnail)
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.shortTitle, style = MaterialTheme.typography.displayLarge)
-                Spacer(modifier = Modifier.height(2.dp))
+                Text(text = recipe.shortTitle, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.spacerSmall())
                 Views(views = recipe.views)
             }
         }
@@ -125,22 +155,20 @@ fun Thumbnail(url: String) {
     Box(modifier = Modifier.fillMaxSize()) {
         GlideImage(
             imageModel = url,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillHeight,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp),
+                .height(MaterialTheme.dimension().thumbnailHeight),
         )
         Box(
-            modifier = Modifier
+            modifier =  Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(MaterialTheme.dimension().thumbnailHeight)
                 .background(Color(0xB3000000))
         ) {
             Icon(
                 imageVector = Icons.Default.PlayArrow, contentDescription = "play",
-                modifier = Modifier
-                    .height(80.dp)
-                    .width(80.dp)
+                modifier = Modifier.iconHeightMedium()
                     .align(Alignment.Center),
                 tint = Color.LightGray
             )

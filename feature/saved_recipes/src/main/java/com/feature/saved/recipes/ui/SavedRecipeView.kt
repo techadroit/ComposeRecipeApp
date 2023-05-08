@@ -1,5 +1,6 @@
 package com.feature.saved.recipes.ui
 
+import RecipeListItem
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.core.themes.dimension
 import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
@@ -89,19 +91,24 @@ fun RecipeList(
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = scrollState,
-            contentPadding = PaddingValues(bottom = 80.dp),
+            contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
             content = {
                 itemsIndexed(recipeList) { index, recipe ->
                     key(index) {
-                        SavedRecipeListItem(
-                            recipe = recipe,
+                        RecipeListItem(
+                            title = recipe.title,
+                            imageUrl = recipe.imageUrl,
+                            cookingTime = recipe.cookingTime,
+                            servings = recipe.servings,
+                            isSaved = recipe.isSaved,
                             index = index,
-                            {
-                                navigate(RecipeDetailIntent(detailId = it.toString()))
+                            onRowClick = {
+                                navigate(RecipeDetailIntent(detailId = recipe.id.toString()))
                             },
-                            {
+                            onSaveClick = {
+
                             },
-                            {
+                            onRemoveClick = {
                                 dispatch(RemoveRecipe(recipe))
                             }
                         )

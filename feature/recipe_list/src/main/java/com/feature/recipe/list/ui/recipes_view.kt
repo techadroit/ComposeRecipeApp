@@ -1,5 +1,6 @@
 package com.feature.recipe.list.ui
 
+import RecipeListItem
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
+import com.core.themes.dimension
+import com.core.themes.spacerSmall
 import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.feature.common.Dispatch
@@ -107,21 +110,25 @@ fun RecipeList(
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = scrollState,
-            contentPadding = PaddingValues(bottom = 80.dp),
+            contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
             content = {
                 itemsIndexed(recipeList) { index, recipe ->
                     key(index) {
                         RecipeListItem(
-                            recipe = recipe,
+                            title = recipe.title,
+                            imageUrl = recipe.imageUrl,
+                            cookingTime = recipe.cookingTime,
+                            servings = recipe.servings,
+                            isSaved = recipe.isSaved,
                             index = index,
-                            {
-                                navigate(RecipeDetailIntent(detailId = it.toString()))
+                            onRowClick = {
+                                navigate(RecipeDetailIntent(detailId = recipe.id.toString()))
                             },
-                            {
-                                dispatch(SaveRecipeEvent(it))
+                            onSaveClick = {
+                                dispatch(SaveRecipeEvent(recipe))
                             },
-                            {
-                                dispatch(RemoveSavedRecipeEvent(it))
+                            onRemoveClick = {
+                                dispatch(RemoveSavedRecipeEvent(recipe))
                             }
                         )
                     }
@@ -152,62 +159,6 @@ fun RecipeList(
         )
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RecipeListItem(
-    recipe: RecipeModel,
-    index: Int,
-    onRowClick: OnClick<Int>,
-    onSaveClick: OnClick<RecipeModel>,
-    onRemoveClick: OnClick<RecipeModel>
-) {
-    Card(
-        onClick = { onRowClick.invoke(recipe.id) },
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 12.dp,
-                vertical = if (index == 0) 8.dp else 4.dp
-            )
-    ) {
-        Row {
-            GlideImage(
-                imageModel = recipe.imageUrl,
-                modifier = Modifier
-                    .height(120.dp)
-                    .width(120.dp),
-            )
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = recipe.title, style = MaterialTheme.typography.displayLarge)
-                CookingTime(time = recipe.cookingTime.toString())
-                Servings(serving = recipe.servings.toString())
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    SaveIcon(isSaved = recipe.isSaved) {
-                        if (it)
-                            onSaveClick(recipe)
-                        else
-                            onRemoveClick(recipe)
-                    }
-                }
-            }
-        }
-    }
-}
-
-//@Preview
-//@Composable
-//fun CookingTimePreview() {
-//    ComposeRecipeAppTheme {
-//        Card(
-//            modifier = Modifier
-//                .height(100.dp)
-//                .width(100.dp)
-//        ) {
-//            CookingTime(time = "45")
-//        }
-//    }
-//}
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
