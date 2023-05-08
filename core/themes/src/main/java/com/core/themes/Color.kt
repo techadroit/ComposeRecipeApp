@@ -3,6 +3,7 @@ package com.core.themes
 import androidx.compose.ui.graphics.Color
 
 val accentColor = Color(0xFFfaa627)
+val lightAccentColor = Color(0xFFf96163)
 val errorColor = Color(0xffd00036)
 
 val primaryColorDark = Color(0xFF4E342E)
@@ -17,7 +18,7 @@ val onPrimary = Color(0xFFF5F5F5)
 
 val primaryColorLight = Color(0xFF344955)
 val primaryVariantColorLight = Color(0xFF5f7481)
-val secondaryColorLight = accentColor
+val secondaryColorLight = lightAccentColor
 val backgroundColorLight = Color(0xFFfafafa)
 val surfaceColorLight = Color.White
 val onBackgroundColorLight = Color(0xFF000000)

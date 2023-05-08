@@ -70,9 +70,7 @@ fun AppContent() {
         },
     ) {
         Box(modifier = Modifier.padding(it)) {
-            Surface {
                 NavigationView(searchViewModel)
-            }
         }
     }
 }

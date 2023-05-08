@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
+import com.core.themes.ComposeRecipeAppTheme
 import com.core.themes.UserInterestComposable
 import com.core.themes.primaryColorDark
 import com.feature.common.observeState
@@ -42,7 +43,7 @@ fun UserInterest() {
     val viewModel: UserInterestViewModel = hiltViewModel()
     val state = viewModel.observeState()
 
-    UserInterestComposable(darkTheme = true) {
+    ComposeRecipeAppTheme(darkTheme = true) {
         Surface(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
@@ -52,7 +53,7 @@ fun UserInterest() {
                 Text(
                     modifier = Modifier.align(Alignment.TopStart),
                     text = stringResource(id = R.string.select_cuisine),
-                    style = MaterialTheme.typography.displayLarge.copy(color = primaryColorDark)
+                    style = MaterialTheme.typography.displayLarge
                 )
                 CuisineList(
                     cuisines = state.cuisines,
@@ -74,7 +75,6 @@ fun UserInterest() {
             }
         }
     }
-
     state.viewEffect?.data?.let {
         topLevelNavigator.navigateTo(MainViewIntent(), UserInterestIntent(), true)
     }
@@ -86,16 +86,11 @@ fun UserInterest() {
 
 @Composable
 fun NextButton(modifier: Modifier, onClick: () -> Unit) {
-    Button(
+    OutlinedButton(
         onClick = {
             onClick()
         },
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSurface
-        )
     ) {
         Text(text = stringResource(id = R.string.next), style = MaterialTheme.typography.bodyLarge)
     }

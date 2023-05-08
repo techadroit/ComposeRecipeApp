@@ -3,10 +3,12 @@ package com.feature.home.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -17,6 +19,7 @@ import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
 import com.core.themes.homeCard
+import com.core.themes.homePadding
 import com.domain.common.pojo.RecipeModel
 import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
@@ -125,32 +128,39 @@ fun RecipeListWithCuisine(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
-    Card(
-        onClick = { onRowClick(recipe.id) },
-        modifier = Modifier.homeCard()
+    Box(
+        modifier = Modifier.homePadding()
     ) {
-        ConstraintLayout {
-            val (thumbnail, title) = createRefs()
-            ImageThumbnail(imageUrl = recipe.imageUrl, modifier = Modifier.constrainAs(thumbnail) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-
-            })
-            Text(
-                text = recipe.title,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .constrainAs(title) {
-                        top.linkTo(thumbnail.bottom)
-                        start.linkTo(thumbnail.start)
-                        end.linkTo(thumbnail.end)
-                        width = Dimension.fillToConstraints
-                    }
-                    .padding(8.dp)
-            )
+        Card(
+            onClick = { onRowClick(recipe.id) },
+            modifier = Modifier
+                .homeCard()
+                .shadow(shape = RoundedCornerShape(16.dp), elevation = 0.dp)
+        ) {
+            ConstraintLayout {
+                val (thumbnail, title) = createRefs()
+                ImageThumbnail(
+                    imageUrl = recipe.imageUrl,
+                    modifier = Modifier.constrainAs(thumbnail) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    })
+                Text(
+                    text = recipe.title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .constrainAs(title) {
+                            top.linkTo(thumbnail.bottom)
+                            start.linkTo(thumbnail.start)
+                            end.linkTo(thumbnail.end)
+                            width = Dimension.fillToConstraints
+                        }
+                        .padding(8.dp)
+                )
+            }
         }
     }
 }

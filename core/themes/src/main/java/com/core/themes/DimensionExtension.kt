@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 
 fun Modifier.thumbnailSize() = size(
@@ -14,7 +15,10 @@ fun Modifier.thumbnailSize() = size(
 
 fun Modifier.homeCard() =
     height(MaterialTheme.dimension().cardHeight)
-    .padding(
-        horizontal = MaterialTheme.dimension().cardHorizontalPadding,
-        vertical = MaterialTheme.dimension().cardVerticalPadding
-    )
+
+fun Modifier.homePadding() = padding(
+    start = MaterialTheme.dimension().cardHorizontalPadding,
+    end = 0.dp,
+    top = MaterialTheme.dimension().cardVerticalPadding,
+    bottom = MaterialTheme.dimension().cardVerticalPadding,
+)
