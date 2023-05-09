@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -152,6 +153,7 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 2,
                     textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .constrainAs(title) {
                             top.linkTo(thumbnail.bottom)
@@ -160,12 +162,7 @@ fun RecipeItem(recipe: RecipeModel, onRowClick: OnClick<Int>) {
                             bottom.linkTo(parent.bottom)
                             width = Dimension.fillToConstraints
                         }
-                        .padding(
-                            start = MaterialTheme.dimension().paddingSubtitle,
-                            top = MaterialTheme.dimension().paddingSubtitle,
-                            bottom = MaterialTheme.dimension().paddingSubtitle,
-//                            bottom = 0.dp,
-                        )
+                        .padding(MaterialTheme.dimension().paddingSubtitle)
                 )
             }
         }
@@ -182,7 +179,8 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
     ) {
         Column(
             modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Center) {
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = stringResource(id = R.string.view_all),
                 style = MaterialTheme.typography.displayLarge,
