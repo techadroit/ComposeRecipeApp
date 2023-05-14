@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -96,7 +97,7 @@ fun SearchBar(
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
     val view = LocalView.current
 
-    val textState = remember { mutableStateOf(TextFieldValue()) }
+    val textState = rememberSaveable { mutableStateOf("") }
     val onFocus = remember {
         mutableStateOf(false)
     }
@@ -107,7 +108,7 @@ fun SearchBar(
     }
 
     fun onClearFocus() {
-        textState.value = TextFieldValue("")
+        textState.value = ""
         onFocus.value = false
         popBackStack()
     }
@@ -123,7 +124,7 @@ fun SearchBar(
             value = textState.value,
             onValueChange = {
                 textState.value = it
-                dispatch(com.feature.recipe.list.state.SearchTextEvent(it.text))
+                dispatch(com.feature.recipe.list.state.SearchTextEvent(it))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,11 +149,11 @@ fun SearchBar(
             placeholder = { Text(stringResource(id = R.string.text_to_search)) },
             keyboardActions = KeyboardActions(
                 onDone = {
-                    val text = textState.value.text
+                    val text = textState.value
                     navigate(SearchScreenIntent(text = text))
                     softwareKeyboardController?.hide()
                     view.clearFocus()
-                    textState.value = TextFieldValue("")
+                    textState.value = ""
                     onFocus.value = false
                 }
             ),
