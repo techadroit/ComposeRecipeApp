@@ -95,8 +95,7 @@ fun SearchBar(
     popBackStack: PopBackStack
 ) {
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
-    val view = LocalView.current
-
+    val focusManager = LocalFocusManager.current
     val textState = rememberSaveable { mutableStateOf("") }
     val onFocus = remember {
         mutableStateOf(false)
@@ -108,6 +107,8 @@ fun SearchBar(
     }
 
     fun onClearFocus() {
+        softwareKeyboardController?.hide()
+        focusManager.clearFocus()
         textState.value = ""
         onFocus.value = false
         popBackStack()
@@ -137,11 +138,9 @@ fun SearchBar(
                 SearchIcon(
                     onFocus = onFocus.value,
                     {
-                        softwareKeyboardController?.hide()
                         onSearchFocus()
                     },
                     {
-                        softwareKeyboardController?.hide()
                         onClearFocus()
                     }
                 )
@@ -150,11 +149,9 @@ fun SearchBar(
             keyboardActions = KeyboardActions(
                 onDone = {
                     val text = textState.value
-                    navigate(SearchScreenIntent(text = text))
-                    softwareKeyboardController?.hide()
-                    view.clearFocus()
-                    textState.value = ""
-                    onFocus.value = false
+                    if (!text.isNullOrEmpty())
+                        navigate(SearchScreenIntent(text = text))
+                    onClearFocus()
                 }
             ),
             keyboardOptions = KeyboardOptions(
@@ -184,7 +181,7 @@ fun SearchView(searchViewModel: com.feature.recipe.list.viewmodel.SearchViewMode
         if (state.list.isEmpty())
             EmptySearchView()
         KeywordList(list = state.list) {
-            mainViewNavigator.navigateTo(navItems = RecipeListIntent(cuisine=it))
+            mainViewNavigator.navigateTo(navItems = RecipeListIntent(cuisine = it))
             focusManager.clearFocus()
         }
     }
