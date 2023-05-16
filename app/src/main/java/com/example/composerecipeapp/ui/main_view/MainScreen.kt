@@ -1,6 +1,11 @@
 package com.example.composerecipeapp.ui.main_view
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,30 +49,26 @@ fun NavGraphBuilder.MainScreen() {
 @ExperimentalAnimationApi
 @Composable
 fun AppContent() {
-    val topLevelNavigator = ParentNavHostController.current
     val searchViewModel: SearchViewModel = hiltViewModel()
     Scaffold(
         bottomBar = {
             BottomBar(
                 items = listOf(
                     BottomBarItems(HomeViewIntent.getScreenName(), "Home"),
-                    BottomBarItems(
-                        SavedRecipeIntent.getScreenName(),
-                        "Saved Recipes"
-                    ),
-                    BottomBarItems(
-                        RecipeVideoListIntent.getScreenName(),
-                        "Videos"
-                    ),
+                    BottomBarItems(SavedRecipeIntent.getScreenName(), "Saved Recipes"),
+                    BottomBarItems(RecipeVideoListIntent.getScreenName(), "Videos"),
                     BottomBarItems(SettingsViewIntent.getScreenName(), "Settings")
                 )
             )
         },
         topBar = {
-            if (topLevelNavigator.getCurrentRoute()
-                != SettingsViewIntent.getScreenName()
-            )
+            AnimatedVisibility(
+                visible = MainViewNavigator.current.getCurrentRoute() != SettingsViewIntent.getScreenName(),
+                enter = slideInVertically(),
+                exit = slideOutVertically()
+            ) {
                 SearchBarContainer(searchViewModel = searchViewModel)
+            }
         },
     ) {
         Box(modifier = Modifier.padding(it)) {

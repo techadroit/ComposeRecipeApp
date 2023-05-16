@@ -1,6 +1,7 @@
 package com.core.navigtion
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -10,6 +11,10 @@ import com.core.navigtion.navigator.Navigator
 
 class AppNavigator constructor(private val navHostController: NavHostController) :
     Navigator<DestinationIntent> {
+
+    val backStackRoute by lazy {
+            navHostController.currentBackStackEntryFlow
+        }
     override fun navigateTo(
         navItems: DestinationIntent,
         popUpTo: DestinationIntent?,
