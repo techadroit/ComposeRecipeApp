@@ -7,6 +7,7 @@ typealias Dispatch<T> = (T) -> Unit
 typealias MultipleDispatch<T, E> = (T, E) -> Unit
 
 typealias Navigate = (DestinationIntent) -> Unit
+typealias PopAndNavigate = (DestinationIntent?,DestinationIntent) -> Unit
 
 typealias PopBackStack = () -> Unit
 

@@ -6,15 +6,26 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,17 +36,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.core.themes.ComposeRecipeAppTheme
-import com.feature.common.*
+import com.feature.common.Dispatch
+import com.feature.common.Navigate
+import com.feature.common.PopBackStack
+import com.feature.common.fullScreen
+import com.feature.common.observeState
 import com.feature.recipe.list.R
+import com.recipe.app.navigation.intent.HomeViewIntent
 import com.recipe.app.navigation.intent.RecipeListIntent
 import com.recipe.app.navigation.intent.SearchScreenIntent
 import com.recipe.app.navigation.intent.SearchViewIntent
@@ -181,7 +195,10 @@ fun SearchView(searchViewModel: com.feature.recipe.list.viewmodel.SearchViewMode
         if (state.list.isEmpty())
             EmptySearchView()
         KeywordList(list = state.list) {
-            mainViewNavigator.navigateTo(navItems = RecipeListIntent(cuisine = it))
+            mainViewNavigator.navigateTo(
+                navItems = RecipeListIntent(cuisine = it),
+                popUpTo = HomeViewIntent()
+            )
             focusManager.clearFocus()
         }
     }
