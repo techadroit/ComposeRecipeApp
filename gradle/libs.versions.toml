@@ -1,0 +1,84 @@
+[versions]
+androidGradlePlugin = "7.4.0"
+kotlinVersion = "1.8.0"
+hiltVersion = "2.45"
+composeVersion = "1.4.0"
+navComposeVersion = "2.5.0"
+roomVersion = "2.5.1"
+preferenceVersion = "1.1.1"
+ksp = "1.8.0-1.0.9"
+retrofitVersion = "2.9.0"
+okhttpVersion = "4.8.0"
+retrofitGsonConverter = "0.9.2"
+hiltNavigation = "1.0.0"
+kotlinxCoroutines = "1.6.4"
+androidxLifecycle = "2.6.0-alpha05"
+material3Version = "1.0.1"
+dataStore = "1.0.0"
+composeDestination = "1.5.1-beta"
+# android = { group = "", name = "", version = ""}
+
+[libraries]
+#core
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.4.0-alpha02" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.6.0" }
+android-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-extensions", version = "2.2.0" }
+android-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.3.0" }
+android-material = { group = "com.google.android.material", name = "material", version = "1.5.0" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+image-loading = { group = "com.github.skydoves", name = "landscapist-glide", version = "1.2.2" }
+# Preference
+androidx-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceVersion" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
+# Database
+android-room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+android-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+android-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+
+# Compose
+androidx-compose = { group = "androidx.compose.ui", name = "ui", version.ref = "composeVersion" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "composeVersion" }
+androidx-compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "material3Version" }
+androidx-compose-material-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3Version" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "composeVersion" }
+androidx-compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "composeVersion" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "composeVersion" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navComposeVersion" }
+androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+compose-destination = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestination" }
+compose-destination-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
+androidx-compose-constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version = "1.0.1" }
+
+## Added For the following issue https://github.com/google/dagger/issues/3484
+androidx-fragment-navigation = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navComposeVersion" }
+
+# Network dependencies
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+retrofit-coroutines-adapter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version = "0.9.2" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttpVersion" }
+retrofit-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpVersion" }
+retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
+# Dependency Injection
+androidx-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
+androidx-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
+androidx-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinVersion" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+# Dependencies Testing
+android-junit = { group = "junit", name = "junit", version = "4.13.2" }
+android-junit-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.3" }
+android-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.4.0" }
+android-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = "1.6.0" }
+android-mockk-test = { group = "io.mockk", name = "mockk-android", version = "1.12.1" }
+ksp-build-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+hilt-dagger = { id = "com.google.dagger.hilt.android", version = "2.44" }
+ksp-gradlePlugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
