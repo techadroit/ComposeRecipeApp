@@ -10,9 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.core.themes.backgroundColor
 
 @Composable
-fun SaveIcon(isSaved: Boolean, onClick: (Boolean) -> Unit) {
+fun SaveIcon(modifier: Modifier = Modifier,isSaved: Boolean, onClick: (Boolean) -> Unit) {
     val saved = remember {
         mutableStateOf(isSaved)
     }
@@ -21,7 +24,7 @@ fun SaveIcon(isSaved: Boolean, onClick: (Boolean) -> Unit) {
             imageVector = Icons.Default.Favorite,
             contentDescription = "Saved",
             tint = Color.Red,
-            modifier = Modifier.clickable {
+            modifier = modifier.clickable {
                 saved.value = false
                 onClick.invoke(saved.value)
             }
@@ -30,9 +33,17 @@ fun SaveIcon(isSaved: Boolean, onClick: (Boolean) -> Unit) {
         Icon(
             imageVector = Icons.Default.FavoriteBorder,
             contentDescription = "Not Saved",
-            modifier = Modifier.clickable {
+            modifier = modifier.clickable {
                 saved.value = true
                 onClick.invoke(saved.value)
             }
         )
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFF)
+@Composable
+fun SaveIconPreview(){
+    SaveIcon(isSaved = true){
+
+    }
 }
