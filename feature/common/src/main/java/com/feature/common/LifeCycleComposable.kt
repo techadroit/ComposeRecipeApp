@@ -54,7 +54,7 @@ fun OnResumed(resumed: () -> Unit) {
 @Composable
 fun OnPaused(paused: () -> Unit) {
     LifeCycleComposable {
-        if (it.equals(Lifecycle.Event.ON_CREATE)) {
+        if (it.equals(Lifecycle.Event.ON_PAUSE)) {
             paused()
         }
     }
