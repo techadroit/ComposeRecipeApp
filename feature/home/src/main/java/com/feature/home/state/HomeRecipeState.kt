@@ -20,7 +20,6 @@ fun HomeRecipeState.add(items: RecipeWithCuisine) =
 fun HomeRecipeState.onViewEffect(viewEffect: ViewEffect) =
     copy(viewEffect = viewEffect.asConsumable())
 
-
 fun HomeRecipeState.showLoading(isLoading:Boolean) = copy(isLoadingPage = isLoading)
 
 data class ViewAllViewEffect(val cuisine: String) : ViewEffect()

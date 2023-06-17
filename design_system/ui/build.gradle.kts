@@ -3,7 +3,7 @@ plugins {
     id("android.library.compose")
 }
 android {
-    namespace = "com.feature.common.ui" //no hypen in the namespace
+    namespace = "com.design_system.common.ui" //no hypen in the namespace
 }
 
 dependencies {
@@ -12,8 +12,5 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:platform"))
     implementation(project(":design_system:themes"))
-    implementation(project(":design_system:ui"))
-    implementation(project(":feature:common"))
-    implementation(project(":domain:common"))
     implementation(libs.image.loading)
 }

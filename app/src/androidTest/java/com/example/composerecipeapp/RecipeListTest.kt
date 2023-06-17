@@ -8,7 +8,6 @@ import androidx.compose.ui.test.performClick
 import com.domain.common.pojo.RecipeModel
 import com.example.composerecipeapp.ui.recipe_list.RecipeList
 import com.core.themes.ComposeRecipeAppTheme
-import com.feature.recipe.list.viewmodel.RecipeListViewmodel
 import com.example.composerecipeapp.viewmodel.recipe_list.RemoveSavedRecipeEvent
 import com.example.composerecipeapp.viewmodel.recipe_list.SaveRecipeEvent
 import io.mockk.every

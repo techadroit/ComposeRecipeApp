@@ -11,3 +11,5 @@ typealias Navigate = (DestinationIntent) -> Unit
 typealias PopBackStack = () -> Unit
 
 typealias OnClick<T> = (T) -> Unit
+
+typealias OnUnit = () -> Unit

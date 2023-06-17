@@ -3,5 +3,5 @@ plugins {
     id("android.library.compose")
 }
 android {
-    namespace = "com.core.themes"
+    namespace = "com.design_system.themes"
 }

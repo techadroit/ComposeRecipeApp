@@ -16,8 +16,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
 import com.core.themes.ComposeRecipeAppTheme
-import com.core.themes.UserInterestComposable
-import com.core.themes.primaryColorDark
 import com.feature.common.observeState
 import com.feature.user.interest.R
 import com.feature.user.interest.state.LoadSupportedCuisine
