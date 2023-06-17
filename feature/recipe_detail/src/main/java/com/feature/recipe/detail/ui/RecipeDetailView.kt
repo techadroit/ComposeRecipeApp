@@ -37,6 +37,7 @@ import com.feature.recipe.detail.state.LoadRecipeDetail
 import com.feature.recipe.detail.state.RecipeDetailState
 import com.feature.recipe.detail.state.RemoveRecipe
 import com.feature.recipe.detail.state.SaveRecipe
+import com.feature.recipe.detail.viewmodel.RecipeDetailViewModel
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -50,7 +51,7 @@ fun NavGraphBuilder.RecipeDetailScreen() {
 @Composable
 fun RecipeDetail(recipeId: String) {
 
-    val viewModel: com.feature.recipe.detail.viewmodel.RecipeDetailViewModel = hiltViewModel()
+    val viewModel: RecipeDetailViewModel = hiltViewModel()
     val state = viewModel.observeState()
 
     Surface {

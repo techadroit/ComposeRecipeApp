@@ -23,6 +23,8 @@ import com.feature.common.ui.common_views.*
 import com.feature.recipe.list.R
 import com.feature.recipe.list.state.OnSavedRecipe
 import com.feature.recipe.list.state.RecipeListState
+import com.feature.recipe.list.state.showLoading
+import com.feature.recipe.list.state.showPagination
 import com.feature.recipe.list.viewmodel.RecipeListViewmodel
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
@@ -76,7 +78,7 @@ fun RecipeScreenContent(
     recipesViewModel: RecipeListViewmodel,
     navigator: AppNavigator
 ) {
-    if (recipeState.isLoading && !recipeState.isPaginate)
+    if (recipeState.showLoading())
         LoadingView()
     RecipeList(
         recipeList = recipeState.recipes.allRecipes,
@@ -86,7 +88,7 @@ fun RecipeScreenContent(
         navigate = {
             navigator.navigateTo(it)
         },
-        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
+        showPaginationLoading = recipeState.showPagination(),
         keyword = cuisine,
         endOfList = recipeState.endOfItems
     )
