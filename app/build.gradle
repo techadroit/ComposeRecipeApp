@@ -29,7 +29,7 @@ dependencies {
     implementation project(':core:network')
     implementation project(':core:platform')
     implementation project(':core:navigation')
-    implementation project(':core:themes')
+    implementation project(':design_system:themes')
     implementation project(':data:repository')
     implementation project(':domain:favourite')
     implementation project(':domain:recipe')

@@ -14,10 +14,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.composerecipeapp.viewmodel.settings.*
 import com.feature.common.Dispatch
 import com.feature.common.observeState
 import com.feature.settings.R
+import com.feature.settings.state.ChangeDarkModeSettings
+import com.feature.settings.state.CuisineDeSelected
+import com.feature.settings.state.CuisineSelected
+import com.feature.settings.state.InitializeSettings
+import com.feature.settings.state.SaveCuisine
 import com.feature.user.interest.ui.CuisineList
 import kotlinx.coroutines.launch
 
@@ -29,10 +33,10 @@ fun SettingsView() {
     val scope = rememberCoroutineScope()
     val settingsViewModel: com.feature.settings.viewmodel.SettingsViewModel = hiltViewModel()
     val state = settingsViewModel.observeState()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         content = {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
@@ -46,8 +50,7 @@ fun SettingsView() {
                 Spacer(modifier = Modifier.height(8.dp))
                 CuisineList(cuisines = state.list, selectionCount = 5) { it, cuisine ->
                     settingsViewModel.dispatch(
-                        if (it) CuisineSelected(cuisine)
-                        else CuisineDeSelected(cuisine)
+                        if (it) CuisineSelected(cuisine) else CuisineDeSelected(cuisine)
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -61,7 +64,7 @@ fun SettingsView() {
 
     state.viewEffect?.consume()?.let {
         scope.launch {
-            snackbarHostState.showSnackbar(message = "Settings Saved Successfully")
+            snackBarHostState.showSnackbar(message = "Settings Saved Successfully")
         }
     }
 

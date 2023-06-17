@@ -3,13 +3,9 @@ package com.feature.recipe.video.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
@@ -38,6 +34,7 @@ import com.feature.common.ui.common_views.RefreshView
 import com.feature.recipe.video.state.LoadVideos
 import com.feature.recipe.video.state.RefreshVideoScreen
 import com.feature.recipe.video.state.VideoEvents
+import com.feature.recipe.video.viewmodel.VideoListViewmodel
 import com.recipe.app.navigation.intent.VideoPlayerIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
 import com.skydoves.landscapist.glide.GlideImage
@@ -46,7 +43,7 @@ import com.skydoves.landscapist.glide.GlideImage
 fun RecipesVideoList() {
 
     val topLevelNavigator = ParentNavHostController.current
-    val recipesViewModel: com.feature.recipe.video.viewmodel.VideoListViewmodel = hiltViewModel()
+    val recipesViewModel: VideoListViewmodel = hiltViewModel()
     val recipeState = recipesViewModel.observeState()
 
     RefreshView(content = {
@@ -96,27 +93,6 @@ fun RecipeListContent(
             }
         }
     )
-
-//    LazyColumn(
-//        state = scrollState,
-//        contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
-//        content = {
-//            itemsIndexed(list) { index, recipe ->
-//                VideoCard(index = index, recipe = recipe, navigate)
-//                val totalItem = scrollState.layoutInfo.totalItemsCount
-//                if (index == (totalItem - 1)) {
-//                    LaunchedEffect(true) {
-//                        dispatch(LoadVideos(isPaginate = true))
-//                    }
-//                }
-//            }
-//            if (showPaginationLoading) {
-//                item {
-//                    PaginationLoading()
-//                }
-//            }
-//        }
-//    )
 }
 
 @Composable

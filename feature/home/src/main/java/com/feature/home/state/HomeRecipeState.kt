@@ -11,8 +11,9 @@ data class HomeRecipeState(
     val viewEffect: Consumable<ViewEffect>? = null,
     val isLoadingPage: Boolean = true
 ) : ArcherState
-fun HomeRecipeState.onLoad(list: List<RecipeWithCuisine>) =
-    copy(list = list)
+
+fun HomeRecipeState.initialState() = HomeRecipeState()
+fun HomeRecipeState.onLoad(list: List<RecipeWithCuisine>) = copy(list = list)
 
 fun HomeRecipeState.add(items: RecipeWithCuisine) =
     copy(list = list.toMutableList().apply { add(items) })
@@ -20,9 +21,11 @@ fun HomeRecipeState.add(items: RecipeWithCuisine) =
 fun HomeRecipeState.onViewEffect(viewEffect: ViewEffect) =
     copy(viewEffect = viewEffect.asConsumable())
 
-
 fun HomeRecipeState.showLoading(isLoading:Boolean) = copy(isLoadingPage = isLoading)
 
-data class ViewAllViewEffect(val cuisine: String) : ViewEffect()
-data class ViewRecipesDetailViewEffect(val recipeId: String) : ViewEffect()
-data class LoadingError(val errorMsg:String) : ViewEffect()
+fun HomeRecipeState.viewAll(cuisine: String) = onViewEffect(ViewAllViewEffect(cuisine))
+
+fun HomeRecipeState.viewDetail(recipeId: String) = onViewEffect(ViewRecipesDetailViewEffect(recipeId))
+
+fun HomeRecipeState.onLoadingError() = onViewEffect(LoadingError("Unable to Load"))
+    .showLoading(false)

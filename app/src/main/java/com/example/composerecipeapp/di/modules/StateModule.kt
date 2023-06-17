@@ -2,7 +2,7 @@ package com.example.composerecipeapp.di.modules
 
 import com.feature.home.state.HomeRecipeState
 import com.example.composerecipeapp.viewmodel.main.MainViewState
-import com.example.composerecipeapp.viewmodel.settings.SettingsState
+import com.feature.settings.state.SettingsState
 import com.feature.recipe.detail.state.RecipeDetailState
 import com.feature.recipe.list.state.RecipeListState
 import com.feature.recipe.video.state.RecipeVideoState

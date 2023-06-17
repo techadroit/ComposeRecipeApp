@@ -1,11 +1,23 @@
 package com.feature.home.ui
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -19,6 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
+import com.feature.common.ui.buttons.RecipeOutlineButton
+import com.feature.common.ui.containers.FullScreenBox
 import com.core.themes.dimension
 import com.core.themes.homeCard
 import com.core.themes.homePadding
@@ -26,12 +40,19 @@ import com.domain.common.pojo.RecipeModel
 import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
 import com.feature.common.OnClick
-import com.feature.common.fullScreen
+import com.feature.common.OnUnit
 import com.feature.common.observeState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
 import com.feature.common.ui.recipes.ImageThumbnail
-import com.feature.home.state.*
+import com.feature.home.state.HomeRecipeEvent
+import com.feature.home.state.HomeRecipeState
+import com.feature.home.state.LoadingError
+import com.feature.home.state.RefreshHomeEvent
+import com.feature.home.state.ViewAllRecipes
+import com.feature.home.state.ViewAllViewEffect
+import com.feature.home.state.ViewRecipeDetail
+import com.feature.home.state.ViewRecipesDetailViewEffect
 import com.feature.home.viewmodel.HomeRecipeViewModel
 import com.feature.recipe.home.R
 import com.recipe.app.navigation.intent.RecipeDetailIntent
@@ -40,11 +61,10 @@ import com.recipe.app.navigation.provider.MainViewNavigator
 import com.recipe.app.navigation.provider.ParentNavHostController
 
 @Composable
-fun HomeView() {
+fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewModel>()) {
 
     val topLevelNavigator = ParentNavHostController.current
     val mainViewNavigator = MainViewNavigator.current
-    val viewModel = hiltViewModel<HomeRecipeViewModel>()
     val state = viewModel.observeState()
     val viewEffect = state.viewEffect?.consume()
 
@@ -52,33 +72,34 @@ fun HomeView() {
         viewModel.dispatch(RefreshHomeEvent)
     }
 
-    if (state.list.isNotEmpty()) {
-        RefreshView(content = {
-            HomeViewContent(list = state.list, viewModel = viewModel)
-        }) {
-            refresh()
-        }
-    } else if (state.isLoadingPage) {
-        LoadingView()
-    } else if (viewEffect is LoadingError) {
-        Box(modifier = Modifier.fullScreen()) {
-            OutlinedButton(
-                onClick = {
-                    refresh()
-                },
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                Text(
-                    text = "Retry",
-                    style = MaterialTheme.typography.displayLarge,
-                    modifier = Modifier
-                        .padding(8.dp)
-                )
-            }
-        }
+    HomeView(state = state, viewModel = viewModel) {
+        refresh()
     }
 
     viewEffect?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
+}
+
+@Composable
+fun HomeView(state: HomeRecipeState, viewModel: HomeRecipeViewModel, refresh: OnUnit) {
+
+    when {
+        state.list.isNotEmpty() ->
+            RefreshView(content = {
+                HomeViewContent(list = state.list, viewModel = viewModel)
+            }) {
+                refresh()
+            }
+
+        state.isLoadingPage -> LoadingView()
+        state.viewEffect?.consume() is LoadingError -> FullScreenBox {
+            RecipeOutlineButton.ErrorButton(
+                text = "Retry",
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                refresh()
+            }
+        }
+    }
 }
 
 @Composable

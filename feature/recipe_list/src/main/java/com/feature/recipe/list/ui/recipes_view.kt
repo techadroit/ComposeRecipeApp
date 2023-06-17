@@ -10,27 +10,28 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
 import com.core.themes.dimension
-import com.core.themes.spacerSmall
 import com.domain.common.pojo.RecipeModel
-import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
-import com.feature.common.OnClick
 import com.feature.common.observeState
 import com.feature.common.ui.common_views.*
 import com.feature.recipe.list.R
+import com.feature.recipe.list.state.LoadRecipes
 import com.feature.recipe.list.state.OnSavedRecipe
+import com.feature.recipe.list.state.RecipeEvent
 import com.feature.recipe.list.state.RecipeListState
+import com.feature.recipe.list.state.RefreshRecipeList
+import com.feature.recipe.list.state.RemoveSavedRecipeEvent
+import com.feature.recipe.list.state.SaveRecipeEvent
+import com.feature.recipe.list.state.showLoading
+import com.feature.recipe.list.state.showPagination
 import com.feature.recipe.list.viewmodel.RecipeListViewmodel
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
-import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -81,7 +82,7 @@ fun RecipeScreenContent(
     recipesViewModel: RecipeListViewmodel,
     navigator: AppNavigator
 ) {
-    if (recipeState.isLoading && !recipeState.isPaginate)
+    if (recipeState.showLoading())
         LoadingView()
     RecipeList(
         recipeList = recipeState.recipes.allRecipes,
@@ -91,7 +92,7 @@ fun RecipeScreenContent(
         navigate = {
             navigator.navigateTo(it)
         },
-        showPaginationLoading = recipeState.isLoading && recipeState.isPaginate,
+        showPaginationLoading = recipeState.showPagination(),
         keyword = cuisine,
         endOfList = recipeState.endOfItems
     )

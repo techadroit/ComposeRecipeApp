@@ -19,18 +19,18 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeDetailViewModel @Inject constructor(
     initialState: RecipeDetailState,
-    val usecase: GetRecipeDetailUsecase,
-    val similarUsecase: SimilarRecipeUsecase,
+    val useCase: GetRecipeDetailUsecase,
+    val similarUseCase: SimilarRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe,
-    val savedRecipeUsecase: SaveRecipeUsecase,
+    val savedRecipeUseCase: SaveRecipeUsecase,
 ) : ArcherViewModel<RecipeDetailState, RecipeDetailEvent>(initialState) {
 
     private fun getRecipeDetailForId(id: String) {
         setState {
-            this.onLoading()
+            onLoading()
         }
-        usecase(GetRecipeDetailUsecase.Param(id = id))
-            .zip(similarUsecase(SimilarRecipeUsecase.Param(id = id))) { r1, r2 ->
+        useCase(GetRecipeDetailUsecase.Param(id = id))
+            .zip(similarUseCase(SimilarRecipeUsecase.Param(id = id))) { r1, r2 ->
                 Pair(r1, r2)
             }
             .catch {
@@ -44,7 +44,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun handleFailureResponse(failure: Failure) {
         setState {
-            this.onError(failure = failure)
+            onError(failure = failure)
         }
     }
 
@@ -53,7 +53,7 @@ class RecipeDetailViewModel @Inject constructor(
         list: List<RecipeModel>
     ) {
         setState {
-            this.onSuccessResponse(
+            onSuccessResponse(
                 recipeDetail = recipeDetailResponse,
                 recipeList = list
             )
@@ -72,16 +72,16 @@ class RecipeDetailViewModel @Inject constructor(
         deleteSavedRecipe(params = recipeId)
             .collectIn(viewModelScope) {
                 setState {
-                    this.onRemoveFromSavedList()
+                    onRemoveFromSavedList()
                 }
             }
     }
 
     private fun saveRecipe(recipeModel: RecipeModel) =
-        savedRecipeUsecase(com.domain.favourite.SaveRecipeUsecase.Param(recipeModel))
+        savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
             .collectIn(viewModelScope) {
                 setState {
-                    this.onRecipeSaved()
+                    onRecipeSaved()
                 }
             }
 }

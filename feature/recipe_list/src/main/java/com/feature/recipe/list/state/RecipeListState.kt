@@ -27,10 +27,7 @@ data class RecipeListState(
 
 fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
     val list = this.recipes.allRecipes.map {
-        if (it.id == id)
-            it.copy(isSaved = true)
-        else
-            it
+        it.copy(isSaved = it.id == id)
     }
     return this.copy(
         recipes = RecipeData(list),
@@ -40,10 +37,7 @@ fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
 
 fun RecipeListState.onRecipeRemovedFromSavedList(id: Int): RecipeListState {
     val list = this.recipes.allRecipes.map {
-        if (it.id == id)
-            it.copy(isSaved = false)
-        else
-            it
+            it.copy(isSaved = it.id == id)
     }
     return this.copy(
         recipes = RecipeData(list)
@@ -66,10 +60,6 @@ fun RecipeListState.onLoading(isPaginate: Boolean = false, query: String? = null
 
 fun RecipeListState.onError(failure: Failure) = this.copy(error = failure)
 
-fun RecipeListState.onSaved(recipeId: Int) {
-    val list = this.recipes.allRecipes
-    list.first { it.id == recipeId }
-    this.copy(
-        recipes = RecipeData(list)
-    )
-}
+fun RecipeListState.showLoading() = isLoading && !isPaginate
+
+fun RecipeListState.showPagination() = isLoading && isPaginate

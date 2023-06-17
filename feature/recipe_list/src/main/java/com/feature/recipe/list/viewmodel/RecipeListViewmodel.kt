@@ -7,7 +7,6 @@ import com.domain.favourite.DeleteSavedRecipe
 import com.domain.favourite.SaveRecipeUsecase
 import com.domain.recipe.search.SearchRecipeUsecase
 import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.viewmodel.recipe_list.*
 import com.feature.recipe.list.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -16,32 +15,32 @@ import javax.inject.Inject
 @HiltViewModel
 open class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState,
-    val savedRecipeUsecase: SaveRecipeUsecase,
-    val searchUsecase: SearchRecipeUsecase,
+    val savedRecipeUseCase: SaveRecipeUsecase,
+    val searchUseCase: SearchRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe
 ) :
     ArcherViewModel<RecipeListState, RecipeEvent>(initialState) {
 
     var page = 1
     private fun saveRecipe(recipeModel: RecipeModel) =
-        savedRecipeUsecase(SaveRecipeUsecase.Param(recipeModel))
+        savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
             .collectIn(viewModelScope) {
                 setState {
-                    this.onRecipeSaved(recipeModel.id)
+                    onRecipeSaved(recipeModel.id)
                 }
             }
 
     private fun deleteRecipe(recipeModel: RecipeModel) = deleteSavedRecipe(recipeModel.id)
         .collectIn(viewModelScope) {
             setState {
-                this.onRecipeRemovedFromSavedList(recipeModel.id)
+                onRecipeRemovedFromSavedList(recipeModel.id)
             }
         }
 
     private fun loadRecipes(query: String) =
         withState {
             if (!it.isLoading) {
-                setState { this.onLoading(query = query) }
+                setState { onLoading(query = query) }
                 searchRecipe(cuisine = query)
             }
         }
@@ -50,7 +49,7 @@ open class RecipeListViewmodel @Inject constructor(
         withState {
             if (!it.isLoading) {
                 page++
-                setState { this.onLoading(true) }
+                setState { onLoading(true) }
                 searchRecipe(cuisine = query, isPaginate = true)
             }
         }
@@ -58,7 +57,7 @@ open class RecipeListViewmodel @Inject constructor(
     private fun searchRecipe(cuisine: String, isPaginate: Boolean = false) {
 
         val param = SearchRecipeUsecase.Param(cuisine = cuisine, offset = page)
-        searchUsecase(param).catch { e ->
+        searchUseCase(param).catch { e ->
             handleFailure(e as Failure, isPaginate = isPaginate)
         }.collectIn(viewModelScope) {
             handleRecipeSearch(it.first, isPaginate, it.second)
@@ -78,7 +77,7 @@ open class RecipeListViewmodel @Inject constructor(
 
     private fun handleFailure(failure: Failure, isPaginate: Boolean = false) {
         setState {
-            this.onError(failure = failure)
+            onError(failure = failure)
         }
     }
 
@@ -88,7 +87,7 @@ open class RecipeListViewmodel @Inject constructor(
         endOfItems: Boolean
     ) =
         setState {
-            this.onRecipeLoad(isPaginate, endOfItems, recipeList)
+            onRecipeLoad(isPaginate, endOfItems, recipeList)
         }
 
     override fun onEvent(event: RecipeEvent, state: RecipeListState) {
