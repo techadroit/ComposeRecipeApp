@@ -51,7 +51,11 @@ class SettingsViewModel @Inject constructor(
     private fun cuisineSelected(cuisine: Cuisine) {
         withState {
             val list = it.list.map {
-                it.copy(isSelected = it == cuisine)
+                if (it == cuisine) {
+                    it.copy(isSelected = true)
+                } else {
+                    it
+                }
             }
             setState {
                 onCuisineSelected(list)
@@ -61,7 +65,13 @@ class SettingsViewModel @Inject constructor(
 
     private fun cuisineDeSelected(cuisine: Cuisine) {
         withState {
-            val list = it.list.map { it.copy(isSelected = it != cuisine) }
+            val list = it.list.map {
+                if (it == cuisine) {
+                    it.copy(isSelected = false)
+                } else {
+                    it
+                }
+            }
             setState {
                 onCuisineSelected(list = list)
             }
