@@ -14,10 +14,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.composerecipeapp.viewmodel.settings.*
 import com.feature.common.Dispatch
 import com.feature.common.observeState
 import com.feature.settings.R
+import com.feature.settings.state.ChangeDarkModeSettings
+import com.feature.settings.state.CuisineDeSelected
+import com.feature.settings.state.CuisineSelected
+import com.feature.settings.state.InitializeSettings
+import com.feature.settings.state.SaveCuisine
 import com.feature.user.interest.ui.CuisineList
 import kotlinx.coroutines.launch
 

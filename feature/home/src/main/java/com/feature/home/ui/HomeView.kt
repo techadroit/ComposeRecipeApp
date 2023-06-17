@@ -31,7 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.archerviewmodel.ArcherViewModel
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
-import com.core.themes.buttons.RecipeOutlineButton
+import com.feature.common.ui.buttons.RecipeOutlineButton
 import com.feature.common.ui.containers.FullScreenBox
 import com.core.themes.dimension
 import com.core.themes.homeCard

@@ -1,4 +1,4 @@
-package com.core.themes.buttons
+package com.feature.common.ui.buttons
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.viewmodel.recipe_list
+package com.feature.recipe.list.state
 
 import com.archerviewmodel.events.ArcherEvent
 import com.domain.common.pojo.RecipeModel

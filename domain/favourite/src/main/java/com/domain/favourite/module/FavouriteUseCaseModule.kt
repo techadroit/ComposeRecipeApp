@@ -1,4 +1,4 @@
-package module
+package com.domain.favourite.module
 
 import com.data.repository.datasource.SettingsDataStore
 import com.data.repository.repositories.NewRecipeRepository

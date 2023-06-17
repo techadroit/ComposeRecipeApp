@@ -1,4 +1,4 @@
-package com.example.composerecipeapp.viewmodel.settings
+package com.feature.settings.state
 
 import com.archerviewmodel.events.ArcherEvent
 import com.domain.common.pojo.Cuisine
