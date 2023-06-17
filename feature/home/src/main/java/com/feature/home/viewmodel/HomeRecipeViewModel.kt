@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
-    val initialState: HomeRecipeState
+    private val initialState: HomeRecipeState
 ) : ArcherViewModel<HomeRecipeState, HomeRecipeEvent>(initialState) {
 
     init {
@@ -28,22 +28,21 @@ class HomeRecipeViewModel @Inject constructor(
     }
 
     private fun refresh() {
-        val newState = HomeRecipeState()
         setState {
-            newState
+            initialState()
         }
         loadRecipes()
     }
 
     private fun onViewRecipeDetail(recipeId: String) {
         setState {
-            copy(viewEffect = ViewRecipesDetailViewEffect(recipeId).asConsumable())
+            viewDetail(recipeId)
         }
     }
 
     private fun onViewAllRecipes(cuisine: String) {
         setState {
-            copy(viewEffect = ViewAllViewEffect(cuisine).asConsumable())
+            viewAll(cuisine)
         }
     }
 
@@ -54,13 +53,13 @@ class HomeRecipeViewModel @Inject constructor(
         recipeWithCuisine()
             .catch {
                 setState {
-                    this.onViewEffect(LoadingError("Unable to Load"))
-                        .showLoading(false)
+                    onLoadingError()
                 }
             }
             .collectIn(viewModelScope) {
             setState {
-                this.add(it).showLoading(false)
+                add(it)
+                    .showLoading(false)
             }
         }
     }
