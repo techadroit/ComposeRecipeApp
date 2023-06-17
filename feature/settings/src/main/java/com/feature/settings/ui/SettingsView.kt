@@ -29,10 +29,10 @@ fun SettingsView() {
     val scope = rememberCoroutineScope()
     val settingsViewModel: com.feature.settings.viewmodel.SettingsViewModel = hiltViewModel()
     val state = settingsViewModel.observeState()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         content = {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
@@ -46,8 +46,7 @@ fun SettingsView() {
                 Spacer(modifier = Modifier.height(8.dp))
                 CuisineList(cuisines = state.list, selectionCount = 5) { it, cuisine ->
                     settingsViewModel.dispatch(
-                        if (it) CuisineSelected(cuisine)
-                        else CuisineDeSelected(cuisine)
+                        if (it) CuisineSelected(cuisine) else CuisineDeSelected(cuisine)
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -61,7 +60,7 @@ fun SettingsView() {
 
     state.viewEffect?.consume()?.let {
         scope.launch {
-            snackbarHostState.showSnackbar(message = "Settings Saved Successfully")
+            snackBarHostState.showSnackbar(message = "Settings Saved Successfully")
         }
     }
 

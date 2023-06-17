@@ -37,6 +37,7 @@ fun FavouriteRecipeScreen(
     LaunchedEffect(true) {
         viewModel.dispatch(LoadRecipe())
     }
+
     val state = viewModel.observeState()
     if (state.isLoading) {
         LoadingView()

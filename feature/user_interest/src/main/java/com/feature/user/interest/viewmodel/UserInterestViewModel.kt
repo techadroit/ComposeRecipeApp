@@ -31,20 +31,20 @@ class UserInterestViewModel @Inject constructor(
         viewModelScope.launch {
             settingsDataStore.storeCuisine(state.cuisines.filter { it.isSelected }.map { it.name })
             setState {
-                copy(viewEffect = OnCuisineSelected.asConsumable())
+                onUserInterestSelected()
             }
         }
     }
 
     private fun addCuisine(cuisine: Cuisine) {
         setState {
-            this.onCuisineSelected(cuisine = cuisine)
+            onCuisineSelected(cuisine = cuisine)
         }
     }
 
     private fun removeCuisine(cuisine: Cuisine) {
         setState {
-            this.onCuisineRemoved(cuisine = cuisine)
+            onCuisineRemoved(cuisine = cuisine)
         }
     }
 

@@ -1,14 +1,22 @@
 package com.feature.settings.viewmodel
 
 import com.archerviewmodel.ArcherViewModel
-import com.core.platform.functional.asConsumable
-import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.functional.pairOf
 import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
 import com.domain.common.pojo.Cuisine
 import com.domain.favourite.GetSavedRecipeCuisine
-import com.example.composerecipeapp.viewmodel.settings.*
+import com.example.composerecipeapp.core.functional.collectIn
+import com.example.composerecipeapp.core.functional.pairOf
+import com.example.composerecipeapp.viewmodel.settings.ChangeDarkModeSettings
+import com.example.composerecipeapp.viewmodel.settings.CuisineDeSelected
+import com.example.composerecipeapp.viewmodel.settings.CuisineSelected
+import com.example.composerecipeapp.viewmodel.settings.InitializeSettings
+import com.example.composerecipeapp.viewmodel.settings.SaveCuisine
+import com.example.composerecipeapp.viewmodel.settings.SettingsEvent
+import com.feature.settings.state.SettingsState
+import com.feature.settings.state.initialize
+import com.feature.settings.state.onCuisineSaved
+import com.feature.settings.state.onCuisineSelected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -35,7 +43,7 @@ class SettingsViewModel @Inject constructor(
         withState {
             settingsDataStore.storeCuisine(it.list.filter { it.isSelected }.map { it.name })
             setState {
-                copy(viewEffect = CuisinePreferencesSaved.asConsumable())
+                onCuisineSaved()
             }
         }
     }
@@ -43,29 +51,19 @@ class SettingsViewModel @Inject constructor(
     private fun cuisineSelected(cuisine: Cuisine) {
         withState {
             val list = it.list.map {
-                if (it == cuisine) {
-                    it.copy(isSelected = true)
-                } else {
-                    it
-                }
+                it.copy(isSelected = it == cuisine)
             }
             setState {
-                copy(list = list, enableSaveOptions = enableSaveOptions(list))
+                onCuisineSelected(list)
             }
         }
     }
 
     private fun cuisineDeSelected(cuisine: Cuisine) {
         withState {
-            val list = it.list.map {
-                if (it == cuisine) {
-                    it.copy(isSelected = false)
-                } else {
-                    it
-                }
-            }
+            val list = it.list.map { it.copy(isSelected = it != cuisine) }
             setState {
-                copy(list = list, enableSaveOptions = enableSaveOptions(list))
+                onCuisineSelected(list = list)
             }
         }
     }
@@ -81,14 +79,9 @@ class SettingsViewModel @Inject constructor(
             pairOf(isDarkModeOn, list)
         }.collectIn(viewModelScope) {
             setState {
-                copy(
-                    isDarkModeOn = it.first,
-                    list = it.second,
-                    enableSaveOptions = enableSaveOptions(list)
-                )
+                initialize(it.first, it.second)
             }
         }
     }
 
-    private fun enableSaveOptions(list: List<Cuisine>) = list.count { it.isSelected } == 5
 }

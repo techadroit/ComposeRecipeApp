@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SaveRecipeViewModel @Inject constructor(
-    val initialState: SaveRecipeState,
+    initialState: SaveRecipeState,
     val loadSavedRecipeUseCase: LoadSavedRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe
 ) : ArcherViewModel<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
@@ -32,7 +32,7 @@ class SaveRecipeViewModel @Inject constructor(
             result2
         }.collectIn(viewModelScope) {
             setState {
-                this.onSuccess(SavedData(it))
+                onSuccess(SavedData(it))
             }
         }
     }
@@ -40,11 +40,11 @@ class SaveRecipeViewModel @Inject constructor(
     private fun loadRecipes() {
         withState {
             setState {
-                this.onLoading()
+                onLoading()
             }
             loadSavedRecipeUseCase(params = None).collectIn(viewModelScope) {
                 setState {
-                    this.onSuccess(SavedData(it))
+                    onSuccess(SavedData(it))
                 }
             }
         }
