@@ -5,4 +5,4 @@ package com.state_manager.state
  * EmptyState can be used when the ViewModel dosn't want to use
  * Event state Structure
  */
-class EmptyState : ArcherState
+class EmptyState : AppState

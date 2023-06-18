@@ -3,7 +3,7 @@ package com.state_manager.store
 import com.state_manager.events.AppEvent
 import com.state_manager.events.EventHolder
 import com.state_manager.reducer.StateProcessor
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
 
 /**
@@ -12,7 +12,7 @@ import com.state_manager.state.StateHolder
  * @param stateHolder The delegate to handle [StateHolder] functions
  * @param stateProcessor The delegate to handle [StateProcessor] functions
  */
-abstract class StateStore<S : ArcherState, E : AppEvent>(
+abstract class StateStore<S : AppState, E : AppEvent>(
     protected open val stateHolder: StateHolder<S>,
     protected open val stateProcessor: StateProcessor<S, E>,
     protected open val eventHolder: EventHolder<E>

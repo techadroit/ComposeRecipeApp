@@ -10,17 +10,15 @@ import com.state_manager.logger.logv
 import com.state_manager.reducer.action
 import com.state_manager.reducer.reducer
 import com.state_manager.scopes.StateManagerCoroutineScope
-import com.state_manager.scopes.StateManagerCoroutineScopeImpl
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.state_manager.store.StateStoreFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
-import kotlin.coroutines.CoroutineContext
 
-abstract class Manager<S : ArcherState, E : AppEvent>(
+abstract class Manager<S : AppState, E : AppEvent>(
     initialState: S,
     val coroutineScope: StateManagerCoroutineScope
 ) : ViewModel() {
@@ -37,7 +35,7 @@ abstract class Manager<S : ArcherState, E : AppEvent>(
     )
 
     /**
-     * A [kotlinx.coroutines.flow.Flow] of [ArcherState] which can be observed by external classes to respond to changes in state.
+     * A [kotlinx.coroutines.flow.Flow] of [AppState] which can be observed by external classes to respond to changes in state.
      */
     val state: Flow<S> = stateStore
         .stateObservable

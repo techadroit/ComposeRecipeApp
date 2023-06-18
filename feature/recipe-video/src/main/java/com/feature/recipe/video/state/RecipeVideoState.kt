@@ -1,6 +1,6 @@
 package com.feature.recipe.video.state
 
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.domain.common.pojo.VideoRecipeModel
 
 data class RecipeVideoState(
@@ -8,7 +8,7 @@ data class RecipeVideoState(
     val query:String? = null,
     val isLoading: Boolean = true,
     val isPaginate: Boolean = false
-) : ArcherState
+) : AppState
 
 fun RecipeVideoState.onSuccess(recipeModel: List<VideoRecipeModel>, isPaginate: Boolean = false) =
     this.copy(data = this.data + recipeModel, isPaginate = isPaginate, isLoading = false)

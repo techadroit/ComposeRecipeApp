@@ -5,19 +5,18 @@ import com.state_manager.events.EventHolder
 import com.state_manager.events.EventHolderImpl
 import com.state_manager.reducer.StateProcessor
 import com.state_manager.reducer.StateProcessorFactory
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
 import com.state_manager.state.StateHolderFactory
 import com.state_manager.logger.Logger
 import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.CoroutineContext
 
 /**
  * A factory to create instances of [StateStore]
  */
 internal object StateStoreFactory {
 
-    fun <S : ArcherState, E : AppEvent> create(
+    fun <S : AppState, E : AppEvent> create(
         initialState: S,
         logger: Logger,
         coroutineScope: CoroutineScope,
@@ -29,7 +28,7 @@ internal object StateStoreFactory {
         return create(stateHolder, stateProcessor, logger, eventHolder)
     }
 
-    fun <S : ArcherState, E : AppEvent> create(
+    fun <S : AppState, E : AppEvent> create(
         stateHolder: StateHolder<S>,
         stateProcessor: StateProcessor<S, E>,
         logger: Logger,

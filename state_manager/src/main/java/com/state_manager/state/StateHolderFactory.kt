@@ -12,7 +12,7 @@ internal object StateHolderFactory {
      *
      * @return A class that implements the state holder interface
      */
-    fun <S : ArcherState> create(initialState: S, logger: Logger): StateHolder<S> {
+    fun <S : AppState> create(initialState: S, logger: Logger): StateHolder<S> {
         return StateHolderImpl(initialState, logger)
     }
 }

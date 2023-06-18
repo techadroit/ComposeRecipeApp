@@ -2,7 +2,7 @@ package com.state_manager.state
 
 import kotlinx.coroutines.flow.StateFlow
 
-interface StateHolder<S : ArcherState> {
+interface StateHolder<S : AppState> {
 
     /**
      * A [StateFlow] to expose the state as an observable entity.

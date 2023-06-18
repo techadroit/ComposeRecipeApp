@@ -1,6 +1,6 @@
 package com.feature.recipe.detail.state
 
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.RecipeDetailModel
 import com.domain.common.pojo.RecipeModel
@@ -10,7 +10,7 @@ data class RecipeDetailState(
     val recipeDetail: RecipeDetailModel? = null,
     val similarRecipe: List<RecipeModel>? = null,
     val failure: Failure? = null
-) : ArcherState
+) : AppState
 
 fun RecipeDetailState.onSuccessResponse(
     recipeDetail: RecipeDetailModel,

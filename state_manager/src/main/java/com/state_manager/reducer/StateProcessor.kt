@@ -1,17 +1,17 @@
 package com.state_manager.reducer
 
 import com.state_manager.events.AppEvent
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 
 /**
  * An entity that manages any action on state.
  *
- * @param S The state type implementing [ArcherState]
+ * @param S The state type implementing [AppState]
  *
  * A [reducer] is be processed before any existing [action] in the queue
  * A [action] is given the latest state value as it's parameter
  */
-interface StateProcessor<S : ArcherState, E : AppEvent> {
+interface StateProcessor<S : AppState, E : AppEvent> {
 
     /**
      * Offer a [reducer] to this processor. This action will be processed as soon as

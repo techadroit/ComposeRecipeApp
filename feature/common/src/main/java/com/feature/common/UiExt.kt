@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.state_manager.managers.StateEventManager
 import com.state_manager.events.AppEvent
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import java.util.*
 
 fun Modifier.fullScreen() = this
@@ -36,5 +36,5 @@ fun toViews(value: Long): String {
 }
 
 @Composable
-fun <S : ArcherState, E : AppEvent> StateEventManager<S, E>.observeState() =
+fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeState() =
     this.stateEmitter.collectAsState().value

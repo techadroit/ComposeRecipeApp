@@ -1,7 +1,7 @@
 package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.state_manager.state.StateHolderFactory
 import com.state_manager.logger.SystemOutLogger
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -75,4 +75,4 @@ class StateHolderTest : BaseUnitTest() {
     }
 }
 
-internal data class CountingState(val count: Int = 0) : ArcherState
+internal data class CountingState(val count: Int = 0) : AppState

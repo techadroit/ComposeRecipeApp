@@ -1,6 +1,6 @@
 package com.feature.home.state
 
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
 import com.core.platform.functional.asConsumable
@@ -10,7 +10,7 @@ data class HomeRecipeState(
     val list: List<RecipeWithCuisine> = emptyList(),
     val viewEffect: Consumable<ViewEffect>? = null,
     val isLoadingPage: Boolean = true
-) : ArcherState
+) : AppState
 
 fun HomeRecipeState.initialState() = HomeRecipeState()
 fun HomeRecipeState.onLoad(list: List<RecipeWithCuisine>) = copy(list = list)

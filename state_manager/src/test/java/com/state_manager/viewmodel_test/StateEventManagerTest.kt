@@ -1,19 +1,13 @@
 package com.state_manager.viewmodel_test
 
-import com.state_manager.managers.StateEventManager
 import com.state_manager.BaseUnitTest
 import com.state_manager.TestStateManagerScope
-import com.state_manager.events.AppEvent
-import com.state_manager.state.ArcherState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.coroutines.CoroutineContext
 
 internal class StateEventManagerTest : BaseUnitTest() {
     lateinit var viewModel: TestViewModel

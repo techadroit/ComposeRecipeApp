@@ -2,11 +2,10 @@ package com.state_manager.reducer
 
 import com.state_manager.events.AppEvent
 import com.state_manager.events.EventHolder
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
 import com.state_manager.logger.Logger
 import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.CoroutineContext
 
 /**
  * A Factory which produces instances of [StateProcessor]
@@ -22,7 +21,7 @@ internal object StateProcessorFactory {
      *
      * @return A class implementing StateProcessor
      */
-    fun <S : ArcherState, E : AppEvent> create(
+    fun <S : AppState, E : AppEvent> create(
         stateHolder: StateHolder<S>,
         eventHolder: EventHolder<E>,
         logger: Logger,

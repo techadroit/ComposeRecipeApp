@@ -2,9 +2,8 @@ package com.state_manager.reducer
 
 import com.state_manager.events.AppEvent
 import com.state_manager.events.EventHolder
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
-import com.state_manager.extensions.collectIn
 import com.state_manager.logger.Logger
 import com.state_manager.logger.enableLogging
 import com.state_manager.logger.logd
@@ -30,7 +29,7 @@ import kotlin.coroutines.CoroutineContext
  * @param logger a [Logger] to log miscellaneous information
  * @param coroutineContext The [CoroutineContext] under which this processor will execute jobs sent to it
  */
-internal class SelectBasedStateProcessor<S : ArcherState, E : AppEvent>(
+internal class SelectBasedStateProcessor<S : AppState, E : AppEvent>(
     shouldStartImmediately: Boolean = false,
     private val stateHolder: StateHolder<S>,
     private val eventHolder: EventHolder<E>,

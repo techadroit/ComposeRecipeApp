@@ -1,6 +1,6 @@
 package com.feature.recipe.list.state
 
-import com.state_manager.state.ArcherState
+import com.state_manager.state.AppState
 import com.core.platform.exception.Failure
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
@@ -23,7 +23,7 @@ data class RecipeListState(
     val error: Failure? = null,
     val endOfItems: Boolean = false,
     val selectedQuery: String? = null
-) : ArcherState
+) : AppState
 
 fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
     val list = this.recipes.allRecipes.map {

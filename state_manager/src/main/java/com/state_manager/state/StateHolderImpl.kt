@@ -5,7 +5,7 @@ import com.state_manager.logger.logv
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class StateHolderImpl<S : ArcherState>(
+internal class StateHolderImpl<S : AppState>(
     initialState: S,
     private val logger: Logger
 ) : StateHolder<S> {
