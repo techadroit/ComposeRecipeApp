@@ -5,8 +5,9 @@ import com.core.platform.exception.Failure
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
 import com.domain.common.pojo.RecipeModel
+import com.state_manager.side_effects.SideEffect
 
-object OnSavedRecipe : ViewEffect()
+object OnSavedRecipe : SideEffect
 
 data class RecipeData(var allRecipes: List<RecipeModel>) {
     operator fun plus(recipeList: List<RecipeModel>): RecipeData {
@@ -30,8 +31,7 @@ fun RecipeListState.onRecipeSaved(id: Int): RecipeListState {
         it.copy(isSaved = it.id == id)
     }
     return this.copy(
-        recipes = RecipeData(list),
-        viewEffect = Consumable(OnSavedRecipe)
+        recipes = RecipeData(list)
     )
 }
 

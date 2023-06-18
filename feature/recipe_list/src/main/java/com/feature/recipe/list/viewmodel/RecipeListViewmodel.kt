@@ -26,6 +26,7 @@ open class RecipeListViewmodel @Inject constructor(
         savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
             .collectIn(coroutineScope) {
                 setState {
+                    postSideEffect(OnSavedRecipe)
                     onRecipeSaved(recipeModel.id)
                 }
             }

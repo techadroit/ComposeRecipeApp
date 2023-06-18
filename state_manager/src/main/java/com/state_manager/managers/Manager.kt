@@ -3,6 +3,8 @@ package com.state_manager.managers
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import com.state_manager.events.AppEvent
+import com.state_manager.handler.SideEffectHandler
+import com.state_manager.handler.SideEffectHandlerDelegation
 import com.state_manager.logger.Logger
 import com.state_manager.logger.androidLogger
 import com.state_manager.logger.logd
@@ -10,21 +12,21 @@ import com.state_manager.logger.logv
 import com.state_manager.reducer.action
 import com.state_manager.reducer.reducer
 import com.state_manager.scopes.StateManagerCoroutineScope
+import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import com.state_manager.store.StateStoreFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 
 abstract class Manager<S : AppState, E : AppEvent>(
     initialState: S,
-    val coroutineScope: StateManagerCoroutineScope
-) : ViewModel() {
-    protected val logger: Logger by lazy { androidLogger(tag = this::class.java.simpleName) }
-    private val eventFlow = emptyFlow<E>()
-
+    val coroutineScope: StateManagerCoroutineScope,
+    val logger: Logger = androidLogger(tag = Manager::class.java.simpleName)
+) : ViewModel(),
+    SideEffectHandler<SideEffect> by SideEffectHandlerDelegation(logger = logger) {
+        
     /**
      * The state store associated with this ViewModel
      */
@@ -65,9 +67,6 @@ abstract class Manager<S : AppState, E : AppEvent>(
 
     abstract fun onEvent(event: E, state: S)
 
-    /**
-     *
-     */
     fun dispatch(event: E) {
         withState {
             stateStore.offerGetEvent(event)

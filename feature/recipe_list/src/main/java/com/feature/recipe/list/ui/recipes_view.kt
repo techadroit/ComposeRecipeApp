@@ -17,6 +17,7 @@ import com.core.themes.dimension
 import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
+import com.feature.common.observeSideEffect
 import com.feature.common.observeState
 import com.feature.common.ui.common_views.*
 import com.feature.recipe.list.R
@@ -32,6 +33,7 @@ import com.feature.recipe.list.state.showPagination
 import com.feature.recipe.list.viewmodel.RecipeListViewmodel
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
+import com.state_manager.side_effects.SideEffect
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -40,38 +42,34 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @Composable
 fun RecipeListScreen(
-    cuisineKey: String,
-    recipesViewModel: RecipeListViewmodel = hiltViewModel()
+    cuisineKey: String, recipesViewModel: RecipeListViewmodel = hiltViewModel()
 ) {
     val topLevelNavigator = ParentNavHostController.current
     val cuisine = remember { cuisineKey }
     val recipeState = recipesViewModel.observeState()
-    val snackBarState = remember{
+    val snackBarState = remember {
         SnackbarHostState()
     }
 
     LaunchedEffect(cuisine) {
         recipesViewModel.dispatch(LoadRecipes(cuisine))
     }
-    Scaffold(
-        content = {
-            RefreshView(content = {
-                RecipeScreenContent(
-                    cuisine = cuisine,
-                    recipeState = recipeState,
-                    recipesViewModel = recipesViewModel,
-                    navigator = topLevelNavigator
-                )
-            }) {
-                recipesViewModel.dispatch(RefreshRecipeList)
-            }
-        },
-        snackbarHost = { SnackbarHost(snackBarState) }
-    )
-    recipeState.viewEffect?.consume()
-        ?.let { it ->
-            RecipeViewEffect(viewEffect = it, snackBarState =snackBarState )
+    Scaffold(content = {
+        RefreshView(content = {
+            RecipeScreenContent(
+                cuisine = cuisine,
+                recipeState = recipeState,
+                recipesViewModel = recipesViewModel,
+                navigator = topLevelNavigator
+            )
+        }) {
+            recipesViewModel.dispatch(RefreshRecipeList)
         }
+    }, snackbarHost = { SnackbarHost(snackBarState) })
+
+    recipesViewModel.observeSideEffect {
+        RecipeViewEffect(viewEffect = it, snackBarState = snackBarState)
+    }
 }
 
 
@@ -82,10 +80,8 @@ fun RecipeScreenContent(
     recipesViewModel: RecipeListViewmodel,
     navigator: AppNavigator
 ) {
-    if (recipeState.showLoading())
-        LoadingView()
-    RecipeList(
-        recipeList = recipeState.recipes.allRecipes,
+    if (recipeState.showLoading()) LoadingView()
+    RecipeList(recipeList = recipeState.recipes.allRecipes,
         dispatch = {
             recipesViewModel.dispatch(it)
         },
@@ -109,14 +105,12 @@ fun RecipeList(
 ) {
     val scrollState = rememberLazyListState()
     Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            state = scrollState,
+        LazyColumn(state = scrollState,
             contentPadding = PaddingValues(bottom = MaterialTheme.dimension().contentPadding),
             content = {
                 itemsIndexed(recipeList) { index, recipe ->
                     key(index) {
-                        RecipeListItem(
-                            title = recipe.title,
+                        RecipeListItem(title = recipe.title,
                             imageUrl = recipe.imageUrl,
                             cookingTime = recipe.cookingTime,
                             servings = recipe.servings,
@@ -130,19 +124,16 @@ fun RecipeList(
                             },
                             onRemoveClick = {
                                 dispatch(RemoveSavedRecipeEvent(recipe))
-                            }
-                        )
+                            })
                     }
                     val totalItem = scrollState.layoutInfo.totalItemsCount
                     if (index == (totalItem - 1)) {
                         LaunchedEffect(true) {
-                            if (!endOfList)
-                                dispatch(
-                                    LoadRecipes(
-                                        isPaginate = true,
-                                        query = keyword
-                                    )
+                            if (!endOfList) dispatch(
+                                LoadRecipes(
+                                    isPaginate = true, query = keyword
                                 )
+                            )
                         }
                     }
                 }
@@ -156,14 +147,13 @@ fun RecipeList(
                         Text(stringResource(id = R.string.no_result))
                     }
                 }
-            }
-        )
+            })
     }
 }
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun RecipeViewEffect(viewEffect: ViewEffect, snackBarState: SnackbarHostState) {
+fun RecipeViewEffect(viewEffect: SideEffect, snackBarState: SnackbarHostState) {
 
     val scope = rememberCoroutineScope()
     when (viewEffect) {
