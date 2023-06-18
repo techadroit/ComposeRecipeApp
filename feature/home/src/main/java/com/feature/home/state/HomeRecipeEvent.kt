@@ -1,8 +1,8 @@
 package com.feature.home.state
 
-import com.archerviewmodel.events.ArcherEvent
+import com.state_manager.events.AppEvent
 
-sealed class HomeRecipeEvent : ArcherEvent
+sealed class HomeRecipeEvent : AppEvent
 
 object LoadRecipeEvent : HomeRecipeEvent()
 object RefreshHomeEvent : HomeRecipeEvent()

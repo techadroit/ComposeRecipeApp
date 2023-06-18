@@ -1,6 +1,6 @@
 package com.feature.recipe.detail.state
 
-import com.archerviewmodel.state.ArcherState
+import com.state_manager.state.ArcherState
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.RecipeDetailModel
 import com.domain.common.pojo.RecipeModel

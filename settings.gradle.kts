@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 rootProject.name = "ComposeRecipeApp"
 include(":app")
 include(":feature")
-include(":archerviewmodel")
+include(":state_manager")
 include(":core:network")
 include(":core:platform")
 include(":data:repository")

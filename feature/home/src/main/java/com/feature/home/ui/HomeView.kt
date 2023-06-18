@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.archerviewmodel.ArcherViewModel
+import com.state_manager.managers.StateEventManager
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
 import com.feature.common.ui.buttons.RecipeOutlineButton
@@ -105,7 +105,7 @@ fun HomeView(state: HomeRecipeState, viewModel: HomeRecipeViewModel, refresh: On
 @Composable
 fun HomeViewContent(
     list: List<RecipeWithCuisine>,
-    viewModel: ArcherViewModel<HomeRecipeState, HomeRecipeEvent>
+    viewModel: StateEventManager<HomeRecipeState, HomeRecipeEvent>
 ) {
     LazyColumn(
         content = {
@@ -124,7 +124,7 @@ fun HomeViewContent(
 @Composable
 fun RecipeListWithCuisine(
     recipe: RecipeWithCuisine,
-    viewModel: ArcherViewModel<HomeRecipeState, HomeRecipeEvent>
+    viewModel: StateEventManager<HomeRecipeState, HomeRecipeEvent>
 ) {
     val scrollState = rememberLazyListState()
     LazyRow(

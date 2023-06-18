@@ -1,6 +1,6 @@
 package com.feature.saved.recipes.state
 
-import com.archerviewmodel.state.ArcherState
+import com.state_manager.state.ArcherState
 import com.feature.saved.recipes.model.SavedData
 
 data class SaveRecipeState(

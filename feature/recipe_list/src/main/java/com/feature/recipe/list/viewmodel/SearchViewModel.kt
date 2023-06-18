@@ -1,8 +1,8 @@
 package com.feature.recipe.list.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
+import com.state_manager.managers.StateEventManager
 import com.domain.recipe.search.AutoCompleteUsecase
-import com.example.composerecipeapp.core.functional.collectIn
+import com.state_manager.extensions.collectIn
 import com.feature.recipe.list.state.SearchEvent
 import com.feature.recipe.list.state.SearchState
 import com.feature.recipe.list.state.SearchTextEvent
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     initialState: SearchState,
     val useCase: AutoCompleteUsecase
-) : ArcherViewModel<SearchState, SearchEvent>(initialState) {
+) : StateEventManager<SearchState, SearchEvent>(initialState) {
 
     override fun onEvent(event: SearchEvent, state: SearchState) {
         when (event) {
@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(
     private fun searchForKeyword(keyword: String) {
         useCase(keyword)
             .catch { }
-            .collectIn(viewModelScope) {
+            .collectIn(coroutineScope) {
                 setState {
                     copy(list = it)
                 }

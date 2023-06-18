@@ -1,7 +1,7 @@
 package com.example.composerecipeapp.viewmodel.main
 
-import com.archerviewmodel.events.ArcherEvent
+import com.state_manager.events.AppEvent
 
-sealed class MainViewEvent : ArcherEvent
+sealed class MainViewEvent : AppEvent
 
 object LoadSettings : MainViewEvent()

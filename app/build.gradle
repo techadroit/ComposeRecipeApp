@@ -25,7 +25,7 @@ kapt {
 }
 
 dependencies {
-    implementation project(':archerviewmodel')
+    implementation project(':state_manager')
     implementation project(':core:network')
     implementation project(':core:platform')
     implementation project(':core:navigation')

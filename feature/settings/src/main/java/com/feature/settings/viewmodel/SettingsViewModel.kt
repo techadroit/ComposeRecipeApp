@@ -1,12 +1,12 @@
 package com.feature.settings.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
+import com.state_manager.managers.StateEventManager
 import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
 import com.domain.common.pojo.Cuisine
 import com.domain.favourite.GetSavedRecipeCuisine
-import com.example.composerecipeapp.core.functional.collectIn
-import com.example.composerecipeapp.core.functional.pairOf
+import com.state_manager.extensions.collectIn
+import com.state_manager.extensions.pairOf
 import com.feature.settings.state.ChangeDarkModeSettings
 import com.feature.settings.state.CuisineDeSelected
 import com.feature.settings.state.CuisineSelected
@@ -27,7 +27,7 @@ class SettingsViewModel @Inject constructor(
     initialState: SettingsState,
     var settingsDataStore: SettingsDataStore,
     var getSavedRecipeCuisine: GetSavedRecipeCuisine
-) : ArcherViewModel<SettingsState, SettingsEvent>(initialState) {
+) : StateEventManager<SettingsState, SettingsEvent>(initialState) {
 
     override fun onEvent(event: SettingsEvent, state: SettingsState) {
         when (event) {
@@ -36,6 +36,9 @@ class SettingsViewModel @Inject constructor(
             is CuisineDeSelected -> cuisineDeSelected(event.cuisine)
             is CuisineSelected -> cuisineSelected(event.cuisine)
             is SaveCuisine -> saveCuisine()
+            else -> {
+                logger.log("Unhandled event")
+            }
         }
     }
 
@@ -79,7 +82,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun changeDataStoreSetting(isDarkMode: Boolean) {
-        viewModelScope.launch {
+        coroutineScope.run {
             settingsDataStore.addDarkModeOn(isDarkMode)
         }
     }
@@ -87,7 +90,7 @@ class SettingsViewModel @Inject constructor(
     private fun initialize() {
         settingsDataStore.isDarkModeOn().zip(getSavedRecipeCuisine(None)) { isDarkModeOn, list ->
             pairOf(isDarkModeOn, list)
-        }.collectIn(viewModelScope) {
+        }.collectIn(coroutineScope) {
             setState {
                 initialize(it.first, it.second)
             }

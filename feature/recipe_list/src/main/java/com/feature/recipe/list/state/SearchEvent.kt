@@ -1,6 +1,6 @@
 package com.feature.recipe.list.state
 
-import com.archerviewmodel.events.ArcherEvent
+import com.state_manager.events.AppEvent
 
-sealed class SearchEvent : ArcherEvent
+sealed class SearchEvent : AppEvent
 data class SearchTextEvent(val searchText: String) : SearchEvent()

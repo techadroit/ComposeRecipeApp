@@ -1,10 +1,10 @@
 package com.feature.recipe.video.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
+import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
-import com.example.composerecipeapp.core.functional.collectIn
+import com.state_manager.extensions.collectIn
 import com.feature.recipe.video.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -15,7 +15,7 @@ class VideoListViewmodel @Inject constructor(
     initialState: RecipeVideoState,
     val usecase: SearchVideoRecipeUsecase
 ) :
-    ArcherViewModel<RecipeVideoState, VideoEvents>(initialState) {
+    StateEventManager<RecipeVideoState, VideoEvents>(initialState) {
     var page = 0
 
     private fun searchVideo(query: String, isPaginate: Boolean = false) {
@@ -25,7 +25,7 @@ class VideoListViewmodel @Inject constructor(
         }
         usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page)).catch {
             handleResponseFailure(this as Failure)
-        }.collectIn(viewModelScope) {
+        }.collectIn(coroutineScope) {
             handleVideoResponse(it, isPaginate = isPaginate)
         }.also {
             page++

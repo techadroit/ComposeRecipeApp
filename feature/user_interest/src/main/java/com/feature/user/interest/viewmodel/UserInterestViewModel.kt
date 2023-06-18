@@ -1,15 +1,13 @@
 package com.feature.user.interest.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
-import com.core.platform.functional.asConsumable
+import com.state_manager.managers.StateEventManager
 import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
 import com.domain.common.pojo.Cuisine
 import com.domain.recipe.cuisines.GetSupportedCuisineUsecase
-import com.example.composerecipeapp.core.functional.collectIn
+import com.state_manager.extensions.collectIn
 import com.feature.user.interest.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +15,7 @@ class UserInterestViewModel @Inject constructor(
     val cuisineUsecase: GetSupportedCuisineUsecase,
     val initialState: UserInterestState,
     val settingsDataStore: SettingsDataStore
-) : ArcherViewModel<UserInterestState, UserInterestEvent>(initialState = initialState) {
+) : StateEventManager<UserInterestState, UserInterestEvent>(initialState = initialState) {
     override fun onEvent(event: UserInterestEvent, state: UserInterestState) {
         when (event) {
             is LoadSupportedCuisine -> loadCuisines()
@@ -28,7 +26,7 @@ class UserInterestViewModel @Inject constructor(
     }
 
     private fun onUserInterestSelected(state: UserInterestState) {
-        viewModelScope.launch {
+        coroutineScope.run {
             settingsDataStore.storeCuisine(state.cuisines.filter { it.isSelected }.map { it.name })
             setState {
                 onUserInterestSelected()
@@ -49,7 +47,7 @@ class UserInterestViewModel @Inject constructor(
     }
 
     private fun loadCuisines() {
-        cuisineUsecase(params = None).collectIn(viewModelScope) {
+        cuisineUsecase(params = None).collectIn(coroutineScope) {
             setState {
                 copy(cuisines = it.map { Cuisine(name = it) })
             }

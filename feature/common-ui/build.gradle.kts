@@ -8,7 +8,7 @@ android {
 
 dependencies {
 
-    implementation(project(":archerviewmodel"))
+    implementation(project(":state_manager"))
     implementation(project(":core:navigation"))
     implementation(project(":core:platform"))
     implementation(project(":design_system:themes"))

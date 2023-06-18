@@ -1,6 +1,6 @@
 package com.feature.home.state
 
-import com.archerviewmodel.state.ArcherState
+import com.state_manager.state.ArcherState
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
 import com.core.platform.functional.asConsumable

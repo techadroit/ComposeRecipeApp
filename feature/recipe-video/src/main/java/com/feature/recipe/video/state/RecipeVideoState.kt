@@ -1,6 +1,6 @@
 package com.feature.recipe.video.state
 
-import com.archerviewmodel.state.ArcherState
+import com.state_manager.state.ArcherState
 import com.domain.common.pojo.VideoRecipeModel
 
 data class RecipeVideoState(

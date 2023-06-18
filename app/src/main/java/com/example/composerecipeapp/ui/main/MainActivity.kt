@@ -17,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.core.navigtion.AppNavigator
 import com.core.navigtion.navigator.AppNavHost
 import com.core.themes.ComposeRecipeAppTheme
-import com.example.composerecipeapp.core.logger.enableLogging
+import com.state_manager.logger.enableLogging
 import com.example.composerecipeapp.ui.main_view.MainScreen
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
