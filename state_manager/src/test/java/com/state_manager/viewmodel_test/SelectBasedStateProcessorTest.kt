@@ -1,6 +1,7 @@
 package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
+import com.state_manager.TestStateManagerScope
 import com.state_manager.events.EventHolder
 import com.state_manager.events.EventHolderImpl
 import com.state_manager.reducer.SelectBasedStateProcessor
@@ -27,7 +28,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             stateHolder = holder,
             eventHolder = eventHolder,
             logger = systemOutLogger(),
-            coroutineContext = Dispatchers.Unconfined + Job()
+            processorScope = TestStateManagerScope().getScope()
         )
     }
 

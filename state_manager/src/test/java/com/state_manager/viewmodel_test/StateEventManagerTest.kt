@@ -2,10 +2,12 @@ package com.state_manager.viewmodel_test
 
 import com.state_manager.managers.StateEventManager
 import com.state_manager.BaseUnitTest
+import com.state_manager.TestStateManagerScope
 import com.state_manager.events.AppEvent
 import com.state_manager.state.ArcherState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
@@ -14,14 +16,14 @@ import org.junit.Test
 import kotlin.coroutines.CoroutineContext
 
 internal class StateEventManagerTest : BaseUnitTest() {
-    private val job = Job()
     lateinit var viewModel: TestViewModel
     private val initialState = TestState()
+    private val testStateManagerScope = TestStateManagerScope()
 
     @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
-        viewModel = TestViewModel(initialState = initialState, testScope.coroutineContext + job)
+        viewModel = TestViewModel(initialState = initialState, testStateManagerScope)
     }
 
     @ExperimentalCoroutinesApi
@@ -60,31 +62,8 @@ internal class StateEventManagerTest : BaseUnitTest() {
     @Test
     fun clearTest() {
         viewModel.clear()
-        assert(job.isCancelled)
+        assert(testStateManagerScope.isCleared())
     }
 }
 
-class TestViewModel(val initialState: TestState, coroutineContext: CoroutineContext) :
-    StateEventManager<TestState, TestEvent>(
-        initialState = initialState,
-        stateStoreContext = coroutineContext
-    ) {
 
-    override fun onEvent(event: TestEvent, state: TestState) {
-        when (event) {
-            is IncrementCountEvent -> setState { this.copy(counter = this.counter + event.counter) }
-            is DecrementCountEvent -> setState { this.copy(counter = this.counter - event.counter) }
-        }
-    }
-
-    fun clear() {
-        onCleared()
-    }
-}
-
-interface TestEvent : AppEvent
-
-data class IncrementCountEvent(val counter: Int) : TestEvent
-data class DecrementCountEvent(val counter: Int) : TestEvent
-
-data class TestState(val counter: Int = 0) : ArcherState
