@@ -1,9 +1,8 @@
 package com.feature.home.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
-import com.core.platform.functional.asConsumable
+import com.state_manager.managers.StateEventManager
 import com.domain.recipe.cuisines.RecipesForSelectedCuisines
-import com.example.composerecipeapp.core.functional.collectIn
+import com.state_manager.extensions.collectIn
 import com.feature.home.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -13,7 +12,7 @@ import javax.inject.Inject
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
     private val initialState: HomeRecipeState
-) : ArcherViewModel<HomeRecipeState, HomeRecipeEvent>(initialState) {
+) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialState) {
 
     init {
         dispatch(LoadRecipeEvent)
@@ -56,7 +55,7 @@ class HomeRecipeViewModel @Inject constructor(
                     onLoadingError()
                 }
             }
-            .collectIn(viewModelScope) {
+            .collectIn(coroutineScope) {
             setState {
                 add(it)
                     .showLoading(false)

@@ -1,0 +1,3 @@
+package com.state_manager.side_effects
+
+interface SideEffect

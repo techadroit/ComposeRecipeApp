@@ -1,12 +1,12 @@
 package com.feature.recipe.list.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
+import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.RecipeModel
 import com.domain.favourite.DeleteSavedRecipe
 import com.domain.favourite.SaveRecipeUsecase
 import com.domain.recipe.search.SearchRecipeUsecase
-import com.example.composerecipeapp.core.functional.collectIn
+import com.state_manager.extensions.collectIn
 import com.feature.recipe.list.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -19,19 +19,20 @@ open class RecipeListViewmodel @Inject constructor(
     val searchUseCase: SearchRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe
 ) :
-    ArcherViewModel<RecipeListState, RecipeEvent>(initialState) {
+    StateEventManager<RecipeListState, RecipeEvent>(initialState) {
 
     var page = 1
     private fun saveRecipe(recipeModel: RecipeModel) =
         savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
-            .collectIn(viewModelScope) {
+            .collectIn(coroutineScope) {
                 setState {
+                    postSideEffect(OnSavedRecipe)
                     onRecipeSaved(recipeModel.id)
                 }
             }
 
     private fun deleteRecipe(recipeModel: RecipeModel) = deleteSavedRecipe(recipeModel.id)
-        .collectIn(viewModelScope) {
+        .collectIn(coroutineScope) {
             setState {
                 onRecipeRemovedFromSavedList(recipeModel.id)
             }
@@ -59,7 +60,7 @@ open class RecipeListViewmodel @Inject constructor(
         val param = SearchRecipeUsecase.Param(cuisine = cuisine, offset = page)
         searchUseCase(param).catch { e ->
             handleFailure(e as Failure, isPaginate = isPaginate)
-        }.collectIn(viewModelScope) {
+        }.collectIn(coroutineScope) {
             handleRecipeSearch(it.first, isPaginate, it.second)
         }
     }

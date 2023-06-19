@@ -1,6 +1,6 @@
 package com.feature.settings.state
 
-import com.archerviewmodel.state.ArcherState
+import com.state_manager.state.AppState
 import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
 import com.core.platform.functional.asConsumable
@@ -11,7 +11,7 @@ data class SettingsState(
     val list: List<Cuisine> = emptyList(),
     val enableSaveOptions: Boolean = false,
     val viewEffect: Consumable<ViewEffect>? = null
-) : ArcherState
+) : AppState
 
 fun SettingsState.onCuisineSelected(list: List<Cuisine>) =
     copy(list = list, enableSaveOptions = enableSaveOptions(list))

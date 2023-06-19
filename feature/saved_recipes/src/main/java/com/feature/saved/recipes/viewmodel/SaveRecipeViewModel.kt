@@ -1,7 +1,7 @@
 package com.feature.saved.recipes.viewmodel
 
-import com.archerviewmodel.ArcherViewModel
-import com.example.composerecipeapp.core.functional.collectIn
+import com.state_manager.managers.StateEventManager
+import com.state_manager.extensions.collectIn
 import com.core.platform.usecase.None
 import com.domain.common.pojo.RecipeModel
 import com.domain.favourite.DeleteSavedRecipe
@@ -17,7 +17,7 @@ class SaveRecipeViewModel @Inject constructor(
     initialState: SaveRecipeState,
     val loadSavedRecipeUseCase: LoadSavedRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe
-) : ArcherViewModel<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
+) : StateEventManager<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
 
     override fun onEvent(event: SaveRecipeEvent, state: SaveRecipeState) {
         when (event) {
@@ -30,7 +30,7 @@ class SaveRecipeViewModel @Inject constructor(
     private fun removeRecipe(recipeModel: RecipeModel) {
         deleteSavedRecipe(params = recipeModel.id).zip(loadSavedRecipeUseCase(params = None)) { _, result2 ->
             result2
-        }.collectIn(viewModelScope) {
+        }.collectIn(coroutineScope) {
             setState {
                 onSuccess(SavedData(it))
             }
@@ -42,7 +42,7 @@ class SaveRecipeViewModel @Inject constructor(
             setState {
                 onLoading()
             }
-            loadSavedRecipeUseCase(params = None).collectIn(viewModelScope) {
+            loadSavedRecipeUseCase(params = None).collectIn(coroutineScope) {
                 setState {
                     onSuccess(SavedData(it))
                 }

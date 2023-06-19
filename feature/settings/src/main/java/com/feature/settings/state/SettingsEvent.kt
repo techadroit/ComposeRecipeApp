@@ -1,9 +1,9 @@
 package com.feature.settings.state
 
-import com.archerviewmodel.events.ArcherEvent
+import com.state_manager.events.AppEvent
 import com.domain.common.pojo.Cuisine
 
-sealed class SettingsEvent : ArcherEvent
+sealed class SettingsEvent : AppEvent
 
 object InitializeSettings : SettingsEvent()
 

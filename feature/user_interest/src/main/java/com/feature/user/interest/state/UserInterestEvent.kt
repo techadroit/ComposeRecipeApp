@@ -1,9 +1,9 @@
 package com.feature.user.interest.state
 
-import com.archerviewmodel.events.ArcherEvent
+import com.state_manager.events.AppEvent
 import com.domain.common.pojo.Cuisine
 
-sealed class UserInterestEvent : ArcherEvent
+sealed class UserInterestEvent : AppEvent
 
 object LoadSupportedCuisine : UserInterestEvent()
 

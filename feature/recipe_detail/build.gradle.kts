@@ -9,7 +9,7 @@ android {
 
 dependencies {
 
-    implementation(project(":archerviewmodel"))
+    implementation(project(":state_manager"))
     implementation(project(":domain:common"))
     implementation(project(":domain:recipe"))
     implementation(project(":domain:favourite"))
