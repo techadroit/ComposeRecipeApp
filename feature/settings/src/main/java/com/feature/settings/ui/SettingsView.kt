@@ -17,11 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.feature.common.Dispatch
 import com.feature.common.observeState
 import com.feature.settings.R
-import com.feature.settings.state.ChangeDarkModeSettings
-import com.feature.settings.state.CuisineDeSelected
-import com.feature.settings.state.CuisineSelected
-import com.feature.settings.state.InitializeSettings
-import com.feature.settings.state.SaveCuisine
+import com.feature.settings.viewmodel.SettingsViewModel
 import com.feature.user.interest.ui.CuisineList
 import kotlinx.coroutines.launch
 
@@ -31,7 +27,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsView() {
     val scope = rememberCoroutineScope()
-    val settingsViewModel: com.feature.settings.viewmodel.SettingsViewModel = hiltViewModel()
+    val settingsViewModel: SettingsViewModel = hiltViewModel()
     val state = settingsViewModel.observeState()
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -45,18 +41,16 @@ fun SettingsView() {
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
                 DarkModeON(state.isDarkModeOn) {
-                    settingsViewModel.dispatch(ChangeDarkModeSettings(it))
+                    settingsViewModel.changeDataStoreSetting(it)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 CuisineList(cuisines = state.list, selectionCount = 5) { it, cuisine ->
-                    settingsViewModel.dispatch(
-                        if (it) CuisineSelected(cuisine) else CuisineDeSelected(cuisine)
-                    )
+                    if(it) settingsViewModel.cuisineSelected(cuisine) else settingsViewModel.cuisineDeSelected(cuisine)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 if (state.enableSaveOptions)
                     SaveButton(modifier = Modifier.align(Alignment.End)) {
-                        settingsViewModel.dispatch(SaveCuisine)
+                        settingsViewModel.saveCuisine()
                     }
             }
         }
@@ -69,7 +63,7 @@ fun SettingsView() {
     }
 
     LaunchedEffect(true) {
-        settingsViewModel.dispatch(InitializeSettings)
+        settingsViewModel.initialize()
     }
 }
 

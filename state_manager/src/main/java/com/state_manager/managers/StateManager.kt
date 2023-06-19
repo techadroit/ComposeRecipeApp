@@ -13,7 +13,12 @@ import kotlinx.coroutines.SupervisorJob
 open class StateManager<T : AppState>(initialState: T,
                                       coroutineScope: StateManagerCoroutineScope
                                          = StateManagerCoroutineScopeImpl(Dispatchers.Default + SupervisorJob())
-) : StateEventManager<T, EmptyEvent>(initialState = initialState) {
-    override fun onEvent(event: EmptyEvent, state: T) {
+) : Manager<T, EmptyEvent>(initialState = initialState,coroutineScope) {
+
+    /**
+     * Make onEvent final to avoid override of this method in base class.
+     * Use [StateEventManager] to override this method and follow event driven structure
+     */
+    final override fun onEvent(event: EmptyEvent, state: T) {
     }
 }
