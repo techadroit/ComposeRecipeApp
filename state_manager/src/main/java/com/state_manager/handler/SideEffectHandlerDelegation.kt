@@ -1,5 +1,6 @@
 package com.state_manager.handler
 
+import com.state_manager.extensions.Consumable
 import com.state_manager.logger.Logger
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.side_effects.SideEffectHolderFactory
@@ -10,5 +11,5 @@ class SideEffectHandlerDelegation<S : SideEffect>(logger: Logger) : SideEffectHa
     private val sideEffectHolder = SideEffectHolderFactory.create<S>(logger)
     override fun postSideEffect(sideEffect: S) = sideEffectHolder.post(sideEffect)
 
-    override fun onSideEffect(): StateFlow<S?>  = sideEffectHolder.stateObservable
+    override fun onSideEffect(): StateFlow<Consumable<S?>?>  = sideEffectHolder.stateObservable
 }

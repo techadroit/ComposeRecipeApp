@@ -1,10 +1,10 @@
 package com.feature.settings.state
 
 import com.state_manager.state.AppState
-import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
-import com.core.platform.functional.asConsumable
 import com.domain.common.pojo.Cuisine
+import com.state_manager.extensions.Consumable
+import com.state_manager.extensions.asConsumable
 
 data class SettingsState(
     val isDarkModeOn: Boolean = false,

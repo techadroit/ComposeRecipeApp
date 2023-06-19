@@ -2,9 +2,9 @@ package com.feature.recipe.list.state
 
 import com.state_manager.state.AppState
 import com.core.platform.exception.Failure
-import com.core.platform.functional.Consumable
 import com.core.platform.functional.ViewEffect
 import com.domain.common.pojo.RecipeModel
+import com.state_manager.extensions.Consumable
 import com.state_manager.side_effects.SideEffect
 
 object OnSavedRecipe : SideEffect

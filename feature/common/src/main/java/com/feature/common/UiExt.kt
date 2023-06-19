@@ -40,7 +40,7 @@ fun toViews(value: Long): String {
 @Composable
 fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffect( content:@Composable (SideEffect)->Unit) {
     onSideEffect().collectAsState().value?.let {
-        content(it)
+        it.consume()?.let{content(it)}
     }
 }
 

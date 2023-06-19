@@ -119,9 +119,6 @@ abstract class Manager<S : AppState, E : AppEvent>(
                 stateEmitter.collectIn(coroutineScope) {
                     logger.logd { "State: $it" }
                 }
-                onSideEffect().collectIn(coroutineScope) {
-                    it?.let { logger.logd { "SideEffect: $it" } }
-                }
                 stateStore.eventObservable.collectIn(coroutineScope){
                     it?.let { logger.logd { "Event: $it" } }
                 }
