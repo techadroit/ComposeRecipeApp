@@ -3,10 +3,12 @@ package com.state_manager.managers
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import com.state_manager.events.AppEvent
+import com.state_manager.extensions.collectIn
 import com.state_manager.handler.SideEffectHandler
 import com.state_manager.handler.SideEffectHandlerDelegation
 import com.state_manager.logger.Logger
 import com.state_manager.logger.androidLogger
+import com.state_manager.logger.enableLogging
 import com.state_manager.logger.logd
 import com.state_manager.logger.logv
 import com.state_manager.reducer.action
@@ -17,8 +19,9 @@ import com.state_manager.state.AppState
 import com.state_manager.store.StateStoreFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.onEach
 
 abstract class Manager<S : AppState, E : AppEvent>(
     initialState: S,
@@ -32,25 +35,19 @@ abstract class Manager<S : AppState, E : AppEvent>(
      */
     open val stateStore = StateStoreFactory.create<S, E>(
         initialState,
-        androidLogger(this::class.java.simpleName + "StateStore"),
+        androidLogger(this::class.java.simpleName + " StateStore"),
         coroutineScope.getScope()
     )
 
     /**
      * A [kotlinx.coroutines.flow.Flow] of [AppState] which can be observed by external classes to respond to changes in state.
      */
-    val state: Flow<S> = stateStore
-        .stateObservable
-        .onEach { state ->
-            logger.logd { "New state: $state" }
-        }
+    val state: Flow<S> = stateStore.stateObservable
 
     /**
      * A [kotlinx.coroutines.flow.Flow] of [AppEvent] which can be observed by external classes to respond to changes in state.
      */
-    open val event: Flow<E> = stateStore.eventObservable.onEach {
-        logger.logd { "New Event: $it" }
-    }.filterNotNull()
+    open val eventEmitter: Flow<E> = stateStore.eventObservable.filterNotNull()
 
     /**
      * Access the current value of state stored in the [stateStore].
@@ -66,6 +63,10 @@ abstract class Manager<S : AppState, E : AppEvent>(
     val stateEmitter: StateFlow<S> = stateStore.stateObservable
 
     abstract fun onEvent(event: E, state: S)
+
+    init {
+        log()
+    }
 
     fun dispatch(event: E) {
         withState {
@@ -110,5 +111,20 @@ abstract class Manager<S : AppState, E : AppEvent>(
         logger.logv { "Clearing ViewModel ${this::class}" }
         super.onCleared()
         stateStore.clear()
+    }
+
+
+    private fun log() {
+        if (enableLogging) {
+                stateEmitter.collectIn(coroutineScope) {
+                    logger.logd { "State: $it" }
+                }
+                onSideEffect().collectIn(coroutineScope) {
+                    it?.let { logger.logd { "SideEffect: $it" } }
+                }
+                stateStore.eventObservable.collectIn(coroutineScope){
+                    it?.let { logger.logd { "Event: $it" } }
+                }
+        }
     }
 }

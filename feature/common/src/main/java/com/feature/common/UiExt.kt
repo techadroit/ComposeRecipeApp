@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.state_manager.managers.StateEventManager
 import com.state_manager.events.AppEvent
+import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import java.util.*
@@ -44,5 +45,5 @@ fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffect( cont
 }
 
 @Composable
-fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeState() =
+fun <S : AppState, E : AppEvent> Manager<S, E>.observeState() =
     this.stateEmitter.collectAsState().value

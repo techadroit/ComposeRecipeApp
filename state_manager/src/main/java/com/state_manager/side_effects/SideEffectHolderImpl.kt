@@ -13,7 +13,7 @@ class SideEffectHolderImpl<S:SideEffect>(private val logger: Logger) : SideEffec
         get() = _observable
 
     override fun clearHolder() {
-        logger.logv { "Clearing State Holder" }
+        logger.logv { "Clearing SideEffect Holder" }
     }
 
     override fun post(sideEffect: S) {
