@@ -30,7 +30,7 @@ abstract class Manager<S : AppState, E : AppEvent>(
     /**
      * The state store associated with this ViewModel
      */
-    val stateStore = StateStoreFactory.create<S, E>(
+    open val stateStore = StateStoreFactory.create<S, E>(
         initialState,
         androidLogger(this::class.java.simpleName + "StateStore"),
         coroutineScope.getScope()
@@ -48,7 +48,7 @@ abstract class Manager<S : AppState, E : AppEvent>(
     /**
      * A [kotlinx.coroutines.flow.Flow] of [AppEvent] which can be observed by external classes to respond to changes in state.
      */
-    val event: Flow<E> = stateStore.eventObservable.onEach {
+    open val event: Flow<E> = stateStore.eventObservable.onEach {
         logger.logd { "New Event: $it" }
     }.filterNotNull()
 
