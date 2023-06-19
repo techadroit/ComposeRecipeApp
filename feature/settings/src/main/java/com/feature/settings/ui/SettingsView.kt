@@ -61,10 +61,6 @@ fun SettingsView() {
             snackBarHostState.showSnackbar(message = "Settings Saved Successfully")
         }
     }
-
-    LaunchedEffect(true) {
-        settingsViewModel.initialize()
-    }
 }
 
 @ExperimentalFoundationApi

@@ -1,8 +1,10 @@
-package com.core.platform.functional
+package com.state_manager.extensions
 
 import java.io.Serializable
 
-data class Consumable <out T> (val data: T?, private var isConsumed: Boolean = false) : Serializable {
+
+data class Consumable <out T> (val data: T?, private var isConsumed: Boolean = false) :
+    Serializable {
 
     @Synchronized
     fun consume(): T? {
@@ -20,10 +22,6 @@ data class Consumable <out T> (val data: T?, private var isConsumed: Boolean = f
 }
 
 fun <T : Any?> T.asConsumable(): Consumable<T> {
-    return Consumable(this)
-}
-
-fun <T : Any> Resource<T>.asConsumable(): Consumable<Resource<T>> {
     return Consumable(this)
 }
 

@@ -22,6 +22,10 @@ class SettingsViewModel @Inject constructor(
     var getSavedRecipeCuisine: GetSavedRecipeCuisine
 ) : StateManager<SettingsState>(initialState) {
 
+    init {
+        initialize()
+    }
+
     fun saveCuisine() {
         withState {
             settingsDataStore.storeCuisine(it.list.filter { it.isSelected }.map { it.name })

@@ -35,7 +35,7 @@ internal class StateEventManagerTest : BaseUnitTest() {
             val job = launch {
                 viewModel.dispatch(DecrementCountEvent(1))
                 viewModel.dispatch(IncrementCountEvent(1))
-                val event = viewModel.event.single()
+                val event = viewModel.eventEmitter.single()
                 assert(event is IncrementCountEvent)
             }
             job.cancel()
