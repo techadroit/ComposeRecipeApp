@@ -83,7 +83,7 @@ internal class SelectBasedStateProcessor<S : AppState, E : AppEvent,SIDE_EFFECT 
         if (processorScope.isActive && !setStateChannel.isClosedForSend) {
             // TODO Look for a solution to the case where the channel could be closed between the check and this offer
             //  statement
-            setStateChannel.offer(reducer)
+            setStateChannel.trySend(reducer)
         }
     }
 
@@ -98,13 +98,13 @@ internal class SelectBasedStateProcessor<S : AppState, E : AppEvent,SIDE_EFFECT 
         if (processorScope.isActive && !getStateChannel.isClosedForSend) {
             // TODO Look for a solution to the case where the channel could be closed between the check and this offer
             //  statement
-            getStateChannel.offer(action)
+            getStateChannel.trySend(action)
         }
     }
 
     override fun offerSideEffect(effects: effects<SIDE_EFFECT>) {
         if (processorScope.isActive && !setStateChannel.isClosedForSend) {
-            effectsChannel.offer(effects)
+            effectsChannel.trySend(effects)
         }
     }
     /**
