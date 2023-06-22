@@ -7,21 +7,21 @@ import com.state_manager.logger.logd
 import com.state_manager.logger.logv
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
-class SideEffectHolderImpl<S:SideEffect>(private val logger: Logger) : SideEffectHolder<S> {
+class SideEffectHolderImpl<SIDE_EFFECT : SideEffect>(private val logger: Logger) :
+    SideEffectHolder<SIDE_EFFECT> {
 
-    private val _observable: MutableStateFlow<Consumable<S>?> = MutableStateFlow(null)
+    private val _observable: MutableStateFlow<Consumable<SIDE_EFFECT>?> = MutableStateFlow(null)
 
-    override val stateObservable: StateFlow<Consumable<S>?>
+    override val effectObservable: StateFlow<Consumable<SIDE_EFFECT>?>
         get() = _observable
 
-    override fun clearHolder() {
+    override fun clearEffectHolder() {
         logger.logv { "Clearing SideEffect Holder" }
     }
 
-    override fun post(sideEffect: S) {
+    override fun post(sideEffect: SIDE_EFFECT) {
         _observable.value = sideEffect.asConsumable()
-         logger.logd { "SideEffect: $sideEffect" }
+        logger.logd { "SideEffect: $sideEffect" }
     }
 }

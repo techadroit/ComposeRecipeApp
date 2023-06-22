@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.state_manager.events.AppEvent
 import com.state_manager.logger.logd
 import com.state_manager.scopes.StateManagerCoroutineScope
+import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 
 /**
@@ -18,7 +19,7 @@ abstract class SavedStateManager<S : AppState,E: AppEvent>(
     initialState: S,
     coroutineScope: StateManagerCoroutineScope,
     protected val savedStateHandle: SavedStateHandle
-) : Manager<S,E>(initialState, coroutineScope) {
+) : Manager<S,E,SideEffect>(initialState, coroutineScope) {
 
     companion object {
         /**

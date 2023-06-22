@@ -11,5 +11,5 @@ class SideEffectHandlerDelegation<S : SideEffect>(logger: Logger) : SideEffectHa
     private val sideEffectHolder = SideEffectHolderFactory.create<S>(logger)
     override fun postSideEffect(sideEffect: S) = sideEffectHolder.post(sideEffect)
 
-    override fun onSideEffect(): StateFlow<Consumable<S?>?>  = sideEffectHolder.stateObservable
+    override fun onSideEffect(): StateFlow<Consumable<S?>?>  = sideEffectHolder.effectObservable
 }

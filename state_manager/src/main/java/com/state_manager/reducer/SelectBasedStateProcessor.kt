@@ -8,6 +8,8 @@ import com.state_manager.logger.Logger
 import com.state_manager.logger.enableLogging
 import com.state_manager.logger.logd
 import com.state_manager.logger.logv
+import com.state_manager.side_effects.SideEffect
+import com.state_manager.side_effects.SideEffectHolder
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -30,16 +32,17 @@ import kotlin.coroutines.CoroutineContext
  * @param logger a [Logger] to log miscellaneous information
  * @param coroutineContext The [CoroutineContext] under which this processor will execute jobs sent to it
  */
-internal class SelectBasedStateProcessor<S : AppState, E : AppEvent>(
+internal class SelectBasedStateProcessor<S : AppState, E : AppEvent,SIDE_EFFECT : SideEffect>(
     shouldStartImmediately: Boolean = false,
     private val stateHolder: StateHolder<S>,
     private val eventHolder: EventHolder<E>,
+    private val sideEffectHolder: SideEffectHolder<SIDE_EFFECT>,
     private val logger: Logger,
     /**
      * [CoroutineScope] for managing coroutines in this state processor
      */
     private val processorScope: CoroutineScope
-) : StateProcessor<S, E> {
+) : StateProcessor<S, E,SIDE_EFFECT> {
 
     /**
      * Queue for state reducers.
@@ -52,6 +55,7 @@ internal class SelectBasedStateProcessor<S : AppState, E : AppEvent>(
      * Has unlimited capacity so that sending new elements to it is not a blocking operation
      **/
     private val getStateChannel: Channel<action<S>> = Channel(Channel.UNLIMITED)
+    private val effectsChannel: Channel<effects<SIDE_EFFECT>> = Channel(Channel.UNLIMITED)
 
     /**
      * A convenience utility to check if any of the queues contain jobs to be processed
@@ -98,6 +102,11 @@ internal class SelectBasedStateProcessor<S : AppState, E : AppEvent>(
         }
     }
 
+    override fun offerSideEffect(effects: effects<SIDE_EFFECT>) {
+        if (processorScope.isActive && !setStateChannel.isClosedForSend) {
+            effectsChannel.offer(effects)
+        }
+    }
     /**
      * Cancels this processor's coroutine scope and stops processing of jobs.
      *
@@ -159,6 +168,10 @@ internal class SelectBasedStateProcessor<S : AppState, E : AppEvent>(
                 sideEffectScope.launch {
                     action.invoke(stateHolder.state)
                 }
+            }
+            effectsChannel.onReceive{ effects ->
+                val effect = effects()
+                sideEffectHolder.post(effect)
             }
         }
     }

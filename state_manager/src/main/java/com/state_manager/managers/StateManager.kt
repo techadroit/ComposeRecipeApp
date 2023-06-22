@@ -3,6 +3,7 @@ package com.state_manager.managers
 import com.state_manager.events.EmptyEvent
 import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.scopes.StateManagerCoroutineScopeImpl
+import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,7 +14,7 @@ import kotlinx.coroutines.SupervisorJob
 open class StateManager<T : AppState>(initialState: T,
                                       coroutineScope: StateManagerCoroutineScope
                                          = StateManagerCoroutineScopeImpl(Dispatchers.Default + SupervisorJob())
-) : Manager<T, EmptyEvent>(initialState = initialState,coroutineScope) {
+) : Manager<T, EmptyEvent,SideEffect>(initialState = initialState,coroutineScope) {
 
     /**
      * Make onEvent final to avoid override of this method in base class.

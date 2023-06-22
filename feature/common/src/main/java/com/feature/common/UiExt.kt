@@ -45,5 +45,5 @@ fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffect( cont
 }
 
 @Composable
-fun <S : AppState, E : AppEvent> Manager<S, E>.observeState() =
+fun <S : AppState, E : AppEvent> Manager<S, E,SideEffect>.observeState() =
     this.stateEmitter.collectAsState().value

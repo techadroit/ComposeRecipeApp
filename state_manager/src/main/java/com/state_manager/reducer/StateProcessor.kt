@@ -1,6 +1,7 @@
 package com.state_manager.reducer
 
 import com.state_manager.events.AppEvent
+import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 
 /**
@@ -11,7 +12,7 @@ import com.state_manager.state.AppState
  * A [reducer] is be processed before any existing [action] in the queue
  * A [action] is given the latest state value as it's parameter
  */
-interface StateProcessor<S : AppState, E : AppEvent> {
+interface StateProcessor<S : AppState, E : AppEvent, SIDE_EFFECT: SideEffect> {
 
     /**
      * Offer a [reducer] to this processor. This action will be processed as soon as
@@ -20,6 +21,8 @@ interface StateProcessor<S : AppState, E : AppEvent> {
      * @param reducer The action to be offered
      */
     fun offerSetAction(reducer: reducer<S>)
+
+    fun offerSideEffect(effects: effects<SIDE_EFFECT>)
 
     /**
      * Offer a [action] to this processor. The state parameter supplied to this action
@@ -47,3 +50,5 @@ interface StateProcessor<S : AppState, E : AppEvent> {
 internal typealias reducer<S> = suspend S.() -> S
 
 internal typealias action<S> = suspend (S) -> Unit
+
+internal typealias effects<S> = suspend () -> S
