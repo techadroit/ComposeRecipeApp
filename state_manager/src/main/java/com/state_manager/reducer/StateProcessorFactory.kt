@@ -30,7 +30,7 @@ internal object StateProcessorFactory {
         logger: Logger,
         coroutineScope: CoroutineScope
     ): StateProcessor<S, E,SIDE_EFFECT> {
-        return SelectBasedStateProcessor(
+        return SingleChannelProcessor(
             shouldStartImmediately = true,
             eventHolder = eventHolder,
             stateHolder = stateHolder,

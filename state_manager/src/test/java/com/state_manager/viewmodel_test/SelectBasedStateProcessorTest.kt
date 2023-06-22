@@ -8,6 +8,8 @@ import com.state_manager.reducer.SelectBasedStateProcessor
 import com.state_manager.state.StateHolder
 import com.state_manager.state.StateHolderFactory
 import com.state_manager.logger.systemOutLogger
+import com.state_manager.side_effects.SideEffect
+import com.state_manager.side_effects.SideEffectHolderImpl
 import kotlinx.coroutines.*
 import org.junit.After
 import org.junit.Before
@@ -17,7 +19,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
 
     private lateinit var holder: StateHolder<CountingState>
     private lateinit var eventHolder: EventHolder<CountingEvent>
-    private lateinit var processor: SelectBasedStateProcessor<CountingState, CountingEvent>
+    private lateinit var processor: SelectBasedStateProcessor<CountingState, CountingEvent,SideEffect>
 
     @Before
     fun setup() {
@@ -27,6 +29,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             shouldStartImmediately = false,
             stateHolder = holder,
             eventHolder = eventHolder,
+            sideEffectHolder = SideEffectHolderImpl(systemOutLogger()),
             logger = systemOutLogger(),
             processorScope = TestStateManagerScope().getScope()
         )
