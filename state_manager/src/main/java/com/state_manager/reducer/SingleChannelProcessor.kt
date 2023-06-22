@@ -44,7 +44,7 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
         }
     }
 
-    override fun offerSideEffect(effects: suspend () -> SIDE_EFFECT) {
+    override fun offerSideEffect(effects: effects<SIDE_EFFECT>) {
         if (processorScope.isActive && !channel.isClosedForSend) {
             channel.offer(JobIntent.Effects(effects) as JobIntent<S, E, SIDE_EFFECT>)
         }
@@ -85,8 +85,6 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
                         val effect = job.effects()
                         sideEffectHolder.post(effect)
                     }
-
-                    else -> {}
                 }
             }
         }

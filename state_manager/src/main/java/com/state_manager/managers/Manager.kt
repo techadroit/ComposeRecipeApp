@@ -13,6 +13,7 @@ import com.state_manager.logger.enableLogging
 import com.state_manager.logger.logd
 import com.state_manager.logger.logv
 import com.state_manager.reducer.action
+import com.state_manager.reducer.effects
 import com.state_manager.reducer.reducer
 import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.side_effects.SideEffect
@@ -101,7 +102,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
         stateStore.offerGetAction(action)
     }
 
-    fun postSideEffect(sideEffect: SIDE_EFFECT) = stateStore.offerSideEffect { sideEffect  }
+    fun postSideEffect(effect: effects<SIDE_EFFECT>) = stateStore.offerSideEffect { effect()  }
 
     fun onSideEffect(): StateFlow<Consumable<SIDE_EFFECT?>?>  = stateStore.effectObservable
 
