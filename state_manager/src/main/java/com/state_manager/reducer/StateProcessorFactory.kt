@@ -5,6 +5,8 @@ import com.state_manager.events.EventHolder
 import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
 import com.state_manager.logger.Logger
+import com.state_manager.side_effects.SideEffect
+import com.state_manager.side_effects.SideEffectHolder
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -21,16 +23,18 @@ internal object StateProcessorFactory {
      *
      * @return A class implementing StateProcessor
      */
-    fun <S : AppState, E : AppEvent> create(
+    fun <S : AppState, E : AppEvent,SIDE_EFFECT : SideEffect> create(
         stateHolder: StateHolder<S>,
         eventHolder: EventHolder<E>,
+        effectHolder: SideEffectHolder<SIDE_EFFECT>,
         logger: Logger,
         coroutineScope: CoroutineScope
-    ): StateProcessor<S, E> {
+    ): StateProcessor<S, E,SIDE_EFFECT> {
         return SelectBasedStateProcessor(
             shouldStartImmediately = true,
             eventHolder = eventHolder,
             stateHolder = stateHolder,
+            sideEffectHolder = effectHolder,
             logger = logger,
             processorScope = coroutineScope
         )

@@ -3,14 +3,14 @@ package com.state_manager.side_effects
 import com.state_manager.extensions.Consumable
 import kotlinx.coroutines.flow.StateFlow
 
-interface SideEffectHolder<S: SideEffect> {
+interface SideEffectHolder<SIDE_EFFECT: SideEffect> {
 
-    val stateObservable: StateFlow<Consumable<S>?>
+    val effectObservable: StateFlow<Consumable<SIDE_EFFECT>?>
 
-    val state: Consumable<S?>?
-        get() = stateObservable.value
+    val effects: Consumable<SIDE_EFFECT?>?
+        get() = effectObservable.value
 
-    fun post(sideEffect: S)
+    fun post(sideEffect: SIDE_EFFECT)
 
-    fun clearHolder()
+    fun clearEffectHolder()
 }

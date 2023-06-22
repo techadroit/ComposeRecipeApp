@@ -3,6 +3,7 @@ package com.state_manager.managers
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import com.state_manager.events.AppEvent
+import com.state_manager.extensions.Consumable
 import com.state_manager.extensions.collectIn
 import com.state_manager.handler.SideEffectHandler
 import com.state_manager.handler.SideEffectHandlerDelegation
@@ -19,21 +20,18 @@ import com.state_manager.state.AppState
 import com.state_manager.store.StateStoreFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 
-abstract class Manager<S : AppState, E : AppEvent>(
+abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     initialState: S,
     val coroutineScope: StateManagerCoroutineScope,
     val logger: Logger = androidLogger(tag = Manager::class.java.simpleName)
-) : ViewModel(),
-    SideEffectHandler<SideEffect> by SideEffectHandlerDelegation(logger = logger) {
-        
+) : ViewModel(){
+
     /**
      * The state store associated with this ViewModel
      */
-    open val stateStore = StateStoreFactory.create<S, E>(
+    open val stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
         initialState,
         androidLogger(this::class.java.simpleName + " StateStore"),
         coroutineScope.getScope()
@@ -42,7 +40,7 @@ abstract class Manager<S : AppState, E : AppEvent>(
     /**
      * A [kotlinx.coroutines.flow.Flow] of [AppState] which can be observed by external classes to respond to changes in state.
      */
-    val state: Flow<S> = stateStore.stateObservable
+    private val state: Flow<S> = stateStore.stateObservable
 
     /**
      * A [kotlinx.coroutines.flow.Flow] of [AppEvent] which can be observed by external classes to respond to changes in state.
@@ -103,6 +101,10 @@ abstract class Manager<S : AppState, E : AppEvent>(
         stateStore.offerGetAction(action)
     }
 
+    fun postSideEffect(sideEffect: SIDE_EFFECT) = stateStore.offerSideEffect { sideEffect  }
+
+    fun onSideEffect(): StateFlow<Consumable<SIDE_EFFECT?>?>  = stateStore.effectObservable
+
     /**
      * Clears this ViewModel as well as its [stateStore].
      */
@@ -116,12 +118,12 @@ abstract class Manager<S : AppState, E : AppEvent>(
 
     private fun log() {
         if (enableLogging) {
-                stateEmitter.collectIn(coroutineScope) {
-                    logger.logd { "State: $it" }
-                }
-                stateStore.eventObservable.collectIn(coroutineScope){
-                    it?.let { logger.logd { "Event: $it" } }
-                }
+            stateEmitter.collectIn(coroutineScope) {
+                logger.logd { "State: $it" }
+            }
+            stateStore.eventObservable.collectIn(coroutineScope) {
+                it?.let { logger.logd { "Event: $it" } }
+            }
         }
     }
 }

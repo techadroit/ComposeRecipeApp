@@ -1,7 +1,9 @@
 package com.core.platform.usecase
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
@@ -42,7 +44,7 @@ abstract class NewFlowUseCase<out Type, in Params> where Type : Any {
 
     abstract fun run(params: Params): Flow<Type>
 
-    operator fun invoke(params: Params): Flow<Type> = run(params)
+    operator fun invoke(params: Params): Flow<Type> = run(params).flowOn(Dispatchers.IO)
 }
 
 object None
