@@ -25,9 +25,10 @@ import kotlinx.coroutines.flow.filterNotNull
 
 abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     initialState: S,
-    val coroutineScope: StateManagerCoroutineScope,
-    val logger: Logger = androidLogger(tag = Manager::class.java.simpleName)
+    val coroutineScope: StateManagerCoroutineScope
 ) : ViewModel(){
+
+    open val logger = androidLogger(this::class.java.simpleName + " StateStore")
 
     /**
      * The state store associated with this ViewModel
