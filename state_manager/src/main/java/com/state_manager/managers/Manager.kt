@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
 abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
-    initialState: S,
+    val initialState: S,
     val coroutineScope: StateManagerCoroutineScope
 ) : ViewModel(){
 
@@ -33,7 +33,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     /**
      * The state store associated with this ViewModel
      */
-    open val stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
+    open var stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
         initialState,
         androidLogger(this::class.java.simpleName + " StateStore"),
         coroutineScope.getScope()
@@ -84,7 +84,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
      * @param action The state reducer to create a new state from the current state
      *
      */
-    protected fun setState(action: reducer<S>) {
+    fun setState(action: reducer<S>) {
         stateStore.offerSetAction(action)
     }
 

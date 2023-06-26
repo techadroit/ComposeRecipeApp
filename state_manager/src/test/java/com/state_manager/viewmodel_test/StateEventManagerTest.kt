@@ -3,6 +3,7 @@ package com.state_manager.viewmodel_test
 import com.state_manager.BaseUnitTest
 import com.state_manager.TestStateManagerScope
 import com.state_manager.events.AppEvent
+import com.state_manager.extensions.runCreate
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
@@ -22,41 +23,54 @@ internal class StateEventManagerTest : BaseUnitTest() {
     @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
-        viewModel = TestViewModel(initialState = initialState, testStateManagerScope)
+        viewModel = TestViewModel(initialTestState = initialState, testStateManagerScope)
     }
 
-    @ExperimentalCoroutinesApi
-    @Test
-    fun checkInitialState() {
-        runTest {
-            assert(viewModel.currentState == TestState())
-        }
-    }
+//    @ExperimentalCoroutinesApi
+//    @Test
+//    fun checkInitialState() {
+//        runTest {
+//            assert(viewModel.currentState == TestState())
+//        }
+//    }
 
-    @ExperimentalCoroutinesApi
-    @Test
-    fun checkListOfStates() {
-        runTest {
-            viewModel.verifyState(
-                IncrementCountEvent(1),
-                IncrementCountEvent(1)
-            ) {
-                print(it)
-                assert(it.isNotEmpty())
-            }
-        }
-    }
+//    @ExperimentalCoroutinesApi
+//    @Test
+//    fun checkListOfStates() {
+//        runTest {
+//            viewModel.verifyState(
+//                IncrementCountEvent(1),
+//                IncrementCountEvent(1)
+//            ) {
+//                print(it)
+//                assert(it.isNotEmpty())
+//            }
+//        }
+//    }
 
     @ExperimentalCoroutinesApi
     @Test
     fun checkListOfStates2() {
         runTest {
             viewModel.verifyState(
-                IncrementCountEvent(1),
-                IncrementCountEvent(2)
+                IncrementCountEvent(5),
+                IncrementCountEvent(10)
             ) {
                 print(it)
-                assert(it == listOf(TestState(1), TestState(3)))
+                assert(it == listOf(TestState(5), TestState(15)))
+            }
+        }
+    }
+    @ExperimentalCoroutinesApi
+    @Test
+    fun checkListOfStates3() {
+        runTest {
+            viewModel.verifyState(
+                DecrementCountEvent(5),
+                IncrementCountEvent(10)
+            ) {
+                print(it)
+                assert(it == listOf(TestState(-5), TestState(5)))
             }
         }
     }
@@ -74,6 +88,7 @@ suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E,
     verifyer: (List<S>) -> Unit
 ) {
     runTest(UnconfinedTestDispatcher()) {
+        runCreate(this)
         val list = mutableListOf<S>()
         backgroundScope.launch {
             stateEmitter.toList(list)

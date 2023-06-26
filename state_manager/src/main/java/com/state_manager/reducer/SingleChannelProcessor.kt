@@ -90,14 +90,14 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
         }
     }
 
-    internal suspend fun drain() {
-        do {
-            coroutineScope {
+    override suspend fun drain(scope: CoroutineScope) {
+        scope.launch {
+            do {
                 while (!channel.isEmpty && processorScope.isActive) {
-                    selectJob(sideEffectScope = this)
+                    selectJob(sideEffectScope = scope)
                 }
-            }
-        } while (!channel.isEmpty && processorScope.isActive)
+            } while (!channel.isEmpty && processorScope.isActive)
+        }
     }
 }
 

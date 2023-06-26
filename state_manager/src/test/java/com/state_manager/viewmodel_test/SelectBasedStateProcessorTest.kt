@@ -46,14 +46,14 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
         processor.offerSetAction {
             copy(count = 42)
         }
-        processor.drain()
+        processor.drain(this)
         assert(holder.state.count == 42)
     }
 
     @Test
     fun `when new event is added, it should store it to event holder`() = runBlocking {
         processor.offerGetEvent(CountingEvent(42))
-        processor.drain()
+        processor.drain(this)
         assert(eventHolder.event == CountingEvent(42))
     }
 
@@ -73,7 +73,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             processor.offerGetAction {
                 valueHolder.complete(actionValue)
             }
-            processor.drain()
+            processor.drain(this)
 
             val valueSetFirst = valueHolder.await()
             assert(valueSetFirst == reducerValue)
@@ -96,7 +96,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
                 }
                 this
             }
-            processor.drain()
+            processor.drain(this)
 
             val valueSetFirst = valueHolder.await()
             assert(valueSetFirst == secondReducerValue)
@@ -181,7 +181,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
         processor.offerSetAction {
             copy(count = count + 1)
         }
-        processor.drain()
+        processor.drain(this)
         // If there are no errors, test is successful
     }
 
@@ -192,7 +192,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             copy(count = count + 1)
         }
         // Draining the processor after it is cleared should throw JobCancellationException
-        processor.drain()
+        processor.drain(this)
         assert(holder.state.count == 0) {
             "State reducer was processed by drainAsync after the StateProcessor was cleared"
         }
