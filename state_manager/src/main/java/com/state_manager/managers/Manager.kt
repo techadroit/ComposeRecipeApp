@@ -58,7 +58,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
      * ViewModel, the [withState] method should be used
      */
     val currentState: S
-        get() = stateStore.state
+        get() = stateEmitter.value
 
     val stateEmitter: StateFlow<S> = stateStore.stateObservable
 
@@ -99,7 +99,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
      * @param action The action to be performed with the current state
      *
      */
-    protected fun withState(action: action<S>) {
+    fun withState(action: action<S>) {
         stateStore.offerGetAction(action)
     }
 

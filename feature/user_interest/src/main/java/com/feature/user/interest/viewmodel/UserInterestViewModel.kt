@@ -13,9 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class UserInterestViewModel @Inject constructor(
     val cuisineUsecase: GetSupportedCuisineUsecase,
-    val initialState: UserInterestState,
+    val initialInterestState: UserInterestState,
     val settingsDataStore: SettingsDataStore
-) : StateEventManager<UserInterestState, UserInterestEvent>(initialState = initialState) {
+) : StateEventManager<UserInterestState, UserInterestEvent>(initialState = initialInterestState) {
     override fun onEvent(event: UserInterestEvent, state: UserInterestState) {
         when (event) {
             is LoadSupportedCuisine -> loadCuisines()

@@ -12,7 +12,7 @@ data class HomeRecipeState(
     val isLoadingPage: Boolean = true
 ) : AppState
 
-fun HomeRecipeState.initialState() = HomeRecipeState()
+fun HomeRecipeState.initialState() = HomeRecipeState(isLoadingPage = false)
 fun HomeRecipeState.onLoad(list: List<RecipeWithCuisine>) = copy(list = list)
 
 fun HomeRecipeState.add(items: RecipeWithCuisine) =
