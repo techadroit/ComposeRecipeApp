@@ -18,12 +18,6 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 
-suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.testCurrentState(
-    verifyer: (S) -> Unit
-) {
-    verifyer(currentState)
-}
-
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifySideEffects(
     vararg events: E,
