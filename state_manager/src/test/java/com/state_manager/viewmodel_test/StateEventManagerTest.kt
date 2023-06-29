@@ -64,10 +64,10 @@ internal class StateEventManagerTest : BaseUnitTest() {
         }
     }
 
-//    @Test
-//    fun clearTest() {
-//        viewModel.clear()
-//        assert(testStateManagerScope.isCleared())
-//    }
+    @Test
+    fun clearTest() {
+        viewModel.clear()
+        assert(testStateManagerScope.isCleared())
+    }
 }
 

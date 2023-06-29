@@ -15,8 +15,6 @@ class AndroidTestingConventionPlugin : BasePlugins() {
             val espressoCore = libs.findLibrary("android-espresso-core").get()
             val coroutineTest = libs.findLibrary("android-coroutines-test").get()
             val androidMockk = libs.findLibrary("android-mockk-test").get()
-//            val androidAgentMockk = libs.findLibrary("android-mockk-agent-test").get()
-//            val junitMockk = libs.findLibrary("junit-mockk-test").get()
             val kotlinFixture = libs.findLibrary("kotlin-fixture").get()
             val turbine = libs.findLibrary("kotlin-turbine").get()
 
@@ -26,9 +24,7 @@ class AndroidTestingConventionPlugin : BasePlugins() {
                 add("androidTestImplementation", espressoCore)
                 add("testImplementation", coroutineTest)
                 add("testImplementation", androidMockk)
-//                add("testImplementation", androidAgentMockk)
                 add("androidTestImplementation", androidMockk)
-//                add("testImplementation", junitMockk)
                 add("testImplementation",kotlinFixture)
                 add("testImplementation",turbine)
             }

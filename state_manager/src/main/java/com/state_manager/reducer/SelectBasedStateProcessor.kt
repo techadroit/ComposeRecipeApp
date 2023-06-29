@@ -143,21 +143,13 @@ internal class SelectBasedStateProcessor<S : AppState, E : AppEvent,SIDE_EFFECT 
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun drain(scope: CoroutineScope) {
         do {
-            while (hasMoreJobs && processorScope.isActive) {
-                selectJob(sideEffectScope = scope)
+            coroutineScope {
+                while (hasMoreJobs && processorScope.isActive) {
+                    selectJob(sideEffectScope = scope)
+                }
             }
         } while (hasMoreJobs && processorScope.isActive)
     }
-//    internal suspend fun drain() {
-//        do {
-//            coroutineScope {
-//                // Process all jobs currently in the queues
-//                while (hasMoreJobs && processorScope.isActive) {
-//                    selectJob(sideEffectScope = this)
-//                }
-//            }
-//        } while (hasMoreJobs && processorScope.isActive) // Nested jobs could have filled queues again, so repeat the process
-//    }
 
     /**
      * Waits for values from [setStateChannel] and [getStateChannel] simultaneously, prioritizing set-state

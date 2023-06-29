@@ -10,10 +10,6 @@ class TestViewModel(val initialTestState: TestState, coroutineScope: StateManage
         coroutineScope = coroutineScope
     ) {
 
-    init {
-//            dispatch(IncrementCountEvent(1))
-    }
-
     override fun onEvent(event: TestEvent, state: TestState) {
         when (event) {
             is IncrementCountEvent -> run {
