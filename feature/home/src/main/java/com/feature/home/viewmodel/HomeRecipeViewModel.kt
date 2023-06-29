@@ -16,7 +16,7 @@ import javax.inject.Inject
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
     private val initialHomeState: HomeRecipeState,
-    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl(Dispatchers.Default + SupervisorJob())
+    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl()
 ) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialHomeState,scope) {
 
     init {

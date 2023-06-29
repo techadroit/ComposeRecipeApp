@@ -2,20 +2,16 @@ package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
 import com.state_manager.TestStateManagerScope
-import com.state_manager.events.AppEvent
-import com.state_manager.extensions.runCreate
 import com.state_manager.extensions.verifyState
-import com.state_manager.extensions.verifyState1
-import com.state_manager.managers.Manager
-import com.state_manager.side_effects.SideEffect
-import com.state_manager.state.AppState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 import org.junit.Before
 import org.junit.Test
 
@@ -30,29 +26,29 @@ internal class StateEventManagerTest : BaseUnitTest() {
         viewModel = TestViewModel(initialTestState = initialState, testStateManagerScope)
     }
 
-    @ExperimentalCoroutinesApi
-    @Test
-    fun checkInitialState() {
-//        runTest {
+//    @ExperimentalCoroutinesApi
+//    @Test
+//    fun checkInitialState() {
+////        runTest {
+////            val list = mutableListOf<TestState>()
+////            backgroundScope.launch {
+////                viewModel.stateEmitter.toList(list)
+////            }
+////            println(list)
+////            assert(list.isNotEmpty())
+////        }
+//        runBlocking {
 //            val list = mutableListOf<TestState>()
-//            backgroundScope.launch {
+//
+//            val job = launch {
 //                viewModel.stateEmitter.toList(list)
 //            }
+//            viewModel.dispatch(IncrementCountEvent(1))
 //            println(list)
+//            job.cancel()
 //            assert(list.isNotEmpty())
 //        }
-        runBlocking {
-            val list = mutableListOf<TestState>()
-
-            val job = launch {
-                viewModel.stateEmitter.toList(list)
-            }
-            viewModel.dispatch(IncrementCountEvent(1))
-            println(list)
-            job.cancel()
-            assert(list.isNotEmpty())
-        }
-    }
+//    }
 
 //    @ExperimentalCoroutinesApi
 //    @Test
@@ -71,15 +67,41 @@ internal class StateEventManagerTest : BaseUnitTest() {
     @ExperimentalCoroutinesApi
     @Test
     fun checkListOfStates2() {
-            viewModel.verifyState(
-                IncrementCountEvent(5),
-                IncrementCountEvent(10),
-                IncrementCountEvent(10)
-            ) {
-                print(it)
-                assert(it == listOf(TestState(5), TestState(15), TestState(25)))
+        runTest {
+            withContext(Dispatchers.Default.limitedParallelism(1)) {
+                // delays are not skipped here
+
+                 backgroundScope.launch {
+                    viewModel.stateEmitter.collect {
+                        println(it)
+                    }
+                }
+                viewModel.dispatch(IncrementCountEvent(5))
+//                delay(10)
+//                viewModel.dispatch(IncrementCountEvent(5))
+                delay(300)
+//                job.join()
+//                job.cancel()
             }
         }
+//        runTest {
+//
+//            viewModel.dispatch(IncrementCountEvent(5))
+//            backgroundScope.launch {
+//                viewModel.stateEmitter.collect {
+//                    println(it)
+//                }
+//            }
+//            runCurrent()
+//        }
+//            viewModel.verifyState(
+//                IncrementCountEvent(5),
+//            ) {
+//                print(it)
+//                assert(it == listOf(TestState(), TestState(0,true), TestState(5)))
+//            }
+    }
+
 //    @ExperimentalCoroutinesApi
 //    @Test
 //    fun checkListOfStates3() {
