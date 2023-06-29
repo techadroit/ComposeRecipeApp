@@ -7,15 +7,18 @@ import com.domain.common.pojo.Cuisine
 import com.domain.recipe.cuisines.GetSupportedCuisineUsecase
 import com.state_manager.extensions.collectIn
 import com.feature.user.interest.state.*
+import com.state_manager.scopes.StateManagerCoroutineScope
+import com.state_manager.scopes.StateManagerCoroutineScopeImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class UserInterestViewModel @Inject constructor(
     val cuisineUsecase: GetSupportedCuisineUsecase,
-    val initialState: UserInterestState,
-    val settingsDataStore: SettingsDataStore
-) : StateEventManager<UserInterestState, UserInterestEvent>(initialState = initialState) {
+    val initialInterestState: UserInterestState,
+    val settingsDataStore: SettingsDataStore,
+    val scope : StateManagerCoroutineScope = StateManagerCoroutineScopeImpl()
+) : StateEventManager<UserInterestState, UserInterestEvent>(initialInterestState,scope) {
     override fun onEvent(event: UserInterestEvent, state: UserInterestState) {
         when (event) {
             is LoadSupportedCuisine -> loadCuisines()
@@ -28,9 +31,7 @@ class UserInterestViewModel @Inject constructor(
     private fun onUserInterestSelected(state: UserInterestState) {
         coroutineScope.run {
             settingsDataStore.storeCuisine(state.cuisines.filter { it.isSelected }.map { it.name })
-            setState {
-                onUserInterestSelected()
-            }
+            postSideEffect { OnCuisineSelected }
         }
     }
 

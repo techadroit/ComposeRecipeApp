@@ -34,19 +34,19 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
 
     override fun offerSetAction(reducer:reducer<S>) {
         if (processorScope.isActive && !channel.isClosedForSend) {
-            channel.offer(JobIntent.Reducer(reducer) as JobIntent<S, E, SIDE_EFFECT>)
+            channel.trySend(JobIntent.Reducer(reducer) as JobIntent<S, E, SIDE_EFFECT>)
         }
     }
 
     override fun offerGetAction(action: action<S>) {
         if (processorScope.isActive && !channel.isClosedForSend) {
-            channel.offer(JobIntent.Action(action) as JobIntent<S, E, SIDE_EFFECT>)
+            channel.trySend(JobIntent.Action(action) as JobIntent<S, E, SIDE_EFFECT>)
         }
     }
 
     override fun offerSideEffect(effects: effects<SIDE_EFFECT>) {
         if (processorScope.isActive && !channel.isClosedForSend) {
-            channel.offer(JobIntent.Effects(effects) as JobIntent<S, E, SIDE_EFFECT>)
+            channel.trySend(JobIntent.Effects(effects) as JobIntent<S, E, SIDE_EFFECT>)
         }
     }
 
@@ -90,14 +90,14 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
         }
     }
 
-    internal suspend fun drain() {
-        do {
-            coroutineScope {
+    override suspend fun drain(scope: CoroutineScope) {
+        scope.launch {
+            do {
                 while (!channel.isEmpty && processorScope.isActive) {
-                    selectJob(sideEffectScope = this)
+                    selectJob(sideEffectScope = scope)
                 }
-            }
-        } while (!channel.isEmpty && processorScope.isActive)
+            } while (!channel.isEmpty && processorScope.isActive)
+        }
     }
 }
 

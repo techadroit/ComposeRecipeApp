@@ -27,6 +27,8 @@ interface StateManagerCoroutineScope {
      */
     fun cancel() = getScope().cancel()
 
+    fun isCleared(): Boolean
+
     /**
      * Runs a suspend function within the coroutine scope.
      *

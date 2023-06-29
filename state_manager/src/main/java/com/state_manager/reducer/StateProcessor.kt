@@ -3,6 +3,7 @@ package com.state_manager.reducer
 import com.state_manager.events.AppEvent
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * An entity that manages any action on state.
@@ -45,6 +46,8 @@ interface StateProcessor<S : AppState, E : AppEvent, SIDE_EFFECT: SideEffect> {
      * Cleanup any resources held by this processor.
      */
     fun clearProcessor()
+
+    suspend fun drain(scope: CoroutineScope)
 }
 
 internal typealias reducer<S> = suspend S.() -> S

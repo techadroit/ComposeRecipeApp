@@ -6,10 +6,10 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.domain.common.pojo.RecipeModel
-import com.example.composerecipeapp.ui.recipe_list.RecipeList
 import com.core.themes.ComposeRecipeAppTheme
 import com.feature.recipe.list.state.RemoveSavedRecipeEvent
 import com.feature.recipe.list.state.SaveRecipeEvent
+import com.feature.recipe.list.ui.RecipeList
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

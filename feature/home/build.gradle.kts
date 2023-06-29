@@ -2,6 +2,7 @@ plugins {
     id("android.module.library")
     id("android.library.compose")
     id("android.application.hilt")
+    id("android.application.testing")
 }
 android {
     namespace = "com.feature.recipe.home"

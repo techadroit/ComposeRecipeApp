@@ -3,9 +3,12 @@ package com.state_manager.scopes
 import android.util.Log
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.isActive
 import kotlin.coroutines.CoroutineContext
 
-class StateManagerCoroutineScopeImpl(coroutineContext: CoroutineContext) : StateManagerCoroutineScope {
+class StateManagerCoroutineScopeImpl(coroutineContext: CoroutineContext = Dispatchers.Default + SupervisorJob()) : StateManagerCoroutineScope {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         exception.printStackTrace()
@@ -16,4 +19,6 @@ class StateManagerCoroutineScopeImpl(coroutineContext: CoroutineContext) : State
         CoroutineScope(coroutineContext + exceptionHandler)
     }
     override fun getScope(): CoroutineScope = coroutineScope
+
+    override fun isCleared() = !getScope().isActive
 }

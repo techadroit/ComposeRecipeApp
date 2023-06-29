@@ -1,7 +1,6 @@
 package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
-import com.state_manager.TestStateManagerScope
 import com.state_manager.events.EventHolder
 import com.state_manager.events.EventHolderImpl
 import com.state_manager.reducer.SelectBasedStateProcessor
@@ -10,6 +9,7 @@ import com.state_manager.state.StateHolderFactory
 import com.state_manager.logger.systemOutLogger
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.side_effects.SideEffectHolderImpl
+import com.state_manager.test.TestStateManagerScope
 import kotlinx.coroutines.*
 import org.junit.After
 import org.junit.Before
@@ -46,14 +46,14 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
         processor.offerSetAction {
             copy(count = 42)
         }
-        processor.drain()
+        processor.drain(this)
         assert(holder.state.count == 42)
     }
 
     @Test
     fun `when new event is added, it should store it to event holder`() = runBlocking {
         processor.offerGetEvent(CountingEvent(42))
-        processor.drain()
+        processor.drain(this)
         assert(eventHolder.event == CountingEvent(42))
     }
 
@@ -73,7 +73,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             processor.offerGetAction {
                 valueHolder.complete(actionValue)
             }
-            processor.drain()
+            processor.drain(this)
 
             val valueSetFirst = valueHolder.await()
             assert(valueSetFirst == reducerValue)
@@ -96,7 +96,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
                 }
                 this
             }
-            processor.drain()
+            processor.drain(this)
 
             val valueSetFirst = valueHolder.await()
             assert(valueSetFirst == secondReducerValue)
@@ -181,7 +181,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
         processor.offerSetAction {
             copy(count = count + 1)
         }
-        processor.drain()
+        processor.drain(this)
         // If there are no errors, test is successful
     }
 
@@ -192,7 +192,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             copy(count = count + 1)
         }
         // Draining the processor after it is cleared should throw JobCancellationException
-        processor.drain()
+        processor.drain(this)
         assert(holder.state.count == 0) {
             "State reducer was processed by drainAsync after the StateProcessor was cleared"
         }

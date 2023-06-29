@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
 import com.core.themes.ComposeRecipeAppTheme
+import com.feature.common.observeSideEffect
 import com.feature.common.observeState
 import com.feature.user.interest.R
 import com.feature.user.interest.state.LoadSupportedCuisine
@@ -73,7 +74,8 @@ fun UserInterest() {
             }
         }
     }
-    state.viewEffect?.data?.let {
+
+    viewModel.observeSideEffect {
         topLevelNavigator.navigateTo(MainViewIntent(), UserInterestIntent(), true)
     }
 

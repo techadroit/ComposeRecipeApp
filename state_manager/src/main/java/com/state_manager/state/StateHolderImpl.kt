@@ -2,8 +2,10 @@ package com.state_manager.state
 
 import com.state_manager.logger.Logger
 import com.state_manager.logger.logv
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 
 internal class StateHolderImpl<S : AppState>(
     initialState: S,

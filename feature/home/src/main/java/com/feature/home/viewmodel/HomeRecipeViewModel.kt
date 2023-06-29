@@ -4,15 +4,20 @@ import com.state_manager.managers.StateEventManager
 import com.domain.recipe.cuisines.RecipesForSelectedCuisines
 import com.state_manager.extensions.collectIn
 import com.feature.home.state.*
+import com.state_manager.scopes.StateManagerCoroutineScope
+import com.state_manager.scopes.StateManagerCoroutineScopeImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
-    private val initialState: HomeRecipeState
-) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialState) {
+    private val initialHomeState: HomeRecipeState,
+    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl()
+) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialHomeState,scope) {
 
     init {
         dispatch(LoadRecipeEvent)
