@@ -1,7 +1,6 @@
 package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
-import com.state_manager.TestStateManagerScope
 import com.state_manager.events.EventHolder
 import com.state_manager.events.EventHolderImpl
 import com.state_manager.reducer.SelectBasedStateProcessor
@@ -10,6 +9,7 @@ import com.state_manager.state.StateHolderFactory
 import com.state_manager.logger.systemOutLogger
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.side_effects.SideEffectHolderImpl
+import com.state_manager.test.TestStateManagerScope
 import kotlinx.coroutines.*
 import org.junit.After
 import org.junit.Before

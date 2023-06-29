@@ -1,12 +1,8 @@
 package com.state_manager.side_effect
 
 import com.state_manager.BaseUnitTest
-import com.state_manager.TestStateManagerScope
-import kotlinx.coroutines.channels.BufferOverflow
+import com.state_manager.test.TestStateManagerScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

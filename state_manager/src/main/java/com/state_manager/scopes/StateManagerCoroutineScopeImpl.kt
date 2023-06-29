@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.isActive
 import kotlin.coroutines.CoroutineContext
 
 class StateManagerCoroutineScopeImpl(coroutineContext: CoroutineContext = Dispatchers.Default + SupervisorJob()) : StateManagerCoroutineScope {
@@ -18,4 +19,6 @@ class StateManagerCoroutineScopeImpl(coroutineContext: CoroutineContext = Dispat
         CoroutineScope(coroutineContext + exceptionHandler)
     }
     override fun getScope(): CoroutineScope = coroutineScope
+
+    override fun isCleared() = !getScope().isActive
 }

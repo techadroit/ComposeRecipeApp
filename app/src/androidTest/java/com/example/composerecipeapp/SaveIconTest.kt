@@ -2,7 +2,7 @@ package com.example.composerecipeapp
 
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
-import com.example.composerecipeapp.ui.views.SaveIcon
+import com.feature.common.ui.common_views.SaveIcon
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

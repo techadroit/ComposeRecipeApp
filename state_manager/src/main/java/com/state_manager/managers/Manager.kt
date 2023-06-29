@@ -114,6 +114,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     override fun onCleared() {
         logger.logv { "Clearing ViewModel ${this::class}" }
         super.onCleared()
+        coroutineScope.cancel()
         stateStore.clear()
     }
 

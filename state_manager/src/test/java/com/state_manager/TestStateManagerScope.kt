@@ -1,19 +1,20 @@
-package com.state_manager
-
-import com.state_manager.scopes.StateManagerCoroutineScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-
-class TestStateManagerScope: StateManagerCoroutineScope {
-    val testJob = Job()
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val testScope = CoroutineScope(Dispatchers.Default.limitedParallelism(1))
-    override fun getScope(): CoroutineScope = testScope
-
-    fun isCleared() = !testScope.isActive && testJob.isCancelled
-}
+//package com.state_manager
+//
+//import com.state_manager.scopes.StateManagerCoroutineScope
+//import kotlinx.coroutines.CoroutineScope
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.ExperimentalCoroutinesApi
+//import kotlinx.coroutines.Job
+//import kotlinx.coroutines.isActive
+//import kotlinx.coroutines.test.TestCoroutineScheduler
+//import kotlinx.coroutines.test.TestScope
+//import kotlinx.coroutines.test.UnconfinedTestDispatcher
+//
+//class TestStateManagerScope: StateManagerCoroutineScope {
+//    val testJob = Job()
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    val testScope = TestScope(UnconfinedTestDispatcher() + testJob)
+//    override fun getScope(): CoroutineScope = testScope
+//
+//    fun isCleared() = !testScope.isActive && testJob.isCancelled
+//}

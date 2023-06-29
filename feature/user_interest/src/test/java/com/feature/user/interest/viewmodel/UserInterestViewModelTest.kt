@@ -6,8 +6,10 @@ import com.data.repository.datasource.SettingsDataStore
 import com.domain.common.pojo.Cuisine
 import com.domain.recipe.cuisines.GetSupportedCuisineUsecase
 import com.feature.user.interest.state.LoadSupportedCuisine
+import com.feature.user.interest.state.OnCuisineSelected
 import com.feature.user.interest.state.RemoveCuisine
 import com.feature.user.interest.state.SelectedCuisine
+import com.feature.user.interest.state.UserInterestSelected
 import com.feature.user.interest.state.UserInterestState
 import com.feature.user.interest.state.onCuisineRemoved
 import com.feature.user.interest.state.onCuisineSelected
@@ -84,6 +86,22 @@ class UserInterestViewModelTest {
         ) {
             println(it)
             assertEquals(states, it)
+        }
+    }
+
+    @Test
+    fun `test on user interest selected`(){
+        val c = cuisine.map { it.copy(isSelected = true) }
+        val initialState = UserInterestState(cuisines = c)
+        val viewModel =
+                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+
+        viewModel.verifyState(
+            UserInterestSelected,
+        ) {
+            println(it)
+            println(viewModel.onSideEffect().value)
+            assertEquals(viewModel.onSideEffect().value?.consume(), OnCuisineSelected)
         }
     }
 }

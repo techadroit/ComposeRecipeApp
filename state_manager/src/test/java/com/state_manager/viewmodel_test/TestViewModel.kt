@@ -10,28 +10,29 @@ class TestViewModel(val initialTestState: TestState, coroutineScope: StateManage
         coroutineScope = coroutineScope
     ) {
 
-        init {
+    init {
 //            dispatch(IncrementCountEvent(1))
-        }
+    }
 
     override fun onEvent(event: TestEvent, state: TestState) {
         when (event) {
             is IncrementCountEvent -> run {
-               increment(event.counter)
+                increment(event.counter)
             }
+
             is DecrementCountEvent -> run {
                 setState { this.copy(counter = this.counter - event.counter) }
             }
         }
     }
 
-    fun increment(counter:Int){
+    fun increment(counter: Int) {
         setState {
             copy(isSetting = true)
         }
-        coroutineScope.run{
+        coroutineScope.run {
             delay(100)
-            setState { this.copy(counter = this.counter + counter,isSetting = false) }
+            setState { this.copy(counter = this.counter + counter, isSetting = false) }
         }
     }
 
