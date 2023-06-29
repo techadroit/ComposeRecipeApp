@@ -20,6 +20,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +29,7 @@ class UserInterestViewModelTest {
 
     @MockK
     lateinit var useCase: GetSupportedCuisineUsecase
+    val coroutineScheduler = TestCoroutineScheduler()
 
     @MockK
     lateinit var settingsDataStore: SettingsDataStore
@@ -43,7 +45,7 @@ class UserInterestViewModelTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         coEvery { useCase(params = None) } returns flowOf(cuisineResponse)
         viewModel =
-            UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+            UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope(coroutineScheduler))
     }
 
     @Test
@@ -52,7 +54,7 @@ class UserInterestViewModelTest {
             initialState,
             UserInterestState(cuisine)
         )
-        viewModel.verifyState(LoadSupportedCuisine) {
+        viewModel.verifyState(coroutineScheduler,LoadSupportedCuisine) {
             assertEquals(states, it)
         }
     }
@@ -65,7 +67,7 @@ class UserInterestViewModelTest {
             UserInterestState(cuisine),
             UserInterestState(cuisine).onCuisineSelected(selectedCuisine)
         )
-        viewModel.verifyState(LoadSupportedCuisine, SelectedCuisine(selectedCuisine)) {
+        viewModel.verifyState(coroutineScheduler,LoadSupportedCuisine, SelectedCuisine(selectedCuisine)) {
             assertEquals(states, it)
         }
     }
@@ -81,6 +83,7 @@ class UserInterestViewModelTest {
             UserInterestState(cuisine).onCuisineRemoved(cuisineToBeRemove)
         )
         viewModel.verifyState(
+            coroutineScheduler,
             LoadSupportedCuisine,
             SelectedCuisine(selectCuisine),
             RemoveCuisine(cuisineToBeRemove)
@@ -94,9 +97,10 @@ class UserInterestViewModelTest {
     fun `test side Effect on user interest selected`(){
         val c = cuisine.map { it.copy(isSelected = true) }
         val initialState = UserInterestState(cuisines = c)
-        val viewModel = UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+        val viewModel = UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope(coroutineScheduler))
 
         viewModel.verifySideEffects(
+            coroutineScheduler,
             UserInterestSelected,
         ) {
             assertEquals(listOf(OnCuisineSelected),it)

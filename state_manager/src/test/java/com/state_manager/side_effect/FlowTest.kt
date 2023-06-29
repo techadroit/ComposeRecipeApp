@@ -4,13 +4,14 @@ import com.state_manager.BaseUnitTest
 import com.state_manager.test.TestStateManagerScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 
 class FlowTest : BaseUnitTest() {
 
-    val testManager = TestStateManagerScope()
+    val testManager = TestStateManagerScope(TestCoroutineScheduler())
 
     val channel = Channel<Int>(capacity = Channel.UNLIMITED)
 

@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
@@ -17,10 +18,11 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifySideEffects(
+    coroutineScheduler: TestCoroutineScheduler,
     vararg events: E,
     verifyer: (List<SIDE_EFFECT>) -> Unit
 ) {
-    runTest(UnconfinedTestDispatcher()) {
+    runTest(UnconfinedTestDispatcher(coroutineScheduler)) {
         val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
         backgroundScope.launch {
             onSideEffect().toList(list)
@@ -29,6 +31,7 @@ fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EF
             dispatch(it)
             runCurrent()
         }
+        advanceUntilIdle()
         val newState = list.map { it?.consume() }.filterNotNull()
         verifyer(newState)
     }
@@ -45,11 +48,12 @@ suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E,
 
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifyState(
+    coroutineScheduler: TestCoroutineScheduler,
     vararg events: E,
     verifier: (MutableList<S>) -> Unit
 ) {
-    runTest(UnconfinedTestDispatcher()) {
-        withContext(Dispatchers.Default.limitedParallelism(1)) {
+    runTest(UnconfinedTestDispatcher(coroutineScheduler)) {
+//        withContext(Dispatchers.Default.limitedParallelism(1)) {
             runCreate(backgroundScope)
 
             val list = mutableListOf<S>()
@@ -63,5 +67,5 @@ fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EF
             advanceUntilIdle()
             verifier(list)
         }
-    }
+//    }
 }

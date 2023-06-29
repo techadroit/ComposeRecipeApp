@@ -7,16 +7,19 @@ import com.feature.home.state.*
 import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.scopes.StateManagerCoroutineScopeImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
     private val initialHomeState: HomeRecipeState,
-    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl()
+    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl(),
+    val flowDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialHomeState,scope) {
 
     init {
@@ -60,6 +63,7 @@ class HomeRecipeViewModel @Inject constructor(
                     onLoadingError()
                 }
             }
+            .flowOn(flowDispatcher)
             .collectIn(coroutineScope) {
             setState {
                 add(it)

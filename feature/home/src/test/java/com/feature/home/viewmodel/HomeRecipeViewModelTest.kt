@@ -15,6 +15,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -23,7 +26,7 @@ import org.junit.Test
 class HomeRecipeViewModelTest {
 
     val fixture = kotlinFixture()
-
+    val coroutineScheduler = TestCoroutineScheduler()
     lateinit var viewModel: HomeRecipeViewModel
 
     @MockK
@@ -44,7 +47,12 @@ class HomeRecipeViewModelTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         coEvery { recipeWithCuisineUseCase.invoke() } returns flowOf(recipeWithCuisine)
         viewModel =
-            HomeRecipeViewModel(recipeWithCuisineUseCase, initialHomeState, TestStateManagerScope())
+            HomeRecipeViewModel(
+                recipeWithCuisineUseCase,
+                initialHomeState,
+                TestStateManagerScope(coroutineScheduler),
+                flowDispatcher = UnconfinedTestDispatcher(coroutineScheduler)
+            )
     }
 
     @Test
@@ -55,7 +63,7 @@ class HomeRecipeViewModelTest {
             state.add(recipeWithCuisine)
                 .showLoading(false),
         )
-        viewModel.verifyState(LoadRecipeEvent) {
+        viewModel.verifyState(coroutineScheduler, LoadRecipeEvent) {
             println(states)
             assert(it == states)
         }
@@ -70,7 +78,7 @@ class HomeRecipeViewModelTest {
                 .showLoading(false),
         )
         println(states)
-        viewModel.verifyState(RefreshHomeEvent) {
+        viewModel.verifyState(coroutineScheduler, RefreshHomeEvent) {
             assertEquals(states, it)
         }
     }

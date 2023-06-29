@@ -11,9 +11,8 @@ import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
-class TestStateManagerScope : StateManagerCoroutineScope {
+class TestStateManagerScope(coroutineScheduler: TestCoroutineScheduler = TestCoroutineScheduler()) : StateManagerCoroutineScope {
     val testJob = Job()
-    val coroutineScheduler = TestCoroutineScheduler()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val testScope = TestScope(UnconfinedTestDispatcher(coroutineScheduler) + testJob)
@@ -23,9 +22,9 @@ class TestStateManagerScope : StateManagerCoroutineScope {
 
     override fun run(fn: suspend () -> Unit): Job {
         return testScope.launch {
-            runBlocking {
+//            runBlocking {
                 fn.invoke()
-            }
+//            }
         }
     }
 }
