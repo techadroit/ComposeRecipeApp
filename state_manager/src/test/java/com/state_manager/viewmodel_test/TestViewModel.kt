@@ -29,6 +29,7 @@ class TestViewModel(val initialTestState: TestState, coroutineScope: StateManage
         coroutineScope.run {
             delay(100)
             setState { this.copy(counter = this.counter + counter, isSetting = false) }
+            postSideEffect { SuccessUpdate(currentState.counter) }
         }
     }
 

@@ -13,6 +13,7 @@ import com.feature.user.interest.state.UserInterestSelected
 import com.feature.user.interest.state.UserInterestState
 import com.feature.user.interest.state.onCuisineRemoved
 import com.feature.user.interest.state.onCuisineSelected
+import com.state_manager.extensions.verifySideEffects
 import com.state_manager.extensions.verifyState
 import com.state_manager.test.TestStateManagerScope
 import io.mockk.MockKAnnotations
@@ -90,18 +91,15 @@ class UserInterestViewModelTest {
     }
 
     @Test
-    fun `test on user interest selected`(){
+    fun `test side Effect on user interest selected`(){
         val c = cuisine.map { it.copy(isSelected = true) }
         val initialState = UserInterestState(cuisines = c)
-        val viewModel =
-                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+        val viewModel = UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
 
-        viewModel.verifyState(
+        viewModel.verifySideEffects(
             UserInterestSelected,
         ) {
-            println(it)
-            println(viewModel.onSideEffect().value)
-            assertEquals(viewModel.onSideEffect().value?.consume(), OnCuisineSelected)
+            assertEquals(listOf(OnCuisineSelected),it)
         }
     }
 }

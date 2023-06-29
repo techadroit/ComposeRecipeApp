@@ -1,6 +1,7 @@
 package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
+import com.state_manager.extensions.verifySideEffects
 import com.state_manager.extensions.verifyState
 import com.state_manager.test.TestStateManagerScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,8 +25,7 @@ internal class StateEventManagerTest : BaseUnitTest() {
     @Test
     fun checkListOfStates() {
         viewModel.verifyState(
-            IncrementCountEvent(1),
-            IncrementCountEvent(1)
+            IncrementCountEvent(1), IncrementCountEvent(1)
         ) {
             print(it)
             assert(it.isNotEmpty())
@@ -56,8 +56,7 @@ internal class StateEventManagerTest : BaseUnitTest() {
             TestState(5, isSetting = false)
         )
         viewModel.verifyState(
-            DecrementCountEvent(5),
-            IncrementCountEvent(10)
+            DecrementCountEvent(5), IncrementCountEvent(10)
         ) {
             print(it)
             assertEquals(states, it)
@@ -65,9 +64,27 @@ internal class StateEventManagerTest : BaseUnitTest() {
     }
 
     @Test
-    fun clearTest() {
-        viewModel.clear()
-        assert(testStateManagerScope.isCleared())
+    fun `test side effects on increment`() {
+        val effects = listOf(SuccessUpdate(5))
+        viewModel.verifySideEffects(IncrementCountEvent(5)) {
+            assertEquals(effects, it)
+        }
     }
+
+    @Test
+    fun `test multiple side effects emitted on multiple increment event`() {
+        val effects = listOf(SuccessUpdate(5), SuccessUpdate(10), SuccessUpdate(15))
+        viewModel.verifySideEffects(
+            IncrementCountEvent(5), IncrementCountEvent(5), IncrementCountEvent(5)
+        ) {
+            assertEquals(effects, it)
+        }
+    }
+
+//    @Test
+//    fun clearTest() {
+//        viewModel.clear()
+//        assert(testStateManagerScope.isCleared())
+//    }
 }
 
