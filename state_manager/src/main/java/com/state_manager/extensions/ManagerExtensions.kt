@@ -7,6 +7,7 @@ import com.state_manager.state.AppState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
@@ -21,6 +22,25 @@ suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E,
     verifyer: (S) -> Unit
 ) {
     verifyer(currentState)
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifySideEffects(
+    vararg events: E,
+    verifyer: (List<SIDE_EFFECT>) -> Unit
+) {
+    runTest(UnconfinedTestDispatcher()) {
+        val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
+        backgroundScope.launch {
+            onSideEffect().toList(list)
+        }
+        events.onEach {
+            dispatch(it)
+            runCurrent()
+        }
+        val newState = list.map { it?.consume() }.filterNotNull()
+        verifyer(newState)
+    }
 }
 
 suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.runCreate(
