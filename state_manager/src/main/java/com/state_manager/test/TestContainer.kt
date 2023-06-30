@@ -74,12 +74,11 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun verifyEffects(
         verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
     ) {
-        runTest {
-            manager.runCreate(initialState, backgroundScope)
+        runTest(dispatcher) {
+            manager.runCreate(backgroundScope)
 
             val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
             backgroundScope.launch {

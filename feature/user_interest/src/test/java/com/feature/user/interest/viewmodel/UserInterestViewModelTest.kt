@@ -31,7 +31,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class UserInterestViewModelTest {
-
     @MockK
     lateinit var useCase: GetSupportedCuisineUsecase
 
@@ -100,6 +99,28 @@ class UserInterestViewModelTest {
         }
     }
 
+    @Test
+    fun `test on user interest selected`(){
+        val c = cuisine.map { it.copy(isSelected = true) }
+        val initialState = UserInterestState(cuisines = c)
+        val viewModel =
+                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+
+//        viewModel.verifyState(
+//            testDispatcher,
+//            UserInterestSelected,
+//        ) {
+//            println(it)
+//            println(viewModel.onSideEffect().value)
+//            assertEquals(viewModel.onSideEffect().value?.consume(), OnCuisineSelected)
+//        }
+        viewModel.createTestContainer().test {
+            forEvents(UserInterestSelected)
+            verifyEffects {
+                expect(OnCuisineSelected)
+            }
+        }
+    }
     @Test
     fun `test side Effect on user interest selected`(){
         val c = cuisine.map { it.copy(isSelected = true) }
