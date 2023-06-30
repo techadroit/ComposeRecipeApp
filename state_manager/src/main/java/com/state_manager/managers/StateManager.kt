@@ -13,7 +13,7 @@ import kotlinx.coroutines.SupervisorJob
  */
 open class StateManager<T : AppState>(initialState: T,
                                       coroutineScope: StateManagerCoroutineScope
-                                         = StateManagerCoroutineScopeImpl(Dispatchers.Default + SupervisorJob())
+                                         = StateManagerCoroutineScopeImpl(Dispatchers.Default)
 ) : Manager<T, EmptyEvent,SideEffect>(initialState = initialState,coroutineScope) {
 
     /**

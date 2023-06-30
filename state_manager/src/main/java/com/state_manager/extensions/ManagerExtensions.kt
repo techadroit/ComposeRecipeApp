@@ -4,34 +4,21 @@ import com.state_manager.events.AppEvent
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
+import com.state_manager.test.TestContainer
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalCoroutinesApi::class)
-fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifySideEffects(
-    vararg events: E,
-    verifyer: (List<SIDE_EFFECT>) -> Unit
+suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.testCurrentState(
+    verifyer: (S) -> Unit
 ) {
-    runTest(UnconfinedTestDispatcher()) {
-        val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
-        backgroundScope.launch {
-            onSideEffect().toList(list)
-        }
-        events.onEach {
-            dispatch(it)
-            runCurrent()
-        }
-        val newState = list.map { it?.consume() }.filterNotNull()
-        verifyer(newState)
-    }
+    verifyer(currentState)
 }
 
 suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.runCreate(
@@ -43,25 +30,28 @@ suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E,
     }
 }
 
+fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.createTestContainer(): TestContainer<S, E, SIDE_EFFECT> {
+    return TestContainer(this)
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifyState(
+    dispatcher: TestDispatcher = UnconfinedTestDispatcher(),
     vararg events: E,
     verifier: (MutableList<S>) -> Unit
 ) {
-    runTest(UnconfinedTestDispatcher()) {
-        withContext(Dispatchers.Default.limitedParallelism(1)) {
-            runCreate(backgroundScope)
+    runTest(dispatcher) {
+        runCreate(backgroundScope)
 
-            val list = mutableListOf<S>()
-           backgroundScope.launch {
-                stateEmitter.toList(list)
-            }
-            events.forEach {
-                dispatch(it)
-                runCurrent()
-            }
-            advanceUntilIdle()
-            verifier(list)
+        val list = mutableListOf<S>()
+        backgroundScope.launch {
+            stateEmitter.toList(list)
         }
+        events.forEach {
+            dispatch(it)
+            runCurrent()
+        }
+        advanceUntilIdle()
+        verifier(list)
     }
 }
