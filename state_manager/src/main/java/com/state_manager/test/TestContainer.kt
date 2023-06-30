@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -25,8 +27,10 @@ typealias testAction = () -> Unit
 
 class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val manager: Manager<S, E, SIDE_EFFECT>) {
 
-    var dispatcher = UnconfinedTestDispatcher()
+    var dispatcher = manager.coroutineScope.dispatcher
+    var states: List<S> = emptyList()
     var events: List<E> = emptyList()
+    val effects: List<SIDE_EFFECT> = emptyList()
     var actions: List<testAction> = emptyList()
     var initialState = manager.initialState
 
@@ -50,8 +54,8 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     fun verify(
         verifier: TestResult.StateResult<S>.() -> Unit
     ) {
-        runTest {
-            manager.runCreate(initialState, backgroundScope)
+        runTest(dispatcher) {
+            manager.runCreate(backgroundScope)
 
             val list = mutableListOf<S>()
             backgroundScope.launch {

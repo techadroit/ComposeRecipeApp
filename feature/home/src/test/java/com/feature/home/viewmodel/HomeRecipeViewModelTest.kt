@@ -10,7 +10,6 @@ import com.feature.home.state.RefreshHomeEvent
 import com.feature.home.state.add
 import com.feature.home.state.showLoading
 import com.state_manager.extensions.createTestContainer
-import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
 import com.state_manager.test.test
@@ -18,17 +17,12 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class HomeRecipeViewModelTest {
 
-    @get:Rule
-    var rule = StateManagerTestRule()
     val fixture = kotlinFixture()
 
     lateinit var viewModel: HomeRecipeViewModel
@@ -50,17 +44,13 @@ class HomeRecipeViewModelTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         coEvery { recipeWithCuisineUseCase.invoke() } returns flowOf(recipeWithCuisine)
         viewModel =
-            HomeRecipeViewModel(recipeWithCuisineUseCase, initialHomeState, TestStateManagerScope(
-                UnconfinedTestDispatcher()
-            ), StandardTestDispatcher()
-            )
+            HomeRecipeViewModel(recipeWithCuisineUseCase, initialHomeState, TestStateManagerScope())
     }
 
     @Test
     fun `verify load recipe event`() = runTest {
         val state = viewModel.initialState
         val states = listOf(
-            state,
             state.showLoading(true),
             state.add(recipeWithCuisine).showLoading(false),
         )

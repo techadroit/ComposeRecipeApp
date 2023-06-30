@@ -14,6 +14,7 @@ import com.feature.user.interest.state.UserInterestState
 import com.feature.user.interest.state.onCuisineRemoved
 import com.feature.user.interest.state.onCuisineSelected
 import com.state_manager.extensions.createTestContainer
+import com.state_manager.extensions.verifyState
 import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
@@ -22,14 +23,14 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class UserInterestViewModelTest {
-
-    @get:Rule
-    var rule = StateManagerTestRule()
 
     @MockK
     lateinit var useCase: GetSupportedCuisineUsecase
@@ -100,16 +101,15 @@ class UserInterestViewModelTest {
     }
 
     @Test
-    fun `test on user interest selected`(){
+    fun `test side Effect on user interest selected`(){
         val c = cuisine.map { it.copy(isSelected = true) }
         val initialState = UserInterestState(cuisines = c)
-        val viewModel =
-                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
-        viewModel.createTestContainer().test {
-            forEvents(UserInterestSelected)
-            verifyEffects {
-                expect(OnCuisineSelected)
-            }
+        val viewModel = UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+
+        viewModel.verifySideEffects(
+            UserInterestSelected,
+        ) {
+            assertEquals(listOf(OnCuisineSelected),it)
         }
     }
 }
