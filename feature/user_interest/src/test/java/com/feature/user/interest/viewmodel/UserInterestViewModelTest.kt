@@ -99,13 +99,13 @@ class UserInterestViewModelTest {
         }
     }
 
-//    @Test
-//    fun `test on user interest selected`(){
-//        val c = cuisine.map { it.copy(isSelected = true) }
-//        val initialState = UserInterestState(cuisines = c)
-//        val viewModel =
-//                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
-//
+    @Test
+    fun `test on user interest selected`(){
+        val c = cuisine.map { it.copy(isSelected = true) }
+        val initialState = UserInterestState(cuisines = c)
+        val viewModel =
+                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+
 //        viewModel.verifyState(
 //            testDispatcher,
 //            UserInterestSelected,
@@ -114,8 +114,11 @@ class UserInterestViewModelTest {
 //            println(viewModel.onSideEffect().value)
 //            assertEquals(viewModel.onSideEffect().value?.consume(), OnCuisineSelected)
 //        }
-//        viewModel.createTestContainer().test {
-//            forEvents(UserInterestSelected)
-//        }
-//    }
+        viewModel.createTestContainer().test {
+            forEvents(UserInterestSelected)
+            verifyEffects {
+                expect(OnCuisineSelected)
+            }
+        }
+    }
 }

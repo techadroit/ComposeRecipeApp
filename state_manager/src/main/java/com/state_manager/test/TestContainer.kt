@@ -1,6 +1,7 @@
 package com.state_manager.test
 
 import com.state_manager.events.AppEvent
+import com.state_manager.extensions.Consumable
 import com.state_manager.extensions.runCreate
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
@@ -17,17 +18,11 @@ import kotlin.contracts.contract
 class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val manager: Manager<S, E, SIDE_EFFECT>) {
 
     val dispatcher = manager.coroutineScope.dispatcher
-    var states: List<S> = emptyList()
     var events: List<E> = emptyList()
-    val effects: List<SIDE_EFFECT> = emptyList()
 
     fun forEvents(vararg events: E) {
         this.events = events.toList()
     }
-//
-//    fun expect(vararg states: S) {
-//        this.states = states.toList()
-//    }
 
     fun verify(
         verifier: TestResult.StateResult<S>.() -> Unit
@@ -47,10 +42,30 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
             verifier(TestResult.StateResult(list))
         }
     }
+
+    fun verifyEffects(
+        verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
+    ) {
+        runTest(dispatcher) {
+            manager.runCreate(backgroundScope)
+
+            val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
+            backgroundScope.launch {
+                manager.onSideEffect().toList(list)
+            }
+            events.forEach {
+                manager.dispatch(it)
+                runCurrent()
+            }
+            advanceUntilIdle()
+            verifier(TestResult.SideEffectsResult(list.mapNotNull { it?.consume() }))
+        }
+    }
 }
 
 sealed class TestResult{
     data class StateResult<S: AppState>(val emittedStates:List<S>) : TestResult()
+    data class SideEffectsResult<SIDE_EFFECT: SideEffect>(val emittedEffects:List<SIDE_EFFECT>) : TestResult()
 }
 
 @OptIn(ExperimentalContracts::class)
