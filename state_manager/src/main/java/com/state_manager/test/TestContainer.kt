@@ -6,14 +6,6 @@ import com.state_manager.extensions.runCreate
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -23,34 +15,15 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-typealias testAction = () -> Unit
-
 class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val manager: Manager<S, E, SIDE_EFFECT>) {
 
-    var dispatcher = manager.coroutineScope.dispatcher
-    var states: List<S> = emptyList()
+    val dispatcher = manager.coroutineScope.dispatcher
     var events: List<E> = emptyList()
-    val effects: List<SIDE_EFFECT> = emptyList()
-    var actions: List<testAction> = emptyList()
-    var initialState = manager.initialState
 
     fun forEvents(vararg events: E) {
         this.events = events.toList()
     }
 
-    fun forActions(vararg a:testAction){
-        actions = a.toList()
-    }
-
-    fun withState(state: S) {
-        this.initialState = state
-    }
-
-    fun withDispatcher(dispatcher: TestDispatcher){
-        this.dispatcher = dispatcher
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun verify(
         verifier: TestResult.StateResult<S>.() -> Unit
     ) {
@@ -63,10 +36,6 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
             }
             events.forEach {
                 manager.dispatch(it)
-                runCurrent()
-            }
-            actions.forEach {
-                it.invoke()
                 runCurrent()
             }
             advanceUntilIdle()
@@ -94,10 +63,9 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     }
 }
 
-sealed class TestResult {
-    data class StateResult<S : AppState>(val emittedStates: List<S>) : TestResult()
-    data class SideEffectsResult<SIDE_EFFECT : SideEffect>(val emittedEffects: List<SIDE_EFFECT>) :
-        TestResult()
+sealed class TestResult{
+    data class StateResult<S: AppState>(val emittedStates:List<S>) : TestResult()
+    data class SideEffectsResult<SIDE_EFFECT: SideEffect>(val emittedEffects:List<SIDE_EFFECT>) : TestResult()
 }
 
 @OptIn(ExperimentalContracts::class)

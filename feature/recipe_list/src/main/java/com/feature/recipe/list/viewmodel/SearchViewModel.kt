@@ -1,6 +1,6 @@
 package com.feature.recipe.list.viewmodel
 
-import androidx.lifecycle.viewModelScope
+import com.state_manager.managers.StateEventManager
 import com.domain.recipe.search.AutoCompleteUsecase
 import com.feature.common.IoDispatcher
 import com.feature.recipe.list.state.SearchEvent
@@ -22,6 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     initialState: SearchState,
     val useCase: AutoCompleteUsecase,
+    val stateEventScope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl(),
     @IoDispatcher val flowDispatcher: CoroutineDispatcher
 ) : StateEventManager<SearchState, SearchEvent>(initialState) {
 

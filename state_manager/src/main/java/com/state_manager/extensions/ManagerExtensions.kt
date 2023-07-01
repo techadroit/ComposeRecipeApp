@@ -15,13 +15,8 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 
-suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.testCurrentState(
-    verifyer: (S) -> Unit
-) {
-    verifyer(currentState)
-}
-
 suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.runCreate(
+    initialState: S,
     scope: CoroutineScope
 ) {
     stateStore.drain(scope)
@@ -32,26 +27,4 @@ suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E,
 
 fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.createTestContainer(): TestContainer<S, E, SIDE_EFFECT> {
     return TestContainer(this)
-}
-
-@OptIn(ExperimentalCoroutinesApi::class)
-fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.verifyState(
-    dispatcher: TestDispatcher = UnconfinedTestDispatcher(),
-    vararg events: E,
-    verifier: (MutableList<S>) -> Unit
-) {
-    runTest(dispatcher) {
-        runCreate(backgroundScope)
-
-        val list = mutableListOf<S>()
-        backgroundScope.launch {
-            stateEmitter.toList(list)
-        }
-        events.forEach {
-            dispatch(it)
-            runCurrent()
-        }
-        advanceUntilIdle()
-        verifier(list)
-    }
 }

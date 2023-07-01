@@ -10,6 +10,7 @@ import com.state_manager.test.expect
 import com.state_manager.test.test
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.mockk
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,19 +23,15 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class SearchViewModelTest {
-    private val testDispatcher = UnconfinedTestDispatcher()
-    @get:Rule
-    var rule = StateManagerTestRule()
     private lateinit var viewModel: SearchViewModel
     private val initialState = SearchState()
-    @MockK
-    lateinit var mockUseCase: AutoCompleteUsecase
-
+    private val mockUseCase: AutoCompleteUsecase = mockk(relaxed = true)
+    private val testStateManagerScope = TestStateManagerScope()
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        viewModel = SearchViewModel(initialState, mockUseCase, testDispatcher)
+        viewModel = SearchViewModel(initialState, mockUseCase, testStateManagerScope)
     }
 
     @Test
@@ -42,11 +39,10 @@ class SearchViewModelTest {
         // Arrange
         val keyword = "example"
         val resultList = listOf("example1", "example2")
-        coEvery { mockUseCase.invoke(keyword) } returns flowOf(resultList)
+        coEvery { mockUseCase(keyword) } returns flowOf(resultList)
 
         // Act
         viewModel.createTestContainer().test {
-            withDispatcher(testDispatcher)
             forEvents(SearchTextEvent(keyword))
             verify {
                 expect(
