@@ -1,10 +1,14 @@
 package com.state_manager.test
 
 import com.state_manager.side_effects.SideEffect
+import com.state_manager.state.AppState
 import org.junit.Assert.assertEquals
 
 fun TestResult.StateResult<*>.expect(states: List<Any>) {
     assertEquals(states, emittedStates)
+}
+fun <S: AppState> TestResult.StateResult<*>.expect(vararg states: S) {
+    assertEquals(states.toList(), emittedStates)
 }
 fun <SIDE_EFFECT: SideEffect> TestResult.SideEffectsResult<SIDE_EFFECT>.expect(vararg effects: SIDE_EFFECT) {
     assertEquals(effects.toList(), emittedEffects)

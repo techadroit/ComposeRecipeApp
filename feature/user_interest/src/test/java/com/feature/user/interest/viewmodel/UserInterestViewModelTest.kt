@@ -105,15 +105,6 @@ class UserInterestViewModelTest {
         val initialState = UserInterestState(cuisines = c)
         val viewModel =
                 UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
-
-//        viewModel.verifyState(
-//            testDispatcher,
-//            UserInterestSelected,
-//        ) {
-//            println(it)
-//            println(viewModel.onSideEffect().value)
-//            assertEquals(viewModel.onSideEffect().value?.consume(), OnCuisineSelected)
-//        }
         viewModel.createTestContainer().test {
             forEvents(UserInterestSelected)
             verifyEffects {

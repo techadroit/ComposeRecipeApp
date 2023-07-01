@@ -8,6 +8,7 @@ import com.domain.favourite.SaveRecipeUsecase
 import com.domain.recipe.search.SearchRecipeUsecase
 import com.state_manager.extensions.collectIn
 import com.feature.recipe.list.state.*
+import com.state_manager.scopes.StateManagerCoroutineScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
@@ -17,9 +18,10 @@ open class RecipeListViewmodel @Inject constructor(
     initialState: RecipeListState,
     val savedRecipeUseCase: SaveRecipeUsecase,
     val searchUseCase: SearchRecipeUsecase,
-    val deleteSavedRecipe: DeleteSavedRecipe
+    val deleteSavedRecipe: DeleteSavedRecipe,
+    val stateManagerCoroutineScope: StateManagerCoroutineScope
 ) :
-    StateEventManager<RecipeListState, RecipeEvent>(initialState) {
+    StateEventManager<RecipeListState, RecipeEvent>(initialState,stateManagerCoroutineScope) {
 
     var page = 1
     private fun saveRecipe(recipeModel: RecipeModel) =
@@ -96,7 +98,7 @@ open class RecipeListViewmodel @Inject constructor(
             is LoadRecipes -> if (event.isPaginate) paginate(event.query) else loadRecipes(event.query)
             is SaveRecipeEvent -> saveRecipe(event.recipeModel)
             is RemoveSavedRecipeEvent -> deleteRecipe(event.recipeModel)
-            is RefreshRecipeList -> refreshRecipeList()
+            RefreshRecipeList -> refreshRecipeList()
         }
     }
 }

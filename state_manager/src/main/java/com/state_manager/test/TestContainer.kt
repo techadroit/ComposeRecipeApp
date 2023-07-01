@@ -19,16 +19,21 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
 
     val dispatcher = manager.coroutineScope.dispatcher
     var events: List<E> = emptyList()
+    var initialState = manager.initialState
 
     fun forEvents(vararg events: E) {
         this.events = events.toList()
+    }
+
+    fun withState(state: S) {
+        this.initialState = state
     }
 
     fun verify(
         verifier: TestResult.StateResult<S>.() -> Unit
     ) {
         runTest(dispatcher) {
-            manager.runCreate(backgroundScope)
+            manager.runCreate(initialState, backgroundScope)
 
             val list = mutableListOf<S>()
             backgroundScope.launch {
@@ -43,11 +48,30 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         }
     }
 
+//    fun verify1(
+//        vararg verifier: TestResult.StateResult<S>.() -> Unit
+//    ) {
+//        runTest(dispatcher) {
+//            manager.runCreate(initialState, backgroundScope)
+//
+//            val list = mutableListOf<S>()
+//            backgroundScope.launch {
+//                manager.stateEmitter.toList(list)
+//            }
+//            events.forEach {
+//                manager.dispatch(it)
+//                runCurrent()
+//            }
+//            advanceUntilIdle()
+//            verifier(TestResult.StateResult(list))
+//        }
+//    }
+
     fun verifyEffects(
         verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
     ) {
         runTest(dispatcher) {
-            manager.runCreate(backgroundScope)
+            manager.runCreate(initialState, backgroundScope)
 
             val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
             backgroundScope.launch {
@@ -63,9 +87,10 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     }
 }
 
-sealed class TestResult{
-    data class StateResult<S: AppState>(val emittedStates:List<S>) : TestResult()
-    data class SideEffectsResult<SIDE_EFFECT: SideEffect>(val emittedEffects:List<SIDE_EFFECT>) : TestResult()
+sealed class TestResult {
+    data class StateResult<S : AppState>(val emittedStates: List<S>) : TestResult()
+    data class SideEffectsResult<SIDE_EFFECT : SideEffect>(val emittedEffects: List<SIDE_EFFECT>) :
+        TestResult()
 }
 
 @OptIn(ExperimentalContracts::class)
