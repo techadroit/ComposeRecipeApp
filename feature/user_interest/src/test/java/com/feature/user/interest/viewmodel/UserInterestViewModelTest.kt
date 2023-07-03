@@ -14,8 +14,6 @@ import com.feature.user.interest.state.UserInterestState
 import com.feature.user.interest.state.onCuisineRemoved
 import com.feature.user.interest.state.onCuisineSelected
 import com.state_manager.extensions.createTestContainer
-import com.state_manager.extensions.verifyState
-import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
 import com.state_manager.test.test
@@ -23,11 +21,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class UserInterestViewModelTest {

@@ -1,6 +1,5 @@
 package com.feature.saved.recipes.viewmodel
 
-import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.state_manager.extensions.collectIn
 import com.core.platform.usecase.None
@@ -34,7 +33,7 @@ class SaveRecipeViewModel @Inject constructor(
     private fun removeRecipe(recipeModel: RecipeModel) {
         deleteSavedRecipe(params = recipeModel.id).zip(loadSavedRecipeUseCase(params = None)) { _, result2 ->
             result2
-        }.collectInScope(viewModelScope) {
+        }.collectIn(coroutineScope) {
             setState {
                 onSuccess(SavedData(it))
             }
@@ -46,7 +45,7 @@ class SaveRecipeViewModel @Inject constructor(
             setState {
                 onLoading()
             }
-            loadSavedRecipeUseCase(params = None).collectInScope(viewModelScope) {
+            loadSavedRecipeUseCase(params = None).collectIn(coroutineScope) {
                 setState {
                     onSuccess(SavedData(it))
                 }

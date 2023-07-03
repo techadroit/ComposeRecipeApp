@@ -2,18 +2,12 @@ package com.state_manager.viewmodel_test
 
 import com.state_manager.BaseUnitTest
 import com.state_manager.extensions.createTestContainer
-import com.state_manager.extensions.verifyState
-import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
 import com.state_manager.test.expectNotEmpty
 import com.state_manager.test.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 internal class StateEventManagerTest : BaseUnitTest() {
