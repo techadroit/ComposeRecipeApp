@@ -4,6 +4,9 @@ import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import org.junit.Assert.assertEquals
 
+/**
+ * compare the emitted states with the list of states
+ */
 fun TestResult.StateResult<*>.expect(states: List<Any>) {
     assertEquals(states, emittedStates)
 }

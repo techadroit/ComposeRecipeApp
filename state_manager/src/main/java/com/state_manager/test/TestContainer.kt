@@ -48,25 +48,6 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         }
     }
 
-//    fun verify1(
-//        vararg verifier: TestResult.StateResult<S>.() -> Unit
-//    ) {
-//        runTest(dispatcher) {
-//            manager.runCreate(initialState, backgroundScope)
-//
-//            val list = mutableListOf<S>()
-//            backgroundScope.launch {
-//                manager.stateEmitter.toList(list)
-//            }
-//            events.forEach {
-//                manager.dispatch(it)
-//                runCurrent()
-//            }
-//            advanceUntilIdle()
-//            verifier(TestResult.StateResult(list))
-//        }
-//    }
-
     fun verifyEffects(
         verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
     ) {
