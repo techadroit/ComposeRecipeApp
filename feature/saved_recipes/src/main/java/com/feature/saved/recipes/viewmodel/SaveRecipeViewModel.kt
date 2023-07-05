@@ -8,6 +8,7 @@ import com.domain.favourite.DeleteSavedRecipe
 import com.domain.favourite.LoadSavedRecipeUsecase
 import com.feature.saved.recipes.model.SavedData
 import com.feature.saved.recipes.state.*
+import com.state_manager.scopes.StateManagerCoroutineScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
@@ -16,8 +17,9 @@ import javax.inject.Inject
 class SaveRecipeViewModel @Inject constructor(
     initialState: SaveRecipeState,
     val loadSavedRecipeUseCase: LoadSavedRecipeUsecase,
-    val deleteSavedRecipe: DeleteSavedRecipe
-) : StateEventManager<SaveRecipeState, SaveRecipeEvent>(initialState = initialState) {
+    val deleteSavedRecipe: DeleteSavedRecipe,
+    val scope: StateManagerCoroutineScope,
+) : StateEventManager<SaveRecipeState, SaveRecipeEvent>(initialState = initialState,scope) {
 
     override fun onEvent(event: SaveRecipeEvent, state: SaveRecipeState) {
         when (event) {

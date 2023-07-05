@@ -13,19 +13,18 @@ import com.feature.user.interest.state.UserInterestSelected
 import com.feature.user.interest.state.UserInterestState
 import com.feature.user.interest.state.onCuisineRemoved
 import com.feature.user.interest.state.onCuisineSelected
-import com.state_manager.extensions.verifySideEffects
-import com.state_manager.extensions.verifyState
+import com.state_manager.extensions.createTestContainer
 import com.state_manager.test.TestStateManagerScope
+import com.state_manager.test.expect
+import com.state_manager.test.test
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 class UserInterestViewModelTest {
-
     @MockK
     lateinit var useCase: GetSupportedCuisineUsecase
 
@@ -52,8 +51,11 @@ class UserInterestViewModelTest {
             initialState,
             UserInterestState(cuisine)
         )
-        viewModel.verifyState(LoadSupportedCuisine) {
-            assertEquals(states, it)
+        viewModel.createTestContainer().test {
+            forEvents(LoadSupportedCuisine)
+            verify {
+                expect(states)
+            }
         }
     }
 
@@ -65,8 +67,11 @@ class UserInterestViewModelTest {
             UserInterestState(cuisine),
             UserInterestState(cuisine).onCuisineSelected(selectedCuisine)
         )
-        viewModel.verifyState(LoadSupportedCuisine, SelectedCuisine(selectedCuisine)) {
-            assertEquals(states, it)
+        viewModel.createTestContainer().test {
+            forEvents(LoadSupportedCuisine,SelectedCuisine(selectedCuisine))
+            verify {
+                expect(states)
+            }
         }
     }
 
@@ -80,26 +85,25 @@ class UserInterestViewModelTest {
             UserInterestState(cuisine).onCuisineSelected(selectCuisine),
             UserInterestState(cuisine).onCuisineRemoved(cuisineToBeRemove)
         )
-        viewModel.verifyState(
-            LoadSupportedCuisine,
-            SelectedCuisine(selectCuisine),
-            RemoveCuisine(cuisineToBeRemove)
-        ) {
-            println(it)
-            assertEquals(states, it)
+        viewModel.createTestContainer().test {
+            forEvents(LoadSupportedCuisine,
+                SelectedCuisine(selectCuisine),
+                RemoveCuisine(cuisineToBeRemove))
+            verify { expect(states) }
         }
     }
 
     @Test
-    fun `test side Effect on user interest selected`(){
+    fun `test on user interest selected`(){
         val c = cuisine.map { it.copy(isSelected = true) }
         val initialState = UserInterestState(cuisines = c)
-        val viewModel = UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
-
-        viewModel.verifySideEffects(
-            UserInterestSelected,
-        ) {
-            assertEquals(listOf(OnCuisineSelected),it)
+        val viewModel =
+                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+        viewModel.createTestContainer().test {
+            forEvents(UserInterestSelected)
+            verifyEffects {
+                expect(OnCuisineSelected)
+            }
         }
     }
 }
