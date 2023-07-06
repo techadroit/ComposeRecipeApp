@@ -1,5 +1,6 @@
 package com.feature.user.interest.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
@@ -7,9 +8,11 @@ import com.domain.common.pojo.Cuisine
 import com.domain.recipe.cuisines.GetSupportedCuisineUsecase
 import com.state_manager.extensions.collectIn
 import com.feature.user.interest.state.*
+import com.state_manager.extensions.collectInScope
 import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.scopes.StateManagerCoroutineScopeImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +32,7 @@ class UserInterestViewModel @Inject constructor(
     }
 
     private fun onUserInterestSelected(state: UserInterestState) {
-        coroutineScope.run {
+        viewModelScope.launch {
             settingsDataStore.storeCuisine(state.cuisines.filter { it.isSelected }.map { it.name })
             postSideEffect { OnCuisineSelected }
         }
@@ -48,7 +51,7 @@ class UserInterestViewModel @Inject constructor(
     }
 
     private fun loadCuisines() {
-        cuisineUsecase(params = None).collectIn(coroutineScope) {
+        cuisineUsecase(params = None).collectInScope(viewModelScope) {
             setState {
                 copy(cuisines = it.map { Cuisine(name = it) })
             }

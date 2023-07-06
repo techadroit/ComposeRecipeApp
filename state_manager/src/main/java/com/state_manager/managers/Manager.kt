@@ -2,9 +2,11 @@ package com.state_manager.managers
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.state_manager.events.AppEvent
 import com.state_manager.extensions.Consumable
 import com.state_manager.extensions.collectIn
+import com.state_manager.extensions.collectInScope
 import com.state_manager.handler.SideEffectHandler
 import com.state_manager.handler.SideEffectHandlerDelegation
 import com.state_manager.logger.Logger
@@ -36,7 +38,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     open var stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
         initialState,
         androidLogger(this::class.java.simpleName + " StateStore"),
-        coroutineScope.getScope()
+        viewModelScope
     )
 
     /**
@@ -121,10 +123,10 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
 
     private fun log() {
         if (enableLogging) {
-            stateEmitter.collectIn(coroutineScope) {
+            stateEmitter.collectInScope(viewModelScope) {
                 logger.logd { "State: $it" }
             }
-            stateStore.eventObservable.collectIn(coroutineScope) {
+            stateStore.eventObservable.collectInScope(viewModelScope) {
                 it?.let { logger.logd { "Event: $it" } }
             }
         }

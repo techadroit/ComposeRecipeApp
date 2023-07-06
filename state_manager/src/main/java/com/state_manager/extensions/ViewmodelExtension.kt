@@ -39,3 +39,10 @@ inline fun <T> Flow<T>.collectIn(scope: StateManagerCoroutineScope, crossinline 
             action.invoke(it)
         }
     }
+
+inline fun <T> Flow<T>.collectInScope(scope: CoroutineScope, crossinline action: suspend (value: T) -> Unit): Job =
+    scope.launch {
+        collect {
+            action.invoke(it)
+        }
+    }
