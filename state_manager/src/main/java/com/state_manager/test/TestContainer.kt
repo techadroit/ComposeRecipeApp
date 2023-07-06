@@ -7,8 +7,11 @@ import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -36,6 +39,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         this.dispatcher = dispatcher
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun verify(
         verifier: TestResult.StateResult<S>.() -> Unit
     ) {
@@ -56,6 +60,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun verifyEffects(
         verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
     ) {

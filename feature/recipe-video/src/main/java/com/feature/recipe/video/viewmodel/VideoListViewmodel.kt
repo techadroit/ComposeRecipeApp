@@ -1,13 +1,19 @@
 package com.feature.recipe.video.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
 import com.feature.common.IoDispatcher
-import com.feature.recipe.video.state.*
+import com.feature.recipe.video.state.LoadVideos
+import com.feature.recipe.video.state.RecipeVideoState
+import com.feature.recipe.video.state.RefreshVideoScreen
+import com.feature.recipe.video.state.VideoEvents
+import com.feature.recipe.video.state.onLoading
+import com.feature.recipe.video.state.onSuccess
+import com.feature.recipe.video.state.setQuery
 import com.state_manager.extensions.collectInScope
+import com.state_manager.managers.StateEventManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
@@ -31,15 +37,18 @@ class VideoListViewmodel @Inject constructor(
         usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page))
             .flowOn(dispatcher)
             .catch {
-            handleResponseFailure(this as Failure)
-        }.collectInScope(viewModelScope) {
-            handleVideoResponse(it, isPaginate = isPaginate)
-        }.also {
-            page++
-        }
+                handleResponseFailure(this as Failure)
+            }.collectInScope(viewModelScope) {
+                handleVideoResponse(it, isPaginate = isPaginate)
+            }.also {
+                page++
+            }
     }
 
-    private fun handleVideoResponse(responses: List<VideoRecipeModel>, isPaginate: Boolean = false) {
+    private fun handleVideoResponse(
+        responses: List<VideoRecipeModel>,
+        isPaginate: Boolean = false
+    ) {
         setState {
             this.onSuccess(recipeModel = responses, isPaginate = isPaginate)
         }
@@ -48,13 +57,29 @@ class VideoListViewmodel @Inject constructor(
     private fun handleResponseFailure(failure: Failure) {
     }
 
-    private fun refresh(){
-        page=0
-        val selectedQuery = currentState.query ?: throw NullPointerException("No Selected Query found in the state")
+    private fun refresh() {
+        page = 0
+        val selectedQuery =
+            currentState.query ?: throw NullPointerException("No Selected Query found in the state")
+
         setState {
-            RecipeVideoState()
+            RecipeVideoState().onLoading(false)
         }
-        searchVideo(selectedQuery,false)
+//        searchVideo(selectedQuery,false)
+
+//        setState {
+//            onLoading(isPaginate = isPaginate)
+//                .setQuery(selectedQuery)
+//        }
+//        usecase(SearchVideoRecipeUsecase.Param(query = selectedQuery, offset = page))
+//            .flowOn(dispatcher)
+//            .catch {
+//                handleResponseFailure(this as Failure)
+//            }.collectInScope(viewModelScope) {
+//                handleVideoResponse(it, isPaginate = false)
+//            }.also {
+//                page++
+//            }
     }
 
     override fun onEvent(event: VideoEvents, state: RecipeVideoState) {
