@@ -1,5 +1,6 @@
 package com.feature.recipe.detail.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.RecipeDetailModel
@@ -10,9 +11,13 @@ import com.domain.favourite.SaveRecipeUsecase
 import com.domain.recipe.SimilarRecipeUsecase
 import com.state_manager.extensions.collectIn
 import com.domain.recipe.GetRecipeDetailUsecase
+import com.feature.common.IoDispatcher
 import com.feature.recipe.detail.state.*
+import com.state_manager.extensions.collectInScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
@@ -23,6 +28,7 @@ class RecipeDetailViewModel @Inject constructor(
     val similarUseCase: SimilarRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe,
     val savedRecipeUseCase: SaveRecipeUsecase,
+    @IoDispatcher val dispatcher: CoroutineDispatcher
 ) : StateEventManager<RecipeDetailState, RecipeDetailEvent>(initialState) {
 
     private fun getRecipeDetailForId(id: String) {
@@ -33,11 +39,12 @@ class RecipeDetailViewModel @Inject constructor(
             .zip(similarUseCase(SimilarRecipeUsecase.Param(id = id))) { r1, r2 ->
                 Pair(r1, r2)
             }
+            .flowOn(dispatcher)
             .catch {
                 if (this is Failure)
                     handleFailureResponse(this as Failure)
             }
-            .collectIn(coroutineScope) {
+            .collectInScope(viewModelScope) {
                 handleSuccessResponse(it.first, it.second)
             }
     }
@@ -70,7 +77,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun removeRecipe(recipeId: Int) {
         deleteSavedRecipe(params = recipeId)
-            .collectIn(coroutineScope) {
+            .collectInScope(viewModelScope) {
                 setState {
                     onRemoveFromSavedList()
                 }
@@ -79,7 +86,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun saveRecipe(recipeModel: RecipeModel) =
         savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
-            .collectIn(coroutineScope) {
+            .collectInScope(viewModelScope) {
                 setState {
                     onRecipeSaved()
                 }

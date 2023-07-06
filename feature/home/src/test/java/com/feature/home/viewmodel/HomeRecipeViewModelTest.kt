@@ -60,6 +60,7 @@ class HomeRecipeViewModelTest {
     fun `verify load recipe event`() = runTest {
         val state = viewModel.initialState
         val states = listOf(
+            state,
             state.showLoading(true),
             state.add(recipeWithCuisine).showLoading(false),
         )
