@@ -6,8 +6,11 @@ import com.state_manager.extensions.runCreate
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -17,7 +20,7 @@ import kotlin.contracts.contract
 
 class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val manager: Manager<S, E, SIDE_EFFECT>) {
 
-    val dispatcher = manager.coroutineScope.dispatcher
+    var dispatcher = UnconfinedTestDispatcher()
     var events: List<E> = emptyList()
     var initialState = manager.initialState
 
@@ -29,10 +32,14 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         this.initialState = state
     }
 
+    fun withDispatcher(dispatcher: TestDispatcher){
+        this.dispatcher = dispatcher
+    }
+
     fun verify(
         verifier: TestResult.StateResult<S>.() -> Unit
     ) {
-        runTest(dispatcher) {
+        runTest {
             manager.runCreate(initialState, backgroundScope)
 
             val list = mutableListOf<S>()
@@ -41,6 +48,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
             }
             events.forEach {
                 manager.dispatch(it)
+                println("The event is $it")
                 runCurrent()
             }
             advanceUntilIdle()
@@ -51,7 +59,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     fun verifyEffects(
         verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
     ) {
-        runTest(dispatcher) {
+        runTest {
             manager.runCreate(initialState, backgroundScope)
 
             val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()

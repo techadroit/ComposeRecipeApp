@@ -1,19 +1,24 @@
 package com.feature.recipe.video.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
-import com.state_manager.extensions.collectIn
+import com.feature.common.IoDispatcher
 import com.feature.recipe.video.state.*
+import com.state_manager.extensions.collectInScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 @HiltViewModel
 class VideoListViewmodel @Inject constructor(
     initialState: RecipeVideoState,
-    val usecase: SearchVideoRecipeUsecase
+    val usecase: SearchVideoRecipeUsecase,
+    @IoDispatcher val dispatcher: CoroutineDispatcher
 ) :
     StateEventManager<RecipeVideoState, VideoEvents>(initialState) {
     var page = 0
@@ -23,9 +28,11 @@ class VideoListViewmodel @Inject constructor(
             onLoading(isPaginate = isPaginate)
                 .setQuery(query)
         }
-        usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page)).catch {
+        usecase(SearchVideoRecipeUsecase.Param(query = query, offset = page))
+            .flowOn(dispatcher)
+            .catch {
             handleResponseFailure(this as Failure)
-        }.collectIn(coroutineScope) {
+        }.collectInScope(viewModelScope) {
             handleVideoResponse(it, isPaginate = isPaginate)
         }.also {
             page++

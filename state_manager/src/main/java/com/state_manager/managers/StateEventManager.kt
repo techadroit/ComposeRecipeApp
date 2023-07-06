@@ -11,4 +11,4 @@ import kotlinx.coroutines.SupervisorJob
 abstract class StateEventManager<S : AppState, E : AppEvent>(
     initialState: S,
     coroutineScope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl(Dispatchers.Default)
-) : Manager<S, E,SideEffect>(initialState, coroutineScope)
+) : Manager<S, E,SideEffect>(initialState)

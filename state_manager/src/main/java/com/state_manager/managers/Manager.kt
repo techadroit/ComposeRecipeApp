@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.filterNotNull
 
 abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     val initialState: S,
-    val coroutineScope: StateManagerCoroutineScope
 ) : ViewModel(){
 
     open val logger = androidLogger(this::class.java.simpleName + " StateStore")
@@ -116,7 +115,6 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     override fun onCleared() {
         logger.logv { "Clearing ViewModel ${this::class}" }
         super.onCleared()
-        coroutineScope.cancel()
         stateStore.clear()
     }
 
