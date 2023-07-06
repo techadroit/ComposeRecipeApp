@@ -65,21 +65,8 @@ class VideoListViewmodel @Inject constructor(
         setState {
             RecipeVideoState().onLoading(false)
         }
-//        searchVideo(selectedQuery,false)
+        searchVideo(selectedQuery,false)
 
-//        setState {
-//            onLoading(isPaginate = isPaginate)
-//                .setQuery(selectedQuery)
-//        }
-//        usecase(SearchVideoRecipeUsecase.Param(query = selectedQuery, offset = page))
-//            .flowOn(dispatcher)
-//            .catch {
-//                handleResponseFailure(this as Failure)
-//            }.collectInScope(viewModelScope) {
-//                handleVideoResponse(it, isPaginate = false)
-//            }.also {
-//                page++
-//            }
     }
 
     override fun onEvent(event: VideoEvents, state: RecipeVideoState) {

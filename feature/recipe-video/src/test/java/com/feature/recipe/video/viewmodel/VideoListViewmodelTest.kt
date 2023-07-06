@@ -74,28 +74,27 @@ class VideoListViewmodelTest {
         }
     }
 
-//    @Test
-//    fun `test refresh video screen`() {
-//        // Arrange
-//        val query = "example"
-//        val isPaginate = false
-//        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
-//        val initialState = RecipeVideoState()
-//        // Act
-//        viewModel.createTestContainer().test {
-////            withDispatcher(rule.dispatcher)
-//            withState(initialState.setQuery(query))
-//            forEvents(RefreshVideoScreen)
-//            verify {
-//                expect(
-//                    initialState.setQuery(query),
-//                    RecipeVideoState(),
-////                    initialState.onLoading(isPaginate = isPaginate).setQuery(query),
-////                    initialState
-////                        .onLoading(isPaginate = isPaginate).setQuery(query)
-////                        .onSuccess(videoList, isPaginate = isPaginate)
-//                )
-//            }
-//        }
-//    }
+    @Test
+    fun `test refresh video screen`() {
+        // Arrange
+        val query = "example"
+        val isPaginate = false
+        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
+        val initialState = RecipeVideoState().setQuery(query)
+        // Act
+        viewModel.createTestContainer().test {
+            withState(initialState)
+            forEvents(RefreshVideoScreen)
+            verify {
+                expect(
+                    initialState,
+                    initialState.onLoading(false),
+                    initialState.onLoading(isPaginate = isPaginate).setQuery(query),
+                    initialState
+                        .onLoading(isPaginate = isPaginate).setQuery(query)
+                        .onSuccess(videoList, isPaginate = isPaginate)
+                )
+            }
+        }
+    }
 }
