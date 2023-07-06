@@ -21,14 +21,21 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+typealias testAction = () -> Unit
+
 class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val manager: Manager<S, E, SIDE_EFFECT>) {
 
     var dispatcher = UnconfinedTestDispatcher()
     var events: List<E> = emptyList()
+    var actions: List<testAction> = emptyList()
     var initialState = manager.initialState
 
     fun forEvents(vararg events: E) {
         this.events = events.toList()
+    }
+
+    fun forActions(vararg a:testAction){
+        actions = a.toList()
     }
 
     fun withState(state: S) {
@@ -52,7 +59,10 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
             }
             events.forEach {
                 manager.dispatch(it)
-                println("The event is $it")
+                runCurrent()
+            }
+            actions.forEach {
+                it.invoke()
                 runCurrent()
             }
             advanceUntilIdle()
