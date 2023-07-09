@@ -7,13 +7,12 @@ import com.state_manager.state.AppState
 import com.state_manager.test.TestContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
 suspend fun <S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect> Manager<S, E, SIDE_EFFECT>.runCreate(
     initialState: S,
     scope: CoroutineScope
 ) {
-    runBlocking{
+    runBlocking {
         stateStore.drain(scope)
         setState {
             initialState
