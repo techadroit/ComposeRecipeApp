@@ -1,8 +1,9 @@
 package com.example.composerecipeapp.viewmodel.main
 
-import com.state_manager.managers.StateEventManager
-import com.state_manager.extensions.collectIn
+import androidx.lifecycle.viewModelScope
 import com.data.repository.datasource.SettingsDataStore
+import com.state_manager.extensions.collectInScope
+import com.state_manager.managers.StateEventManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
@@ -23,7 +24,7 @@ class MainViewModel @Inject constructor(
     private fun loadSettings() {
         settingsDataStore.getCuisines().zip(settingsDataStore.isDarkModeOn()) { list, darkMode ->
             MainViewState(isDarkModeOn = darkMode, showLandingScreen = list.isEmpty())
-        }.collectIn(coroutineScope) {
+        }.collectInScope(viewModelScope) {
             setState {
                 it
             }

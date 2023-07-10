@@ -1,22 +1,28 @@
 package com.feature.home.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.domain.recipe.cuisines.RecipesForSelectedCuisines
+import com.feature.common.IoDispatcher
 import com.state_manager.extensions.collectIn
 import com.feature.home.state.*
+import com.state_manager.extensions.collectInScope
 import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.scopes.StateManagerCoroutineScopeImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
     private val initialHomeState: HomeRecipeState,
-    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl()
+    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl(),
+    @IoDispatcher val dispatcher: CoroutineDispatcher
 ) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialHomeState,scope) {
 
     init {
@@ -55,12 +61,13 @@ class HomeRecipeViewModel @Inject constructor(
             showLoading(true)
         }
         recipeWithCuisine()
+            .flowOn(dispatcher)
             .catch {
                 setState {
                     onLoadingError()
                 }
             }
-            .collectIn(coroutineScope) {
+            .collectInScope(viewModelScope){
             setState {
                 add(it)
                     .showLoading(false)

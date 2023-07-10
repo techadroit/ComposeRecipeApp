@@ -1,6 +1,7 @@
 plugins {
     id("android.module.library")
     id("android.library.compose")
+    id("android.application.hilt")
 }
 android {
     namespace = "com.feature.common"

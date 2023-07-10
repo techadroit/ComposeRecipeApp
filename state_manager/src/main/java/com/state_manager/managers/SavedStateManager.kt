@@ -19,7 +19,7 @@ abstract class SavedStateManager<S : AppState,E: AppEvent>(
     initialState: S,
     coroutineScope: StateManagerCoroutineScope,
     protected val savedStateHandle: SavedStateHandle
-) : Manager<S,E,SideEffect>(initialState, coroutineScope) {
+) : Manager<S,E,SideEffect>(initialState) {
 
     companion object {
         /**

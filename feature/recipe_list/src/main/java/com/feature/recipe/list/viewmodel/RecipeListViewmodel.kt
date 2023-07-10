@@ -1,16 +1,22 @@
 package com.feature.recipe.list.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.RecipeModel
 import com.domain.favourite.DeleteSavedRecipe
 import com.domain.favourite.SaveRecipeUsecase
 import com.domain.recipe.search.SearchRecipeUsecase
+import com.feature.common.IoDispatcher
 import com.state_manager.extensions.collectIn
 import com.feature.recipe.list.state.*
+import com.state_manager.extensions.collectInScope
 import com.state_manager.scopes.StateManagerCoroutineScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,14 +25,15 @@ open class RecipeListViewmodel @Inject constructor(
     val savedRecipeUseCase: SaveRecipeUsecase,
     val searchUseCase: SearchRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe,
-    val stateManagerCoroutineScope: StateManagerCoroutineScope
+    val stateManagerCoroutineScope: StateManagerCoroutineScope,
+    @IoDispatcher val dispatcher: CoroutineDispatcher
 ) :
     StateEventManager<RecipeListState, RecipeEvent>(initialState,stateManagerCoroutineScope) {
 
     var page = 1
     private fun saveRecipe(recipeModel: RecipeModel) =
         savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
-            .collectIn(coroutineScope) {
+            .collectInScope(viewModelScope){
                 setState {
                     onRecipeSaved(recipeModel.id)
                 }
@@ -34,7 +41,7 @@ open class RecipeListViewmodel @Inject constructor(
             }
 
     private fun deleteRecipe(recipeModel: RecipeModel) = deleteSavedRecipe(recipeModel.id)
-        .collectIn(coroutineScope) {
+        .collectInScope(viewModelScope){
             setState {
                 onRecipeRemovedFromSavedList(recipeModel.id)
             }
@@ -62,7 +69,8 @@ open class RecipeListViewmodel @Inject constructor(
         val param = SearchRecipeUsecase.Param(cuisine = cuisine, offset = page)
         searchUseCase(param).catch { e ->
             handleFailure(e as Failure, isPaginate = isPaginate)
-        }.collectIn(coroutineScope) {
+        }.flowOn(dispatcher)
+            .collectInScope(viewModelScope) {
             handleRecipeSearch(it.first, isPaginate, it.second)
         }
     }

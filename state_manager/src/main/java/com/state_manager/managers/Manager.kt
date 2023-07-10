@@ -2,9 +2,11 @@ package com.state_manager.managers
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.state_manager.events.AppEvent
 import com.state_manager.extensions.Consumable
 import com.state_manager.extensions.collectIn
+import com.state_manager.extensions.collectInScope
 import com.state_manager.handler.SideEffectHandler
 import com.state_manager.handler.SideEffectHandlerDelegation
 import com.state_manager.logger.Logger
@@ -25,7 +27,6 @@ import kotlinx.coroutines.flow.filterNotNull
 
 abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     val initialState: S,
-    val coroutineScope: StateManagerCoroutineScope
 ) : ViewModel(){
 
     open val logger = androidLogger(this::class.java.simpleName + " StateStore")
@@ -36,7 +37,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     open var stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
         initialState,
         androidLogger(this::class.java.simpleName + " StateStore"),
-        coroutineScope.getScope()
+        viewModelScope
     )
 
     /**
@@ -114,17 +115,16 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     override fun onCleared() {
         logger.logv { "Clearing ViewModel ${this::class}" }
         super.onCleared()
-        coroutineScope.cancel()
         stateStore.clear()
     }
 
 
     private fun log() {
         if (enableLogging) {
-            stateEmitter.collectIn(coroutineScope) {
+            stateEmitter.collectInScope(viewModelScope) {
                 logger.logd { "State: $it" }
             }
-            stateStore.eventObservable.collectIn(coroutineScope) {
+            stateStore.eventObservable.collectInScope(viewModelScope) {
                 it?.let { logger.logd { "Event: $it" } }
             }
         }
