@@ -6,7 +6,6 @@ import com.core.platform.usecase.None
 import com.data.repository.datasource.SettingsDataStore
 import com.domain.common.pojo.Cuisine
 import com.domain.recipe.cuisines.GetSupportedCuisineUsecase
-import com.state_manager.extensions.collectIn
 import com.feature.user.interest.state.*
 import com.state_manager.extensions.collectInScope
 import com.state_manager.scopes.StateManagerCoroutineScope
