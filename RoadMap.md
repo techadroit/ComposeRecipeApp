@@ -13,3 +13,5 @@
 * [ ] Add Ui test for compose
 * [ ] Add End to end test for compose
 * [ ] Add Integration test
+* [ ] Add Splash Screen
+* [ ] Refactor Design system
