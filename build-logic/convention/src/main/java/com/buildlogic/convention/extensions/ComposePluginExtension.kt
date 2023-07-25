@@ -32,6 +32,7 @@ fun Project.addComposeDependencies() {
         val runtimeCompose = libs.findLibrary("androidx-lifecycle-runtimeCompose").get()
         val navigationCompose = libs.findLibrary("androidx-compose-navigation").get()
         val navigationFragment = libs.findLibrary("androidx-fragment-navigation").get()
+        val andorixdWindow = libs.findLibrary("androidx-window").get()
         add("implementation", androidCompose)
         add("implementation", androidComposeFoundation)
         add("implementation", androidComposeMaterial)
@@ -41,6 +42,7 @@ fun Project.addComposeDependencies() {
         add("implementation", runtimeCompose)
         add("implementation", navigationCompose)
         add("implementation", navigationFragment)
+        add("implementation", andorixdWindow)
 
         val androidComposeUiTestJunit = libs.findLibrary("androidx-compose-ui-test-junit").get()
         val androidComposeUiTestManifest =
