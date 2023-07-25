@@ -42,7 +42,7 @@ fun UserInterest() {
     val viewModel: UserInterestViewModel = hiltViewModel()
     val state = viewModel.observeState()
 
-    ComposeRecipeAppTheme(darkTheme = true) {
+    ComposeRecipeAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier

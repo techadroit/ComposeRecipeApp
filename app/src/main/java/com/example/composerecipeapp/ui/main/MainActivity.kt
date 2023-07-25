@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -61,11 +62,12 @@ fun MainContent(
     appMainNavigation: AppNavigator
 ) {
     val state = mainViewModel.observeState()
+    val darkModeOn = state.isDarkModeOn ?: isSystemInDarkTheme()
     AppCompatDelegate.setDefaultNightMode(
-        if (state.isDarkModeOn) AppCompatDelegate.MODE_NIGHT_YES
+        if (darkModeOn) AppCompatDelegate.MODE_NIGHT_YES
         else AppCompatDelegate.MODE_NIGHT_NO
     )
-    ComposeRecipeAppTheme(darkTheme = state.isDarkModeOn) {
+    ComposeRecipeAppTheme(darkTheme = darkModeOn) {
         state.showLandingScreen?.let {
             MainApp(it, appMainNavigation)
         }
