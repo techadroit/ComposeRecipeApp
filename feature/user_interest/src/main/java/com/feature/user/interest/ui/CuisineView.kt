@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.domain.common.pojo.Cuisine
 import com.feature.common.Dispatch
@@ -27,6 +28,7 @@ fun CuisineList(
     cuisines: List<Cuisine>,
     modifier: Modifier = Modifier,
     selectionCount: Int = 0,
+    spacing: Dp = 8.dp,
     dispatcher: MultipleDispatch<Boolean, Cuisine>
 ) {
     val selectionCount = remember {
@@ -34,7 +36,7 @@ fun CuisineList(
     }
     val leadingIcon: @Composable () -> Unit = { Icon(Icons.Default.Check, null) }
     FlowRow(
-        modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier, horizontalArrangement = Arrangement.spacedBy(spacing)
     ) {
         cuisines.forEach {
             FilterChip(
