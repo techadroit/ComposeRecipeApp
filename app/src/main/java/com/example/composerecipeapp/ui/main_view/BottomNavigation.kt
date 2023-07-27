@@ -92,6 +92,7 @@ fun NavRail(items: List<BottomBarItems>) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
         containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.surface,
     ) {
         items.forEachIndexed { index, bottomBarItems ->
             val isSelected = selectedIndex.value == index
@@ -100,8 +101,6 @@ fun NavRail(items: List<BottomBarItems>) {
                     selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     indicatorColor = MaterialTheme.colorScheme.surface
                 ),
-
-//                label = { bottomBarItems.tabName },
                 selected = isSelected,
                 icon =  {
                     Icon(

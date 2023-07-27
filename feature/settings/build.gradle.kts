@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":feature:common"))
     implementation(project(":feature:common-ui"))
     implementation(project(":feature:user_interest"))
+    implementation(project(":design_system:ui"))
     implementation("com.google.android.exoplayer:exoplayer:2.14.1")
     implementation(libs.image.loading)
 }
