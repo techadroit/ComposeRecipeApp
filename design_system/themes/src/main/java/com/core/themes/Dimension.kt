@@ -12,6 +12,7 @@ object Dimension {
     val paddingTitle = 12.dp
     val paddingSubtitle = 8.dp
     val paddingPara = 4.dp
+    val paddingContent = 16.dp
 
     val thumbnailHeight = 180.dp
     val thumbnailWidth = 160.dp

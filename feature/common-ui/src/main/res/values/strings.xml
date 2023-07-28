@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retry">Retry</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="no_network_available">No Network Available</string>
+    <string name="request_param_error">Check Request Parameter</string>
+    <string name="server_error">Server Error</string>
+    <string name="unknown_error">Unknown Error</string>
+</resources>
