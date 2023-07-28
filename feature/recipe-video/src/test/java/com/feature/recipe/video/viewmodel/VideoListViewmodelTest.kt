@@ -16,13 +16,9 @@ import com.state_manager.test.expect
 import com.state_manager.test.test
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +31,7 @@ class VideoListViewmodelTest {
     val fixture = kotlinFixture()
     val videoList = fixture<List<VideoRecipeModel>>()
 
-    private lateinit var viewModel: VideoListViewmodel
+    private lateinit var viewModel: VideoListViewModel
     private val initialState = RecipeVideoState()
     @MockK
     lateinit var mockSearchVideoRecipeUsecase: SearchVideoRecipeUsecase
@@ -45,7 +41,7 @@ class VideoListViewmodelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        viewModel = VideoListViewmodel(
+        viewModel = VideoListViewModel(
             initialState,
             mockSearchVideoRecipeUsecase,
             rule.dispatcher
