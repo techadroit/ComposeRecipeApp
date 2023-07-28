@@ -15,6 +15,7 @@ import com.feature.home.state.ViewRecipeDetail
 import com.feature.home.state.ViewRecipesDetailViewEffect
 import com.feature.home.state.add
 import com.feature.home.state.initialState
+import com.feature.home.state.onFailure
 import com.feature.home.state.showLoading
 import com.state_manager.extensions.collectInScope
 import com.state_manager.managers.StateEventManager
@@ -68,8 +69,7 @@ class HomeRecipeViewModel @Inject constructor(
         recipeWithCuisine()
             .flowOn(dispatcher)
             .catch {
-                setState { showLoading(false) }
-                postSideEffect { ErrorSideEffect(it.toFailure()) }
+                setState { showLoading(false).onFailure(it.toFailure()) }
             }
             .collectInScope(viewModelScope){
             setState {

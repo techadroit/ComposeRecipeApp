@@ -36,6 +36,7 @@ import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
 import com.feature.common.OnClick
 import com.feature.common.OnUnit
+import com.feature.common.collectState
 import com.feature.common.observeSideEffect
 import com.feature.common.observeState
 import com.feature.common.ui.common_views.LoadingView
@@ -65,14 +66,20 @@ fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewMode
 
     val topLevelNavigator = ParentNavHostController.current
     val mainViewNavigator = MainViewNavigator.current
-    val state = viewModel.observeState()
 
     fun refresh() {
         viewModel.dispatch(RefreshHomeEvent)
     }
 
-    HomeView(state = state, viewModel = viewModel) {
-        refresh()
+    viewModel.collectState {
+        HomeView(state = it, viewModel = viewModel) {
+            refresh()
+        }
+        it.failure?.let {
+            ErrorScreen(errorResult = it) {
+                refresh()
+            }
+        }
     }
 
     viewModel.observeSideEffect {
@@ -80,9 +87,7 @@ fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewMode
             viewEffect = it,
             parentNavigation = topLevelNavigator,
             appMainNavigation = mainViewNavigator
-        ) {
-            refresh()
-        }
+        )
     }
 }
 
@@ -215,8 +220,7 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
 fun onViewEffect(
     viewEffect: SideEffect,
     parentNavigation: AppNavigator,
-    appMainNavigation: AppNavigator,
-    refresh: () -> Unit
+    appMainNavigation: AppNavigator
 ) {
     when (viewEffect) {
         is ViewAllViewEffect ->
@@ -227,10 +231,6 @@ fun onViewEffect(
 
         is LoadingError -> {
             println("there is an error")
-        }
-
-        is ErrorSideEffect -> ErrorScreen(errorResult = viewEffect.failure) {
-            refresh()
         }
     }
 }
