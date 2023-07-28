@@ -10,12 +10,12 @@ import com.feature.home.state.HomeRecipeState
 import com.feature.home.state.LoadRecipeEvent
 import com.feature.home.state.RefreshHomeEvent
 import com.feature.home.state.ViewAllRecipes
+import com.feature.home.state.ViewAllViewEffect
 import com.feature.home.state.ViewRecipeDetail
+import com.feature.home.state.ViewRecipesDetailViewEffect
 import com.feature.home.state.add
 import com.feature.home.state.initialState
 import com.feature.home.state.showLoading
-import com.feature.home.state.viewAll
-import com.feature.home.state.viewDetail
 import com.state_manager.extensions.collectInScope
 import com.state_manager.managers.StateEventManager
 import com.state_manager.scopes.StateManagerCoroutineScope
@@ -54,15 +54,11 @@ class HomeRecipeViewModel @Inject constructor(
     }
 
     private fun onViewRecipeDetail(recipeId: String) {
-        setState {
-            viewDetail(recipeId)
-        }
+        postSideEffect { ViewRecipesDetailViewEffect(recipeId) }
     }
 
     private fun onViewAllRecipes(cuisine: String) {
-        setState {
-            viewAll(cuisine)
-        }
+        postSideEffect { ViewAllViewEffect(cuisine) }
     }
 
     private fun loadRecipes() {
