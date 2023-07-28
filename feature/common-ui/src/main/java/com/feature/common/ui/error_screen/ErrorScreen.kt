@@ -10,16 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.core.platform.exception.ClientRequestErrorResult
-import com.core.platform.exception.ErrorResult
-import com.core.platform.exception.NetworkUnavailable
-import com.core.platform.exception.NoDataError
-import com.core.platform.exception.ServerResponseErrorResult
+import com.core.platform.exception.Failure
 import com.core.themes.spacerSmall
 import com.feature.common.ui.R
 import com.feature.common.ui.containers.FullScreenBox
+import com.state_manager.side_effects.SideEffect
 
 typealias OnRetry = () -> Unit
+
+data class ErrorSideEffect(val failure: Failure?) : SideEffect
 
 /**
  * Represents the Error Screen. The text and the button are shown according to the error result.
@@ -28,44 +27,25 @@ typealias OnRetry = () -> Unit
  * @param retry Callback to be invoked when the user clicks the retry button.
  */
 @Composable
-fun ErrorScreen(errorResult: ErrorResult?, retry: OnRetry) {
+fun ErrorScreen(errorResult: Failure?, retry: OnRetry) {
     FullScreenBox {
         errorResult?.let {
             val (text, showRetryOption) = when (it) {
-                is NoDataError -> stringResource(id = R.string.no_data_available) to false
-                is NetworkUnavailable -> stringResource(id = R.string.no_network_available) to true
-                is ClientRequestErrorResult -> stringResource(id = R.string.request_param_error) to true
-                is ServerResponseErrorResult -> stringResource(id = R.string.server_error) to true
+                is Failure.NoDataFailure -> stringResource(id = R.string.no_data_available) to false
+                is Failure.NetworkConnectionFailure -> stringResource(id = R.string.no_network_available) to true
+                is Failure.ApiRequestFailure -> stringResource(id = R.string.request_param_error) to true
+                is Failure.ServerFailure -> stringResource(id = R.string.server_error) to true
                 else -> stringResource(id = R.string.unknown_error) to true
             }
-            ErrorWithRetry(text = text, showRetryOption) {
+            ErrorWithRetry(
+                modifier = Modifier.align(Alignment.Center),
+                text = text,
+                showRetryOption
+            ) {
                 retry() // Call the provided callback function to retry the operation.
             }
         }
     }
-//    Box(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(
-//                horizontal = MaterialTheme.dimension().paddingContent,
-//                vertical = MaterialTheme.dimension().paddingContent,
-//            ),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        // Check if there's an error result and display the appropriate error message and retry button.
-//        errorResult?.let {
-//            val (text, showRetryOption) = when (it) {
-//                is NoDataError -> stringResource(id = R.string.no_data_available) to false
-//                is NetworkUnavailable -> stringResource(id = R.string.no_network_available) to true
-//                is ClientRequestErrorResult -> stringResource(id = R.string.request_param_error) to true
-//                is ServerResponseErrorResult -> stringResource(id = R.string.server_error) to true
-//                else -> stringResource(id = R.string.unknown_error) to true
-//            }
-//            ErrorWithRetry(text = text, showRetryOption) {
-//                retry() // Call the provided callback function to retry the operation.
-//            }
-//        }
-//    }
 }
 
 /**
@@ -76,8 +56,9 @@ fun ErrorScreen(errorResult: ErrorResult?, retry: OnRetry) {
  * @param retry Callback to be invoked when the user clicks the retry button.
  */
 @Composable
-fun ErrorWithRetry(text: String, showRetryOptions: Boolean, retry: OnRetry) {
+fun ErrorWithRetry(modifier: Modifier, text: String, showRetryOptions: Boolean, retry: OnRetry) {
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

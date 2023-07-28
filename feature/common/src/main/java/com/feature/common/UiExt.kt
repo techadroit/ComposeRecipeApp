@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import com.state_manager.managers.StateEventManager
 import com.state_manager.events.AppEvent
 import com.state_manager.managers.Manager
+import com.state_manager.managers.StateEventManager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
-import java.util.*
+import java.util.TreeMap
 
 fun Modifier.fullScreen() = this
     .fillMaxWidth()
@@ -38,12 +38,19 @@ fun toViews(value: Long): String {
 }
 
 @Composable
-fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffect( content:@Composable (SideEffect)->Unit) {
+fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffect(content: @Composable (SideEffect) -> Unit) {
     onSideEffect().collectAsState().value?.let {
-        it.consume()?.let{content(it)}
+        it.consume()?.let { content(it) }
     }
 }
 
 @Composable
-fun <S : AppState, E : AppEvent> Manager<S, E,SideEffect>.observeState() =
+fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.collectState(content: @Composable (S) -> Unit) {
+    val state = this.stateEmitter.collectAsState().value
+    content(state)
+}
+
+
+@Composable
+fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.observeState() =
     this.stateEmitter.collectAsState().value

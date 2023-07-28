@@ -28,11 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.state_manager.managers.StateEventManager
 import com.core.navigtion.AppNavigator
 import com.core.platform.functional.ViewEffect
-import com.feature.common.ui.buttons.RecipeOutlineButton
-import com.feature.common.ui.containers.FullScreenBox
 import com.core.themes.dimension
 import com.core.themes.homeCard
 import com.core.themes.homePadding
@@ -41,12 +38,18 @@ import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
 import com.feature.common.OnClick
 import com.feature.common.OnUnit
+import com.feature.common.observeSideEffect
 import com.feature.common.observeState
+import com.feature.common.ui.buttons.RecipeOutlineButton
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
+import com.feature.common.ui.containers.FullScreenBox
+import com.feature.common.ui.error_screen.ErrorScreen
+import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.common.ui.recipes.ImageThumbnail
 import com.feature.home.state.HomeRecipeEvent
 import com.feature.home.state.HomeRecipeState
+import com.feature.home.state.LoadRecipeEvent
 import com.feature.home.state.LoadingError
 import com.feature.home.state.RefreshHomeEvent
 import com.feature.home.state.ViewAllRecipes
@@ -59,6 +62,7 @@ import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.intent.RecipeListIntent
 import com.recipe.app.navigation.provider.MainViewNavigator
 import com.recipe.app.navigation.provider.ParentNavHostController
+import com.state_manager.managers.StateEventManager
 
 @Composable
 fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewModel>()) {
@@ -77,6 +81,13 @@ fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewMode
     }
 
     viewEffect?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
+    viewModel.observeSideEffect {
+        when(it) {
+            is ErrorSideEffect -> ErrorScreen(errorResult = it.failure) {
+                viewModel.dispatch(LoadRecipeEvent)
+            }
+        }
+    }
 }
 
 @Composable

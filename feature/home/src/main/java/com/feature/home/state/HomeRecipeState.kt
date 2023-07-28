@@ -1,10 +1,12 @@
 package com.feature.home.state
 
-import com.state_manager.state.AppState
+import com.core.platform.exception.Failure
 import com.core.platform.functional.ViewEffect
 import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.state_manager.extensions.Consumable
 import com.state_manager.extensions.asConsumable
+import com.state_manager.side_effects.SideEffect
+import com.state_manager.state.AppState
 
 data class HomeRecipeState(
     val list: List<RecipeWithCuisine> = emptyList(),
@@ -29,3 +31,5 @@ fun HomeRecipeState.viewDetail(recipeId: String) = onViewEffect(ViewRecipesDetai
 
 fun HomeRecipeState.onLoadingError() = onViewEffect(LoadingError("Unable to Load"))
     .showLoading(false)
+
+data class OnFailure(val failure: Failure):SideEffect
