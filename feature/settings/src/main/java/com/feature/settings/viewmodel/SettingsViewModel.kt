@@ -79,7 +79,7 @@ class SettingsViewModel @Inject constructor(
             pairOf(isDarkModeOn, list)
         }.collectInScope(viewModelScope) {
             setState {
-                initialize(it.first, it.second)
+                initialize(it.first ?: false, it.second)
             }
         }
     }

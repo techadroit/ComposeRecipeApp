@@ -4,7 +4,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -18,6 +21,7 @@ import com.core.navigtion.navigator.NavComposable
 import com.core.themes.ComposeRecipeAppTheme
 import com.feature.common.observeSideEffect
 import com.feature.common.observeState
+import com.feature.common.ui.extension.contentWidth
 import com.feature.user.interest.R
 import com.feature.user.interest.state.LoadSupportedCuisine
 import com.feature.user.interest.state.RemoveCuisine
@@ -42,7 +46,7 @@ fun UserInterest() {
     val viewModel: UserInterestViewModel = hiltViewModel()
     val state = viewModel.observeState()
 
-    ComposeRecipeAppTheme(darkTheme = true) {
+    ComposeRecipeAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
@@ -56,7 +60,9 @@ fun UserInterest() {
                 )
                 CuisineList(
                     cuisines = state.cuisines,
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier
+                        .contentWidth()
+                        .align(Alignment.Center),
                 ) { it, cuisine ->
                     viewModel.dispatch(
                         if (it)

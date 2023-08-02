@@ -5,7 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -16,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.feature.common.Dispatch
 import com.feature.common.observeState
+import com.feature.common.ui.extension.contentWidth
 import com.feature.settings.R
 import com.feature.settings.viewmodel.SettingsViewModel
 import com.feature.user.interest.ui.CuisineList
@@ -44,8 +44,19 @@ fun SettingsView() {
                     settingsViewModel.changeDataStoreSetting(it)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                CuisineList(cuisines = state.list, selectionCount = 5) { it, cuisine ->
-                    if(it) settingsViewModel.cuisineSelected(cuisine) else settingsViewModel.cuisineDeSelected(cuisine)
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CuisineList(
+                        modifier = Modifier.contentWidth().align(Alignment.Center),
+                        cuisines = state.list,
+                        selectionCount = 5
+                    ) { it, cuisine ->
+                        if (it)
+                            settingsViewModel.cuisineSelected(cuisine)
+                        else
+                            settingsViewModel.cuisineDeSelected(cuisine)
+                    }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 if (state.enableSaveOptions)
@@ -102,8 +113,10 @@ fun SaveButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
         },
         modifier = modifier,
     ) {
-        Text(text = stringResource(id = R.string.save),
-            style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = stringResource(id = R.string.save),
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 

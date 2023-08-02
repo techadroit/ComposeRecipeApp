@@ -23,9 +23,9 @@ class SettingsDataStore(val dataStore: DataStore<Preferences>) {
         }
     }
 
-    fun isDarkModeOn(): Flow<Boolean> =
+    fun isDarkModeOn(): Flow<Boolean?> =
         dataStore.data.map {
-            it[darkModeOn] ?: false
+            it[darkModeOn]
         }
 
     suspend fun storeCuisine(list: List<String>) {
