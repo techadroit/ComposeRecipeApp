@@ -26,40 +26,49 @@ import com.core.themes.spacerSmall
 import com.domain.common.pojo.VideoRecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
+import com.feature.common.collectState
+import com.feature.common.observeSideEffect
 import com.feature.common.observeState
 import com.feature.common.toViews
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.PaginationLoading
 import com.feature.common.ui.common_views.RefreshView
+import com.feature.common.ui.error_screen.ErrorScreen
+import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.recipe.video.state.LoadVideos
 import com.feature.recipe.video.state.RefreshVideoScreen
 import com.feature.recipe.video.state.VideoEvents
-import com.feature.recipe.video.viewmodel.VideoListViewmodel
+import com.feature.recipe.video.viewmodel.VideoListViewModel
 import com.recipe.app.navigation.intent.VideoPlayerIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun RecipesVideoList() {
+fun RecipesVideoList( recipesViewModel: VideoListViewModel = hiltViewModel()) {
 
     val topLevelNavigator = ParentNavHostController.current
-    val recipesViewModel: VideoListViewmodel = hiltViewModel()
-    val recipeState = recipesViewModel.observeState()
 
-    RefreshView(content = {
-        RecipeListContent(recipeState.data,
-            recipeState.isLoading && recipeState.isPaginate, {
-                recipesViewModel.dispatch(it)
-            }, {
-                topLevelNavigator.navigateTo(it)
-            })
-    }) {
-        recipesViewModel.dispatch(RefreshVideoScreen)
-    }
+    recipesViewModel.collectState { recipeState ->
+        RefreshView(content = {
+            RecipeListContent(recipeState.data,
+                recipeState.isLoading && recipeState.isPaginate, {
+                    recipesViewModel.dispatch(it)
+                }, {
+                    topLevelNavigator.navigateTo(it)
+                })
+        }) {
+            recipesViewModel.dispatch(RefreshVideoScreen)
+        }
 
-    if (recipeState.isLoading && !recipeState.isPaginate) {
-        LoadingView()
-        recipesViewModel.dispatch(LoadVideos())
+        if (recipeState.isLoading && !recipeState.isPaginate) {
+            LoadingView()
+        }
+
+        recipeState.failure?.let {
+            ErrorScreen(errorResult = it) {
+                recipesViewModel.dispatch(RefreshVideoScreen)
+            }
+        }
     }
 }
 
@@ -137,14 +146,15 @@ fun Thumbnail(url: String) {
                 .height(MaterialTheme.dimension().thumbnailHeight),
         )
         Box(
-            modifier =  Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.dimension().thumbnailHeight)
                 .background(Color(0xB3000000))
         ) {
             Icon(
                 imageVector = Icons.Default.PlayArrow, contentDescription = "play",
-                modifier = Modifier.iconHeightMedium()
+                modifier = Modifier
+                    .iconHeightMedium()
                     .align(Alignment.Center),
                 tint = Color.LightGray
             )

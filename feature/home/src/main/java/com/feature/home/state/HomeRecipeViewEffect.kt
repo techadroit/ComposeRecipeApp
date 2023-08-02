@@ -1,7 +1,7 @@
 package com.feature.home.state
 
-import com.core.platform.functional.ViewEffect
+import com.state_manager.side_effects.SideEffect
 
-data class ViewAllViewEffect(val cuisine: String) : ViewEffect()
-data class ViewRecipesDetailViewEffect(val recipeId: String) : ViewEffect()
-data class LoadingError(val errorMsg:String) : ViewEffect()
+data class ViewAllViewEffect(val cuisine: String) : SideEffect
+data class ViewRecipesDetailViewEffect(val recipeId: String) : SideEffect
+data class LoadingError(val errorMsg:String) : SideEffect

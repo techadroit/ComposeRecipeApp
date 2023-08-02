@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -28,11 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.state_manager.managers.StateEventManager
 import com.core.navigtion.AppNavigator
-import com.core.platform.functional.ViewEffect
-import com.feature.common.ui.buttons.RecipeOutlineButton
-import com.feature.common.ui.containers.FullScreenBox
 import com.core.themes.dimension
 import com.core.themes.homeCard
 import com.core.themes.homePadding
@@ -41,9 +36,13 @@ import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
 import com.feature.common.OnClick
 import com.feature.common.OnUnit
+import com.feature.common.collectState
+import com.feature.common.observeSideEffect
 import com.feature.common.observeState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
+import com.feature.common.ui.error_screen.ErrorScreen
+import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.common.ui.recipes.ImageThumbnail
 import com.feature.home.state.HomeRecipeEvent
 import com.feature.home.state.HomeRecipeState
@@ -59,24 +58,37 @@ import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.intent.RecipeListIntent
 import com.recipe.app.navigation.provider.MainViewNavigator
 import com.recipe.app.navigation.provider.ParentNavHostController
+import com.state_manager.managers.StateEventManager
+import com.state_manager.side_effects.SideEffect
 
 @Composable
 fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewModel>()) {
 
     val topLevelNavigator = ParentNavHostController.current
     val mainViewNavigator = MainViewNavigator.current
-    val state = viewModel.observeState()
-    val viewEffect = state.viewEffect?.consume()
 
     fun refresh() {
         viewModel.dispatch(RefreshHomeEvent)
     }
 
-    HomeView(state = state, viewModel = viewModel) {
-        refresh()
+    viewModel.collectState {
+        HomeView(state = it, viewModel = viewModel) {
+            refresh()
+        }
+        it.failure?.let {
+            ErrorScreen(errorResult = it) {
+                refresh()
+            }
+        }
     }
 
-    viewEffect?.let { onViewEffect(it, topLevelNavigator, mainViewNavigator) }
+    viewModel.observeSideEffect {
+        onViewEffect(
+            viewEffect = it,
+            parentNavigation = topLevelNavigator,
+            appMainNavigation = mainViewNavigator
+        )
+    }
 }
 
 @Composable
@@ -91,14 +103,6 @@ fun HomeView(state: HomeRecipeState, viewModel: HomeRecipeViewModel, refresh: On
             }
 
         state.isLoadingPage -> LoadingView()
-        state.viewEffect?.consume() is LoadingError -> FullScreenBox {
-            RecipeOutlineButton.ErrorButton(
-                text = "Retry",
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                refresh()
-            }
-        }
     }
 }
 
@@ -214,7 +218,7 @@ fun ViewAll(dispatch: Dispatch<Unit>) {
 
 @Composable
 fun onViewEffect(
-    viewEffect: ViewEffect,
+    viewEffect: SideEffect,
     parentNavigation: AppNavigator,
     appMainNavigation: AppNavigator
 ) {

@@ -7,13 +7,23 @@ import com.core.platform.exception.Failure.FeatureFailure
  * Every feature specific failure should extend [FeatureFailure] class.
  */
 sealed class Failure : Exception() {
-    object NetworkConnection : Failure()
-    object ServerError : Failure()
-    object Unauthorized : Failure()
-    object UnknonwnError : Failure()
+    object NetworkConnectionFailure : Failure()
+    object ServerFailure : Failure()
+    object UnauthorizedFailure : Failure()
+    object UnknonwnFailure : Failure()
+    object NoDataFailure : Failure()
+    object ApiRequestFailure : Failure()
 
     /** * Extend this class for feature specific failures.*/
     abstract class FeatureFailure : Failure()
 }
 
-object NoSavedRecipe : Failure.FeatureFailure()
+object NoSavedRecipeFailure : Failure.FeatureFailure()
+
+fun Throwable.toFailure() = when (this) {
+    is NoDataErrorResult -> Failure.NoDataFailure
+    is NetworkUnavailableErrorResult -> Failure.NetworkConnectionFailure
+    is ClientRequestErrorResult -> Failure.ApiRequestFailure
+    is ServerResponseErrorResult -> Failure.ServerFailure
+    else -> Failure.UnknonwnFailure
+}

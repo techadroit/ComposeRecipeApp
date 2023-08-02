@@ -16,4 +16,5 @@ kapt {
 dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
+    implementation(project(":core:platform"))
 }
