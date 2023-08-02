@@ -24,8 +24,17 @@ fun SettingsState.deselectCuisine(cuisine: Cuisine): SettingsState = run {
     return copy(list = newList, enableSaveOptions = enableSaveOptions(newList))
 }
 
-fun SettingsState.onCuisineSelected(list: List<Cuisine>) =
-    copy(list = list, enableSaveOptions = enableSaveOptions(list))
+fun SettingsState.onCuisineSelected(cuisine: Cuisine, list: List<Cuisine>): SettingsState {
+
+    val newList = list.map {
+        if (it == cuisine) {
+            it.copy(isSelected = true)
+        } else {
+            it
+        }
+    }
+    return copy(list = newList, enableSaveOptions = enableSaveOptions(newList))
+}
 
 fun SettingsState.enableSaveOptions(list: List<Cuisine>) =
     list.count { it.isSelected } == 5
