@@ -54,6 +54,9 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
                 manager.stateEmitter.toList(list)
             }
 
+            manager.setState {
+                initialState
+            }
             events.forEach {
                 manager.dispatch(it)
                 runCurrent()

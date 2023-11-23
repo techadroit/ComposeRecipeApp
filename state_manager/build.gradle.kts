@@ -36,4 +36,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     implementation("app.cash.turbine:turbine:1.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("app.cash.turbine:turbine:1.0.0")
 }

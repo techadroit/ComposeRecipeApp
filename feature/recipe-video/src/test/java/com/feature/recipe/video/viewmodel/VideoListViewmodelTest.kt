@@ -1,5 +1,6 @@
 package com.feature.recipe.video.viewmodel
 
+import app.cash.turbine.test
 import com.appmattus.kotlinfixture.kotlinFixture
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
@@ -19,6 +20,9 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,7 +48,7 @@ class VideoListViewmodelTest {
         viewModel = VideoListViewModel(
             initialState,
             mockSearchVideoRecipeUsecase,
-            rule.dispatcher
+            UnconfinedTestDispatcher()
         )
     }
 
@@ -60,7 +64,6 @@ class VideoListViewmodelTest {
             forEvents(LoadVideos(isPaginate,query))
             verify {
                 expect(
-                    initialState,
                     initialState.onLoading(isPaginate = isPaginate).setQuery(query),
                     initialState
                         .onLoading(isPaginate = isPaginate).setQuery(query)
@@ -73,7 +76,7 @@ class VideoListViewmodelTest {
     @Test
     fun `test refresh video screen`() {
         // Arrange
-        val query = "example"
+        val query = "chicken"
         val isPaginate = false
         coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
         val initialState = RecipeVideoState().setQuery(query)
@@ -83,11 +86,14 @@ class VideoListViewmodelTest {
             forEvents(RefreshVideoScreen)
             verify {
                 expect(
-                    initialState,
-                    initialState.onLoading(false),
-                    initialState.onLoading(isPaginate = isPaginate).setQuery(query),
                     initialState
-                        .onLoading(isPaginate = isPaginate).setQuery(query)
+                        .onLoading(false),
+                    initialState
+                        .onLoading(isPaginate = isPaginate)
+                        .setQuery(query),
+                    initialState
+                        .onLoading(isPaginate = isPaginate)
+                        .setQuery(query)
                         .onSuccess(videoList, isPaginate = isPaginate)
                 )
             }
