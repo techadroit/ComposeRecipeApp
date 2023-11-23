@@ -1,20 +1,16 @@
 package com.feature.recipe.list.viewmodel
 
-import com.state_manager.managers.StateEventManager
 import com.domain.recipe.search.AutoCompleteUsecase
 import com.feature.common.IoDispatcher
 import com.feature.recipe.list.state.SearchEvent
 import com.feature.recipe.list.state.SearchState
 import com.feature.recipe.list.state.SearchTextEvent
 import com.state_manager.extensions.collectIn
-import com.state_manager.extensions.collectInScope
 import com.state_manager.managers.StateEventManager
 import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.scopes.StateManagerCoroutineScopeImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -35,7 +31,7 @@ class SearchViewModel @Inject constructor(
     private fun searchForKeyword(keyword: String) {
         useCase(keyword)
             .flowOn(flowDispatcher)
-            .collectInScope(viewModelScope) {
+            .collectIn(stateEventScope) {
                 setState {
                     copy(list = it)
                 }

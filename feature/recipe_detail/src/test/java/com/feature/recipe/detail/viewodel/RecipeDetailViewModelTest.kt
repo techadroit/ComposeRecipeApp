@@ -16,6 +16,7 @@ import com.feature.recipe.detail.state.onSuccessResponse
 import com.feature.recipe.detail.viewmodel.RecipeDetailViewModel
 import com.state_manager.extensions.createTestContainer
 import com.state_manager.test.StateManagerTestRule
+import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
 import com.state_manager.test.test
 import io.mockk.MockKAnnotations
@@ -45,6 +46,7 @@ class RecipeDetailViewModelTest {
     val recipeModel = fixture<RecipeModel>()
     val recipeDetailModel = fixture<RecipeDetailModel>()
     val similarRecipes = listOf(recipeModel)
+    val testStateManagerScope = TestStateManagerScope()
 
     @Before
     fun setUp() {
@@ -55,7 +57,8 @@ class RecipeDetailViewModelTest {
             mockSimilarUseCase,
             mockDeleteSavedRecipe,
             mockSaveRecipeUseCase,
-            StandardTestDispatcher()
+            testStateManagerScope,
+            testStateManagerScope.testDispatcher
         )
 
         coEvery { mockUseCase(any()) } returns flowOf(recipeDetailModel)

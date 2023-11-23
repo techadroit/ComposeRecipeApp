@@ -64,7 +64,7 @@ class RecipeListViewmodelTest {
             searchUseCase,
             deleteSavedRecipe,
             testStateManagerScope,
-            StandardTestDispatcher()
+            testStateManagerScope.testDispatcher
         )
     }
 

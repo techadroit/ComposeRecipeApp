@@ -14,6 +14,7 @@ import com.domain.recipe.GetRecipeDetailUsecase
 import com.feature.common.IoDispatcher
 import com.feature.recipe.detail.state.*
 import com.state_manager.extensions.collectInScope
+import com.state_manager.scopes.StateManagerCoroutineScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
@@ -28,6 +29,7 @@ class RecipeDetailViewModel @Inject constructor(
     val similarUseCase: SimilarRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe,
     val savedRecipeUseCase: SaveRecipeUsecase,
+    val stateManagerCoroutineScope: StateManagerCoroutineScope,
     @IoDispatcher val dispatcher: CoroutineDispatcher
 ) : StateEventManager<RecipeDetailState, RecipeDetailEvent>(initialState) {
 
@@ -44,7 +46,7 @@ class RecipeDetailViewModel @Inject constructor(
                 if (this is Failure)
                     handleFailureResponse(this as Failure)
             }
-            .collectInScope(viewModelScope) {
+            .collectIn(stateManagerCoroutineScope) {
                 handleSuccessResponse(it.first, it.second)
             }
     }
@@ -77,7 +79,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun removeRecipe(recipeId: Int) {
         deleteSavedRecipe(params = recipeId)
-            .collectInScope(viewModelScope) {
+            .collectIn(stateManagerCoroutineScope) {
                 setState {
                     onRemoveFromSavedList()
                 }
@@ -86,7 +88,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun saveRecipe(recipeModel: RecipeModel) =
         savedRecipeUseCase(SaveRecipeUsecase.Param(recipeModel))
-            .collectInScope(viewModelScope) {
+            .collectIn(stateManagerCoroutineScope) {
                 setState {
                     onRecipeSaved()
                 }

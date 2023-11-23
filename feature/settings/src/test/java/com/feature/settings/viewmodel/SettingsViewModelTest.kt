@@ -38,7 +38,7 @@ class SettingsViewModelTest {
     val cuisine2 = Cuisine("cuisine2", isSelected = false)
     val cuisine3 = Cuisine("cuisine3", isSelected = false)
     val cuisine4 = Cuisine("cuisine4", isSelected = false)
-    val cuisine5 = Cuisine("cuisine5", isSelected = false)
+    val cuisine5 = Cuisine(" cuisine5", isSelected = false)
     val cuisineList = listOf(cuisine1, cuisine2, cuisine3, cuisine4, cuisine5)
 
     @Before
@@ -48,6 +48,7 @@ class SettingsViewModelTest {
             initialState,
             mockSettingsDataStore,
             mockGetSavedRecipeCuisine,
+            testStateManagerScope
         )
     }
 

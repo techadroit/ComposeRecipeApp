@@ -44,7 +44,8 @@ class VideoListViewmodelTest {
         viewModel = VideoListViewModel(
             initialState,
             mockSearchVideoRecipeUsecase,
-            rule.dispatcher
+            testStateManagerScope,
+            testStateManagerScope.testDispatcher
         )
     }
 

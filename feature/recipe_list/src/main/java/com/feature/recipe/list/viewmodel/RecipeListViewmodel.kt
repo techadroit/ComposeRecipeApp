@@ -1,14 +1,17 @@
 package com.feature.recipe.list.viewmodel
 
+import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.managers.StateEventManager
 import com.core.platform.exception.Failure
 import com.domain.common.pojo.RecipeModel
 import com.domain.favourite.DeleteSavedRecipe
 import com.domain.favourite.SaveRecipeUsecase
 import com.domain.recipe.search.SearchRecipeUsecase
+import com.feature.common.IoDispatcher
 import com.state_manager.extensions.collectIn
 import com.feature.recipe.list.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
@@ -18,7 +21,8 @@ open class RecipeListViewmodel @Inject constructor(
     val savedRecipeUseCase: SaveRecipeUsecase,
     val searchUseCase: SearchRecipeUsecase,
     val deleteSavedRecipe: DeleteSavedRecipe,
-    val stateManagerCoroutineScope: StateManagerCoroutineScope
+    val stateManagerCoroutineScope: StateManagerCoroutineScope,
+    @IoDispatcher coroutineDispatcher: CoroutineDispatcher
 ) :
     StateEventManager<RecipeListState, RecipeEvent>(initialState,stateManagerCoroutineScope) {
 

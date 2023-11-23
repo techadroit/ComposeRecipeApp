@@ -2,14 +2,9 @@ package com.state_manager.managers
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.state_manager.events.AppEvent
 import com.state_manager.extensions.Consumable
 import com.state_manager.extensions.collectIn
-import com.state_manager.extensions.collectInScope
-import com.state_manager.handler.SideEffectHandler
-import com.state_manager.handler.SideEffectHandlerDelegation
-import com.state_manager.logger.Logger
 import com.state_manager.logger.androidLogger
 import com.state_manager.logger.enableLogging
 import com.state_manager.logger.logd
@@ -27,6 +22,7 @@ import kotlinx.coroutines.flow.filterNotNull
 
 abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     val initialState: S,
+    val coroutineScope: StateManagerCoroutineScope
 ) : ViewModel(){
 
     open val logger = androidLogger(this::class.java.simpleName + " StateStore")
@@ -37,7 +33,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     open var stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
         initialState,
         androidLogger(this::class.java.simpleName + " StateStore"),
-        viewModelScope
+        coroutineScope.getScope()
     )
 
     /**
@@ -115,16 +111,17 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     override fun onCleared() {
         logger.logv { "Clearing ViewModel ${this::class}" }
         super.onCleared()
+        coroutineScope.cancel()
         stateStore.clear()
     }
 
 
     private fun log() {
         if (enableLogging) {
-            stateEmitter.collectInScope(viewModelScope) {
+            stateEmitter.collectIn(coroutineScope) {
                 logger.logd { "State: $it" }
             }
-            stateStore.eventObservable.collectInScope(viewModelScope) {
+            stateStore.eventObservable.collectIn(coroutineScope) {
                 it?.let { logger.logd { "Event: $it" } }
             }
         }

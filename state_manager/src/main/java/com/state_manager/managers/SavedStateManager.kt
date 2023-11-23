@@ -15,11 +15,11 @@ import com.state_manager.state.AppState
  * @param coroutineScope The Scope to be used with the contained State Store
  * @param savedStateHandle The [SavedStateHandle] to be used for persisting state across process deaths
  */
-abstract class SavedStateManager<S : AppState,E: AppEvent>(
+abstract class SavedStateManager<S : AppState, E : AppEvent>(
     initialState: S,
     coroutineScope: StateManagerCoroutineScope,
     protected val savedStateHandle: SavedStateHandle
-) : Manager<S,E,SideEffect>(initialState) {
+) : Manager<S, E, SideEffect>(initialState, coroutineScope) {
 
     companion object {
         /**

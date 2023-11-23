@@ -18,6 +18,8 @@ import com.feature.recipe.video.state.setQuery
 import com.feature.recipe.video.state.showLoading
 import com.state_manager.extensions.collectInScope
 import com.state_manager.managers.StateEventManager
+import com.state_manager.scopes.StateManagerCoroutineScope
+import com.state_manager.test.TestStateManagerScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
@@ -28,9 +30,10 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor(
     initialState: RecipeVideoState,
     val searchVideoUseCase: SearchVideoRecipeUsecase,
+    val managerScope: StateManagerCoroutineScope,
     @IoDispatcher val dispatcher: CoroutineDispatcher
 ) :
-    StateEventManager<RecipeVideoState, VideoEvents>(initialState) {
+    StateEventManager<RecipeVideoState, VideoEvents>(initialState,managerScope) {
     var page = 0
 
     init {

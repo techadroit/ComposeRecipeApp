@@ -10,9 +10,11 @@ import com.feature.settings.state.deselectCuisine
 import com.feature.settings.state.initialize
 import com.feature.settings.state.onCuisineSaved
 import com.feature.settings.state.onCuisineSelected
+import com.state_manager.extensions.collectIn
 import com.state_manager.extensions.collectInScope
 import com.state_manager.extensions.pairOf
 import com.state_manager.managers.StateManager
+import com.state_manager.scopes.StateManagerCoroutineScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     initialState: SettingsState,
     var settingsDataStore: SettingsDataStore,
-    var getSavedRecipeCuisine: GetSavedRecipeCuisine
+    var getSavedRecipeCuisine: GetSavedRecipeCuisine,
+    var stateManagerCoroutineScope: StateManagerCoroutineScope
 ) : StateManager<SettingsState>(initialState) {
 
     init {
@@ -63,7 +66,7 @@ class SettingsViewModel @Inject constructor(
     fun initialize() {
         settingsDataStore.isDarkModeOn().zip(getSavedRecipeCuisine(None)) { isDarkModeOn, list ->
             pairOf(isDarkModeOn, list)
-        }.collectInScope(viewModelScope) {
+        }.collectIn(stateManagerCoroutineScope) {
             setState {
                 initialize(it.first ?: false, it.second)
             }

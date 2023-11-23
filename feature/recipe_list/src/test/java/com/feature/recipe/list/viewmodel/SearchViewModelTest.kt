@@ -31,7 +31,7 @@ class SearchViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        viewModel = SearchViewModel(initialState, mockUseCase, testStateManagerScope)
+        viewModel = SearchViewModel(initialState, mockUseCase, testStateManagerScope,testStateManagerScope.testDispatcher)
     }
 
     @Test
