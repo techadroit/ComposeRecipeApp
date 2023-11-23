@@ -6,12 +6,9 @@ import com.state_manager.extensions.runCreate
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -34,7 +31,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         this.events = events.toList()
     }
 
-    fun forActions(vararg a:testAction){
+    fun forActions(vararg a: testAction) {
         actions = a.toList()
     }
 
@@ -42,7 +39,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         this.initialState = state
     }
 
-    fun withDispatcher(dispatcher: TestDispatcher){
+    fun withDispatcher(dispatcher: TestDispatcher) {
         this.dispatcher = dispatcher
     }
 
@@ -51,12 +48,12 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         verifier: TestResult.StateResult<S>.() -> Unit
     ) {
         runTest {
-            manager.runCreate(initialState, backgroundScope)
-
+            manager.runCreate(backgroundScope)
             val list = mutableListOf<S>()
             backgroundScope.launch {
                 manager.stateEmitter.toList(list)
             }
+
             events.forEach {
                 manager.dispatch(it)
                 runCurrent()
@@ -75,7 +72,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
         verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
     ) {
         runTest {
-            manager.runCreate(initialState, backgroundScope)
+            manager.runCreate(backgroundScope)
 
             val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
             backgroundScope.launch {

@@ -9,8 +9,11 @@ import com.state_manager.side_effects.SideEffect
 import com.state_manager.side_effects.SideEffectHolder
 import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 
 internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
@@ -32,7 +35,7 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
         }
     }
 
-    override fun offerSetAction(reducer:reducer<S>) {
+    override fun offerSetAction(reducer: reducer<S>) {
         if (processorScope.isActive && !channel.isClosedForSend) {
             channel.trySend(JobIntent.Reducer(reducer) as JobIntent<S, E, SIDE_EFFECT>)
         }
@@ -71,16 +74,17 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
     private suspend fun selectJob(sideEffectScope: CoroutineScope = processorScope) {
         select<Unit> {
             channel.onReceive { job ->
+                println(" Receiving job $job")
                 when (job) {
                     is JobIntent.Reducer -> {
                         val newState = job.reducer(stateHolder.state)
                         stateHolder.updateState(newState)
                     }
+
                     is JobIntent.Action -> {
-                        sideEffectScope.launch {
-                            job.action.invoke(stateHolder.state)
-                        }
+                        job.action.invoke(stateHolder.state)
                     }
+
                     is JobIntent.Effects -> {
                         val effect = job.effects()
                         sideEffectHolder.post(effect)
@@ -91,13 +95,12 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
     }
 
     override suspend fun drain(scope: CoroutineScope) {
-        scope.launch {
-            do {
-                while (!channel.isEmpty && processorScope.isActive) {
-                    selectJob(sideEffectScope = scope)
-                }
-            } while (!channel.isEmpty && processorScope.isActive)
-        }
+        do {
+            while (!channel.isEmpty) {
+                selectJob(sideEffectScope = scope)
+            }
+        } while (!channel.isEmpty)
+//        stateHolder.clearHolder()
     }
 }
 

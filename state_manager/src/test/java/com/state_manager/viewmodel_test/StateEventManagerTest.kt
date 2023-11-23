@@ -18,7 +18,7 @@ internal class StateEventManagerTest : BaseUnitTest() {
     @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
-        viewModel = TestViewModel(initialTestState = initialState, testStateManagerScope)
+        viewModel = TestViewModel(initialTestState = initialState)
     }
 
     @ExperimentalCoroutinesApi

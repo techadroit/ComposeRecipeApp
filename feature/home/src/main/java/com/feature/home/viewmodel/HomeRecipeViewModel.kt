@@ -31,9 +31,8 @@ import javax.inject.Inject
 class HomeRecipeViewModel @Inject constructor(
     val recipeWithCuisine: RecipesForSelectedCuisines,
     private val initialHomeState: HomeRecipeState,
-    val scope: StateManagerCoroutineScope = StateManagerCoroutineScopeImpl(),
     @IoDispatcher val dispatcher: CoroutineDispatcher
-) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialHomeState,scope) {
+) : StateEventManager<HomeRecipeState, HomeRecipeEvent>(initialHomeState) {
 
     init {
         dispatch(LoadRecipeEvent)

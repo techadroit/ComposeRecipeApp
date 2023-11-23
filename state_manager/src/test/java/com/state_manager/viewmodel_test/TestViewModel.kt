@@ -1,13 +1,14 @@
 package com.state_manager.viewmodel_test
 
+import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
 import com.state_manager.scopes.StateManagerCoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class TestViewModel(val initialTestState: TestState, coroutineScope: StateManagerCoroutineScope) :
+class TestViewModel(val initialTestState: TestState) :
     StateEventManager<TestState, TestEvent>(
         initialState = initialTestState,
-        coroutineScope = coroutineScope
     ) {
 
     override fun onEvent(event: TestEvent, state: TestState) {
@@ -26,7 +27,7 @@ class TestViewModel(val initialTestState: TestState, coroutineScope: StateManage
         setState {
             copy(isSetting = true)
         }
-        coroutineScope.run {
+        viewModelScope.launch {
             delay(100)
             setState { this.copy(counter = this.counter + counter, isSetting = false) }
             postSideEffect { SuccessUpdate(currentState.counter) }

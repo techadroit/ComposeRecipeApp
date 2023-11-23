@@ -23,6 +23,7 @@ internal class StateHolderImpl<S : AppState>(
 
     override fun clearHolder() {
         logger.logv { "Clearing State Holder" }
+
         // StateFlow does not need to be closed
     }
 }

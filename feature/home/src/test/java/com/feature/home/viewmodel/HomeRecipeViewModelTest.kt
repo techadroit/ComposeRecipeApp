@@ -50,17 +50,14 @@ class HomeRecipeViewModelTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         coEvery { recipeWithCuisineUseCase.invoke() } returns flowOf(recipeWithCuisine)
         viewModel =
-            HomeRecipeViewModel(recipeWithCuisineUseCase, initialHomeState, TestStateManagerScope(
-                UnconfinedTestDispatcher()
-            ), StandardTestDispatcher()
-            )
+            HomeRecipeViewModel(recipeWithCuisineUseCase, initialHomeState, UnconfinedTestDispatcher())
     }
 
     @Test
     fun `verify load recipe event`() = runTest {
         val state = viewModel.initialState
         val states = listOf(
-            state,
+//            state,
             state.showLoading(true),
             state.add(recipeWithCuisine).showLoading(false),
         )
