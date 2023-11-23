@@ -34,11 +34,12 @@ class VideoListViewModel @Inject constructor(
     var page = 0
 
     init {
-        dispatch(LoadVideos())
+//        dispatch(LoadVideos())
     }
 
     private fun searchVideo(query: String, isPaginate: Boolean = false) {
         setState {
+            println("called 1")
             onLoading(isPaginate = isPaginate)
                 .setQuery(query)
         }
@@ -58,6 +59,7 @@ class VideoListViewModel @Inject constructor(
         isPaginate: Boolean = false
     ) {
         setState {
+            println("called 2")
             this.onSuccess(recipeModel = responses, isPaginate = isPaginate)
                 .onLoading(isLoading = false)
         }
@@ -65,6 +67,7 @@ class VideoListViewModel @Inject constructor(
 
     private fun handleResponseFailure(failure: Failure) {
         setState {
+            println("called 3")
             showLoading(false)
                 .onFailure(failure)
         }

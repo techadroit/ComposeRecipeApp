@@ -1,6 +1,5 @@
 package com.feature.recipe.video.viewmodel
 
-import app.cash.turbine.test
 import com.appmattus.kotlinfixture.kotlinFixture
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
@@ -21,8 +20,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,6 +34,7 @@ class VideoListViewmodelTest {
 
     private lateinit var viewModel: VideoListViewModel
     private val initialState = RecipeVideoState()
+
     @MockK
     lateinit var mockSearchVideoRecipeUsecase: SearchVideoRecipeUsecase
     private val testStateManagerScope = TestStateManagerScope()
@@ -61,7 +59,7 @@ class VideoListViewmodelTest {
 
         // Act
         viewModel.createTestContainer().test {
-            forEvents(LoadVideos(isPaginate,query))
+            forEvents(LoadVideos(isPaginate, query))
             verify {
                 expect(
                     initialState.onLoading(isPaginate = isPaginate).setQuery(query),
@@ -80,23 +78,25 @@ class VideoListViewmodelTest {
         val isPaginate = false
         coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
         val initialState = RecipeVideoState().setQuery(query)
+        val states = listOf(
+            initialState
+                .onLoading(false),
+            initialState
+                .onLoading(isPaginate = isPaginate)
+                .setQuery(query),
+            initialState
+                .onLoading(isPaginate = isPaginate)
+                .setQuery(query)
+                .onSuccess(videoList, isPaginate = isPaginate)
+        )
         // Act
         viewModel.createTestContainer().test {
             withState(initialState)
             forEvents(RefreshVideoScreen)
             verify {
-                expect(
-                    initialState
-                        .onLoading(false),
-                    initialState
-                        .onLoading(isPaginate = isPaginate)
-                        .setQuery(query),
-                    initialState
-                        .onLoading(isPaginate = isPaginate)
-                        .setQuery(query)
-                        .onSuccess(videoList, isPaginate = isPaginate)
-                )
+                expect(states)
             }
         }
     }
+
 }

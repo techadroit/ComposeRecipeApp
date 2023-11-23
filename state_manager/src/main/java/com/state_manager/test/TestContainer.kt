@@ -7,6 +7,7 @@ import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestDispatcher
@@ -53,7 +54,6 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
             backgroundScope.launch {
                 manager.stateEmitter.toList(list)
             }
-
             manager.setState {
                 initialState
             }
@@ -66,6 +66,8 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
                 runCurrent()
             }
             advanceUntilIdle()
+            println(" the result is $list")
+            backgroundScope.cancel()
             verifier(TestResult.StateResult(list))
         }
     }
