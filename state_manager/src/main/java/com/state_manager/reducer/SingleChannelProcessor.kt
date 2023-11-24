@@ -9,8 +9,11 @@ import com.state_manager.side_effects.SideEffect
 import com.state_manager.side_effects.SideEffectHolder
 import com.state_manager.state.AppState
 import com.state_manager.state.StateHolder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 
 internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
@@ -32,26 +35,34 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
         }
     }
 
-    override fun offerSetAction(reducer:reducer<S>) {
-        if (processorScope.isActive && !channel.isClosedForSend) {
-            channel.trySend(JobIntent.Reducer(reducer) as JobIntent<S, E, SIDE_EFFECT>)
+    override fun offerSetAction(reducer: reducer<S>) {
+        processorScope.launch {
+            if (processorScope.isActive && !channel.isClosedForSend) {
+                channel.trySend(JobIntent.Reducer(reducer) as JobIntent<S, E, SIDE_EFFECT>)
+            }
         }
     }
 
     override fun offerGetAction(action: action<S>) {
-        if (processorScope.isActive && !channel.isClosedForSend) {
-            channel.trySend(JobIntent.Action(action) as JobIntent<S, E, SIDE_EFFECT>)
+        processorScope.launch {
+            if (processorScope.isActive && !channel.isClosedForSend) {
+                channel.trySend(JobIntent.Action(action) as JobIntent<S, E, SIDE_EFFECT>)
+            }
         }
     }
 
     override fun offerSideEffect(effects: effects<SIDE_EFFECT>) {
-        if (processorScope.isActive && !channel.isClosedForSend) {
-            channel.trySend(JobIntent.Effects(effects) as JobIntent<S, E, SIDE_EFFECT>)
+        processorScope.launch {
+            if (processorScope.isActive && !channel.isClosedForSend) {
+                channel.trySend(JobIntent.Effects(effects) as JobIntent<S, E, SIDE_EFFECT>)
+            }
         }
     }
 
     override fun offerGetEvent(event: E) {
-        eventHolder.addEvent(event)
+        processorScope.launch {
+            eventHolder.addEvent(event)
+        }
     }
 
     override fun clearProcessor() {
@@ -76,11 +87,11 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
                         val newState = job.reducer(stateHolder.state)
                         stateHolder.updateState(newState)
                     }
+
                     is JobIntent.Action -> {
-                        sideEffectScope.launch {
-                            job.action.invoke(stateHolder.state)
-                        }
+                        job.action.invoke(stateHolder.state)
                     }
+
                     is JobIntent.Effects -> {
                         val effect = job.effects()
                         sideEffectHolder.post(effect)
@@ -91,13 +102,11 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
     }
 
     override suspend fun drain(scope: CoroutineScope) {
-        scope.launch {
-            do {
-                while (!channel.isEmpty && processorScope.isActive) {
-                    selectJob(sideEffectScope = scope)
-                }
-            } while (!channel.isEmpty && processorScope.isActive)
-        }
+        do {
+            while (!channel.isEmpty) {
+                selectJob(sideEffectScope = scope)
+            }
+        } while (!channel.isEmpty)
     }
 }
 

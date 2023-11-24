@@ -22,4 +22,5 @@ dependencies {
     implementation(project(":feature:common-ui"))
     implementation("com.google.android.exoplayer:exoplayer:2.14.1")
     implementation(libs.image.loading)
+    testImplementation("app.cash.turbine:turbine:1.0.0")
 }

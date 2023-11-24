@@ -2,6 +2,7 @@ package com.state_manager.test
 
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 
 /**

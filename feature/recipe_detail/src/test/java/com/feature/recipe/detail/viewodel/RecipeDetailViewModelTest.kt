@@ -11,6 +11,7 @@ import com.feature.recipe.detail.state.LoadRecipeDetail
 import com.feature.recipe.detail.state.RecipeDetailState
 import com.feature.recipe.detail.state.RemoveRecipe
 import com.feature.recipe.detail.state.onLoading
+import com.feature.recipe.detail.state.onRecipeSaved
 import com.feature.recipe.detail.state.onRemoveFromSavedList
 import com.feature.recipe.detail.state.onSuccessResponse
 import com.feature.recipe.detail.viewmodel.RecipeDetailViewModel
@@ -23,7 +24,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
 import org.junit.Rule
@@ -55,7 +55,7 @@ class RecipeDetailViewModelTest {
             mockSimilarUseCase,
             mockDeleteSavedRecipe,
             mockSaveRecipeUseCase,
-            StandardTestDispatcher()
+            UnconfinedTestDispatcher()
         )
 
         coEvery { mockUseCase(any()) } returns flowOf(recipeDetailModel)
@@ -84,7 +84,7 @@ class RecipeDetailViewModelTest {
     @Test
     fun `test remove recipe`() {
         // Arrange
-        val initialState = initialState.copy(recipeDetail = recipeDetailModel)
+        val initialState = initialState.copy(recipeDetail = recipeDetailModel).onRecipeSaved()
 
         coEvery { mockDeleteSavedRecipe(any()) } returns flowOf(1)
 
@@ -100,12 +100,11 @@ class RecipeDetailViewModelTest {
             }
         }
     }
-//
+
 //    @Test
 //    fun `test save recipe`() {
 //        // Arrange
 //        val recipeId = "123"
-//        val recipeModel = RecipeModel(id = recipeId)
 //
 //        // Act
 //        viewModel.createTestContainer().test {

@@ -19,6 +19,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,38 +34,42 @@ class VideoListViewmodelTest {
 
     private lateinit var viewModel: VideoListViewModel
     private val initialState = RecipeVideoState()
+
     @MockK
     lateinit var mockSearchVideoRecipeUsecase: SearchVideoRecipeUsecase
-    private val testStateManagerScope = TestStateManagerScope()
-//    private val testDispatcher = rule.dispatcher
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
+        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
         viewModel = VideoListViewModel(
             initialState,
             mockSearchVideoRecipeUsecase,
-            rule.dispatcher
+            UnconfinedTestDispatcher()
         )
     }
 
     @Test
     fun `test load videos`() {
         // Arrange
-        val query = "example"
+        val query = "chicken"
         val isPaginate = false
-        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
+
+        val initialState = viewModel.initialState
+        val states = listOf(
+            initialState,
+            initialState.onLoading(isPaginate = isPaginate).setQuery(query),
+            initialState.onLoading(isPaginate = isPaginate).setQuery(query)
+                .onSuccess(videoList, isPaginate = isPaginate)
+        )
 
         // Act
         viewModel.createTestContainer().test {
-            forEvents(LoadVideos(isPaginate,query))
+            withState(initialState)
+            forEvents(LoadVideos(isPaginate, query))
             verify {
                 expect(
-                    initialState,
-                    initialState.onLoading(isPaginate = isPaginate).setQuery(query),
-                    initialState
-                        .onLoading(isPaginate = isPaginate).setQuery(query)
-                        .onSuccess(videoList, isPaginate = isPaginate)
+                    states
                 )
             }
         }
@@ -73,24 +78,29 @@ class VideoListViewmodelTest {
     @Test
     fun `test refresh video screen`() {
         // Arrange
-        val query = "example"
+        val query = "chicken"
         val isPaginate = false
-        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
+
         val initialState = RecipeVideoState().setQuery(query)
+        val states = listOf(
+            initialState,
+            RecipeVideoState().onLoading(false),
+            initialState
+                .onLoading(isPaginate = isPaginate)
+                .setQuery(query),
+            initialState
+                .onLoading(isPaginate = isPaginate)
+                .setQuery(query)
+                .onSuccess(videoList, isPaginate = isPaginate)
+        )
         // Act
         viewModel.createTestContainer().test {
             withState(initialState)
             forEvents(RefreshVideoScreen)
             verify {
-                expect(
-                    initialState,
-                    initialState.onLoading(false),
-                    initialState.onLoading(isPaginate = isPaginate).setQuery(query),
-                    initialState
-                        .onLoading(isPaginate = isPaginate).setQuery(query)
-                        .onSuccess(videoList, isPaginate = isPaginate)
-                )
+                expect(states)
             }
         }
     }
+
 }

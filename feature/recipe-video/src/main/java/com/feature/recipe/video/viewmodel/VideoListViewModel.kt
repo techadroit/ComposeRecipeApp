@@ -6,7 +6,6 @@ import com.core.platform.exception.toFailure
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
 import com.feature.common.IoDispatcher
-import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.recipe.video.state.LoadVideos
 import com.feature.recipe.video.state.RecipeVideoState
 import com.feature.recipe.video.state.RefreshVideoScreen
