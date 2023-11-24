@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.state_manager.events.AppEvent
 import com.state_manager.managers.Manager
 import com.state_manager.managers.StateEventManager
@@ -39,8 +40,8 @@ fun toViews(value: Long): String {
 
 @Composable
 fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffect(content: @Composable (SideEffect) -> Unit) {
-    onSideEffect().collectAsState().value?.let {
-        it.consume()?.let { content(it) }
+    onSideEffect().collectAsStateWithLifecycle(initialValue = null).value?.let {
+        content(it)
     }
 }
 

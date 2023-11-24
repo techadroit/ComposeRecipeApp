@@ -1,10 +1,7 @@
 package com.feature.user.interest.state
 
 import com.state_manager.state.AppState
-import com.core.platform.functional.ViewEffect
 import com.domain.common.pojo.Cuisine
-import com.state_manager.extensions.Consumable
-import com.state_manager.extensions.asConsumable
 import com.state_manager.side_effects.SideEffect
 
 object OnCuisineSelected : SideEffect

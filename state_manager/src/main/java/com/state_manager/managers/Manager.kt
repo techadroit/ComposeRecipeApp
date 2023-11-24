@@ -4,12 +4,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.state_manager.events.AppEvent
-import com.state_manager.extensions.Consumable
-import com.state_manager.extensions.collectIn
 import com.state_manager.extensions.collectInScope
-import com.state_manager.handler.SideEffectHandler
-import com.state_manager.handler.SideEffectHandlerDelegation
-import com.state_manager.logger.Logger
 import com.state_manager.logger.androidLogger
 import com.state_manager.logger.enableLogging
 import com.state_manager.logger.logd
@@ -17,12 +12,12 @@ import com.state_manager.logger.logv
 import com.state_manager.reducer.action
 import com.state_manager.reducer.effects
 import com.state_manager.reducer.reducer
-import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import com.state_manager.store.StateStoreFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
@@ -109,7 +104,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
 
     fun postSideEffect(effect: effects<SIDE_EFFECT>) = stateStore.offerSideEffect { effect()  }
 
-    fun onSideEffect(): StateFlow<Consumable<SIDE_EFFECT?>?>  = stateStore.effectObservable
+    fun onSideEffect(): SharedFlow<SIDE_EFFECT?> = stateStore.effectObservable
 
     /**
      * Clears this ViewModel as well as its [stateStore].
