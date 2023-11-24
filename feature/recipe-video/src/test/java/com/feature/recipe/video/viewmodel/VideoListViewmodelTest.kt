@@ -67,7 +67,7 @@ class VideoListViewmodelTest {
         viewModel.createTestContainer().test {
             withState(initialState)
             forEvents(LoadVideos(isPaginate, query))
-            verifyStatesV2(rule.dispatcher) {
+            verify {
                 expect(
                     states
                 )
@@ -97,7 +97,7 @@ class VideoListViewmodelTest {
         viewModel.createTestContainer().test {
             withState(initialState)
             forEvents(RefreshVideoScreen)
-            verifyStatesV2(rule.dispatcher) {
+            verify {
                 expect(states)
             }
         }
