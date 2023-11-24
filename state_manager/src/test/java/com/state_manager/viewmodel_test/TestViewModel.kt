@@ -2,7 +2,6 @@ package com.state_manager.viewmodel_test
 
 import androidx.lifecycle.viewModelScope
 import com.state_manager.managers.StateEventManager
-import com.state_manager.scopes.StateManagerCoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -11,15 +10,16 @@ class TestViewModel(val initialTestState: TestState) :
         initialState = initialTestState,
     ) {
 
+
     override fun onEvent(event: TestEvent, state: TestState) {
         when (event) {
-            is IncrementCountEvent -> run {
+            is IncrementCountEvent ->
                 increment(event.counter)
-            }
 
-            is DecrementCountEvent -> run {
+
+            is DecrementCountEvent ->
                 setState { this.copy(counter = this.counter - event.counter) }
-            }
+
         }
     }
 

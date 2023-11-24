@@ -6,15 +6,20 @@ import com.state_manager.extensions.runCreate
 import com.state_manager.managers.Manager
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.withContext
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -26,7 +31,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     var dispatcher = UnconfinedTestDispatcher()
     var events: List<E> = emptyList()
     var actions: List<testAction> = emptyList()
-    var initialState = manager.initialState
+    var currentState: S? = null
 
     fun forEvents(vararg events: E) {
         this.events = events.toList()
@@ -37,7 +42,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     }
 
     fun withState(state: S) {
-        this.initialState = state
+        this.currentState = state
     }
 
     fun withDispatcher(dispatcher: TestDispatcher) {
@@ -45,32 +50,140 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun verify(
-        verifier: TestResult.StateResult<S>.() -> Unit
+    fun verifyStates(
+        dispatcher: CoroutineDispatcher,
+        verifier: TestResult.StateResult<S>.() -> Unit,
     ) {
-        runTest {
-            manager.runCreate(backgroundScope)
+        runTest(dispatcher) {
+            currentState?.let {
+                manager.setState { it }
+                runCurrent()
+            }
+            advanceUntilIdle()
             val list = mutableListOf<S>()
-            backgroundScope.launch {
+            backgroundScope.launch(dispatcher) {
                 manager.stateEmitter.toList(list)
             }
-            manager.setState {
-                initialState
-            }
+
             events.forEach {
                 manager.dispatch(it)
                 runCurrent()
             }
-            actions.forEach {
-                it.invoke()
-                runCurrent()
-            }
             advanceUntilIdle()
-            println(" the result is $list")
-            backgroundScope.cancel()
             verifier(TestResult.StateResult(list))
         }
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun verifyStatesV2(
+        dispatcher1: CoroutineDispatcher,
+        verifier: TestResult.StateResult<S>.() -> Unit,
+    ) {
+
+        runTest {
+            val dispatcher = StandardTestDispatcher(testScheduler)
+            val eagerDispatcher = UnconfinedTestDispatcher(testScheduler)
+            Dispatchers.setMain(dispatcher)
+            try {
+                manager.runCreate(this)
+                withContext(eagerDispatcher) {
+                    currentState?.let {
+                        manager.setState { it }
+                        runCurrent()
+                    }
+                    advanceUntilIdle()
+                }
+                val list = mutableListOf<S>()
+                backgroundScope.launch(eagerDispatcher) {
+                    manager.stateEmitter.toList(list)
+                }
+                withContext(dispatcher) {
+                    events.forEach {
+                        manager.dispatch(it)
+                        runCurrent()
+                    }
+                    advanceUntilIdle()
+                }
+                verifier(TestResult.StateResult(list))
+            } finally {
+                Dispatchers.resetMain()
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun verify(
+        verifier: TestResult.StateResult<S>.() -> Unit,
+    ) {
+
+        runTest {
+            val dispatcher = StandardTestDispatcher(testScheduler)
+            val eagerDispatcher = UnconfinedTestDispatcher(testScheduler)
+            Dispatchers.setMain(dispatcher)
+            try {
+                manager.runCreate(this)
+                withContext(eagerDispatcher) {
+                    (currentState ?: manager.initialState).let {
+                        manager.setState { it }
+                        runCurrent()
+                    }
+                    advanceUntilIdle()
+                }
+                val list = mutableListOf<S>()
+                backgroundScope.launch(eagerDispatcher) {
+                    manager.stateEmitter.toList(list)
+                }
+                withContext(dispatcher) {
+                    events.forEach {
+                        manager.dispatch(it)
+                        runCurrent()
+                    }
+                    actions.forEach {
+                        it.invoke()
+                        runCurrent()
+                    }
+                    advanceUntilIdle()
+                }
+                verifier(TestResult.StateResult(list))
+            } finally {
+                Dispatchers.resetMain()
+            }
+        }
+    }
+
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    fun verify(
+//        verifier: TestResult.StateResult<S>.() -> Unit
+//    ) {
+//        runTest {
+//            withContext(UnconfinedTestDispatcher()) {
+//                manager.runCreate(this)
+//                currentState?.let {
+//                    manager.setState { it }
+//                    runCurrent()
+//                }
+//            }
+//
+//            val list = mutableListOf<S>()
+//            backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+//                manager.stateEmitter.collect()
+//            }
+//            list.add(manager.stateEmitter.value)
+//            events.forEach {
+//                manager.dispatch(it)
+//                runCurrent()
+//                list.add(manager.stateEmitter.value)
+//            }
+//            actions.forEach {
+//                it.invoke()
+//                runCurrent()
+//            }
+//            advanceUntilIdle()
+//            println(" the result is $list")
+//            backgroundScope.cancel()
+//            verifier(TestResult.StateResult(list))
+//        }
+//    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun verifyEffects(

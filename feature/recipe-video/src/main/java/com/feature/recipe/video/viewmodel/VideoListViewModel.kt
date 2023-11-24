@@ -34,7 +34,7 @@ class VideoListViewModel @Inject constructor(
     var page = 0
 
     init {
-//        dispatch(LoadVideos())
+        dispatch(LoadVideos())
     }
 
     private fun searchVideo(query: String, isPaginate: Boolean = false) {

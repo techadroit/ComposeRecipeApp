@@ -24,5 +24,5 @@ fun RecipeVideoState.onSuccess(recipeModel: List<VideoRecipeModel>, isPaginate: 
 fun RecipeVideoState.onLoading(isPaginate: Boolean = false, isLoading: Boolean = true) =
     this.copy(isPaginate = isPaginate, isLoading = isLoading).onFailure(null)
 
-fun RecipeVideoState.setQuery(query: String) =
+fun RecipeVideoState.setQuery(query: String?) =
     this.copy(query = query)

@@ -21,6 +21,7 @@ import com.state_manager.scopes.StateManagerCoroutineScope
 import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 import com.state_manager.store.StateStoreFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,6 +29,8 @@ import kotlinx.coroutines.flow.filterNotNull
 abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     val initialState: S,
 ) : ViewModel(){
+
+    val coroutineScope: CoroutineScope = viewModelScope
 
     open val logger = androidLogger(this::class.java.simpleName + " StateStore")
 
@@ -37,7 +40,7 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
     open var stateStore = StateStoreFactory.create<S, E, SIDE_EFFECT>(
         initialState,
         androidLogger(this::class.java.simpleName + " StateStore"),
-        viewModelScope
+        coroutineScope
     )
 
     /**
@@ -121,10 +124,10 @@ abstract class Manager<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(
 
     private fun log() {
         if (enableLogging) {
-            stateEmitter.collectInScope(viewModelScope) {
+            stateEmitter.collectInScope(coroutineScope) {
                 logger.logd { "State: $it" }
             }
-            stateStore.eventObservable.collectInScope(viewModelScope) {
+            stateStore.eventObservable.collectInScope(coroutineScope) {
                 it?.let { logger.logd { "Event: $it" } }
             }
         }

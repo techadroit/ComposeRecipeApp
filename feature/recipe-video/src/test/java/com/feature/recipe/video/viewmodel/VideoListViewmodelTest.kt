@@ -37,12 +37,11 @@ class VideoListViewmodelTest {
 
     @MockK
     lateinit var mockSearchVideoRecipeUsecase: SearchVideoRecipeUsecase
-    private val testStateManagerScope = TestStateManagerScope()
-//    private val testDispatcher = rule.dispatcher
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
+        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
         viewModel = VideoListViewModel(
             initialState,
             mockSearchVideoRecipeUsecase,
@@ -53,19 +52,24 @@ class VideoListViewmodelTest {
     @Test
     fun `test load videos`() {
         // Arrange
-        val query = "example"
+        val query = "chicken"
         val isPaginate = false
-        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
+
+        val initialState = viewModel.initialState
+        val states = listOf(
+            initialState,
+            initialState.onLoading(isPaginate = isPaginate).setQuery(query),
+            initialState.onLoading(isPaginate = isPaginate).setQuery(query)
+                .onSuccess(videoList, isPaginate = isPaginate)
+        )
 
         // Act
         viewModel.createTestContainer().test {
+            withState(initialState)
             forEvents(LoadVideos(isPaginate, query))
-            verify {
+            verifyStatesV2(rule.dispatcher) {
                 expect(
-                    initialState.onLoading(isPaginate = isPaginate).setQuery(query),
-                    initialState
-                        .onLoading(isPaginate = isPaginate).setQuery(query)
-                        .onSuccess(videoList, isPaginate = isPaginate)
+                    states
                 )
             }
         }
@@ -76,11 +80,11 @@ class VideoListViewmodelTest {
         // Arrange
         val query = "chicken"
         val isPaginate = false
-        coEvery { mockSearchVideoRecipeUsecase(any()) } returns flowOf(videoList)
+
         val initialState = RecipeVideoState().setQuery(query)
         val states = listOf(
-            initialState
-                .onLoading(false),
+            initialState,
+            RecipeVideoState().onLoading(false),
             initialState
                 .onLoading(isPaginate = isPaginate)
                 .setQuery(query),
@@ -93,7 +97,7 @@ class VideoListViewmodelTest {
         viewModel.createTestContainer().test {
             withState(initialState)
             forEvents(RefreshVideoScreen)
-            verify {
+            verifyStatesV2(rule.dispatcher) {
                 expect(states)
             }
         }
