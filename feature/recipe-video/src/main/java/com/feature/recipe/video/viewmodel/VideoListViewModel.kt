@@ -6,7 +6,6 @@ import com.core.platform.exception.toFailure
 import com.domain.common.pojo.VideoRecipeModel
 import com.domain.recipe.video.SearchVideoRecipeUsecase
 import com.feature.common.IoDispatcher
-import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.recipe.video.state.LoadVideos
 import com.feature.recipe.video.state.RecipeVideoState
 import com.feature.recipe.video.state.RefreshVideoScreen
@@ -39,7 +38,6 @@ class VideoListViewModel @Inject constructor(
 
     private fun searchVideo(query: String, isPaginate: Boolean = false) {
         setState {
-            println("called 1")
             onLoading(isPaginate = isPaginate)
                 .setQuery(query)
         }
@@ -59,7 +57,6 @@ class VideoListViewModel @Inject constructor(
         isPaginate: Boolean = false
     ) {
         setState {
-            println("called 2")
             this.onSuccess(recipeModel = responses, isPaginate = isPaginate)
                 .onLoading(isLoading = false)
         }
@@ -67,7 +64,6 @@ class VideoListViewModel @Inject constructor(
 
     private fun handleResponseFailure(failure: Failure) {
         setState {
-            println("called 3")
             showLoading(false)
                 .onFailure(failure)
         }

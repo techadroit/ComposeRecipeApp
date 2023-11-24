@@ -82,7 +82,6 @@ internal class SingleChannelProcessor<S : AppState, E : AppEvent, SIDE_EFFECT : 
     private suspend fun selectJob(sideEffectScope: CoroutineScope = processorScope) {
         select<Unit> {
             channel.onReceive { job ->
-                println(" Receiving job $job")
                 when (job) {
                     is JobIntent.Reducer -> {
                         val newState = job.reducer(stateHolder.state)
