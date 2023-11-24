@@ -89,7 +89,7 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
                 // execute all the pending events or actions
                 manager.runCreate(this)
                 // initialize default state to the state manager
-                initializeDefaultState(eagerDispatcher)
+                initializeDefaultState(dispatcher)
                 val list = mutableListOf<S>()
                 // background scope makes sure it is cancelled after test completion
                 backgroundScope.launch(eagerDispatcher) {
@@ -98,6 +98,35 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
                 // run all actions and events sequentially
                 runActions(dispatcher)
                 verifier(TestResult.StateResult(list))
+            } finally {
+                Dispatchers.resetMain()
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun verifyEffects(
+        verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
+    ) {
+        runTest {
+            // use this dispatcher to run events and actions for sequential execution
+            val dispatcher = StandardTestDispatcher(testScheduler)
+            // use this dispatcher to run actions immediately
+            val eagerDispatcher = UnconfinedTestDispatcher(testScheduler)
+            Dispatchers.setMain(dispatcher)
+            try {
+                // execute all the pending events or actions
+                manager.runCreate(this)
+                // initialize default state to the state manager
+                initializeDefaultState(dispatcher)
+                val list = mutableListOf<SIDE_EFFECT?>()
+                // background scope makes sure it is cancelled after test completion
+                backgroundScope.launch(eagerDispatcher) {
+                    manager.onSideEffect().toList(list)
+                }
+                // run all actions and events sequentially
+                runActions(dispatcher)
+                verifier(TestResult.SideEffectsResult(list.mapNotNull { it }))
             } finally {
                 Dispatchers.resetMain()
             }
@@ -125,26 +154,6 @@ class TestContainer<S : AppState, E : AppEvent, SIDE_EFFECT : SideEffect>(val ma
                 runCurrent()
             }
             advanceUntilIdle()
-        }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun verifyEffects(
-        verifier: TestResult.SideEffectsResult<SIDE_EFFECT>.() -> Unit
-    ) {
-        runTest {
-            manager.runCreate(backgroundScope)
-
-            val list = mutableListOf<Consumable<SIDE_EFFECT?>?>()
-            backgroundScope.launch {
-                manager.onSideEffect().toList(list)
-            }
-            events.forEach {
-                manager.dispatch(it)
-                runCurrent()
-            }
-            advanceUntilIdle()
-            verifier(TestResult.SideEffectsResult(list.mapNotNull { it?.consume() }))
         }
     }
 }

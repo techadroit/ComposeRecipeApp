@@ -20,6 +20,7 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
     private lateinit var holder: StateHolder<CountingState>
     private lateinit var eventHolder: EventHolder<CountingEvent>
     private lateinit var processor: SelectBasedStateProcessor<CountingState, CountingEvent,SideEffect>
+    val testStateManagerScope = TestStateManagerScope()
 
     @Before
     fun setup() {
@@ -29,9 +30,9 @@ internal class SelectBasedStateProcessorTest : BaseUnitTest() {
             shouldStartImmediately = false,
             stateHolder = holder,
             eventHolder = eventHolder,
-            sideEffectHolder = SideEffectHolderImpl(systemOutLogger()),
+            sideEffectHolder = SideEffectHolderImpl(systemOutLogger(),testStateManagerScope.getScope()),
             logger = systemOutLogger(),
-            processorScope = TestStateManagerScope().getScope()
+            processorScope = testStateManagerScope.getScope()
         )
     }
 

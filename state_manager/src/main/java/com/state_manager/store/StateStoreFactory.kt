@@ -26,20 +26,26 @@ internal object StateStoreFactory {
     ): StateStore<S, E, SIDE_EFFECTS> {
         val stateHolder = StateHolderFactory.create(initialState, logger)
         val eventHolder = EventHolderImpl<E>(logger = logger)
-        val effectHolder = SideEffectHolderFactory.create<SIDE_EFFECTS>(logger)
+        val effectHolder = SideEffectHolderFactory.create<SIDE_EFFECTS>(logger, coroutineScope)
         val stateProcessor =
-            StateProcessorFactory.create(stateHolder, eventHolder, effectHolder,logger, coroutineScope)
-        return create(stateHolder, stateProcessor, logger, eventHolder,effectHolder)
+            StateProcessorFactory.create(
+                stateHolder,
+                eventHolder,
+                effectHolder,
+                logger,
+                coroutineScope
+            )
+        return create(stateHolder, stateProcessor, logger, eventHolder, effectHolder)
     }
 
     fun <S : AppState, E : AppEvent, SIDE_EFFECTS : SideEffect> create(
         stateHolder: StateHolder<S>,
-        stateProcessor: StateProcessor<S, E,SIDE_EFFECTS>,
+        stateProcessor: StateProcessor<S, E, SIDE_EFFECTS>,
         logger: Logger,
         eventHolder: EventHolder<E>,
         effectHolder: SideEffectHolder<SIDE_EFFECTS>
     ): StateStore<S, E, SIDE_EFFECTS> {
-        return StateStoreImpl(stateHolder, stateProcessor, logger, eventHolder,effectHolder)
+        return StateStoreImpl(stateHolder, stateProcessor, logger, eventHolder, effectHolder)
     }
 
 }
