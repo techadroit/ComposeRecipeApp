@@ -5,7 +5,7 @@ package com.state_manager.logger
  *
  * Logs are only written if logging is enabled.
  */
-internal class SystemOutLogger(override val tag: String) : Logger {
+class SystemOutLogger(override val tag: String) : Logger {
 
     override fun log(message: String, level: Logger.Level) {
         if (!enableLogging) {

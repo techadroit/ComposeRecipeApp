@@ -7,7 +7,7 @@ import com.feature.settings.state.SettingsState
 import com.feature.settings.state.deselectCuisine
 import com.feature.settings.state.getSelectedCuisine
 import com.feature.settings.state.onCuisineSaved
-import com.state_manager.extensions.createTestContainer
+import com.state_manager.extension.createTestContainer
 import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
@@ -25,13 +25,13 @@ import org.junit.Test
 class SettingsViewModelTest {
 
     @get:Rule
-    val rule = StateManagerTestRule()
+    val rule = com.state_manager.test.StateManagerTestRule()
 
     private lateinit var viewModel: SettingsViewModel
     private val initialState = SettingsState()
     private val mockSettingsDataStore: SettingsDataStore = mockk(relaxed = true)
     private val mockGetSavedRecipeCuisine: GetSavedRecipeCuisine = mockk(relaxed = true)
-    private val testStateManagerScope = TestStateManagerScope()
+    private val testStateManagerScope = com.state_manager.test.TestStateManagerScope()
 
     // Arrange
     val cuisine1 = Cuisine("cuisine1", isSelected = false)

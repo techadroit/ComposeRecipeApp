@@ -15,7 +15,7 @@ import com.feature.recipe.detail.state.onRecipeSaved
 import com.feature.recipe.detail.state.onRemoveFromSavedList
 import com.feature.recipe.detail.state.onSuccessResponse
 import com.feature.recipe.detail.viewmodel.RecipeDetailViewModel
-import com.state_manager.extensions.createTestContainer
+import com.state_manager.extension.createTestContainer
 import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.expect
 import com.state_manager.test.test
@@ -33,7 +33,7 @@ import org.junit.Test
 class RecipeDetailViewModelTest {
 
     @get:Rule
-    val rule = StateManagerTestRule()
+    val rule = com.state_manager.test.StateManagerTestRule()
 
     private lateinit var viewModel: RecipeDetailViewModel
     private val initialState = RecipeDetailState()

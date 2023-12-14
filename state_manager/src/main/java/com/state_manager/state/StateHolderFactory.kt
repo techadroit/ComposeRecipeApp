@@ -2,7 +2,7 @@ package com.state_manager.state
 
 import com.state_manager.logger.Logger
 
-internal object StateHolderFactory {
+object StateHolderFactory {
 
     /**
      * Creates and returns a [StateHolder].

@@ -9,9 +9,8 @@ import com.feature.recipe.video.state.RefreshVideoScreen
 import com.feature.recipe.video.state.onLoading
 import com.feature.recipe.video.state.onSuccess
 import com.feature.recipe.video.state.setQuery
-import com.state_manager.extensions.createTestContainer
+import com.state_manager.extension.createTestContainer
 import com.state_manager.test.StateManagerTestRule
-import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
 import com.state_manager.test.test
 import io.mockk.MockKAnnotations
@@ -28,7 +27,7 @@ import org.junit.Test
 class VideoListViewmodelTest {
 
     @get:Rule
-    var rule = StateManagerTestRule()
+    var rule = com.state_manager.test.StateManagerTestRule()
     val fixture = kotlinFixture()
     val videoList = fixture<List<VideoRecipeModel>>()
 

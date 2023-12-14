@@ -10,7 +10,7 @@ import com.feature.home.state.RefreshHomeEvent
 import com.feature.home.state.add
 import com.feature.home.state.initialState
 import com.feature.home.state.showLoading
-import com.state_manager.extensions.createTestContainer
+import com.state_manager.extension.createTestContainer
 import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.expect
 import com.state_manager.test.test
@@ -19,7 +19,6 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +26,7 @@ import org.junit.Test
 class HomeRecipeViewModelTest {
 
     @get:Rule
-    var rule = StateManagerTestRule()
+    var rule = com.state_manager.test.StateManagerTestRule()
     val fixture = kotlinFixture()
 
     lateinit var viewModel: HomeRecipeViewModel

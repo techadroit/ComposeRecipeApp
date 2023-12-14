@@ -15,7 +15,7 @@ import com.feature.recipe.list.state.onLoading
 import com.feature.recipe.list.state.onRecipeLoad
 import com.feature.recipe.list.state.onRecipeRemovedFromSavedList
 import com.feature.recipe.list.state.onRecipeSaved
-import com.state_manager.extensions.createTestContainer
+import com.state_manager.extension.createTestContainer
 import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
@@ -34,7 +34,7 @@ import org.junit.Test
 class RecipeListViewmodelTest {
 
     @get:Rule
-    var rule = StateManagerTestRule()
+    var rule = com.state_manager.test.StateManagerTestRule()
 
     private lateinit var viewModel: RecipeListViewmodel
 
@@ -51,7 +51,8 @@ class RecipeListViewmodelTest {
     @MockK
     lateinit var deleteSavedRecipe: DeleteSavedRecipe
 
-    private val testStateManagerScope = TestStateManagerScope(rule.dispatcher)
+    private val testStateManagerScope =
+        com.state_manager.test.TestStateManagerScope(rule.dispatcher)
     val recipeList: List<RecipeModel> = listOf(fixture<RecipeModel>())
 
     @Before

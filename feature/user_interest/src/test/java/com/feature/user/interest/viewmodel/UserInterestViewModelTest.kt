@@ -13,7 +13,7 @@ import com.feature.user.interest.state.UserInterestSelected
 import com.feature.user.interest.state.UserInterestState
 import com.feature.user.interest.state.onCuisineRemoved
 import com.feature.user.interest.state.onCuisineSelected
-import com.state_manager.extensions.createTestContainer
+import com.state_manager.extension.createTestContainer
 import com.state_manager.test.StateManagerTestRule
 import com.state_manager.test.TestStateManagerScope
 import com.state_manager.test.expect
@@ -29,7 +29,7 @@ import org.junit.Test
 class UserInterestViewModelTest {
 
     @get:Rule
-    var rule = StateManagerTestRule()
+    var rule = com.state_manager.test.StateManagerTestRule()
 
     @MockK
     lateinit var useCase: GetSupportedCuisineUsecase
@@ -48,7 +48,9 @@ class UserInterestViewModelTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         coEvery { useCase(params = None) } returns flowOf(cuisineResponse)
         viewModel =
-            UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+            UserInterestViewModel(useCase, initialState, settingsDataStore,
+                com.state_manager.test.TestStateManagerScope()
+            )
     }
 
     @Test
@@ -104,7 +106,9 @@ class UserInterestViewModelTest {
         val c = cuisine.map { it.copy(isSelected = true) }
         val initialState = UserInterestState(cuisines = c)
         val viewModel =
-                UserInterestViewModel(useCase, initialState, settingsDataStore, TestStateManagerScope())
+                UserInterestViewModel(useCase, initialState, settingsDataStore,
+                    com.state_manager.test.TestStateManagerScope()
+                )
         viewModel.createTestContainer().test {
             forEvents(UserInterestSelected)
             verifyEffects {
