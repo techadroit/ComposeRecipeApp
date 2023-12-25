@@ -10,6 +10,8 @@ android {
 dependencies {
 
     implementation(project(":state_manager"))
+    implementation(project(":state_manager_test"))
+    implementation(project(":state_manager_ui"))
     implementation(project(":domain:common"))
     implementation(project(":domain:recipe"))
     implementation(project(":domain:favourite"))

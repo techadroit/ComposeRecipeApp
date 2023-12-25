@@ -26,12 +26,12 @@ android {
 dependencies {
 
     implementation(project(":state_manager"))
+
+    implementation("androidx.compose.ui:ui:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("junit:junit:4.12")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 }
