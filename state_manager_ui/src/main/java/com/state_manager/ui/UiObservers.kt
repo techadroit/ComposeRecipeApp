@@ -17,7 +17,7 @@ fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffects(cont
 }
 
 @Composable
-fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.observeState(content: @Composable (S) -> Unit) {
+fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.observeState(content: @Composable (state: S) -> Unit) {
     val state = this.stateEmitter.collectAsState().value
     content(state)
 }

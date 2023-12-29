@@ -17,7 +17,6 @@ import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
 import com.state_manager.ui.observeSideEffects
-import com.state_manager.ui.getState
 import com.feature.common.ui.common_views.*
 import com.feature.recipe.list.R
 import com.feature.recipe.list.state.LoadRecipes
@@ -33,6 +32,7 @@ import com.feature.recipe.list.viewmodel.RecipeListViewmodel
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
 import com.state_manager.side_effects.SideEffect
+import com.state_manager.ui.observeState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -45,26 +45,28 @@ fun RecipeListScreen(
 ) {
     val topLevelNavigator = ParentNavHostController.current
     val cuisine = remember { cuisineKey }
-    val recipeState = recipesViewModel.getState()
     val snackBarState = remember {
         SnackbarHostState()
+    }
+
+    recipesViewModel.observeState { state ->
+        Scaffold(content = {
+            RefreshView(content = {
+                RecipeScreenContent(
+                    cuisine = cuisine,
+                    recipeState = state,
+                    recipesViewModel = recipesViewModel,
+                    navigator = topLevelNavigator
+                )
+            }) {
+                recipesViewModel.dispatch(RefreshRecipeList)
+            }
+        }, snackbarHost = { SnackbarHost(snackBarState) })
     }
 
     LaunchedEffect(cuisine) {
         recipesViewModel.dispatch(LoadRecipes(cuisine))
     }
-    Scaffold(content = {
-        RefreshView(content = {
-            RecipeScreenContent(
-                cuisine = cuisine,
-                recipeState = recipeState,
-                recipesViewModel = recipesViewModel,
-                navigator = topLevelNavigator
-            )
-        }) {
-            recipesViewModel.dispatch(RefreshRecipeList)
-        }
-    }, snackbarHost = { SnackbarHost(snackBarState) })
 
     recipesViewModel.observeSideEffects {
         RecipeViewEffect(viewEffect = it, snackBarState = snackBarState)

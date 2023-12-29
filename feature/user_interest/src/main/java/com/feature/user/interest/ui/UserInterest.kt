@@ -19,8 +19,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
 import com.core.themes.ComposeRecipeAppTheme
-import com.state_manager.ui.observeSideEffects
-import com.state_manager.ui.getState
 import com.feature.common.ui.extension.contentWidth
 import com.feature.user.interest.R
 import com.feature.user.interest.state.LoadSupportedCuisine
@@ -31,6 +29,8 @@ import com.feature.user.interest.viewmodel.UserInterestViewModel
 import com.recipe.app.navigation.intent.MainViewIntent
 import com.recipe.app.navigation.intent.UserInterestIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
+import com.state_manager.ui.observeSideEffects
+import com.state_manager.ui.observeState
 
 @OptIn(ExperimentalFoundationApi::class)
 fun NavGraphBuilder.UserInterestScreen() {
@@ -44,39 +44,40 @@ fun NavGraphBuilder.UserInterestScreen() {
 fun UserInterest() {
     val topLevelNavigator = ParentNavHostController.current
     val viewModel: UserInterestViewModel = hiltViewModel()
-    val state = viewModel.getState()
+    viewModel.observeState { state ->
 
-    ComposeRecipeAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                Text(
-                    modifier = Modifier.align(Alignment.TopStart),
-                    text = stringResource(id = R.string.select_cuisine),
-                    style = MaterialTheme.typography.displayLarge
-                )
-                CuisineList(
-                    cuisines = state.cuisines,
+        ComposeRecipeAppTheme {
+            Surface(modifier = Modifier.fillMaxSize()) {
+                Box(
                     modifier = Modifier
-                        .contentWidth()
-                        .align(Alignment.Center),
-                ) { it, cuisine ->
-                    viewModel.dispatch(
-                        if (it)
-                            SelectedCuisine(cuisine)
-                        else
-                            RemoveCuisine(cuisine)
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.TopStart),
+                        text = stringResource(id = R.string.select_cuisine),
+                        style = MaterialTheme.typography.displayLarge
                     )
-                }
-                if (state.enableNextOptions)
-                    NextButton(
-                        modifier = Modifier.align(Alignment.BottomEnd)
-                    ) {
-                        viewModel.dispatch(UserInterestSelected)
+                    CuisineList(
+                        cuisines = state.cuisines,
+                        modifier = Modifier
+                            .contentWidth()
+                            .align(Alignment.Center),
+                    ) { it, cuisine ->
+                        viewModel.dispatch(
+                            if (it)
+                                SelectedCuisine(cuisine)
+                            else
+                                RemoveCuisine(cuisine)
+                        )
                     }
+                    if (state.enableNextOptions)
+                        NextButton(
+                            modifier = Modifier.align(Alignment.BottomEnd)
+                        ) {
+                            viewModel.dispatch(UserInterestSelected)
+                        }
+                }
             }
         }
     }

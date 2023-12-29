@@ -30,7 +30,6 @@ import com.core.themes.dimension
 import com.domain.common.pojo.RecipeDetailModel
 import com.feature.common.Dispatch
 import com.feature.common.fullScreen
-import com.state_manager.ui.getState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.SaveIcon
 import com.feature.recipe.detail.state.LoadRecipeDetail
@@ -40,6 +39,7 @@ import com.feature.recipe.detail.state.SaveRecipe
 import com.feature.recipe.detail.viewmodel.RecipeDetailViewModel
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.skydoves.landscapist.glide.GlideImage
+import com.state_manager.ui.observeState
 
 fun NavGraphBuilder.RecipeDetailScreen() {
     NavComposable(RecipeDetailIntent()) {
@@ -52,12 +52,13 @@ fun NavGraphBuilder.RecipeDetailScreen() {
 fun RecipeDetail(recipeId: String) {
 
     val viewModel: RecipeDetailViewModel = hiltViewModel()
-    val state = viewModel.getState()
 
-    Surface {
-        if (state.isLoading)
-            LoadingView()
-        RecipeDetailBody(state = state, viewModel = viewModel)
+    viewModel.observeState { state ->
+        Surface {
+            if (state.isLoading)
+                LoadingView()
+            RecipeDetailBody(state = state, viewModel = viewModel)
+        }
     }
 
     LaunchedEffect(recipeId) {

@@ -18,7 +18,6 @@ import com.core.themes.dimension
 import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
-import com.state_manager.ui.getState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
 import com.feature.saved.recipes.R
@@ -28,6 +27,7 @@ import com.feature.saved.recipes.state.RemoveRecipe
 import com.feature.saved.recipes.state.SaveRecipeEvent
 import com.recipe.app.navigation.intent.RecipeDetailIntent
 import com.recipe.app.navigation.provider.ParentNavHostController
+import com.state_manager.ui.observeState
 
 @Composable
 fun FavouriteRecipeScreen(
@@ -38,26 +38,27 @@ fun FavouriteRecipeScreen(
         viewModel.dispatch(LoadRecipe())
     }
 
-    val state = viewModel.getState()
-    if (state.isLoading) {
-        LoadingView()
-    } else {
-        val list = state.recipeData.allRecipes
-        if (list.isEmpty()) {
-            EmptyView()
+    viewModel.observeState {state ->
+        if (state.isLoading) {
+            LoadingView()
         } else {
-            RefreshView(content = {
-                RecipeList(
-                    recipeList = state.recipeData.allRecipes,
-                    dispatch = {
-                        viewModel.dispatch(it)
-                    },
-                    navigate = {
-                        topLevelNavigator.navigateTo(it)
-                    }
-                )
-            }) {
-                viewModel.dispatch(RefreshViewEvent)
+            val list = state.recipeData.allRecipes
+            if (list.isEmpty()) {
+                EmptyView()
+            } else {
+                RefreshView(content = {
+                    RecipeList(
+                        recipeList = state.recipeData.allRecipes,
+                        dispatch = {
+                            viewModel.dispatch(it)
+                        },
+                        navigate = {
+                            topLevelNavigator.navigateTo(it)
+                        }
+                    )
+                }) {
+                    viewModel.dispatch(RefreshViewEvent)
+                }
             }
         }
     }
