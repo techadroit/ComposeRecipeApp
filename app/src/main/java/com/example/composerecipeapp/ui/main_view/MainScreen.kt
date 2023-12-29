@@ -12,10 +12,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.core.navigtion.AppNavigator
 import com.core.navigtion.navigator.NavComposable
@@ -37,7 +39,10 @@ import com.recipe.app.navigation.provider.ParentNavHostController
 )
 fun NavGraphBuilder.MainScreen() {
     NavComposable(MainViewIntent()) {
-        val mainViewNavigator = AppNavigator.create(rememberNavController())
+        val navController = rememberNavController()
+        val mainViewNavigator = remember {
+            AppNavigator.create(navController)
+        }
         CompositionLocalProvider(MainViewNavigator provides mainViewNavigator) {
             AppContent()
         }
@@ -113,5 +118,3 @@ fun RecipeNavHost(searchViewModel: SearchViewModel) {
         }
     }
 }
-
-
