@@ -10,19 +10,18 @@ import com.state_manager.side_effects.SideEffect
 import com.state_manager.state.AppState
 
 @Composable
-fun <S : AppState, E : AppEvent> StateEventManager<S, E>.sideEffectObserver(content: @Composable (SideEffect) -> Unit) {
+fun <S : AppState, E : AppEvent> StateEventManager<S, E>.observeSideEffects(content: @Composable (SideEffect) -> Unit) {
     onSideEffect().collectAsStateWithLifecycle(initialValue = null).value?.let {
         content(it)
     }
 }
 
 @Composable
-fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.stateObserver(content: @Composable (S) -> Unit) {
+fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.observeState(content: @Composable (S) -> Unit) {
     val state = this.stateEmitter.collectAsState().value
     content(state)
 }
 
-
 @Composable
-fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.observeState() =
+fun <S : AppState, E : AppEvent> Manager<S, E, SideEffect>.getState() =
     this.stateEmitter.collectAsState().value

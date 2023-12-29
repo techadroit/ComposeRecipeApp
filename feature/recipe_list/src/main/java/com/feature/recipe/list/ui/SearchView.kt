@@ -39,6 +39,7 @@ import com.recipe.app.navigation.intent.RecipeListIntent
 import com.recipe.app.navigation.intent.SearchScreenIntent
 import com.recipe.app.navigation.intent.SearchViewIntent
 import com.recipe.app.navigation.provider.MainViewNavigator
+import com.state_manager.ui.getState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
@@ -172,7 +173,7 @@ fun SearchBar(
 fun SearchView(searchViewModel: com.feature.recipe.list.viewmodel.SearchViewModel) {
 
     val mainViewNavigator = MainViewNavigator.current
-    val state = searchViewModel.observeState()
+    val state = searchViewModel.getState()
     val focusManager = LocalFocusManager.current
 
     AnimatedVisibility(

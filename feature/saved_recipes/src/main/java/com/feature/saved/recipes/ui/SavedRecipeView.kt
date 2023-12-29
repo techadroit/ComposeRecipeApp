@@ -18,7 +18,7 @@ import com.core.themes.dimension
 import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
-import com.feature.common.observeState
+import com.state_manager.ui.getState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
 import com.feature.saved.recipes.R
@@ -38,7 +38,7 @@ fun FavouriteRecipeScreen(
         viewModel.dispatch(LoadRecipe())
     }
 
-    val state = viewModel.observeState()
+    val state = viewModel.getState()
     if (state.isLoading) {
         LoadingView()
     } else {

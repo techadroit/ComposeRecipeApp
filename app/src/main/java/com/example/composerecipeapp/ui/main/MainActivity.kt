@@ -30,7 +30,7 @@ import com.core.themes.getAdaptiveSizes
 import com.example.composerecipeapp.ui.main_view.MainScreen
 import com.example.composerecipeapp.viewmodel.main.LoadSettings
 import com.example.composerecipeapp.viewmodel.main.MainViewModel
-import com.feature.common.observeState
+import com.state_manager.ui.getState
 import com.feature.recipe.detail.ui.RecipeDetailScreen
 import com.feature.recipe.video.ui.VideoPlayerScreen
 import com.feature.user.interest.ui.UserInterestScreen
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel: MainViewModel,
         appMainNavigation: AppNavigator
     ) {
-        val state = mainViewModel.observeState()
+        val state = mainViewModel.getState()
         val darkModeOn = state.isDarkModeOn ?: isSystemInDarkTheme()
         AppCompatDelegate.setDefaultNightMode(
             if (darkModeOn) AppCompatDelegate.MODE_NIGHT_YES

@@ -12,13 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.core.navigtion.AppNavigator
-import com.core.platform.functional.ViewEffect
 import com.core.themes.dimension
 import com.domain.common.pojo.RecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
-import com.feature.common.observeSideEffect
-import com.feature.common.observeState
+import com.state_manager.ui.observeSideEffects
+import com.state_manager.ui.getState
 import com.feature.common.ui.common_views.*
 import com.feature.recipe.list.R
 import com.feature.recipe.list.state.LoadRecipes
@@ -46,7 +45,7 @@ fun RecipeListScreen(
 ) {
     val topLevelNavigator = ParentNavHostController.current
     val cuisine = remember { cuisineKey }
-    val recipeState = recipesViewModel.observeState()
+    val recipeState = recipesViewModel.getState()
     val snackBarState = remember {
         SnackbarHostState()
     }
@@ -67,7 +66,7 @@ fun RecipeListScreen(
         }
     }, snackbarHost = { SnackbarHost(snackBarState) })
 
-    recipesViewModel.observeSideEffect {
+    recipesViewModel.observeSideEffects {
         RecipeViewEffect(viewEffect = it, snackBarState = snackBarState)
     }
 }

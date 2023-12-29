@@ -26,15 +26,12 @@ import com.core.themes.spacerSmall
 import com.domain.common.pojo.VideoRecipeModel
 import com.feature.common.Dispatch
 import com.feature.common.Navigate
-import com.feature.common.collectState
-import com.feature.common.observeSideEffect
-import com.feature.common.observeState
+import com.state_manager.ui.observeState
 import com.feature.common.toViews
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.PaginationLoading
 import com.feature.common.ui.common_views.RefreshView
 import com.feature.common.ui.error_screen.ErrorScreen
-import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.recipe.video.state.LoadVideos
 import com.feature.recipe.video.state.RefreshVideoScreen
 import com.feature.recipe.video.state.VideoEvents
@@ -48,7 +45,7 @@ fun RecipesVideoList( recipesViewModel: VideoListViewModel = hiltViewModel()) {
 
     val topLevelNavigator = ParentNavHostController.current
 
-    recipesViewModel.collectState { recipeState ->
+    recipesViewModel.observeState { recipeState ->
         RefreshView(content = {
             RecipeListContent(recipeState.data,
                 recipeState.isLoading && recipeState.isPaginate, {

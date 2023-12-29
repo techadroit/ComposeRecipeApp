@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.feature.common.Dispatch
-import com.feature.common.observeState
+import com.state_manager.ui.getState
 import com.feature.common.ui.extension.contentWidth
 import com.feature.settings.R
 import com.feature.settings.viewmodel.SettingsViewModel
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 fun SettingsView() {
     val scope = rememberCoroutineScope()
     val settingsViewModel: SettingsViewModel = hiltViewModel()
-    val state = settingsViewModel.observeState()
+    val state = settingsViewModel.getState()
     val snackBarHostState = remember { SnackbarHostState() }
 
     Scaffold(

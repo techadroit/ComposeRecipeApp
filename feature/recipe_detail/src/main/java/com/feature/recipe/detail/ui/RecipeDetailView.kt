@@ -30,7 +30,7 @@ import com.core.themes.dimension
 import com.domain.common.pojo.RecipeDetailModel
 import com.feature.common.Dispatch
 import com.feature.common.fullScreen
-import com.feature.common.observeState
+import com.state_manager.ui.getState
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.SaveIcon
 import com.feature.recipe.detail.state.LoadRecipeDetail
@@ -52,7 +52,7 @@ fun NavGraphBuilder.RecipeDetailScreen() {
 fun RecipeDetail(recipeId: String) {
 
     val viewModel: RecipeDetailViewModel = hiltViewModel()
-    val state = viewModel.observeState()
+    val state = viewModel.getState()
 
     Surface {
         if (state.isLoading)

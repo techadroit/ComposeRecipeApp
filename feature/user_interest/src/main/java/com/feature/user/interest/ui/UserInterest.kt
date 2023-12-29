@@ -19,8 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import com.core.navigtion.navigator.NavComposable
 import com.core.themes.ComposeRecipeAppTheme
-import com.feature.common.observeSideEffect
-import com.feature.common.observeState
+import com.state_manager.ui.observeSideEffects
+import com.state_manager.ui.getState
 import com.feature.common.ui.extension.contentWidth
 import com.feature.user.interest.R
 import com.feature.user.interest.state.LoadSupportedCuisine
@@ -44,7 +44,7 @@ fun NavGraphBuilder.UserInterestScreen() {
 fun UserInterest() {
     val topLevelNavigator = ParentNavHostController.current
     val viewModel: UserInterestViewModel = hiltViewModel()
-    val state = viewModel.observeState()
+    val state = viewModel.getState()
 
     ComposeRecipeAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -81,7 +81,7 @@ fun UserInterest() {
         }
     }
 
-    viewModel.observeSideEffect {
+    viewModel.observeSideEffects {
         topLevelNavigator.navigateTo(MainViewIntent(), UserInterestIntent(), true)
     }
 

@@ -36,13 +36,11 @@ import com.domain.recipe.cuisines.RecipeWithCuisine
 import com.feature.common.Dispatch
 import com.feature.common.OnClick
 import com.feature.common.OnUnit
-import com.feature.common.collectState
-import com.feature.common.observeSideEffect
-import com.feature.common.observeState
+import com.state_manager.ui.observeState
+import com.state_manager.ui.observeSideEffects
 import com.feature.common.ui.common_views.LoadingView
 import com.feature.common.ui.common_views.RefreshView
 import com.feature.common.ui.error_screen.ErrorScreen
-import com.feature.common.ui.error_screen.ErrorSideEffect
 import com.feature.common.ui.recipes.ImageThumbnail
 import com.feature.home.state.HomeRecipeEvent
 import com.feature.home.state.HomeRecipeState
@@ -71,7 +69,7 @@ fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewMode
         viewModel.dispatch(RefreshHomeEvent)
     }
 
-    viewModel.collectState {
+    viewModel.observeState {
         HomeView(state = it, viewModel = viewModel) {
             refresh()
         }
@@ -82,7 +80,7 @@ fun HomeScreen(viewModel: HomeRecipeViewModel = hiltViewModel<HomeRecipeViewMode
         }
     }
 
-    viewModel.observeSideEffect {
+    viewModel.observeSideEffects {
         onViewEffect(
             viewEffect = it,
             parentNavigation = topLevelNavigator,
