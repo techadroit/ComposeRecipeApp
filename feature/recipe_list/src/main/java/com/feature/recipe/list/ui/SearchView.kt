@@ -160,7 +160,7 @@ fun SearchBar(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Text
             ),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = MaterialTheme.colorScheme.onSurface
             )
         )

@@ -1,14 +1,17 @@
 plugins {
     id "android.application"
-    id "android.application.compose"
     id "android.application.core"
+    id "android.application.compose"
     id "android.application.database"
     id "android.application.network"
     id "android.application.testing"
     id "android.application.hilt"
+   // alias(libs.plugins.compose.compiler)
 }
 
 android {
+
+    namespace "com.example.composerecipeapp"
 
     buildTypes {
         release {

@@ -1,5 +1,6 @@
 package com.core.navigtion.navigator
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ public fun NavGraphBuilder.NavComposable(
     route: DestinationIntent,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    content: @Composable (NavBackStackEntry) -> Unit
+    content: @Composable AnimatedContentScope.(@JvmSuppressWildcards NavBackStackEntry) -> Unit
 ) {
     addDestination(
         ComposeNavigator.Destination(provider[ComposeNavigator::class], content).apply {
