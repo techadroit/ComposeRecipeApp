@@ -7,12 +7,13 @@ plugins {
 }
 
 android {
-    compileSdk = 33
-    buildToolsVersion = "30.0.3"
+    namespace = "com.state_manager"
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,13 +28,12 @@ android {
 
 dependencies {
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("junit:junit:4.12")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
-    implementation("app.cash.turbine:turbine:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.android.coroutines.test)
+    implementation(libs.android.lifecycle)
+    implementation(libs.kotlin.turbine)
+    implementation(libs.android.junit)
+    implementation(libs.android.espresso.core)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
 }

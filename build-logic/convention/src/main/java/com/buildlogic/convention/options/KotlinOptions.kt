@@ -3,9 +3,8 @@ package com.buildlogic.convention.options
 import com.android.build.api.dsl.CommonExtension
 import com.buildlogic.convention.extensions.kotlinOptions
 import org.gradle.api.JavaVersion
-import org.gradle.kotlin.dsl.provideDelegate
 
-fun CommonExtension<*, *, *, *>.addKotlinOptions(){
+fun CommonExtension<*, *, *, *, *, *>.addKotlinOptions() {
     kotlinOptions {
 //        val warningsAsErrors: String? by project
 //        allWarningsAsErrors = warningsAsErrors.toBoolean()

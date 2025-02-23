@@ -6,6 +6,16 @@ plugins {
 
 android {
     namespace = "com.core.network"
+
+    buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+        }
+    }
 }
 
 kapt {

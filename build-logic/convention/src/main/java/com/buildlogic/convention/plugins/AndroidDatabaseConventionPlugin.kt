@@ -16,7 +16,7 @@ class AndroidDatabaseConventionPlugin : BasePlugins(){
 
             dependencies {
                 add("implementation", room)
-                add("kapt", roomCompiler)
+//                add("kapt", roomCompiler)
                 add("implementation", roomKtx)
             }
         }

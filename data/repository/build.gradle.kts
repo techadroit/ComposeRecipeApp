@@ -4,15 +4,15 @@ plugins {
     id("android.application.hilt")
     id("android.application.network")
     id("android.application.database")
+    id("androidx.room")
+    alias(libs.plugins.ksp.gradlePlugin)
 }
 
 android {
     namespace = "com.data.repository"
-}
-
-kapt {
-    generateStubs = true
-    correctErrorTypes = true
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -21,5 +21,5 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(project(":core:platform"))
     implementation(project(":core:network"))
-//    implementation(project(mapOf("path" to ":core:network")))
+    ksp(libs.android.room.compiler)
 }

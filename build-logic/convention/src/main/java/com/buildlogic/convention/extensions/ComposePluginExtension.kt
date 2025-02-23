@@ -6,15 +6,12 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-fun Project.addComposeBuildFeature(extension: CommonExtension<*, *, *, *>) {
+fun Project.addComposeBuildFeature(extension: CommonExtension<*, *, *, *, *, *>) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
     val composeVersion = libs.findVersion("composeVersion").get().toString()
     extension.apply {
         buildFeatures {
             compose = true
-        }
-        composeOptions {
-            kotlinCompilerExtensionVersion = composeVersion
         }
     }
 }
