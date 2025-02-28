@@ -6,6 +6,7 @@ buildscript {
     }
 }
 plugins {
+    id("com.autonomousapps.dependency-analysis") version "2.10.1"
     alias(libs.plugins.ksp.gradlePlugin) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin) apply false

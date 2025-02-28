@@ -15,6 +15,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
+                apply("com.autonomousapps.dependency-analysis")
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.kapt")
                 apply("org.jetbrains.kotlin.android")
